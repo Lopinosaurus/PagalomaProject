@@ -62,6 +62,11 @@
 Werewolf (non-definitive name) will be a 3D strategy game using vocal proxy. It is currently In-Dev by Pagaloma Studio.
 
 Planned Features:
+
+- Fist Person View
+- Several roles
+- Tasks
+- Day / Night cycle
 [coming soon]
 
 
