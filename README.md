@@ -8,7 +8,7 @@
     <img src="images/logo.png" alt="Future Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Werewolf (provisional name)</h3>
+  <h3 align="center">Lycans</h3>
 
   <p align="center">
     By Pagaloma Studio
@@ -59,7 +59,7 @@
 
 [![Future Screen Shot][product-screenshot]](https://example.com)
 
-Werewolf (non-definitive name) will be a 3D strategy game using vocal proxy. It is currently In-Dev by Pagaloma Studio.
+Lycans will be a 3D strategy game using vocal proxy. It is currently In-Dev by Pagaloma Studio.
 
 Planned Features:
 
