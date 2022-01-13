@@ -8,7 +8,7 @@
     <img src="images/logo.png" alt="Future Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Lycans [PRIVATE]</h3>
+  <h3 align="center">Lycans</h3>
 
   <p align="center">
     By Pagaloma Studio
