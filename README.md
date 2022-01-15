@@ -67,6 +67,7 @@ Planned Features:
 - Several roles
 - Tasks
 - Day / Night cycle
+- Voting system
 
 
 [coming soon]
