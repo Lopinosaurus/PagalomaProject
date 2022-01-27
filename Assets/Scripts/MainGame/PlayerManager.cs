@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
@@ -23,7 +25,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void CreateController()
     {
-        Debug.Log("Instantiated Player Controller");
-        // Instantiate our player controller
+        Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity);
     }
 }

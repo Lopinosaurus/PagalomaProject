@@ -1,83 +1,78 @@
 using System;
-using System.Security.Cryptography;
 using UnityEngine;
 using Photon.Pun;
 
-// Lignes optionnelles
-[RequireComponent(typeof(PlayerMotor))]
-[RequireComponent(typeof(ConfigurableJoint))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 3f;
+    [SerializeField] private GameObject cameraHolder;
+    [SerializeField] private float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
-    [SerializeField] private float mouseSensitivityX = 3f;
-    [SerializeField] private float mouseSensitivityY = 3f;
-    [SerializeField] private float thrusterForce = 1000f;
-
-    [Header("Joint Options")]
-    [SerializeField] private float jointSpring = 20f;
-    [SerializeField] private float jointMaxForce = 60f;
+    private float verticalLookRotation;
+    private bool grounded;
+    private Vector3 smoothMoveVelocity;
+    private Vector3 moveAmount;
     
-    private PlayerMotor motor;
-    private ConfigurableJoint joint;
-
-    PhotonView view;
-
+    private Rigidbody rb;
+    private PhotonView PV;
     void Awake()
     {
-        view = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+        PV = GetComponent<PhotonView>();
     }
-    
+
+    void Update()
+    {
+        if (PV.IsMine)
+        {
+           UpdateCameraRotation();
+           Move();
+           Jump(); 
+        }
+    }
+
     private void Start()
     {
-        motor = GetComponent<PlayerMotor>();
-        joint = GetComponent<ConfigurableJoint>();
-        SetJointSettings(jointSpring);
-        
-    }
-
-    private void Update()
-    {
-        if (!view.IsMine) return;
-        // Calculer la vélocité (vitesse) du mouvement de notre joueur.
-        float xMov = Input.GetAxisRaw("Horizontal");
-        float zMov = Input.GetAxisRaw("Vertical");
-
-        Vector3 moveHorizontal = transform.right * xMov;
-        Vector3 moveVertical = transform.forward * zMov;
-
-        Vector3 velocity = (moveHorizontal + moveVertical).normalized * speed;
-
-        motor.Move(velocity);
-        
-        // On calcule la rotation du joueur en un Vector3
-        float yRot = Input.GetAxisRaw("Mouse X");
-        Vector3 rotation = new Vector3(0, yRot, 0) * mouseSensitivityX;
-        motor.Rotate(rotation);
-        
-        // On calcule la rotation de la camera en un Vector3
-        float xRot = Input.GetAxisRaw("Mouse Y");
-        float cameraRotationX = xRot * mouseSensitivityY;
-        motor.RotateCamera(cameraRotationX);
-    
-        // Calcule de la force du jetpack
-        Vector3 thrusterVelocity = Vector3.zero;
-        // Applique la variable thrusterForce / utilisation du jetpack
-        if (Input.GetButton("Jump"))
+        if (!PV.IsMine)
         {
-            thrusterVelocity = Vector3.up * thrusterForce;
-            SetJointSettings(0f);
-        } else
-        {
-            SetJointSettings(jointSpring);
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
         }
-
-        motor.ApplyThruster(thrusterVelocity);
     }
 
-    private void SetJointSettings(float _jointSpring)
+    void UpdateCameraRotation()
     {
-        joint.yDrive = new JointDrive { positionSpring = _jointSpring, maximumForce = jointMaxForce };
+        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+        
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+    }
+
+    void Move()
+    {
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
+    }
+
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            rb.AddForce(transform.up * jumpForce);
+        }
+    }
+
+    public void SetGroundedState(bool _grounded)
+    {
+        grounded = _grounded;
+    }
+
+    private void FixedUpdate()
+    {
+        if (PV.IsMine)
+        {
+            rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        }
     }
 }
