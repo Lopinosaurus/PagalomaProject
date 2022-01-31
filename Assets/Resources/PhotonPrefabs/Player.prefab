@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1998985125234935065}
   - component: {fileID: 5596615312093033612}
   - component: {fileID: 1191989957696012360}
-  - component: {fileID: 48930311508390934}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &48930311508390934
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779269339748656260}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1883594288177041007
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +93,7 @@ GameObject:
   - component: {fileID: 5921047887883680178}
   - component: {fileID: 1184983091171091394}
   - component: {fileID: 7162212838118141699}
+  - component: {fileID: 2582030560428517420}
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -161,6 +148,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cd599bd4c2c034590263560dad19fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &2582030560428517420
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883594288177041007}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2350299908864544204
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +200,6 @@ GameObject:
   - component: {fileID: 5897218166933986490}
   - component: {fileID: 6650946907392995793}
   - component: {fileID: 3683628181666417605}
-  - component: {fileID: 4569025548293645378}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -243,19 +270,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4569025548293645378
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2350299908864544204}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4368096802118517884
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +281,6 @@ GameObject:
   - component: {fileID: 7919057929325810491}
   - component: {fileID: 1811960288403865524}
   - component: {fileID: 7349314210576656537}
-  - component: {fileID: 2500603858711213704}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -338,19 +351,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2500603858711213704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4368096802118517884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5534990444790940881
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,9 +628,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 5534990444790940881}
-  mouseSensitivity: 3
+  playerCol: {fileID: 0}
+  mouseSensHorizontal: 3
+  mouseSensVertical: 3
+  currentMovementType: 0
+  currentCrouchType: 1
   sprintSpeed: 6
   walkSpeed: 3
+  crouchSpeed: 2
+  currentSpeed: 0
+  crouchedHeight: 1.5
+  normalHeight: 3
   jumpForce: 300
   smoothTime: 0.15
 --- !u!1 &7971275363077344973
@@ -644,7 +652,6 @@ GameObject:
   - component: {fileID: 5954895144257060525}
   - component: {fileID: 5182005571518560906}
   - component: {fileID: 5795895157663624646}
-  - component: {fileID: 971157844475950309}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -715,19 +722,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &971157844475950309
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7971275363077344973}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8753316613705247986
 GameObject:
   m_ObjectHideFlags: 0
