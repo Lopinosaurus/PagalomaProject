@@ -4,8 +4,9 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject cameraHolder = null; // remove null if not working properly
-    [SerializeField] private CapsuleCollider playerCol = null; // remove null if not working properly
+    [SerializeField] private GameObject cameraHolder = null;
+    [SerializeField] public GameObject _bodyHitBox = null;
+    [SerializeField] public CapsuleCollider playerCol = null;
 
     [Space]
     [Header ("Mouse settings")]
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Added this! Tell me if I was wrong(needed for crouching to modify player's height)
-      playerCol = GetComponent<CapsuleCollider>();
+        playerCol = _bodyHitBox.GetComponent<CapsuleCollider>();
         normalHeight = playerCol.height;
         crouchedHeight = normalHeight / 2;
     }
@@ -111,11 +112,6 @@ public class PlayerController : MonoBehaviour
 
         // Actually moves the player
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
-
-        //Debug time
-        Debug.ClearDeveloperConsole();
-        Debug.Log("Current movement type " + currentMovementType.ToString());
-        Debug.Log("Current movement speed " + currentSpeed.ToString());
     }
 
     void UpdateCrouch()
