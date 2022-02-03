@@ -2,29 +2,33 @@ using System;
 using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(PlayerAnimation))]
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject cameraHolder = null;
-    [SerializeField] public GameObject _bodyHitBox = null;
-    [SerializeField] public CapsuleCollider playerCol = null;
+    private Rigidbody rb;
+    private PhotonView PV;
+    private PlayerAnimation PA;
 
     [Space]
-    [Header ("Mouse settings")]
+    [Header("Mouse settings")]
     [SerializeField] private float mouseSensHorizontal = 3f;
     [SerializeField] private float mouseSensVertical = 3f;
 
     [Space]
-    [Header ("Movement settings")]
-    [SerializeField] private MovementTypes currentMovementType = MovementTypes.Walk;
-    [SerializeField] public CrouchInputMode currentCrouchType = CrouchInputMode.Hold;
-    [SerializeField]
-    private enum MovementTypes
+    [Header("Movement settings")]
+    [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
+    [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
+
+    [SerializeField] public enum MovementTypes
     {
+        Stand,
+        Crouch,
         Walk,
-        Sprint,
-        Crouch
+        Sprint
     };
-    [SerializeField] public enum CrouchInputMode
+    [SerializeField] public enum CrouchModes
     {
         Toggle,
         Hold
@@ -44,30 +48,18 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("Player jump settings")]
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float smoothTime;
+    [SerializeField] private float jumpForce = 300f;
+    [SerializeField] private float smoothTime = 0.15f;
 
     private float verticalLookRotation;
-    private bool grounded;
+    [SerializeField] private bool grounded;
     private Vector3 smoothMoveVelocity;
     private Vector3 moveAmount;
     
-    private Rigidbody rb;
-    private PhotonView PV;
     void Awake() // Don't touch !
     {
         rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
-    }
-
-    void Update() // Don't touch !
-    {
-        if (PV.IsMine)
-        {
-           UpdateCameraRotation();
-           Move();
-           Jump(); 
-        }
     }
 
     private void Start() // Don't touch !
@@ -75,16 +67,28 @@ public class PlayerController : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            // TODO
+            // MATHIEU ! JE CROIS QUE CA MARCHE PLUS ICI VU QUE J'AI RESTRUCTURÉ
+            // Destroy(cameraHolder.GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
+
+            return;
         }
 
-        // Added this! Tell me if I was wrong(needed for crouching to modify player's height)
-        playerCol = _bodyHitBox.GetComponent<CapsuleCollider>();
-        normalHeight = playerCol.height;
-        crouchedHeight = normalHeight / 2;
+        // Player's AnimationController instance
+        PA = GetComponent<PlayerAnimation>();
+    }
+    void Update() // Don't touch !
+    {
+        if (PV.IsMine)
+        {
+            Look();
+            Move();
+            Jump();
+        }
     }
 
-    void UpdateCameraRotation() // Modifies camera and player rotation
+    private void Look() // Modifies camera and player rotation
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensVertical);
 
@@ -94,62 +98,72 @@ public class PlayerController : MonoBehaviour
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
-    void Move() // Moves the player based on ZQSD inputs
+    private void Move() // Moves the player based on ZQSD inputs
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
-
-
-        // Updates the crouching state (takes into account the input and the toggle/hold mode)
-        UpdateCrouch();
         // Updates the sprinting state
         UpdateSprint();
+
+        // Updates the crouching state
+        UpdateCrouch();
+
+        UpdateWalk(moveDir);
+
 
         // Updates the speed based on the MovementType
         currentSpeed = UpdateSpeed();
 
-
+        // Updates the appearance based on the MovementType
+        UpdateAppearance();
+        UpdateHitbox();
 
         // Actually moves the player
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
     }
 
-    void UpdateCrouch()
+    private void UpdateSprint()
     {
-        if (MovementTypes.Sprint == currentMovementType) return;
+        if (MovementTypes.Crouch == currentMovementType) return;
 
+        // Checks if players wants to sprint
+        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
+        {
+            SetCurrentMovementType(MovementTypes.Sprint);
+        }
+        else
+        {
+            SetCurrentMovementType(MovementTypes.Stand);
+        }
+    }
+
+    private void UpdateCrouch()
+    {
         // Checks the current crouch mode (toggle or hold)
         switch (currentCrouchType)
         {
-            // HOLD INPUT MODE
-            case (CrouchInputMode.Hold):
+            // Will crouch the player
+            case CrouchModes.Hold when Input.GetButton("Crouch"):
 
-                if (Input.GetButton("Crouch"))
-                {
-                    // Sets the height to crouched height
-                    playerCol.height = crouchedHeight;
-
-                    // Sets the MovementType to crouched
-                    SetCurrentMovementType(MovementTypes.Crouch);
-                }
-                else
-                {
-                    // Checks if UNcrouching is possible (no obstacles above, is actually in crouch mode)
-                    if (MovementTypes.Crouch == currentMovementType)
-                    {
-                        // Sets the height to normal height
-                        playerCol.height = normalHeight;
-
-                        // Sets the MovementType to walk
-                        SetCurrentMovementType(MovementTypes.Walk);
-                    }
-                }
+                // Sets the MovementType to crouched
+                SetCurrentMovementType(MovementTypes.Crouch);
 
                 break;
 
-            // TOGGLE INPUT MODE
-            case (CrouchInputMode.Toggle):
+            // Will UNcrouch the player if there is no input
+            case CrouchModes.Hold:
+            {
+                    if (MovementTypes.Crouch == currentMovementType)
+                    {
+                        // Sets the MovementType to stand
+                        SetCurrentMovementType(MovementTypes.Stand);
+                    }
 
+                break;
+            }
+
+            case CrouchModes.Toggle:
+            {
                 if (Input.GetButtonDown("Crouch"))
                 {
                     // Checks the current state of crouch
@@ -158,14 +172,11 @@ public class PlayerController : MonoBehaviour
                         // Is crouched - wants to uncrouch
                         case (MovementTypes.Crouch):
 
-                            // Checks if UNcrouching is possible (no obstacles above, is actually in crouch mode)
-                            if (MovementTypes.Crouch == currentMovementType)
+                            // Checks if UNcrouching is possible (example: no obstacles above)
+                            if (true)
                             {
-                                // Sets the height to normal height
-                                playerCol.height = normalHeight;
-
-                                // Sets the MovementType to walk
-                                SetCurrentMovementType(MovementTypes.Walk);
+                                // Sets the MovementType to stand
+                                SetCurrentMovementType(MovementTypes.Stand);
                             }
 
                             break;
@@ -173,36 +184,30 @@ public class PlayerController : MonoBehaviour
                         // Is NOT crouched - wants to crouch
                         default:
 
-                            // Sets the height to crouched height
-                            playerCol.height = crouchedHeight;
-
                             // Sets the MovementType to crouched
                             SetCurrentMovementType(MovementTypes.Crouch);
 
+                                Debug.Log("Enabled crouched with toggle mode on !");
                             break;
                     }
                 }
 
                 break;
+            }
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
-    void UpdateSprint()
+    private void UpdateWalk(Vector3 _moveDir)
     {
-        if (MovementTypes.Crouch == currentMovementType) return;
-
-        // Checks if players wants to sprint
-        if (Input.GetButton("Sprint"))
-        {
-            SetCurrentMovementType(MovementTypes.Sprint);
-        }
-        else
+        if (MovementTypes.Stand == currentMovementType && Vector3.zero != _moveDir)
         {
             SetCurrentMovementType(MovementTypes.Walk);
         }
     }
 
-    void Jump()
+    private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
@@ -210,19 +215,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float UpdateSpeed()
+    private float UpdateSpeed()
     {
-        switch (currentMovementType)
+        return currentMovementType switch
         {
-            case MovementTypes.Walk:
-                return walkSpeed;
-            case MovementTypes.Sprint:
-                return sprintSpeed;
-            case MovementTypes.Crouch:
-                return crouchSpeed;
-        }
-
-        return currentSpeed;
+            MovementTypes.Stand => 0f,
+            MovementTypes.Crouch => crouchSpeed,
+            MovementTypes.Walk => walkSpeed,
+            MovementTypes.Sprint => sprintSpeed,
+            _ => currentSpeed
+        };
+    }
+    private void UpdateAppearance()
+    {
+        PA.UpdateAppearance(currentMovementType);
+    }
+    private void UpdateHitbox()
+    {
+        PA.UpdateHitbox(currentMovementType);
     }
 
     public void SetGroundedState(bool _grounded)
