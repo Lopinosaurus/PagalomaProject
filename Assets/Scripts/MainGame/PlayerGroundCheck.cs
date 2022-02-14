@@ -6,10 +6,11 @@ using UnityEngine;
 public class PlayerGroundCheck : MonoBehaviour
 {
     private PlayerController playerController;
+    [SerializeField] private GameObject player;
 
     void Awake()
     {
-        playerController = GetComponentInParent<PlayerController>();
+        playerController = player.GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter(Collider other)
