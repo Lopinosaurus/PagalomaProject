@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cd599bd4c2c034590263560dad19fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!23 &2582030560428517420
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -474,6 +475,7 @@ GameObject:
   - component: {fileID: 1654778427836828203}
   - component: {fileID: 4938174515326091686}
   - component: {fileID: 4656714414789940587}
+  - component: {fileID: 6317097038451414870}
   m_Layer: 0
   m_Name: 1Player
   m_TagString: Untagged
@@ -628,7 +630,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 5534990444790940881}
-  playerCol: {fileID: 0}
   mouseSensHorizontal: 3
   mouseSensVertical: 3
   currentMovementType: 0
@@ -641,6 +642,26 @@ MonoBehaviour:
   normalHeight: 3
   jumpForce: 50000
   smoothTime: 0.15
+  grounded: 0
+--- !u!114 &6317097038451414870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd4c48089c38f54aa8aa6bae7b8b965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStandingPose: {fileID: 0}
+  playerCrouchingPose: {fileID: 0}
+  playerSprintingPose: {fileID: 0}
+  playerStandingHitBox: {fileID: 0}
+  playerCrouchingHitBox: {fileID: 0}
+  playerWalkingHitBox: {fileID: 0}
+  playerSprintingHitBox: {fileID: 0}
 --- !u!1 &7971275363077344973
 GameObject:
   m_ObjectHideFlags: 0

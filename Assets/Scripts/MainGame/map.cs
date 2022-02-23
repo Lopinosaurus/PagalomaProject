@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class map : MonoBehaviour
+public class Map : MonoBehaviour
 {
     public GameObject tree1;
         public GameObject tree2;
@@ -13,8 +15,9 @@ public class map : MonoBehaviour
         public int seed ;
     
         // Start is called before the first frame update
-        void Start()
+        public void Generate(int _seed)
         {
+            seed = _seed;
             Random.seed = seed;
             Vector3 villagePosition = Random.insideUnitSphere * 150;
             villagePosition.y = 0;
@@ -23,11 +26,7 @@ public class map : MonoBehaviour
             trees();
         }
     
-        // Update is called once per frame
-        void Update()
-        {
-        }
-    
+   
         public void trees()
         {
             List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
