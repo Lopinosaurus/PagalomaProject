@@ -3192,7 +3192,8 @@ namespace Photon.Pun
             // create the ScriptableObject if it could not be loaded
             if (photonServerSettings == null)
             {
-                photonServerSettings = (ServerSettings)ScriptableObject.CreateInstance("ServerSettings");
+                // J'AI RAJOUTÉ "Photon.Pun." avec Rider sinon ça faisait une erreur ?!
+                photonServerSettings = (ServerSettings)ScriptableObject.CreateInstance("Photon.Pun.ServerSettings");
                 if (photonServerSettings == null)
                 {
                     Debug.LogError("Failed to create ServerSettings. PUN is unable to run this way. If you deleted it from the project, reload the Editor.");
