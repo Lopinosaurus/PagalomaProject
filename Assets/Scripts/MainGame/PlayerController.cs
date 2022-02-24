@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
         // Updates the crouching state
         UpdateCrouch();
 
+        // Updates the walking state
         UpdateWalk(moveDir);
 
 
@@ -158,8 +159,8 @@ public class PlayerController : MonoBehaviour
                         // Sets the MovementType to stand
                         SetCurrentMovementType(MovementTypes.Stand);
                     }
-
-                break;
+                    
+                    break;
             }
 
             case CrouchModes.Toggle:
@@ -209,7 +210,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetButton("Jump") && grounded)
         {
             rb.AddForce(transform.up * jumpForce);
         }
