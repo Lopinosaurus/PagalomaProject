@@ -7,89 +7,119 @@ using Random = UnityEngine.Random;
 
 public class map : MonoBehaviour
 {
-    public GameObject tree1;
-        public GameObject tree2;
-        public GameObject village;
-        public int seed ;
-    
-        // Start is called before the first frame update
-        void Start()
+    public GameObject treesFolder;
+    public GameObject villageFolder;
+    public GameObject village;
+    public int seed ;
+    public List<GameObject> deadTrees;
+    public List<GameObject> hugeTrees;
+    public List<GameObject> longTrees;
+    public List<GameObject> simpleTrees;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        AddVillage();
+        AddTrees();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+    public void AddVillage()
+    {
+        Vector2 v = Random.insideUnitCircle * 150;
+        float x = v.x;
+        float z = v.y;
+        float y = 0;
+        RaycastHit hit;
+        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit))
         {
-            Random.seed = seed;
-            Vector3 villagePosition = Random.insideUnitSphere * 150;
-            villagePosition.y = 0;
-            Instantiate(village, villagePosition, Quaternion.identity);
+            if (hit.transform.tag == "mapFloor")
+            {
+                y = hit.point.y-5;
+                Instantiate(village, new Vector3(x, y, z), Quaternion.identity,villageFolder.transform);
+            }
             
-            trees();
         }
-    
-        // Update is called once per frame
-        void Update()
+}
+
+    public void AddTrees()
+    {
+        List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
+        foreach (float[] possibleTree in possibleTrees)
         {
-        }
-    
-        public void trees()
-        {
-            List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
-            foreach (float[] possibleTree in possibleTrees)
-            {
-                float y = 0f;
-                if (PositionValid(possibleTree, ref y))
-                { 
-                    GameObject tree = Instantiate(RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), RandomRotation());
-                }
+            float y = 0f;
+            if (PositionValid(possibleTree, ref y))
+            { 
+                GameObject tree = Instantiate(
+                    RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), 
+                    RandomRotation(), treesFolder.transform);
             }
         }
-    
-        public static List<float[]> RandomListXY()
+    }
+
+    public static List<float[]> RandomListXY()
+    {
+        List<float[]> list = new List<float[]>();
+        for (int x = -490; x <= 490; x+=4)
         {
-            List<float[]> list = new List<float[]>();
-            for (int x = -490; x <= 490; x+=6)
+            for (int z = -490; z <= 490; z+=4)
             {
-                for (int z = -490; z <= 490; z+=6)
+                float randomX = Random.Range(-1.5f, 1.5f);
+                float randomZ = Random.Range(-1.5f, 1.5f);
+                list.Add(new float[] {x+randomX, z+randomZ});
+            }
+        }
+        return list;
+    }
+    public static bool PositionValid(float[] possibleTree,ref float y)
+    {
+        RaycastHit hit;
+        float x = possibleTree[0];
+        float z = possibleTree[1];
+        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit))
+        {
+            if (hit.transform.tag == "mapFloor")
+            {
+                y = hit.point.y;
+                Vector3 direction = hit.normal;
+                if (direction.y > 0.95f)
                 {
-                    float randomX = Random.Range(-2.5f, 2.5f);
-                    float randomZ = Random.Range(-2.5f, 2.5f);
-                    list.Add(new float[] {x+randomX, z+randomZ});
+                    return true;
                 }
             }
-            return list;
         }
-        public static bool PositionValid(float[] possibleTree,ref float y)
+
+        return false;
+    }
+
+    public static Quaternion RandomRotation()
+    {
+        return Quaternion.Euler(new Vector3(0,Random.Range(-360, 360), 0));
+    }
+
+    public GameObject RandomTree()
+    {
+        float x = Random.value;
+        if (x < 0.5f)
         {
-            RaycastHit hit;
-            float x = possibleTree[0];
-            float z = possibleTree[1];
-            if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit))
-            {
-                if (hit.transform.tag == "mapFloor")
-                {
-                    y = hit.point.y;
-                    Vector3 direction = hit.normal;
-                    if (direction.y > 0.95f)
-                    {
-                        return true;
-                    }
-                }
-            }
-    
-            return false;
+            return simpleTrees[Random.Range(0,simpleTrees.Count)];
         }
-    
-        public static Quaternion RandomRotation()
+        if(x < 0.90)
         {
-            return Quaternion.Euler(new Vector3(0,Random.Range(-360, 360), 0));
+            return longTrees[Random.Range(0, longTrees.Count)];
         }
-    
-        public GameObject RandomTree()
+
+        if (x < 0.995)
         {
-            if (Random.value < 0.7f)
-            {
-                return tree1;
-            }
-            else
-            {
-                return tree2;
-            }
+            return deadTrees[Random.Range(0, deadTrees.Count)];
         }
+        else
+        {
+            return hugeTrees[Random.Range(0, hugeTrees.Count)];
+        }
+    }
 }
