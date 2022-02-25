@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     }
     
 
-    Vector3 GetPosSpawn()
+    public static Vector3 GetPosSpawn()
     {
         GameObject spawn = GameObject.FindWithTag("spawn");
         Vector3 pos = spawn.transform.position;
