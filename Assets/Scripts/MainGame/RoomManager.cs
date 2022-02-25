@@ -10,8 +10,11 @@ using System.IO;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
-    [SerializeField] private GameObject map; 
+    [SerializeField] private GameObject map;
+    [SerializeField] private GameObject loadingScreen;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
+    public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
+    public int nextPlayerRoleIndex = 0;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
+        loadingScreen.SetActive(true);
     }
 
     public override void OnEnable()
@@ -38,21 +42,25 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (1 == scene.buildIndex) // MainGame scene
+        if (scene.buildIndex == 1) // MainGame scene
         {
-            // Instantiate local player
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero,
-                Quaternion.identity);
+            // Instantiate local PlayerManager
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
             
-            // Generate Map Seed
+            // Master Client needs to generate the Map Seed
             if (PhotonNetwork.IsMasterClient)
             {
-                System.Random rng = new System.Random();
-                int seed = rng.Next(0, 100000); // Generate random int between 0 and 100000
-                customGameProperties["MapSeed"] = seed; // Add the seed to the Photon Hashtable
-                PhotonNetwork.CurrentRoom.SetCustomProperties(customGameProperties); // Send the custom property to the server so that it is available for everyone in the room
+                GenerateMapSeed();
             }
         }
+    }
+
+    private void GenerateMapSeed()
+    {
+        System.Random rng = new System.Random();
+        int seed = rng.Next(0, 100000); // Generate random int between 0 and 100000
+        customGameProperties["MapSeed"] = seed; // Add the seed to the Photon Hashtable
+        PhotonNetwork.CurrentRoom.SetCustomProperties(customGameProperties); // Send the custom property to the server so that it is available for everyone in the room
     }
 
     // Callback when Custom Properties change
@@ -64,6 +72,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
             int seed = (int) propertiesThatChanged["MapSeed"]; // Get the seed value
             Debug.Log("Game seed received: "+seed);
             map.GetComponent<Map>().Generate(seed); // Generate the map
+            loadingScreen.SetActive(false);
         }
+    }
+
+    public string GetNextRoleName()
+    {
+        return roles[nextPlayerRoleIndex];
     }
 }
