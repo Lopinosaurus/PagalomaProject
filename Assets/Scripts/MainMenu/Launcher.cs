@@ -68,7 +68,9 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     {
         if (!string.IsNullOrEmpty(roomNameInputField.text)) // Entered room name is not empty
         {
-            PhotonNetwork.CreateRoom(roomNameInputField.text);
+            RoomOptions options = new RoomOptions();
+            options.BroadcastPropsChangeToAll = true;
+            PhotonNetwork.CreateRoom(roomNameInputField.text, options);
             MenuManager.Instance.OpenMenu("loading");
         }
     }
