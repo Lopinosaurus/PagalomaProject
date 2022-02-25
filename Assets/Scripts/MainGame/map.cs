@@ -17,7 +17,7 @@ public class Map : MonoBehaviour
     public List<GameObject> simpleTrees;
 
     // Start is called before the first frame update
-    void Start()
+    public void StartMap()
     {
         Random.seed = seed;
         AddVillage();
@@ -49,12 +49,10 @@ public class Map : MonoBehaviour
             }
 
         }
-        Debug.Log("1");
 }
 
     public void AddTrees()
     {
-        Debug.Log('2');
         List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
         foreach (float[] possibleTree in possibleTrees)
         {

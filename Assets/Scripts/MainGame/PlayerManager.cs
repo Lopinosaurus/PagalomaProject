@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
-    public List<GameObject> spawns;
 
     private void Awake()
     {
