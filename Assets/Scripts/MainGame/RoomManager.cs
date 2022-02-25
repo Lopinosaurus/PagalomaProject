@@ -36,7 +36,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        map.GetComponent<Map>().StartMap();
+        map.GetComponent<Map>().StartMap(); // start map
         if (scene.buildIndex == 1) // MainGame scene
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero,
