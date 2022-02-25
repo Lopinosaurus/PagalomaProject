@@ -411,13 +411,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339418130}
-  m_LocalRotation: {x: 0.19473973, y: -0, z: -0, w: 0.9808549}
-  m_LocalPosition: {x: 0, y: 5.63, z: -10}
+  m_LocalRotation: {x: 0.16245174, y: 0.64526117, z: -0.15203568, w: 0.73084384}
+  m_LocalPosition: {x: -73.82, y: 41.91, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 22.459, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 25.7, y: 82.7, z: -0.8}
 --- !u!1 &1502486005
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +503,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: map
       objectReference: {fileID: 0}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: seed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: village
+      value: 
+      objectReference: {fileID: 519027989559285392, guid: 2d9a03d58f939e24681de91a1a82df35, type: 3}
     - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
       propertyPath: TreesFolder
       value: 

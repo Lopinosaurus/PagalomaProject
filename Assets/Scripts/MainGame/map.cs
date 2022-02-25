@@ -19,6 +19,7 @@ public class map : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Random.seed = seed;
         AddVillage();
         AddTrees();
     }
@@ -30,17 +31,21 @@ public class map : MonoBehaviour
 
     public void AddVillage()
     {
-        Vector2 v = Random.insideUnitCircle * 150;
+        Vector2 v = Random.insideUnitCircle * 100;
         float x = v.x;
         float z = v.y;
         float y = 0;
         RaycastHit hit;
-        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit))
+        int layerMask = 1 << 3; // define the only layer that the raycast can touch
+        layerMask = ~layerMask; // inverse the bits to ignore specifically the 3; 
+        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit, 500, layerMask))
         {
             if (hit.transform.tag == "mapFloor")
             {
-                y = hit.point.y-5;
-                Instantiate(village, new Vector3(x, y, z), Quaternion.identity,villageFolder.transform);
+                y = hit.point.y+1;
+                Vector3 direction = hit.normal;
+                Instantiate(village, new Vector3(x, y, z), RandomRotation(),villageFolder.transform);
+                
             }
             
         }
@@ -57,6 +62,7 @@ public class map : MonoBehaviour
                 GameObject tree = Instantiate(
                     RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), 
                     RandomRotation(), treesFolder.transform);
+                tree.tag = "tree";
             }
         }
     }
@@ -75,6 +81,7 @@ public class map : MonoBehaviour
         }
         return list;
     }
+    
     public static bool PositionValid(float[] possibleTree,ref float y)
     {
         RaycastHit hit;

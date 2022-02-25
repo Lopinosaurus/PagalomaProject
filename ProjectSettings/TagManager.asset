@@ -6,11 +6,12 @@ TagManager:
   tags:
   - village
   - mapFloor
+  - tree
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - village
   - Water
   - UI
   - 
