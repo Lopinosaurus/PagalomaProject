@@ -38,7 +38,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (1 == scene.buildIndex) // MainGame scene
+        if (scene.buildIndex == 1) // MainGame scene
         {
             // Instantiate local player
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero,

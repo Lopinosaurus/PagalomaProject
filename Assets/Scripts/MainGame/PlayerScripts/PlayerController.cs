@@ -6,9 +6,8 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviour
 {
-    #region Attributes
     [SerializeField] private GameObject cameraHolder = null;
-    private Rigidbody RB;
+    private Rigidbody rb;
     private PhotonView PV;
     private PlayerAnimation PA;
 
@@ -53,20 +52,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float smoothTime = 0.15f;
 
     private float verticalLookRotation;
-    [SerializeField] public bool grounded;
+    [SerializeField] private bool grounded;
     private Vector3 smoothMoveVelocity;
     private Vector3 moveAmount;
     
-    #endregion
-
-    #region Unity methods
-    
     void Awake() // Don't touch !
     {
-        RB = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
     }
-    
+
     private void Start() // Don't touch !
     {
         if (!PV.IsMine)
@@ -75,7 +70,7 @@ public class PlayerController : MonoBehaviour
             // TODO
             // MATHIEU ! JE CROIS QUE CA MARCHE PLUS ICI VU QUE J'AI RESTRUCTURÉ
             // Destroy(cameraHolder.GetComponentInChildren<Camera>().gameObject);
-            Destroy(RB);
+            Destroy(rb);
 
             return;
         }
@@ -90,21 +85,8 @@ public class PlayerController : MonoBehaviour
             Look();
             Move();
             Jump();
-            // Updates the appearance based on the MovementType
-            UpdateAppearance();
         }
     }
-    
-    private void FixedUpdate()
-    {
-        if (PV.IsMine)
-        {
-            RB.MovePosition(RB.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-            UpdateHitbox();
-        }
-    }
-    
-    #endregion
 
     private void Look() // Modifies camera and player rotation
     {
@@ -128,26 +110,23 @@ public class PlayerController : MonoBehaviour
 
         UpdateWalk(moveDir);
 
+
         // Updates the speed based on the MovementType
         currentSpeed = UpdateSpeed();
+
+        // Updates the appearance based on the MovementType
+        UpdateAppearance();
+        UpdateHitbox();
 
         // Actually moves the player
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
     }
 
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            RB.AddForce(transform.up * jumpForce);
-        }
-    }
-    
     private void UpdateSprint()
     {
         if (MovementTypes.Crouch == currentMovementType) return;
 
-        // Checks if players wants to sprint and if he pressed a directional key
+        // Checks if players wants to sprint
         if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
         {
             SetCurrentMovementType(MovementTypes.Sprint);
@@ -179,8 +158,8 @@ public class PlayerController : MonoBehaviour
                         // Sets the MovementType to stand
                         SetCurrentMovementType(MovementTypes.Stand);
                     }
-                    
-                    break;
+
+                break;
             }
 
             case CrouchModes.Toggle:
@@ -228,6 +207,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            rb.AddForce(transform.up * jumpForce);
+        }
+    }
+
     private float UpdateSpeed()
     {
         return currentMovementType switch
@@ -248,7 +235,6 @@ public class PlayerController : MonoBehaviour
         PA.UpdateHitbox(currentMovementType);
     }
 
-    #region Attributes setters
     public void SetGroundedState(bool _grounded)
     {
         grounded = _grounded;
@@ -258,6 +244,12 @@ public class PlayerController : MonoBehaviour
     {
         currentMovementType = _currentMovementType;
     }
-    
-    #endregion
+
+    private void FixedUpdate()
+    {
+        if (PV.IsMine)
+        {
+            rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        }
+    }
 }

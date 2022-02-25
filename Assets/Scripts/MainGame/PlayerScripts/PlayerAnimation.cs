@@ -6,8 +6,7 @@ using Photon.Pun;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private PlayerController PC;
-    private Rigidbody RB;
+    private Rigidbody rb;
     private PhotonView PV;
 
     // Declaring player's appearances objects
@@ -17,25 +16,20 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private GameObject playerCrouchingPose = null;
     [SerializeField] private GameObject playerSprintingPose = null;
 
-    // Player Capsule Collider
+    // Player Capsule Colliders
     [Space]
     [Header("Player's hitboxes")]
-    [SerializeField] private GameObject playerStandardHitBox = null;
-    private CapsuleCollider CC = null;
-    
-    // Player Smooth Crouch variables
-    [Space] [Header("Smooth Crouch variables")] [SerializeField]
-    private float crouchSpeed = 0.3f;
-    private float standingHeight = 2f; // In "Start", will be set to the height of the "StandardHitbox" capsule
-    private float crouchingHeight = 1f; // In "Start", will be set to half the height of the "StandardHitbox" capsule
-    [SerializeField] private Transform playerCamera = null;
+    [SerializeField] private GameObject playerStandingHitBox = null;
+    [SerializeField] private GameObject playerCrouchingHitBox = null;
+    [SerializeField] private GameObject playerWalkingHitBox = null;
+    [SerializeField] private GameObject playerSprintingHitBox = null;
 
     void Awake() // Don't touch !
     {
-        PC = GetComponent<PlayerController>();
-        RB = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
-        CC = playerStandardHitBox.GetComponent<CapsuleCollider>();
+
+        if (playerSprintingHitBox == null) Debug.LogWarning("Oups");
     }
 
     private void Start() // Don't touch !
@@ -43,9 +37,7 @@ public class PlayerAnimation : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            Destroy(RB);
-            
-            return;
+            Destroy(rb);
         }
 
         // Player's appearances
@@ -54,11 +46,10 @@ public class PlayerAnimation : MonoBehaviour
         playerSprintingPose.SetActive(false);
 
         // Player's hitboxes
-        playerStandardHitBox.SetActive(true);
-        
-        // Player's height variables
-        standingHeight = playerStandardHitBox.GetComponent<CapsuleCollider>().height;
-        crouchingHeight = standingHeight / 2f;
+        playerStandingHitBox.SetActive(true);
+        playerCrouchingHitBox.SetActive(false);
+        playerWalkingHitBox.SetActive(false);
+        playerSprintingHitBox.SetActive(false);
     }
 
     public void UpdateAppearance(PlayerController.MovementTypes _currentMovementType)
@@ -96,33 +87,38 @@ public class PlayerAnimation : MonoBehaviour
 
     public void UpdateHitbox(PlayerController.MovementTypes _currentMovementType)
     {
-        // Updates player's hitbox about crouch
-        #region Crouch management
-        
-        float desiredHeight = standingHeight;
-        if (PlayerController.MovementTypes.Crouch == _currentMovementType) desiredHeight = crouchingHeight;
-
-        Vector3 camPosition = playerCamera.transform.localPosition;
-        if (CC.height != desiredHeight)
+        switch (_currentMovementType)
         {
-            AdjustHeight(desiredHeight);
-            camPosition.y = CC.height;
+            case PlayerController.MovementTypes.Stand:
+                playerStandingHitBox.SetActive(true);
+                playerCrouchingHitBox.SetActive(false);
+                playerWalkingHitBox.SetActive(false);
+                playerSprintingHitBox.SetActive(false);
+                return;
+
+            case PlayerController.MovementTypes.Crouch:
+                playerStandingHitBox.SetActive(false);
+                playerCrouchingHitBox.SetActive(true);
+                playerWalkingHitBox.SetActive(false);
+                playerSprintingHitBox.SetActive(false);
+                return;
+
+            case PlayerController.MovementTypes.Walk:
+                playerStandingHitBox.SetActive(false);
+                playerCrouchingHitBox.SetActive(false);
+                playerWalkingHitBox.SetActive(true);
+                playerSprintingHitBox.SetActive(false);
+                return;
+
+            case PlayerController.MovementTypes.Sprint:
+                playerStandingHitBox.SetActive(false);
+                playerCrouchingHitBox.SetActive(false);
+                playerWalkingHitBox.SetActive(false);
+                playerSprintingHitBox.SetActive(true);
+                return;
+
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-        
-        playerCamera.transform.localPosition = camPosition;
-
-        #endregion
-        
-        
-        
-    }
-
-    private void AdjustHeight(float height)
-    {
-        // Calculates the current center of the player
-        float center = height / 2f;
-
-        CC.height = Mathf.LerpUnclamped(CC.height, height, crouchSpeed);
-        CC.center = Vector3.LerpUnclamped(CC.center, new Vector3(0, center, 0), crouchSpeed);
     }
 }
