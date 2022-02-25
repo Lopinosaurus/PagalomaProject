@@ -5,53 +5,53 @@ using UnityEngine;
 
 public class PlayerGroundCheck : MonoBehaviour
 {
-    private PlayerController playerController;
+    private PlayerController PC;
     [SerializeField] private GameObject player;
 
     void Awake()
     {
-        playerController = player.GetComponent<PlayerController>();
+        PC = player.GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        PC.SetGroundedState(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(false);
+        PC.SetGroundedState(false);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        PC.SetGroundedState(true);
     }
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        PC.SetGroundedState(true);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(false);
+        PC.SetGroundedState(false);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == PC.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        PC.SetGroundedState(true);
     }
 }

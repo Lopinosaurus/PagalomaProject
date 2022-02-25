@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
+[RequireComponent(typeof(PlayerController))]
+
 public class PlayerAnimation : MonoBehaviour
 {
     private PlayerController PC;
@@ -40,6 +42,11 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Start() // Don't touch !
     {
+        // Player's appearances
+        playerStandingPose.SetActive(true);
+        playerCrouchingPose.SetActive(false);
+        playerSprintingPose.SetActive(false);
+        
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
@@ -47,17 +54,12 @@ public class PlayerAnimation : MonoBehaviour
             
             return;
         }
-
-        // Player's appearances
-        playerStandingPose.SetActive(true);
-        playerCrouchingPose.SetActive(false);
-        playerSprintingPose.SetActive(false);
-
+        
         // Player's hitboxes
         playerStandardHitBox.SetActive(true);
         
         // Player's height variables
-        standingHeight = playerStandardHitBox.GetComponent<CapsuleCollider>().height;
+        standingHeight = CC.height;
         crouchingHeight = standingHeight / 2f;
     }
 

@@ -1,26 +1,24 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
+// ReSharper disable All
 
 [RequireComponent(typeof(PlayerAnimation))]
 
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
-    [SerializeField] private GameObject cameraHolder = null;
     private Rigidbody RB;
     private PhotonView PV;
+    private PlayerMovement PM;
     private PlayerAnimation PA;
-
-    [Space]
-    [Header("Mouse settings")]
-    [SerializeField] private float mouseSensHorizontal = 3f;
-    [SerializeField] private float mouseSensVertical = 3f;
-
+    
     [Space]
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
+    [SerializeField] public bool grounded;
 
     [SerializeField] public enum MovementTypes
     {
@@ -34,28 +32,6 @@ public class PlayerController : MonoBehaviour
         Toggle,
         Hold
     };
-
-    [Space]
-    [Header("Player speed settings")]
-    [SerializeField] private float sprintSpeed = 6f;
-    [SerializeField] private float walkSpeed = 3f;
-    [SerializeField] private float crouchSpeed = 2f;
-    [SerializeField] private float currentSpeed;
-
-    [Space]
-    [Header("Player height settings")]
-    [SerializeField] private float crouchedHeight;
-    [SerializeField] private float normalHeight;
-
-    [Space]
-    [Header("Player jump settings")]
-    [SerializeField] private float jumpForce = 300f;
-    [SerializeField] private float smoothTime = 0.15f;
-
-    private float verticalLookRotation;
-    [SerializeField] public bool grounded;
-    private Vector3 smoothMoveVelocity;
-    private Vector3 moveAmount;
     
     #endregion
 
@@ -65,6 +41,10 @@ public class PlayerController : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
+        
+        // Player's AnimationController instance
+        PA = GetComponent<PlayerAnimation>();
+        PM = GetComponent<PlayerMovement>();
     }
     
     private void Start() // Don't touch !
@@ -72,16 +52,10 @@ public class PlayerController : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            // TODO
-            // MATHIEU ! JE CROIS QUE CA MARCHE PLUS ICI VU QUE J'AI RESTRUCTURÉ
-            // Destroy(cameraHolder.GetComponentInChildren<Camera>().gameObject);
             Destroy(RB);
 
             return;
         }
-
-        // Player's AnimationController instance
-        PA = GetComponent<PlayerAnimation>();
     }
     void Update() // Don't touch !
     {
@@ -89,9 +63,7 @@ public class PlayerController : MonoBehaviour
         {
             Look();
             Move();
-            Jump();
-            // Updates the appearance based on the MovementType
-            UpdateAppearance();
+            UpdateAppearance(); // updates the appearance based on the MovementType
         }
     }
     
@@ -99,21 +71,16 @@ public class PlayerController : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            RB.MovePosition(RB.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+            RB.MovePosition(RB.position + transform.TransformDirection(PM.moveAmount) * Time.fixedDeltaTime);
             UpdateHitbox();
         }
     }
     
     #endregion
 
-    private void Look() // Modifies camera and player rotation
+    private void Look()
     {
-        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensVertical);
-
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensHorizontal;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-
-        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        PM.Look();
     }
 
     private void Move() // Moves the player based on ZQSD inputs
@@ -126,36 +93,17 @@ public class PlayerController : MonoBehaviour
         // Updates the crouching state
         UpdateCrouch();
 
+        // Updates the walk state
         UpdateWalk(moveDir);
+        
+        // Updates the jump feature
+        UpdateJump();
 
         // Updates the speed based on the MovementType
-        currentSpeed = UpdateSpeed();
+        PM.UpdateSpeed(currentMovementType);
 
-        // Actually moves the player
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
-    }
-
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            RB.AddForce(transform.up * jumpForce);
-        }
-    }
-    
-    private void UpdateSprint()
-    {
-        if (MovementTypes.Crouch == currentMovementType) return;
-
-        // Checks if players wants to sprint and if he pressed a directional key
-        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
-        {
-            SetCurrentMovementType(MovementTypes.Sprint);
-        }
-        else
-        {
-            SetCurrentMovementType(MovementTypes.Stand);
-        }
+        // Sets the new movement vector based on previous methods
+        PM.SetMoveAmount(moveDir);
     }
 
     private void UpdateCrouch()
@@ -227,18 +175,27 @@ public class PlayerController : MonoBehaviour
             SetCurrentMovementType(MovementTypes.Walk);
         }
     }
-
-    private float UpdateSpeed()
+    
+    private void UpdateSprint()
     {
-        return currentMovementType switch
+        if (MovementTypes.Crouch == currentMovementType) return;
+
+        // Checks if players wants to sprint and if he pressed a directional key
+        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
         {
-            MovementTypes.Stand => 0f,
-            MovementTypes.Crouch => crouchSpeed,
-            MovementTypes.Walk => walkSpeed,
-            MovementTypes.Sprint => sprintSpeed,
-            _ => currentSpeed
-        };
+            SetCurrentMovementType(MovementTypes.Sprint);
+        }
+        else
+        {
+            SetCurrentMovementType(MovementTypes.Stand);
+        }
     }
+
+    private void UpdateJump()
+    {
+        PM.Jump();
+    }
+
     private void UpdateAppearance()
     {
         PA.UpdateAppearance(currentMovementType);
