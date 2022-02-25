@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
+    public List<GameObject> spawns;
 
     private void Awake()
     {
@@ -25,7 +26,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void CreateController()
     {
-        Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
+        Vector3 spawnPoint = GetPosSpawn();
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity);
     }
+    
+
+    Vector3 GetPosSpawn()
+    {
+        GameObject spawn = GameObject.FindWithTag("spawn");
+        Vector3 pos = spawn.transform.position;
+        spawn.SetActive(false);
+        return pos;
+    }
+
 }

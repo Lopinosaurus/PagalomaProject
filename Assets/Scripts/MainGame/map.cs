@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class map : MonoBehaviour
+public class Map : MonoBehaviour
 {
     public GameObject treesFolder;
     public GameObject villageFolder;
@@ -42,17 +42,19 @@ public class map : MonoBehaviour
         {
             if (hit.transform.tag == "mapFloor")
             {
-                y = hit.point.y+1;
+                y = hit.point.y + 1;
                 Vector3 direction = hit.normal;
-                Instantiate(village, new Vector3(x, y, z), RandomRotation(),villageFolder.transform);
+                Instantiate(village, new Vector3(x, y, z), RandomRotation(), villageFolder.transform);
                 
             }
-            
+
         }
+        Debug.Log("1");
 }
 
     public void AddTrees()
     {
+        Debug.Log('2');
         List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
         foreach (float[] possibleTree in possibleTrees)
         {

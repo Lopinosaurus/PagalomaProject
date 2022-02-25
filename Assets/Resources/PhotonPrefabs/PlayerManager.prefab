@@ -66,3 +66,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0de658b958d035499c3a142353fe7ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
