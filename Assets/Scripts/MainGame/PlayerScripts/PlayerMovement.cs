@@ -16,7 +16,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody RB = null;
     private PhotonView PV = null;
     private PlayerController PC = null;
+<<<<<<< HEAD
     [SerializeField] private GameObject StandardHitbox = null;
+=======
+>>>>>>> ee2dca374725a5cbb9cc4ec7a05db77a61e71083
     private CapsuleCollider CC = null;
 
     
@@ -59,7 +62,10 @@ public class PlayerMovement : MonoBehaviour
         RB = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
         PC = GetComponent<PlayerController>();
+<<<<<<< HEAD
         CC = StandardHitbox.GetComponent<CapsuleCollider>();
+=======
+>>>>>>> ee2dca374725a5cbb9cc4ec7a05db77a61e71083
     }
 
     private void Start()
