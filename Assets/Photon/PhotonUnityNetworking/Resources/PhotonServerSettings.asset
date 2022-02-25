@@ -39,6 +39,8 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - PRC_GetRole
+  - PRC_SentRole
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

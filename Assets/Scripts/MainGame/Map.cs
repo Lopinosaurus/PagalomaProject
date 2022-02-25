@@ -12,9 +12,10 @@ public class Map : MonoBehaviour
     public GameObject tree1;
         public GameObject tree2;
         public GameObject village;
+        public GameObject emptyProps;
         public int seed ;
     
-        // Start is called before the first frame update
+        // Main function to start the map generation
         public void Generate(int _seed)
         {
             seed = _seed;
@@ -23,11 +24,11 @@ public class Map : MonoBehaviour
             villagePosition.y = 0;
             Instantiate(village, villagePosition, Quaternion.identity);
             
-            trees();
+            Trees();
         }
     
    
-        public void trees()
+        public void Trees()
         {
             List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
             foreach (float[] possibleTree in possibleTrees)
@@ -36,6 +37,7 @@ public class Map : MonoBehaviour
                 if (PositionValid(possibleTree, ref y))
                 { 
                     GameObject tree = Instantiate(RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), RandomRotation());
+                    tree.transform.SetParent(emptyProps.transform, true); // Set the tree as a child of the "Props" empty object in the hierarchy
                 }
             }
         }
