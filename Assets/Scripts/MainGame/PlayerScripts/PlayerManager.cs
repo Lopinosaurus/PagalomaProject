@@ -5,12 +5,12 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 using Random = UnityEngine.Random;
+using TMPro;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
     public string roleName;
-
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -32,17 +32,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity);
     }
 
+    void DisplayRole() // Display role name when set
+    {
+        if (PV.IsMine)
+        {
+            RoomManager.Instance.DisplayRole(roleName);
+        }
+    }
+
     [PunRPC]
     void PRC_GetRole() // Only the Master Client received this RPC
     {
         roleName = RoomManager.Instance.GetNextRoleName(); // Get the role from RoomManager
         RoomManager.Instance.nextPlayerRoleIndex ++;
         PV.RPC("PRC_SentRole", RpcTarget.OthersBuffered, roleName); // Broadcast the new role
+        DisplayRole();
     }
 
     [PunRPC]
     void PRC_SentRole(string whichRole) // Apply the role that have been broadcast
     {
         roleName = whichRole;
+        DisplayRole();
     }
 }

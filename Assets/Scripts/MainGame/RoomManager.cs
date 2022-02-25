@@ -6,15 +6,18 @@ using Photon.Pun;
 using ExitGames.Client.Photon; // Used for OnRoomPropertiesUpdate
 using UnityEngine.SceneManagement;
 using System.IO;
+using TMPro;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
     [SerializeField] private GameObject map;
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private GameObject mainScreen;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
     public int nextPlayerRoleIndex = 0;
+    [SerializeField] private TMP_Text roleText;
 
     private void Awake()
     {
@@ -79,5 +82,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public string GetNextRoleName()
     {
         return roles[nextPlayerRoleIndex];
+    }
+
+    public void DisplayRole(string roleName)
+    {
+        roleText.text = "You are "+roleName;
     }
 }
