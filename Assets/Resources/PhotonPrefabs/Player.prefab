@@ -1377,7 +1377,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -2578,7 +2578,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4351334809974418211}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!136 &5403392568758633626
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4654,9 +4654,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
   StandardHitbox: {fileID: 4351334809974418211}
+  CC: {fileID: 5403392568758633626}
   sprintSpeed: 6
-  walkSpeed: 3
-  crouchSpeed: 2
   currentSpeed: 0
   mouseSensHorizontal: 3
   mouseSensVertical: 3
