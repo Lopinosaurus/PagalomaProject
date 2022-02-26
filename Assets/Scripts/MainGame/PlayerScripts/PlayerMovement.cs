@@ -13,24 +13,26 @@ public class PlayerMovement : MonoBehaviour
     
     // External GameObects and components
     [SerializeField] private GameObject cameraHolder = null;
+    [SerializeField] private GameObject StandardHitbox = null;
+    [SerializeField] private CapsuleCollider CC = null;
+    
     private Rigidbody RB = null;
     private PhotonView PV = null;
     private PlayerController PC = null;
-    [SerializeField] private GameObject StandardHitbox = null;
-    private CapsuleCollider CC = null;
 
     
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
-    [SerializeField] private float sprintSpeed = 6f;
-    [SerializeField] private float walkSpeed = 3f;
-    [SerializeField] private float crouchSpeed = 2f;
+    [SerializeField] private float sprintSpeed = 4f;
+    private float walkSpeed = 2f;
+    private float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
     
     // Sensitivity
     [Space]
     [Header("Mouse settings")]
+    [Range(0.01f, 50f)]
     [SerializeField] private float mouseSensHorizontal = 3f;
     [SerializeField] private float mouseSensVertical = 3f;
     
@@ -44,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [Header("Player jump settings")]
     [SerializeField] private float jumpForce = 300f;
-    [SerializeField] private float smoothTime = 0.15f;
+    [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
     
     private float verticalLookRotation;
     private Vector3 smoothMoveVelocity;

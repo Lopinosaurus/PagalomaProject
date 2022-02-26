@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
     [SerializeField] public bool grounded;
-
+    
     [SerializeField] public enum MovementTypes
     {
         Stand,
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     #region Unity methods
     
-    void Awake() // Don't touch !
+    private void Awake() // Don't touch !
     {
         RB = GetComponent<Rigidbody>();
         PV = GetComponent<PhotonView>();
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
     }
-    void Update() // Don't touch !
+    private void Update() // Don't touch !
     {
         if (PV.IsMine)
         {
