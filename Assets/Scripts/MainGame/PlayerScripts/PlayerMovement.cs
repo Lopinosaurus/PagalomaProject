@@ -144,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         // Calculates the current center of the player
         float center = height / 2f;
 
-        CC.height = Mathf.LerpUnclamped(CC.height, height, crouchSpeed);
-        CC.center = Vector3.LerpUnclamped(CC.center, new Vector3(0, center, 0), crouchSpeed);
+        CC.height = Mathf.Lerp(CC.height, height, crouchSpeed);
+        CC.center = Vector3.Lerp(CC.center, new Vector3(0, center, 0), crouchSpeed);
     }
 }
