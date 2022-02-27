@@ -47,6 +47,9 @@ public class PlayerAnimation : MonoBehaviour
         playerCrouchingPose.SetActive(false);
         playerSprintingPose.SetActive(false);
         
+        // Player's hitboxes
+        playerStandardHitBox.SetActive(true);
+        
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
@@ -54,10 +57,7 @@ public class PlayerAnimation : MonoBehaviour
             
             return;
         }
-        
-        // Player's hitboxes
-        playerStandardHitBox.SetActive(true);
-        
+
         // Player's height variables
         standingHeight = CC.height;
         crouchingHeight = standingHeight / 2f;
