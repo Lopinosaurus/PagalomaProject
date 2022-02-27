@@ -9,18 +9,21 @@ public class Map : MonoBehaviour
 {
     public GameObject treesFolder;
     public GameObject villageFolder;
+    public GameObject stonesFolder;
     public GameObject village;
     public int seed ;
     public List<GameObject> deadTrees;
     public List<GameObject> hugeTrees;
     public List<GameObject> longTrees;
     public List<GameObject> simpleTrees;
+    public List<GameObject> stones;
 
     // Start is called before the first frame update
     public void StartMap()
     {
         Random.seed = seed;
         AddVillage();
+        AddStones();
         AddTrees();
     }
 
@@ -51,13 +54,33 @@ public class Map : MonoBehaviour
         }
 }
 
+    public void AddStones()
+    {
+        int add = 50; // a possible tree each 50 m2
+        List<float[]> possibleStones = RandomListXY(add); //List of position of all trees (maybe not possible)
+        foreach (float[] possibleStone in possibleStones)
+        {
+            float y = 0f;
+            Vector3 direction = new Vector3(0, 0, 0);
+            if (PositionValid(possibleStone, ref y, ref direction))
+            { 
+                GameObject stone = Instantiate(
+                    RandomStone(), new Vector3(possibleStone[0], y-0.2f,possibleStone[1]), 
+                    StoneRotation(direction), stonesFolder.transform);
+                stone.tag = "stone";
+            }
+        }
+    }
+    
     public void AddTrees()
     {
-        List<float[]> possibleTrees = RandomListXY(); //List of position of all trees (maybe not possible)
+        int add = 4; // a possible tree each 4 m2
+        List<float[]> possibleTrees = RandomListXY(add); //List of position of all trees (maybe not possible)
         foreach (float[] possibleTree in possibleTrees)
         {
             float y = 0f;
-            if (PositionValid(possibleTree, ref y))
+            Vector3 dir = new Vector3(0, 0, 0); // useless for the trees cause they only go straight up
+            if (PositionValid(possibleTree, ref y, ref dir))
             { 
                 GameObject tree = Instantiate(
                     RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), 
@@ -67,32 +90,33 @@ public class Map : MonoBehaviour
         }
     }
 
-    public static List<float[]> RandomListXY()
+    public static List<float[]> RandomListXY(int add)
     {
         List<float[]> list = new List<float[]>();
-        for (int x = -490; x <= 490; x+=4)
+        float randAdd = (float)add / 3f;
+        for (int x = -490; x <= 490; x+=add)
         {
-            for (int z = -490; z <= 490; z+=4)
+            for (int z = -490; z <= 490; z+=add)
             {
-                float randomX = Random.Range(-1.5f, 1.5f);
-                float randomZ = Random.Range(-1.5f, 1.5f);
+                float randomX = Random.Range(-randAdd, randAdd);
+                float randomZ = Random.Range(-randAdd, randAdd);
                 list.Add(new float[] {x+randomX, z+randomZ});
             }
         }
         return list;
     }
     
-    public static bool PositionValid(float[] possibleTree,ref float y)
+    public static bool PositionValid(float[] possibleObject,ref float y, ref Vector3 direction)
     {
         RaycastHit hit;
-        float x = possibleTree[0];
-        float z = possibleTree[1];
-        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit))
+        float x = possibleObject[0];
+        float z = possibleObject[1];
+        if (Physics.Raycast(new Vector3(x, 100, z),Vector3.down,out hit,120))
         {
             if (hit.transform.tag == "mapFloor")
             {
                 y = hit.point.y;
-                Vector3 direction = hit.normal;
+                direction = hit.normal;
                 if (direction.y > 0.95f)
                 {
                     return true;
@@ -102,12 +126,24 @@ public class Map : MonoBehaviour
 
         return false;
     }
-
+    
     public static Quaternion RandomRotation()
     {
         return Quaternion.Euler(new Vector3(0,Random.Range(-360, 360), 0));
     }
 
+    public Quaternion StoneRotation(Vector3 dir)
+    {
+        float x = Random.Range(-10f, 10f);
+        float z = Random.Range(-10f, 10f);
+        return Quaternion.LookRotation(new Vector3(x,0,z),dir);
+    }
+    
+    public GameObject RandomStone()
+    {
+        return stones[Random.Range(0, stones.Count)];
+    }
+    
     public GameObject RandomTree()
     {
         float x = Random.value;

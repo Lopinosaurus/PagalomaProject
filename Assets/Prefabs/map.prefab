@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736810666775123093}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
@@ -112,9 +112,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf50e3c0f6861149a1b3dd34feadf49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TreesFolder: {fileID: 0}
-  village: {fileID: 3636590906208424472, guid: 2d9a03d58f939e24681de91a1a82df35, type: 3}
-  seed: 0
+  treesFolder: {fileID: 0}
+  villageFolder: {fileID: 0}
+  stonesFolder: {fileID: 0}
+  village: {fileID: 519027989559285392, guid: 2d9a03d58f939e24681de91a1a82df35, type: 3}
+  seed: 1
   deadTrees:
   - {fileID: 4274055460859047206, guid: 52c2a0468fc6b334b8bbbee4d2cdef9e, type: 3}
   - {fileID: 5730253111998390793, guid: 8652999f91f5ab2489fa7af1bff17209, type: 3}
@@ -133,3 +135,9 @@ MonoBehaviour:
   - {fileID: 1219021548758180622, guid: ba7d40b7a3474d04198832114f3db13e, type: 3}
   - {fileID: 1822487193756690198, guid: 2f8b7aba7d17db147956c624272b9d97, type: 3}
   - {fileID: 1822487193756690198, guid: 2f8b7aba7d17db147956c624272b9d97, type: 3}
+  stones:
+  - {fileID: 4526467804645586123, guid: e03509cdd300a6641b574bd673885a19, type: 3}
+  - {fileID: 4858106600016219210, guid: 3be7ea93118472942b159a5afa741823, type: 3}
+  - {fileID: 5002897348582614430, guid: cb7d7b3bca2bacd4188dce398b197190, type: 3}
+  - {fileID: 7330669331910174397, guid: 04ea0f318afb0e74d90b064a1f316dd2, type: 3}
+  - {fileID: 98636915652034778, guid: fcfdf395c0ca57b45b3878e886c08745, type: 3}
