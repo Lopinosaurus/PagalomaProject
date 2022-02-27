@@ -16,8 +16,9 @@ UserSettings/EditorUserSettings.asset
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
-# [Added by Paul à la main] Scene used for testings
+# [Added by Paul à la main] Scene used for testings, EditorUserSettings also
 / [Aa]ssets/Scenes/PhysicsGround.unity
+/ UserSettings/EditorUserSettings.asset
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
