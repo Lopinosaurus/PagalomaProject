@@ -49,31 +49,26 @@ public class PlayerController : MonoBehaviour
     
     private void Start() // Don't touch !
     {
-        if (!PV.IsMine)
-        {
-            Destroy(GetComponentInChildren<Camera>().gameObject);
-            Destroy(RB);
-
-            return;
-        }
+        if (PV.IsMine) return;
+        
+        Destroy(GetComponentInChildren<Camera>().gameObject);
+        Destroy(RB);
     }
     private void Update() // Don't touch !
     {
-        if (PV.IsMine)
-        {
-            Look();
-            Move();
-            UpdateAppearance(); // updates the appearance based on the MovementType
-        }
+        if (!PV.IsMine) return;
+        
+        Look();
+        Move();
+        UpdateAppearance(); // updates the appearance based on the MovementType
     }
     
     private void FixedUpdate()
     {
-        if (PV.IsMine)
-        {
-            RB.MovePosition(RB.position + transform.TransformDirection(PM.moveAmount) * Time.fixedDeltaTime);
-            UpdateHitbox();
-        }
+        if (!PV.IsMine) return;
+        
+        RB.MovePosition(RB.position + transform.TransformDirection(PM.moveAmount) * Time.fixedDeltaTime);
+        UpdateHitbox();
     }
     
     #endregion
@@ -87,17 +82,20 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
+        // Is used to tell the network if an update is required (appearance, hitbox)
+        bool changeOccured = false;
+
         // Updates the sprinting state
-        UpdateSprint();
+        changeOccured |= UpdateSprint();
 
         // Updates the crouching state
-        UpdateCrouch();
+        changeOccured |= UpdateCrouch();
 
         // Updates the walk state
-        UpdateWalk(moveDir);
+        changeOccured |= UpdateWalk(moveDir);
         
         // Updates the jump feature
-        UpdateJump();
+        changeOccured |= UpdateJump();
 
         // Updates the speed based on the MovementType
         PM.UpdateSpeed(currentMovementType);
@@ -106,7 +104,7 @@ public class PlayerController : MonoBehaviour
         PM.SetMoveAmount(moveDir);
     }
 
-    private void UpdateCrouch()
+    private bool UpdateCrouch()
     {
         // Checks the current crouch mode (toggle or hold)
         switch (currentCrouchType)
@@ -115,7 +113,7 @@ public class PlayerController : MonoBehaviour
             case CrouchModes.Hold when Input.GetButton("Crouch"):
 
                 // Sets the MovementType to crouched
-                SetCurrentMovementType(MovementTypes.Crouch);
+                return SetCurrentMovementType(MovementTypes.Crouch);
 
                 break;
 
@@ -125,7 +123,7 @@ public class PlayerController : MonoBehaviour
                     if (MovementTypes.Crouch == currentMovementType)
                     {
                         // Sets the MovementType to stand
-                        SetCurrentMovementType(MovementTypes.Stand);
+                        return SetCurrentMovementType(MovementTypes.Stand);
                     }
                     
                     break;
@@ -145,7 +143,7 @@ public class PlayerController : MonoBehaviour
                             if (true)
                             {
                                 // Sets the MovementType to stand
-                                SetCurrentMovementType(MovementTypes.Stand);
+                                return SetCurrentMovementType(MovementTypes.Stand);
                             }
 
                             break;
@@ -154,67 +152,100 @@ public class PlayerController : MonoBehaviour
                         default:
 
                             // Sets the MovementType to crouched
-                            SetCurrentMovementType(MovementTypes.Crouch);
-
-                                Debug.Log("Enabled crouched with toggle mode on !");
-                            break;
+                            return SetCurrentMovementType(MovementTypes.Crouch);
                     }
                 }
 
                 break;
             }
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("A movement type other than .Stand and .Crouch was entered:" + currentCrouchType.ToString());
         }
+
+        throw new ArgumentOutOfRangeException("A crouch setting mode other than .Hold and .Toggle was entered:" + currentCrouchType.ToString());
     }
 
-    private void UpdateWalk(Vector3 _moveDir)
+    private bool UpdateWalk(Vector3 _moveDir)
     {
         if (MovementTypes.Stand == currentMovementType && Vector3.zero != _moveDir)
         {
-            SetCurrentMovementType(MovementTypes.Walk);
+            return SetCurrentMovementType(MovementTypes.Walk);
         }
+
+        return false;
     }
     
-    private void UpdateSprint()
+    private bool UpdateSprint()
     {
-        if (MovementTypes.Crouch == currentMovementType) return;
+        if (MovementTypes.Crouch == currentMovementType) return false;
 
         // Checks if players wants to sprint and if he pressed a directional key
         if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
         {
-            SetCurrentMovementType(MovementTypes.Sprint);
+            return SetCurrentMovementType(MovementTypes.Sprint);
         }
         else
         {
-            SetCurrentMovementType(MovementTypes.Stand);
+            return SetCurrentMovementType(MovementTypes.Stand);
         }
+
+        return false; // we never know
     }
 
-    private void UpdateJump()
+    private bool UpdateJump()
     {
         PM.Jump();
+
+        return true; // for now, no conditions prevents the player from jumping
     }
 
     private void UpdateAppearance()
     {
+        bool changedOccured = false;
         PA.UpdateAppearance(currentMovementType);
+        
+        // Network sync: hitbox
+        PV.RPC("RPC_UpdateAppearance", RpcTarget.Others, currentMovementType);
     }
+    
     private void UpdateHitbox()
     {
         PA.UpdateHitbox(currentMovementType);
     }
 
     #region Attributes setters
-    public void SetGroundedState(bool _grounded)
+
+    public bool SetGroundedState(bool _grounded)
     {
+        // Checks whether a change occured
+        bool changeOccured = _grounded != grounded;
+        
         grounded = _grounded;
+        
+        return changeOccured;
     }
 
-    private void SetCurrentMovementType (MovementTypes _currentMovementType)
+    private bool SetCurrentMovementType (MovementTypes _currentMovementType)
     {
+        // Checks whether a change occured
+        bool changeOccured = _currentMovementType != currentMovementType;
+        
         currentMovementType = _currentMovementType;
+        
+        return changeOccured;
     }
     
+    #endregion
+    
+    // Network syncronization
+    #region RPCs
+
+    [PunRPC]
+    // Syncronizes the appearance
+    void RPC_UpdateAppearance(MovementTypes movementType)
+    {
+        this.UpdateAppearance();
+    }
+
     #endregion
 }
