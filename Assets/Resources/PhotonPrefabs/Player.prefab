@@ -4553,6 +4553,7 @@ GameObject:
   - component: {fileID: 4656714414789940587}
   - component: {fileID: -8137473814549735202}
   - component: {fileID: 8724781646391684398}
+  - component: {fileID: 4586859012644622965}
   - component: {fileID: 6527677517990626840}
   m_Layer: 0
   m_Name: Player
@@ -4637,9 +4638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMovementType: 0
-  currentCrouchType: 1
-  grounded: 0
 --- !u!114 &-8137473814549735202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4654,14 +4652,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
   StandardHitbox: {fileID: 4351334809974418211}
-  CC: {fileID: 5403392568758633626}
+  _capsuleCollider: {fileID: 5403392568758633626}
   sprintSpeed: 6
   currentSpeed: 0
-  mouseSensHorizontal: 3
-  mouseSensVertical: 3
   jumpForce: 300
   smoothTime: 0.15
   moveAmount: {x: 0, y: 0, z: 0}
+  currentMovementType: 0
+  currentCrouchType: 1
+  grounded: 1
 --- !u!114 &8724781646391684398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4680,6 +4679,21 @@ MonoBehaviour:
   playerStandardHitBox: {fileID: 4351334809974418211}
   crouchSpeed: 0.3
   playerCamera: {fileID: 6598090228381821785}
+--- !u!114 &4586859012644622965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dfa373cc0fff384992ddcb05a9bde70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraHolder: {fileID: 1141215766398316333}
+  mouseSensHorizontal: 3
+  mouseSensVertical: 3
 --- !u!54 &6527677517990626840
 Rigidbody:
   m_ObjectHideFlags: 0
