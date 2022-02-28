@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
         Destroy(GetComponentInChildren<Camera>().gameObject);
         Destroy(RB);
     }
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 77a9b68f2166e7ea953904f6c622a94623cca372
     private void Update() // Don't touch !
     {
         if (!PV.IsMine) return;
