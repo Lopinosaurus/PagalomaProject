@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimation _playerAnimation;
     
     // Miscellaneous
-    public bool grounded { get; set; }
 
     #endregion
 

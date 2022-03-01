@@ -31,7 +31,7 @@ public class PlayerLook : MonoBehaviour
         transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensVertical));
 
         verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensHorizontal;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -70f, 80f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }

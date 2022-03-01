@@ -68,7 +68,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void UpdateAppearance(PlayerMovement.MovementTypes _currentMovementType)
     {
-        playerStandingPose.SetActive(PlayerMovement.MovementTypes.Stand == _currentMovementType); 
+        playerStandingPose.SetActive(_currentMovementType == PlayerMovement.MovementTypes.Stand || _currentMovementType == PlayerMovement.MovementTypes.Walk); 
         playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == _currentMovementType);
         playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == _currentMovementType);
     

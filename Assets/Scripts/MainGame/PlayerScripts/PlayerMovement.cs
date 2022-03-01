@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float sprintSpeed = 4f;
-
     private const float walkSpeed = 2f;
     private const float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
@@ -96,12 +95,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetButtonDown("Jump") && _playerController.grounded)
-        {
-            //TODO
-            // Implement a CharacterController support for gravity
-            _rigidBody.AddForce(transform.up * jumpForce);
-        }
+        //TODO
+        // Implement a CharacterController support for gravity
+        _rigidBody.AddForce(transform.up * jumpForce);
     }
 
     private void UpdateSpeed()
@@ -200,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
                 // Sets the MovementType to crouched
                 return SetCurrentMovementType(MovementTypes.Crouch);
             
-            // Will UNcrouch the player if there is no input
+            // Will uncrouch the player if there is no input
             case CrouchModes.Hold:
             {
                     if (MovementTypes.Crouch == currentMovementType)
@@ -269,7 +265,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool UpdateJump()
     {
-        Jump();
+        
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            Jump();
+        }
 
         return true; // for now, no conditions prevents the player from jumping
     }
