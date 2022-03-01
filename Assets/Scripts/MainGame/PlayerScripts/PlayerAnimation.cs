@@ -33,7 +33,7 @@ public class PlayerAnimation : MonoBehaviour
     private float crouchingHeight = 1f; // In "Start", will be set to half the height of the "StandardHitbox" capsule
     [SerializeField] private Transform playerCamera = null;
 
-    void Awake() // Don't touch !
+    private void Awake() // Don't touch !
     {
         _playerController = GetComponent<PlayerController>();
         _playerMovement = GetComponent<PlayerMovement>();
