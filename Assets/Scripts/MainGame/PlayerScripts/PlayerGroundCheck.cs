@@ -5,53 +5,50 @@ using UnityEngine;
 
 public class PlayerGroundCheck : MonoBehaviour
 {
-    private PlayerController playerController;
+    private PlayerMovement _playerMovement;
     [SerializeField] private GameObject player;
 
-    void Awake()
-    {
-        playerController = player.GetComponent<PlayerController>();
-    }
+    private void Awake() => _playerMovement = player.GetComponent<PlayerMovement>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        _playerMovement.SetGroundedState(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(false);
+        _playerMovement.SetGroundedState(false);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == playerController.gameObject)
+        if (other.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        _playerMovement.SetGroundedState(true);
     }
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        _playerMovement.SetGroundedState(true);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(false);
+        _playerMovement.SetGroundedState(false);
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject == playerController.gameObject)
+        if (collision.gameObject == _playerMovement.gameObject)
             return;
-        playerController.SetGroundedState(true);
+        _playerMovement.SetGroundedState(true);
     }
 }
