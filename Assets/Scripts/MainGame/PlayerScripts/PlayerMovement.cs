@@ -5,7 +5,7 @@ using System;
 using Photon.Pun;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerController)), RequireComponent(typeof(CharacterController))]
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,12 +13,16 @@ public class PlayerMovement : MonoBehaviour
     
     // External GameObects and components
     [SerializeField] private GameObject cameraHolder = null;
-    [SerializeField] private GameObject StandardHitbox = null;
-    [FormerlySerializedAs("CC")] [SerializeField] private CapsuleCollider _capsuleCollider = null;
+
+    // Movement components
+    private CharacterController _characterController;
     
-    private Rigidbody _rigidBody = null;
-    private PhotonView _photonView = null;
-    private PlayerController _playerController = null;
+    // Network component
+    private PhotonView _photonView;
+    
+    // Subscripts
+    private PlayerController _playerController;
+    
     
     // Movement speeds
     [Space]
@@ -42,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
     
     private Vector3 smoothMoveVelocity;
-    public Vector3 moveAmount;
+    public Vector3 moveAmount = Vector3.zero;
     
     [Space]
     [Header("Movement settings")]
@@ -69,25 +73,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() // Don't touch !
     {
-        _rigidBody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
         _playerController = GetComponent<PlayerController>();
-        _capsuleCollider = StandardHitbox.GetComponent<CapsuleCollider>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void Start()
     {
-        var height = _capsuleCollider.height;
+        var height = _characterController.height;
         crouchedHeight = height / 2;
         standingHeight = height;
     }
 
     private void FixedUpdate()
     {
-        if (_photonView.IsMine)
-        {
-            _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-        }
+        if (!_photonView.IsMine) return;
+        
+        // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+
+        Debug.Log("moveAmount is: " + moveAmount.ToString());
+
+        Vector3 transformDirection = transform.TransformDirection(moveAmount);
+        
+        
+        _characterController.Move( transformDirection * Time.fixedDeltaTime);
     }
 
     #endregion
@@ -97,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //TODO
         // Implement a CharacterController support for gravity
-        _rigidBody.AddForce(transform.up * jumpForce);
+        // _characterController.AddForce(transform.up * jumpForce);
     }
 
     private void UpdateSpeed()
@@ -130,10 +139,10 @@ public class PlayerMovement : MonoBehaviour
         if (MovementTypes.Crouch == currentMovementType) desiredHeight = crouchedHeight;
 
         Vector3 camPosition = cameraHolder.transform.localPosition;
-        if (Math.Abs(_capsuleCollider.height - desiredHeight) > 0)
+        if (Math.Abs(_characterController.height - desiredHeight) > 0)
         {
             AdjustHeight(desiredHeight);
-            camPosition.y = _capsuleCollider.height;
+            camPosition.y = _characterController.height;
         }
         
         cameraHolder.transform.localPosition = camPosition;
@@ -144,6 +153,8 @@ public class PlayerMovement : MonoBehaviour
     private void SetMoveAmount(Vector3 moveDir)
     {
         // Actually moves the player
+        //TODO FIX THE BUG
+
         moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
     }
     
@@ -153,8 +164,8 @@ public class PlayerMovement : MonoBehaviour
         // Calculates the current center of the player
         float center = height / 2f;
 
-        _capsuleCollider.height = Mathf.Lerp(_capsuleCollider.height, height, crouchSpeed);
-        _capsuleCollider.center = Vector3.Lerp(_capsuleCollider.center, new Vector3(0, center, 0), crouchSpeed);
+        _characterController.height = Mathf.Lerp(_characterController.height, height, crouchSpeed);
+        _characterController.center = Vector3.Lerp(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
     }
 
     #region Movements

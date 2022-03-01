@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerController))]
+
 public class PlayerLook : MonoBehaviour
 {
     #region Attributes
@@ -23,6 +25,26 @@ public class PlayerLook : MonoBehaviour
     #region Unity Methods
 
     // private void Start() => cameraHolder = GetComponent<GameObject>();
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
     #endregion
     
@@ -35,4 +57,5 @@ public class PlayerLook : MonoBehaviour
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
+    
 }
