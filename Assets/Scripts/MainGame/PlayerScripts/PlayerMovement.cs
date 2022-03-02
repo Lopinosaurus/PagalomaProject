@@ -28,11 +28,15 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float sprintSpeed = 4f;
-    private const float walkSpeed = 2f;
-    private const float crouchSpeed = 1f;
+    private float walkSpeed = 2f;
+    private float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
     
-    
+    // Gravity
+    [Space] [Header("Gravity settings")]
+    [SerializeField] private float gravityForce = -9.81f;
+    [SerializeField] private Vector3 transformGravity = Vector3.zero;
+
     // Heights
     [Space]
     [Header("Player height settings")]
@@ -44,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player jump settings")]
     [SerializeField] private float jumpForce = 300f;
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
+    [SerializeField] private Vector3 transformJump = Vector3.zero;
     
     private Vector3 smoothMoveVelocity;
     public Vector3 moveAmount = Vector3.zero;
@@ -53,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
     [SerializeField] public bool grounded;
-    
+
     [SerializeField] public enum MovementTypes
     {
         Stand,
@@ -85,29 +90,7 @@ public class PlayerMovement : MonoBehaviour
         standingHeight = height;
     }
 
-    private void FixedUpdate()
-    {
-        if (!_photonView.IsMine) return;
-        
-        // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-
-        Debug.Log("moveAmount is: " + moveAmount.ToString());
-
-        Vector3 transformDirection = transform.TransformDirection(moveAmount);
-        
-        
-        _characterController.Move( transformDirection * Time.fixedDeltaTime);
-    }
-
     #endregion
-
-
-    private void Jump()
-    {
-        //TODO
-        // Implement a CharacterController support for gravity
-        // _characterController.AddForce(transform.up * jumpForce);
-    }
 
     private void UpdateSpeed()
     {
@@ -149,15 +132,19 @@ public class PlayerMovement : MonoBehaviour
 
         #endregion
     }
-
-    private void SetMoveAmount(Vector3 moveDir)
-    {
-        // Actually moves the player
-        //TODO FIX THE BUG
-
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
-    }
     
+    private Vector3 GetGravityVelocity()
+    {
+        if (grounded)
+        {
+            transformGravity = new Vector3(0, -2f, 0);
+        }
+        
+        transformGravity.y += gravityForce;
+
+        return transformGravity;
+    }
+
     // Sets the hitbox's height to the input value progressively
     private void AdjustHeight(float height)
     {
@@ -170,9 +157,11 @@ public class PlayerMovement : MonoBehaviour
 
     #region Movements
     
+    // ReSharper disable Unity.PerformanceAnalysis
     public void Move()
     {
         Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        Vector3 finalVector3 = Vector3.zero;
 
         // Updates the sprinting state
         UpdateSprint();
@@ -189,14 +178,33 @@ public class PlayerMovement : MonoBehaviour
         // Updates the speed based on the MovementType
         UpdateSpeed();
 
-        // Sets the new movement vector based on previous methods
+        // Sets the new movement vector based on the inputs
         SetMoveAmount(moveDir);
+        
+        
+        /*
+        // Applies direction from directional inputs
+        Vector3 transformDirection = transform.TransformDirection(moveAmount);
+        finalVector3 += transformDirection;
+        
+        // Applies gravity
+        transformGravity = GetGravityVelocity();
+        finalVector3 += transformGravity;
+        
+        // Applies jump
+        finalVector3 += transformJump;
+        */
+        
+        Debug.Log("final vector is: " + finalVector3.ToString());
+        
+        _characterController.Move( finalVector3 * Time.fixedDeltaTime);
+        // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }
     
     private bool UpdateCrouch()
     {
-        //TODO
-        // Simplify the crouch system including the Hold and Toggle options
+        // TODO
+        //  Simplify the crouch system including the Hold and Toggle options
         
         // Checks the current crouch mode (toggle or hold)
         switch (currentCrouchType)
@@ -276,10 +284,16 @@ public class PlayerMovement : MonoBehaviour
 
     private bool UpdateJump()
     {
-        
+        // Implement a CharacterController support for gravity
+        // _characterController.AddForce(transform.up * jumpForce);
+
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            Jump();
+            transformJump = Vector3.up * jumpForce;
+        }
+        else
+        {
+            transformJump = Vector3.zero;
         }
 
         return true; // for now, no conditions prevents the player from jumping
@@ -289,6 +303,11 @@ public class PlayerMovement : MonoBehaviour
     
     #region Setters
 
+    private void SetMoveAmount(Vector3 moveDir)
+    {
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
+    }
+    
     public bool SetGroundedState(bool _grounded)
     {
         // Checks whether a change occured
