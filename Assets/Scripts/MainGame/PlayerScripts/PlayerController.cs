@@ -71,11 +71,13 @@ public class PlayerController : MonoBehaviour
         Debug.Log("SHOULD DEBUG");
         _playerMovement.Move();
 
-        _playerAnimation.UpdateHitbox(_playerMovement.currentMovementType);
+        UpdateHitbox();
     }
     
     #endregion
-    
+
+    private void UpdateHitbox() => _playerAnimation.UpdateHitbox(_playerMovement.currentMovementType);
+
 
     // Network syncronization
     #region RPCs
