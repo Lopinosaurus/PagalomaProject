@@ -4596,15 +4596,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
-  StandardHitbox: {fileID: 0}
   sprintSpeed: 4
   currentSpeed: 0
+  gravityForce: -9.81
+  transformGravity: {x: 0, y: 0, z: 0}
   jumpForce: 300
   smoothTime: 0.1
+  transformJump: {x: 0, y: 0, z: 0}
   moveAmount: {x: 0, y: 0, z: 0}
   currentMovementType: 0
   currentCrouchType: 1
-  grounded: 0
+  grounded: 1
 --- !u!114 &8724781646391684398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4651,7 +4653,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.7
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
