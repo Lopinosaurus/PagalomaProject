@@ -58,6 +58,9 @@ public class PlayerController : MonoBehaviour
         
         _playerLook.Look();
         
+        // Updates the jump feature
+        _playerMovement.UpdateJump();
+        
         // Updates the appearance based on the MovementType
         _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
     }
@@ -68,7 +71,6 @@ public class PlayerController : MonoBehaviour
         
         //TODO
         // Will soon be improved to remove jittering
-        Debug.Log("SHOULD DEBUG");
         _playerMovement.Move();
 
         UpdateHitbox();

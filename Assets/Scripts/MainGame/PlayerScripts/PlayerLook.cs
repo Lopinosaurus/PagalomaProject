@@ -19,6 +19,7 @@ public class PlayerLook : MonoBehaviour
     [Range(0.01f, 50f)]
     [SerializeField] private float mouseSensVertical = 3f;
     private float verticalLookRotation;
+    private bool shouldLookAround = true;
 
     #endregion
 
@@ -37,12 +38,14 @@ public class PlayerLook : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            shouldLookAround = true;
         }
 
         if (Input.GetMouseButton(1))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            shouldLookAround = false;
         }
     }
 
@@ -50,6 +53,8 @@ public class PlayerLook : MonoBehaviour
     
     public void Look() // Modifies camera and player rotation
     {
+        if (!shouldLookAround) return;
+        
         transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensVertical));
 
         verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensHorizontal;
