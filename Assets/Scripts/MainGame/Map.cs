@@ -18,7 +18,9 @@ public class Map : MonoBehaviour
         public void Generate(int _seed)
         {
             seed = _seed;
-            Random.seed = seed;
+            // Random.seed = seed; // le message me soulait
+            Random.InitState(seed);
+            
             Vector3 villagePosition = Random.insideUnitSphere * 150;
             villagePosition.y = 0;
             Instantiate(village, villagePosition, Quaternion.identity);

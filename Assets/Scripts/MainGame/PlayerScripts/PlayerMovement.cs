@@ -35,7 +35,13 @@ public class PlayerMovement : MonoBehaviour
     // Gravity
     [Space] [Header("Gravity settings")]
     [SerializeField] private float gravityForce = -9.81f;
-    [SerializeField] private Vector3 transformGravity = Vector3.zero;
+    [SerializeField] private Vector3 velocity = Vector3.zero;
+    
+    // Ground check
+    public Transform groundCheck;
+    [SerializeField] public LayerMask groundMask;
+    public float groundDistance = 0.4f;
+    public bool grounded;
 
     // Heights
     [Space]
@@ -46,9 +52,8 @@ public class PlayerMovement : MonoBehaviour
     // Jump values
     [Space]
     [Header("Player jump settings")]
-    [SerializeField] private float jumpForce = 300f;
+    [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
-    [SerializeField] private Vector3 transformJump = Vector3.zero;
     
     private Vector3 smoothMoveVelocity;
     public Vector3 moveAmount = Vector3.zero;
@@ -57,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
-    [SerializeField] public bool grounded;
 
     [SerializeField] public enum MovementTypes
     {
@@ -91,27 +95,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
-
-    private void UpdateSpeed()
-    {
-        switch (currentMovementType)
-        {
-            case MovementTypes.Stand:
-                SetCurrentSpeed(0f);
-                break;
-            case MovementTypes.Crouch:
-                SetCurrentSpeed(crouchSpeed);
-                break;
-            case MovementTypes.Walk:
-                SetCurrentSpeed(walkSpeed);
-                break;
-            case MovementTypes.Sprint:
-                SetCurrentSpeed(sprintSpeed);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
     
     public void UpdateHitbox(MovementTypes _currentMovementType)
     {
@@ -133,18 +116,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
     
-    private Vector3 GetGravityVelocity()
-    {
-        if (grounded && transformGravity.y < 0)
-        {
-            transformGravity = new Vector3(0, -2f, 0);
-        }
-        
-        transformGravity.y += gravityForce;
-
-        return transformGravity;
-    }
-
+    
     // Sets the hitbox's height to the input value progressively
     private void AdjustHeight(float height)
     {
@@ -157,11 +129,17 @@ public class PlayerMovement : MonoBehaviour
 
     #region Movements
     
-    // ReSharper disable Unity.PerformanceAnalysis
     public void Move()
     {
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-        Vector3 finalVector3 = Vector3.zero;
+        Vector3 moveDir = new Vector3
+        {
+            x = Input.GetAxisRaw("Horizontal"),
+            z = Input.GetAxisRaw("Vertical")
+        };
+        moveDir = moveDir.normalized;
+        
+        // Updates the grounded boolean state
+        UpdateGrounded();
 
         // Updates the sprinting state
         UpdateSprint();
@@ -171,34 +149,44 @@ public class PlayerMovement : MonoBehaviour
 
         // Updates the walk state
         UpdateWalk(moveDir);
-        
-        // Updates the jump feature
-        UpdateJump();
+
+        // Updates gravity
+        UpdateGravity(); // changes 'transformGravity'
 
         // Updates the speed based on the MovementType
         UpdateSpeed();
-
+        
         // Sets the new movement vector based on the inputs
         SetMoveAmount(moveDir);
         
         
-        /*
+
+        if (Vector3.zero != velocity)
+        {
+            // Debug.Log("velocity vector is: " + velocity);
+        }
+        
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
-        finalVector3 += transformDirection;
         
-        // Applies gravity
-        transformGravity = GetGravityVelocity();
-        finalVector3 += transformGravity;
-        
-        /*
-        // Applies jump
-        finalVector3 += transformJump;*/
-
-        Debug.Log("final vector is: " + finalVector3.ToString());
-        
-        _characterController.Move( finalVector3 * Time.fixedDeltaTime);
+        _characterController.Move( transformDirection * Time.fixedDeltaTime);
+        _characterController.Move(velocity * Time.fixedDeltaTime);
         // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+    }
+    
+    private bool UpdateSprint()
+    {
+        if (MovementTypes.Crouch == currentMovementType) return false;
+
+        // Checks if players wants to sprint and if he pressed a directional key
+        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
+        {
+            return SetCurrentMovementType(MovementTypes.Sprint);
+        }
+        else
+        {
+            return SetCurrentMovementType(MovementTypes.Stand);
+        }
     }
     
     private bool UpdateCrouch()
@@ -218,13 +206,13 @@ public class PlayerMovement : MonoBehaviour
             // Will uncrouch the player if there is no input
             case CrouchModes.Hold:
             {
-                    if (MovementTypes.Crouch == currentMovementType)
-                    {
-                        // Sets the MovementType to stand
-                        return SetCurrentMovementType(MovementTypes.Stand);
-                    }
+                if (MovementTypes.Crouch == currentMovementType)
+                {
+                    // Sets the MovementType to stand
+                    return SetCurrentMovementType(MovementTypes.Stand);
+                }
                     
-                    break;
+                break;
             }
 
             case CrouchModes.Toggle:
@@ -256,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
-
+    
     private bool UpdateWalk(Vector3 _moveDir)
     {
         if (MovementTypes.Stand == currentMovementType && Vector3.zero != _moveDir)
@@ -266,39 +254,61 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
-    
-    private bool UpdateSprint()
-    {
-        if (MovementTypes.Crouch == currentMovementType) return false;
 
-        // Checks if players wants to sprint and if he pressed a directional key
-        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
-        {
-            return SetCurrentMovementType(MovementTypes.Sprint);
-        }
-        else
-        {
-            return SetCurrentMovementType(MovementTypes.Stand);
-        }
-    }
-
-    private bool UpdateJump()
+    public bool UpdateJump() // changes 'transformJump'
     {
-        // Implement a CharacterController support for gravity
         // _characterController.AddForce(transform.up * jumpForce);
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("input fo jump detected");
+        }
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            transformJump = Vector3.up * jumpForce;
-        }
-        else
-        {
-            transformJump = Vector3.zero;
+            Debug.Log("Should jump");
+            velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
         }
 
         return true; // for now, no conditions prevents the player from jumping
     }
     
+    private void UpdateGravity()
+    {
+        velocity.y += gravityForce * Time.fixedDeltaTime;
+
+        if (grounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+    }
+    
+    private void UpdateSpeed()
+    {
+        switch (currentMovementType)
+        {
+            case MovementTypes.Stand:
+                SetCurrentSpeed(0f);
+                break;
+            case MovementTypes.Crouch:
+                SetCurrentSpeed(crouchSpeed);
+                break;
+            case MovementTypes.Walk:
+                SetCurrentSpeed(walkSpeed);
+                break;
+            case MovementTypes.Sprint:
+                SetCurrentSpeed(sprintSpeed);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void UpdateGrounded()
+    {
+        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+    }
+
     #endregion
     
     #region Setters
