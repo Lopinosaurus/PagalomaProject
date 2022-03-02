@@ -8,10 +8,14 @@ using Photon.Pun;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private PlayerController _playerController;
-    private PlayerMovement _playerMovement;
+    // Movement components
     private Rigidbody _rigidBody;
+    private CharacterController _characterController;
+    
+
+    // Network component
     private PhotonView _photonView;
+
 
     // Declaring player's appearances objects
     [Space]
@@ -20,12 +24,6 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private GameObject playerCrouchingPose = null;
     [SerializeField] private GameObject playerSprintingPose = null;
 
-    // Player Capsule Collider
-    [Space]
-    [Header("Player's hitboxes")]
-    [SerializeField] private GameObject playerStandardHitBox = null;
-    private CapsuleCollider _capsuleCollider = null;
-    
     // Player Smooth Crouch variables
     [Space] [Header("Smooth Crouch variables")] [SerializeField]
     private float crouchSpeed = 0.3f;
@@ -33,14 +31,11 @@ public class PlayerAnimation : MonoBehaviour
     private float crouchingHeight = 1f; // In "Start", will be set to half the height of the "StandardHitbox" capsule
     [SerializeField] private Transform playerCamera = null;
 
-    private void Awake() // Don't touch !
+    void Awake() // Don't touch !
     {
-        _playerController = GetComponent<PlayerController>();
-        _playerMovement = GetComponent<PlayerMovement>();
         _rigidBody = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
         _photonView = GetComponent<PhotonView>();
-        
-        _capsuleCollider = playerStandardHitBox.GetComponent<CapsuleCollider>();
     }
 
     private void Start() // Don't touch !
@@ -49,20 +44,9 @@ public class PlayerAnimation : MonoBehaviour
         playerStandingPose.SetActive(true);
         playerCrouchingPose.SetActive(false);
         playerSprintingPose.SetActive(false);
-        
-        // Player's hitboxes
-        playerStandardHitBox.SetActive(true);
-        
-        if (!_photonView.IsMine)
-        {
-            Destroy(GetComponentInChildren<Camera>().gameObject);
-            Destroy(_rigidBody);
-            
-            return;
-        }
 
         // Player's height variables
-        standingHeight = _capsuleCollider.height;
+        standingHeight = _characterController.height;
         crouchingHeight = standingHeight / 2f;
     }
 
@@ -88,18 +72,15 @@ public class PlayerAnimation : MonoBehaviour
         if (PlayerMovement.MovementTypes.Crouch == _currentMovementType) desiredHeight = crouchingHeight;
 
         Vector3 camPosition = playerCamera.transform.localPosition;
-        if (Math.Abs(_capsuleCollider.height - desiredHeight) > 0)
+        if (Math.Abs(_characterController.height - desiredHeight) > 0)
         {
             AdjustHeight(desiredHeight);
-            camPosition.y = _capsuleCollider.height;
+            camPosition.y = _characterController.height;
         }
         
         playerCamera.transform.localPosition = camPosition;
 
         #endregion
-        
-        
-        
     }
 
     private void AdjustHeight(float height)
@@ -107,7 +88,7 @@ public class PlayerAnimation : MonoBehaviour
         // Calculates the current center of the player
         float center = height / 2f;
 
-        _capsuleCollider.height = Mathf.LerpUnclamped(_capsuleCollider.height, height, crouchSpeed);
-        _capsuleCollider.center = Vector3.LerpUnclamped(_capsuleCollider.center, new Vector3(0, center, 0), crouchSpeed);
+        _characterController.height = Mathf.LerpUnclamped(_characterController.height, height, crouchSpeed);
+        _characterController.center = Vector3.LerpUnclamped(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
     }
 }
