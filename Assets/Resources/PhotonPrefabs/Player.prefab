@@ -4651,20 +4651,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
+  StandardHitbox: {fileID: 4351334809974418211}
+  _capsuleCollider: {fileID: 5403392568758633626}
   sprintSpeed: 4
   currentSpeed: 0
-  gravityForce: -9.81
-  velocity: {x: 0, y: 0, z: 0}
-  groundCheck: {fileID: 0}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  groundDistance: 0.4
-  grounded: 0
+  jumpForce: 300
   smoothTime: 0.1
   moveAmount: {x: 0, y: 0, z: 0}
   currentMovementType: 0
   currentCrouchType: 1
+  grounded: 0
 --- !u!114 &8724781646391684398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4680,6 +4676,7 @@ MonoBehaviour:
   playerStandingPose: {fileID: 8126347909802486617}
   playerCrouchingPose: {fileID: 2733481884318518846}
   playerSprintingPose: {fileID: 5624145344108875213}
+  playerStandardHitBox: {fileID: 4351334809974418211}
   crouchSpeed: 0.3
   playerCamera: {fileID: 6598090228381821785}
 --- !u!114 &4586859012644622965

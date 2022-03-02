@@ -5,7 +5,7 @@ using System;
 using Photon.Pun;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerController)), RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerController))]
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,36 +13,22 @@ public class PlayerMovement : MonoBehaviour
     
     // External GameObects and components
     [SerializeField] private GameObject cameraHolder = null;
-
-    // Movement components
-    private CharacterController _characterController;
+    [SerializeField] private GameObject StandardHitbox = null;
+    [FormerlySerializedAs("CC")] [SerializeField] private CapsuleCollider _capsuleCollider = null;
     
-    // Network component
-    private PhotonView _photonView;
-    
-    // Subscripts
-    private PlayerController _playerController;
-    
+    private Rigidbody _rigidBody = null;
+    private PhotonView _photonView = null;
+    private PlayerController _playerController = null;
     
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float sprintSpeed = 4f;
-    private float walkSpeed = 2f;
-    private float crouchSpeed = 1f;
+    private const float walkSpeed = 2f;
+    private const float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
     
-    // Gravity
-    [Space] [Header("Gravity settings")]
-    [SerializeField] private float gravityForce = -9.81f;
-    [SerializeField] private Vector3 velocity = Vector3.zero;
     
-    // Ground check
-    public Transform groundCheck;
-    [SerializeField] public LayerMask groundMask;
-    public float groundDistance = 0.4f;
-    public bool grounded;
-
     // Heights
     [Space]
     [Header("Player height settings")]
@@ -52,17 +38,18 @@ public class PlayerMovement : MonoBehaviour
     // Jump values
     [Space]
     [Header("Player jump settings")]
-    private float jumpForce = 2f;
+    [SerializeField] private float jumpForce = 300f;
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
     
     private Vector3 smoothMoveVelocity;
-    public Vector3 moveAmount = Vector3.zero;
+    public Vector3 moveAmount;
     
     [Space]
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
-
+    [SerializeField] public bool grounded;
+    
     [SerializeField] public enum MovementTypes
     {
         Stand,
@@ -82,19 +69,57 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() // Don't touch !
     {
+        _rigidBody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
         _playerController = GetComponent<PlayerController>();
-        _characterController = GetComponent<CharacterController>();
+        _capsuleCollider = StandardHitbox.GetComponent<CapsuleCollider>();
     }
 
     private void Start()
     {
-        var height = _characterController.height;
+        var height = _capsuleCollider.height;
         crouchedHeight = height / 2;
         standingHeight = height;
     }
 
+    private void FixedUpdate()
+    {
+        if (_photonView.IsMine)
+        {
+            _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        }
+    }
+
     #endregion
+
+
+    private void Jump()
+    {
+        //TODO
+        // Implement a CharacterController support for gravity
+        _rigidBody.AddForce(transform.up * jumpForce);
+    }
+
+    private void UpdateSpeed()
+    {
+        switch (currentMovementType)
+        {
+            case MovementTypes.Stand:
+                SetCurrentSpeed(0f);
+                break;
+            case MovementTypes.Crouch:
+                SetCurrentSpeed(crouchSpeed);
+                break;
+            case MovementTypes.Walk:
+                SetCurrentSpeed(walkSpeed);
+                break;
+            case MovementTypes.Sprint:
+                SetCurrentSpeed(sprintSpeed);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
     
     public void UpdateHitbox(MovementTypes _currentMovementType)
     {
@@ -105,17 +130,22 @@ public class PlayerMovement : MonoBehaviour
         if (MovementTypes.Crouch == currentMovementType) desiredHeight = crouchedHeight;
 
         Vector3 camPosition = cameraHolder.transform.localPosition;
-        if (Math.Abs(_characterController.height - desiredHeight) > 0)
+        if (Math.Abs(_capsuleCollider.height - desiredHeight) > 0)
         {
             AdjustHeight(desiredHeight);
-            camPosition.y = _characterController.height;
+            camPosition.y = _capsuleCollider.height;
         }
         
         cameraHolder.transform.localPosition = camPosition;
 
         #endregion
     }
-    
+
+    private void SetMoveAmount(Vector3 moveDir)
+    {
+        // Actually moves the player
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
+    }
     
     // Sets the hitbox's height to the input value progressively
     private void AdjustHeight(float height)
@@ -123,23 +153,15 @@ public class PlayerMovement : MonoBehaviour
         // Calculates the current center of the player
         float center = height / 2f;
 
-        _characterController.height = Mathf.Lerp(_characterController.height, height, crouchSpeed);
-        _characterController.center = Vector3.Lerp(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
+        _capsuleCollider.height = Mathf.Lerp(_capsuleCollider.height, height, crouchSpeed);
+        _capsuleCollider.center = Vector3.Lerp(_capsuleCollider.center, new Vector3(0, center, 0), crouchSpeed);
     }
 
     #region Movements
     
     public void Move()
     {
-        Vector3 moveDir = new Vector3
-        {
-            x = Input.GetAxisRaw("Horizontal"),
-            z = Input.GetAxisRaw("Vertical")
-        };
-        moveDir = moveDir.normalized;
-        
-        // Updates the grounded boolean state
-        UpdateGrounded();
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         // Updates the sprinting state
         UpdateSprint();
@@ -149,50 +171,21 @@ public class PlayerMovement : MonoBehaviour
 
         // Updates the walk state
         UpdateWalk(moveDir);
-
-        // Updates gravity
-        UpdateGravity(); // changes 'transformGravity'
+        
+        // Updates the jump feature
+        UpdateJump();
 
         // Updates the speed based on the MovementType
         UpdateSpeed();
-        
-        // Sets the new movement vector based on the inputs
+
+        // Sets the new movement vector based on previous methods
         SetMoveAmount(moveDir);
-        
-        
-
-        if (Vector3.zero != velocity)
-        {
-            // Debug.Log("velocity vector is: " + velocity);
-        }
-        
-        // Applies direction from directional inputs
-        Vector3 transformDirection = transform.TransformDirection(moveAmount);
-        
-        _characterController.Move( transformDirection * Time.fixedDeltaTime);
-        _characterController.Move(velocity * Time.fixedDeltaTime);
-        // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
-    }
-    
-    private bool UpdateSprint()
-    {
-        if (MovementTypes.Crouch == currentMovementType) return false;
-
-        // Checks if players wants to sprint and if he pressed a directional key
-        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
-        {
-            return SetCurrentMovementType(MovementTypes.Sprint);
-        }
-        else
-        {
-            return SetCurrentMovementType(MovementTypes.Stand);
-        }
     }
     
     private bool UpdateCrouch()
     {
-        // TODO
-        //  Simplify the crouch system including the Hold and Toggle options
+        //TODO
+        // Simplify the crouch system including the Hold and Toggle options
         
         // Checks the current crouch mode (toggle or hold)
         switch (currentCrouchType)
@@ -206,13 +199,13 @@ public class PlayerMovement : MonoBehaviour
             // Will uncrouch the player if there is no input
             case CrouchModes.Hold:
             {
-                if (MovementTypes.Crouch == currentMovementType)
-                {
-                    // Sets the MovementType to stand
-                    return SetCurrentMovementType(MovementTypes.Stand);
-                }
+                    if (MovementTypes.Crouch == currentMovementType)
+                    {
+                        // Sets the MovementType to stand
+                        return SetCurrentMovementType(MovementTypes.Stand);
+                    }
                     
-                break;
+                    break;
             }
 
             case CrouchModes.Toggle:
@@ -244,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
-    
+
     private bool UpdateWalk(Vector3 _moveDir)
     {
         if (MovementTypes.Stand == currentMovementType && Vector3.zero != _moveDir)
@@ -254,70 +247,37 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
-
-    public bool UpdateJump() // changes 'transformJump'
+    
+    private bool UpdateSprint()
     {
-        // _characterController.AddForce(transform.up * jumpForce);
+        if (MovementTypes.Crouch == currentMovementType) return false;
 
-        if (Input.GetButtonDown("Jump"))
+        // Checks if players wants to sprint and if he pressed a directional key
+        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
         {
-            Debug.Log("input fo jump detected");
+            return SetCurrentMovementType(MovementTypes.Sprint);
         }
+        else
+        {
+            return SetCurrentMovementType(MovementTypes.Stand);
+        }
+    }
 
+    private bool UpdateJump()
+    {
+        
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            Debug.Log("Should jump");
-            velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
+            Jump();
         }
 
         return true; // for now, no conditions prevents the player from jumping
     }
     
-    private void UpdateGravity()
-    {
-        velocity.y += gravityForce * Time.fixedDeltaTime;
-
-        if (grounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-    }
-    
-    private void UpdateSpeed()
-    {
-        switch (currentMovementType)
-        {
-            case MovementTypes.Stand:
-                SetCurrentSpeed(0f);
-                break;
-            case MovementTypes.Crouch:
-                SetCurrentSpeed(crouchSpeed);
-                break;
-            case MovementTypes.Walk:
-                SetCurrentSpeed(walkSpeed);
-                break;
-            case MovementTypes.Sprint:
-                SetCurrentSpeed(sprintSpeed);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private void UpdateGrounded()
-    {
-        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-    }
-
     #endregion
     
     #region Setters
 
-    private void SetMoveAmount(Vector3 moveDir)
-    {
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
-    }
-    
     public bool SetGroundedState(bool _grounded)
     {
         // Checks whether a change occured

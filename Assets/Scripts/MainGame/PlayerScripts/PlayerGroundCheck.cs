@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerGroundCheck : MonoBehaviour
 {
     private PlayerMovement _playerMovement;
@@ -11,8 +10,6 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void Awake() => _playerMovement = player.GetComponent<PlayerMovement>();
 
-    #region ONLY WORKS WITH RIGIDBODY - NO RIGIDBODY ATM
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == _playerMovement.gameObject)
@@ -34,13 +31,10 @@ public class PlayerGroundCheck : MonoBehaviour
         _playerMovement.SetGroundedState(true);
     }
     
-    #endregion
-    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == _playerMovement.gameObject)
             return;
-        Debug.Log("Collision detected !");
         _playerMovement.SetGroundedState(true);
     }
 
