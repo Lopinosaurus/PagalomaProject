@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         
         //TODO
         // Will soon be improved to remove jittering
+        Debug.Log("SHOULD DEBUG");
         _playerMovement.Move();
 
         _playerAnimation.UpdateHitbox(_playerMovement.currentMovementType);
