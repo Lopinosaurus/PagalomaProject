@@ -13,10 +13,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - village
+  - Ignore PlayerRender
   - Water
   - UI
-  - NoCameraRender
+  - Player
   - 
   - 
   - 

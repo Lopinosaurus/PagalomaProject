@@ -4,18 +4,16 @@ using UnityEngine;
 using Photon.Pun;
 // ReSharper disable All
 
-[RequireComponent(typeof(PlayerAnimation))]
-/*
- //TODO implement CharacterController
-[RequireComponent(typeof(CharacterController))]
-*/
+[RequireComponent(typeof(PlayerMovement)),
+ RequireComponent(typeof(PlayerLook)),
+ RequireComponent(typeof(PlayerAnimation)),
+ RequireComponent(typeof(CharacterController))]
 
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
     
     // Movement components
-    private Rigidbody _rigidBody;
     private CharacterController _characterController;
     
     // Network component
@@ -35,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // Movement components
-        _rigidBody = GetComponent<Rigidbody>();
         _characterController = GetComponent<CharacterController>();
         
         // Network component
@@ -52,7 +49,7 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine) return;
         
         Destroy(GetComponentInChildren<Camera>().gameObject);
-        Destroy(_rigidBody);
+        Destroy(_characterController);
     }
     
     private void Update()
@@ -61,8 +58,9 @@ public class PlayerController : MonoBehaviour
         
         _playerLook.Look();
         
-        _playerMovement.Move();
-
+        // Updates the jump feature
+        _playerMovement.UpdateJump();
+        
         // Updates the appearance based on the MovementType
         _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
     }
@@ -73,8 +71,8 @@ public class PlayerController : MonoBehaviour
         
         //TODO
         // Will soon be improved to remove jittering
-        _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(_playerMovement.moveAmount) * Time.fixedDeltaTime);
-        
+        _playerMovement.Move();
+
         UpdateHitbox();
     }
     
