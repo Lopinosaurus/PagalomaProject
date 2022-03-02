@@ -4518,7 +4518,6 @@ MonoBehaviour:
     m_Bits: 63
   groundDistance: 0.4
   grounded: 1
-  jumpForce: 5
   smoothTime: 0.1
   moveAmount: {x: 0, y: 0, z: 0}
   currentMovementType: 0
