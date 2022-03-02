@@ -135,11 +135,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Vector3 GetGravityVelocity()
     {
-<<<<<<< HEAD
         if (grounded && transformGravity.y < 0)
-=======
-        if (grounded)
->>>>>>> 390533040e54f8de8b25e85dd1f505718fe6c6bc
         {
             transformGravity = new Vector3(0, -2f, 0);
         }
@@ -186,11 +182,7 @@ public class PlayerMovement : MonoBehaviour
         SetMoveAmount(moveDir);
         
         
-<<<<<<< HEAD
-
-=======
         /*
->>>>>>> 390533040e54f8de8b25e85dd1f505718fe6c6bc
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
         finalVector3 += transformDirection;
@@ -199,16 +191,10 @@ public class PlayerMovement : MonoBehaviour
         transformGravity = GetGravityVelocity();
         finalVector3 += transformGravity;
         
-<<<<<<< HEAD
         /*
         // Applies jump
         finalVector3 += transformJump;*/
-=======
-        // Applies jump
-        finalVector3 += transformJump;
-        */
->>>>>>> 390533040e54f8de8b25e85dd1f505718fe6c6bc
-        
+
         Debug.Log("final vector is: " + finalVector3.ToString());
         
         _characterController.Move( finalVector3 * Time.fixedDeltaTime);
