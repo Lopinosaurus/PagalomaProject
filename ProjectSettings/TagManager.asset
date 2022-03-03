@@ -4,15 +4,19 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - village
   - mapFloor
+  - tree
+  - spawn
+  - stone
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - InactivePlayerRender
+  - village
   - Water
   - UI
-  - 
+  - NoCameraRender
   - 
   - 
   - 
