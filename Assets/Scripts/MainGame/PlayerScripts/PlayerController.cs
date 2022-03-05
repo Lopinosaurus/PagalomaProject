@@ -51,15 +51,8 @@ public class PlayerController : MonoBehaviour
         Destroy(GetComponentInChildren<Camera>().gameObject);
         Destroy(_characterController);
     }
-<<<<<<< HEAD
-=======
-    
-<<<<<<< HEAD
->>>>>>> 77a9b68f2166e7ea953904f6c622a94623cca372
-    private void Update() // Don't touch !
-=======
+
     private void Update()
->>>>>>> 08a2d79024da58304ab8a58ee0f8f880a1d49cfd
     {
         if (!_photonView.IsMine) return;
         
