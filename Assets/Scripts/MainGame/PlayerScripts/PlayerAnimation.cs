@@ -4,11 +4,18 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
+[RequireComponent(typeof(PlayerController))]
+
 public class PlayerAnimation : MonoBehaviour
 {
-    private PlayerController PC;
-    private Rigidbody RB;
-    private PhotonView PV;
+    // Movement components
+    private Rigidbody _rigidBody;
+    private CharacterController _characterController;
+    
+
+    // Network component
+    private PhotonView _photonView;
+
 
     // Declaring player's appearances objects
     [Space]
@@ -17,12 +24,6 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private GameObject playerCrouchingPose = null;
     [SerializeField] private GameObject playerSprintingPose = null;
 
-    // Player Capsule Collider
-    [Space]
-    [Header("Player's hitboxes")]
-    [SerializeField] private GameObject playerStandardHitBox = null;
-    private CapsuleCollider CC = null;
-    
     // Player Smooth Crouch variables
     [Space] [Header("Smooth Crouch variables")] [SerializeField]
     private float crouchSpeed = 0.3f;
@@ -32,89 +33,54 @@ public class PlayerAnimation : MonoBehaviour
 
     void Awake() // Don't touch !
     {
-        PC = GetComponent<PlayerController>();
-        RB = GetComponent<Rigidbody>();
-        PV = GetComponent<PhotonView>();
-        CC = playerStandardHitBox.GetComponent<CapsuleCollider>();
+        _rigidBody = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     private void Start() // Don't touch !
     {
-        if (!PV.IsMine)
-        {
-            Destroy(GetComponentInChildren<Camera>().gameObject);
-            Destroy(RB);
-            
-            return;
-        }
-
         // Player's appearances
         playerStandingPose.SetActive(true);
         playerCrouchingPose.SetActive(false);
         playerSprintingPose.SetActive(false);
 
-        // Player's hitboxes
-        playerStandardHitBox.SetActive(true);
-        
         // Player's height variables
-        standingHeight = playerStandardHitBox.GetComponent<CapsuleCollider>().height;
+        standingHeight = _characterController.height;
         crouchingHeight = standingHeight / 2f;
     }
 
-    public void UpdateAppearance(PlayerController.MovementTypes _currentMovementType)
+    public void UpdateAppearance(PlayerMovement.MovementTypes _currentMovementType)
     {
-        switch (_currentMovementType)
-        {
-            case PlayerController.MovementTypes.Stand:
-                playerStandingPose.SetActive(true);
-                playerCrouchingPose.SetActive(false);
-                playerSprintingPose.SetActive(false);
-                return;
-
-            case PlayerController.MovementTypes.Crouch:
-                playerStandingPose.SetActive(false);
-                playerCrouchingPose.SetActive(true);
-                playerSprintingPose.SetActive(false);
-                return;
-
-            case PlayerController.MovementTypes.Walk:
-                playerStandingPose.SetActive(true);
-                playerCrouchingPose.SetActive(false);
-                playerSprintingPose.SetActive(false);
-                return;
-
-            case PlayerController.MovementTypes.Sprint:
-                playerStandingPose.SetActive(false);
-                playerCrouchingPose.SetActive(false);
-                playerSprintingPose.SetActive(true);
-                return;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        playerStandingPose.SetActive(_currentMovementType == PlayerMovement.MovementTypes.Stand || _currentMovementType == PlayerMovement.MovementTypes.Walk); 
+        playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == _currentMovementType);
+        playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == _currentMovementType);
+    
+        //TODO: re-enable network
+        // Network sync: hitbox
+        /*
+        _photonView.RPC("RPC_UpdateAppearance", RpcTarget.Others, _playerMovement.currentMovementType);
+    */
     }
 
-    public void UpdateHitbox(PlayerController.MovementTypes _currentMovementType)
+    public void UpdateHitbox(PlayerMovement.MovementTypes _currentMovementType)
     {
         // Updates player's hitbox about crouch
         #region Crouch management
         
         float desiredHeight = standingHeight;
-        if (PlayerController.MovementTypes.Crouch == _currentMovementType) desiredHeight = crouchingHeight;
+        if (PlayerMovement.MovementTypes.Crouch == _currentMovementType) desiredHeight = crouchingHeight;
 
         Vector3 camPosition = playerCamera.transform.localPosition;
-        if (CC.height != desiredHeight)
+        if (Math.Abs(_characterController.height - desiredHeight) > 0)
         {
             AdjustHeight(desiredHeight);
-            camPosition.y = CC.height;
+            camPosition.y = _characterController.height;
         }
         
         playerCamera.transform.localPosition = camPosition;
 
         #endregion
-        
-        
-        
     }
 
     private void AdjustHeight(float height)
@@ -122,7 +88,7 @@ public class PlayerAnimation : MonoBehaviour
         // Calculates the current center of the player
         float center = height / 2f;
 
-        CC.height = Mathf.LerpUnclamped(CC.height, height, crouchSpeed);
-        CC.center = Vector3.LerpUnclamped(CC.center, new Vector3(0, center, 0), crouchSpeed);
+        _characterController.height = Mathf.LerpUnclamped(_characterController.height, height, crouchSpeed);
+        _characterController.center = Vector3.LerpUnclamped(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
     }
 }
