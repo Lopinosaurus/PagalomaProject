@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerController)), RequireComponent(typeof(CharacterController))]
 
@@ -25,53 +24,44 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController _playerController;
     
     
-    // Movement speeds variables
+    // Movement speeds
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float sprintSpeed = 4f;
     private float walkSpeed = 2f;
     private float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
-<<<<<<< Updated upstream
-=======
-    private float sprintSpeed = 6f;
-    private float crouchSpeed = 2f;
-    private float walkSpeed = 4f;
-    private Vector2 moveRaw2D;
-    private Vector3 smoothMoveVelocity;
-    private Vector3 moveAmount = Vector3.zero;
->>>>>>> Stashed changes
     
-    // Gravity variables
+    // Gravity
     [Space] [Header("Gravity settings")]
     [SerializeField] private float gravityForce = -9.81f;
     [SerializeField] private Vector3 velocity = Vector3.zero;
     
-    // Ground check variables
+    // Ground check
     public Transform groundCheck;
     [SerializeField] public LayerMask groundMask;
     public float groundDistance = 0.4f;
     public bool grounded;
 
-    // Heights variables
+    // Heights
     [Space]
     [Header("Player height settings")]
     private float crouchedHeight;
     private float standingHeight;
     
-    // Jump variables
+    // Jump values
     [Space]
     [Header("Player jump settings")]
     private float jumpForce = 2f;
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
     
-    // Crouch variables
-    private bool wantsCrouch = false;
-
+    private Vector3 smoothMoveVelocity;
+    public Vector3 moveAmount = Vector3.zero;
+    
     [Space]
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
-    [SerializeField] public CrouchTypes currentCrouchType = CrouchTypes.Hold;
+    [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
 
     [SerializeField] public enum MovementTypes
     {
@@ -80,11 +70,7 @@ public class PlayerMovement : MonoBehaviour
         Walk,
         Sprint
     };
-<<<<<<< Updated upstream
     [SerializeField] public enum CrouchModes
-=======
-    public enum CrouchTypes
->>>>>>> Stashed changes
     {
         Toggle,
         Hold
@@ -99,37 +85,6 @@ public class PlayerMovement : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
         _playerController = GetComponent<PlayerController>();
         _characterController = GetComponent<CharacterController>();
-<<<<<<< Updated upstream
-=======
-        
-        // Player Controls
-        _playerControls = new PlayerControls();
-        
-        // Movement inputs with ZQSD
-        _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
-        
-        // Crouch inputs
-        if (CrouchTypes.Hold == currentCrouchType)
-        {
-            wantsCrouch = _playerControls.Player.Crouch.WasPerformedThisFrame();
-
-        }
-        else
-        {
-            wantsCrouch = _playerControls.Player.Crouch.WasPressedThisFrame();
-            wantsCrouch = _playerControls.Player.Crouch.WasReleasedThisFrame();
-        }
-    }
-    
-    private void OnEnable()
-    {
-        _playerControls.Player.Enable();
-    }
-    private void OnDisable()
-    {    
-        _playerControls.Player.Disable();
->>>>>>> Stashed changes
     }
 
     private void Start()
@@ -173,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Movements
-<<<<<<< Updated upstream
     
     public void Move()
     {
@@ -184,41 +138,17 @@ public class PlayerMovement : MonoBehaviour
         };
         moveDir = moveDir.normalized;
         
-=======
-
-    private void OnMove(InputValue movementValue)
-            {
-                
-            }
-    
-    public void Move()
-    {
-        /*InputValue movementValue = _playerControls.Player.Move.performed;
-        Vector2 movementVector = movementValue.Get<Vector2>();
-        
-        float movementX = movementVector.x;
-        float movementY = movementVector.y;*/
-        
-        // Creates a Vector3 based on inputs
-        
-        Vector3 moveRaw3D = new Vector3 {
-            x = moveRaw2D.x,
-            y = 0.0f,
-            z = moveRaw2D.y
-        }.normalized;
-
->>>>>>> Stashed changes
         // Updates the grounded boolean state
         UpdateGrounded();
 
-         // Updates the sprinting state
-         UpdateSprint();
+        // Updates the sprinting state
+        UpdateSprint();
 
-         // Updates the crouching state
-         UpdateCrouch();
+        // Updates the crouching state
+        UpdateCrouch();
 
         // Updates the walk state
-        UpdateWalk(moveRaw3D);
+        UpdateWalk(moveDir);
 
         // Updates gravity
         UpdateGravity(); // changes 'transformGravity'
@@ -227,14 +157,17 @@ public class PlayerMovement : MonoBehaviour
         UpdateSpeed();
         
         // Sets the new movement vector based on the inputs
-        SetMoveAmount(moveRaw3D); // modifies moveAmount
+        SetMoveAmount(moveDir);
         
         
 
-        // Converts local direction vector to world direction vector
-        Vector3 transformDirection = transform.TransformDirection(moveAmount);
+        if (Vector3.zero != velocity)
+        {
+            // Debug.Log("velocity vector is: " + velocity);
+        }
         
-        Debug.Log("wants to crouch: " + wantsCrouch);
+        // Applies direction from directional inputs
+        Vector3 transformDirection = transform.TransformDirection(moveAmount);
         
         _characterController.Move( transformDirection * Time.fixedDeltaTime);
         _characterController.Move(velocity * Time.fixedDeltaTime);
@@ -246,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         if (MovementTypes.Crouch == currentMovementType) return false;
 
         // Checks if players wants to sprint and if he pressed a directional key
-        if (wantsCrouch)
+        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
         {
             return SetCurrentMovementType(MovementTypes.Sprint);
         }
@@ -265,13 +198,13 @@ public class PlayerMovement : MonoBehaviour
         switch (currentCrouchType)
         {
             // Will crouch the player
-            case CrouchTypes.Hold when wantsCrouch:
+            case CrouchModes.Hold when Input.GetButton("Crouch"):
 
                 // Sets the MovementType to crouched
                 return SetCurrentMovementType(MovementTypes.Crouch);
             
             // Will uncrouch the player if there is no input
-            case CrouchTypes.Hold:
+            case CrouchModes.Hold:
             {
                 if (MovementTypes.Crouch == currentMovementType)
                 {
@@ -282,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
 
-            case CrouchTypes.Toggle:
+            case CrouchModes.Toggle:
             {
                 if (Input.GetButtonDown("Crouch"))
                 {
@@ -380,9 +313,9 @@ public class PlayerMovement : MonoBehaviour
     
     #region Setters
 
-    private void SetMoveAmount(Vector3 moveRaw3D)
+    private void SetMoveAmount(Vector3 moveDir)
     {
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveRaw3D * currentSpeed, ref smoothMoveVelocity, smoothTime);
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
     }
     
     public bool SetGroundedState(bool _grounded)
