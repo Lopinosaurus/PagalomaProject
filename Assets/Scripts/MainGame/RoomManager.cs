@@ -16,7 +16,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject mainScreen;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
-    public int nextPlayerRoleIndex = 0;
+    public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
 
     private void Awake()
