@@ -11,7 +11,7 @@ public class Map : MonoBehaviour
     public GameObject villageFolder;
     public GameObject stonesFolder;
     public GameObject village;
-    public int seed ;
+    // public int seed ;
     public List<GameObject> deadTrees;
     public List<GameObject> hugeTrees;
     public List<GameObject> longTrees;
@@ -21,7 +21,8 @@ public class Map : MonoBehaviour
     // Start is called before the first frame update
     public void Generate(int seed)
     {
-        Random.seed = seed;
+        Random.InitState(seed);
+        // Random.seed = seed;
         AddVillage();
         AddStones();
         AddTrees();

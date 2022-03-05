@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System;
 using Photon.Pun;
 using UnityEngine.Serialization;
@@ -11,31 +12,28 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Attributes
     
-    // External GameObects and components
-    [SerializeField] private GameObject cameraHolder = null;
+    // External GameObjects and components
+    [SerializeField] private GameObject cameraHolder;
 
     // Movement components
     private CharacterController _characterController;
     
-    // Network component
-    private PhotonView _photonView;
-    
-    // Subscripts
-    private PlayerController _playerController;
-    
+    // Player Controls
+    private PlayerControls _playerControls;
     
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
-    [SerializeField] private float sprintSpeed = 4f;
-    private float walkSpeed = 2f;
-    private float crouchSpeed = 1f;
     [SerializeField] private float currentSpeed;
+    private float sprintSpeed = 6f;
+    private float crouchSpeed = 2f;
+    private float walkSpeed = 4f;
+    private Vector2 move;
     
     // Gravity
     [Space] [Header("Gravity settings")]
-    [SerializeField] private float gravityForce = -9.81f;
-    [SerializeField] private Vector3 velocity = Vector3.zero;
+    private float gravityForce = -9.81f;
+    private Vector3 velocity = Vector3.zero;
     
     // Ground check
     public Transform groundCheck;
@@ -63,14 +61,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
 
-    [SerializeField] public enum MovementTypes
+    public enum MovementTypes
     {
         Stand,
         Crouch,
         Walk,
         Sprint
     };
-    [SerializeField] public enum CrouchModes
+    public enum CrouchModes
     {
         Toggle,
         Hold
@@ -82,9 +80,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() // Don't touch !
     {
-        _photonView = GetComponent<PhotonView>();
-        _playerController = GetComponent<PlayerController>();
         _characterController = GetComponent<CharacterController>();
+        
+        // Player Controls
+        _playerControls = new PlayerControls();
+        _playerControls.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
+        _playerControls.Player.Move.canceled += _ => move = Vector2.zero;
+    }
+    
+    private void OnEnable()
+    {
+        _playerControls.Player.Enable();
+    }
+    private void OnDisable()
+    {    
+        _playerControls.Player.Disable();
     }
 
     private void Start()
@@ -128,16 +138,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Movements
+
+    private float movementX;
+    private float movementY;
+    
+    private void OnMove(InputValue movementValue)
+            {
+                Vector2 movementVector = movementValue.Get<Vector2>();
+                movementX = movementVector.x;
+                movementY = movementVector.y;
+            }
     
     public void Move()
     {
         Vector3 moveDir = new Vector3
         {
-            x = Input.GetAxisRaw("Horizontal"),
-            z = Input.GetAxisRaw("Vertical")
+            x = movementX,
+            y = 0.0f,
+            z = movementY,
         };
-        moveDir = moveDir.normalized;
         
+        moveDir = moveDir.normalized;
+
         // Updates the grounded boolean state
         UpdateGrounded();
 
