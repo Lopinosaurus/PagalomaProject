@@ -4413,13 +4413,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413455336871077530}
+  - component: {fileID: -8137473814549735202}
+  - component: {fileID: 3682566154727703155}
   - component: {fileID: 1654778427836828203}
   - component: {fileID: 4938174515326091686}
   - component: {fileID: 4656714414789940587}
-  - component: {fileID: -8137473814549735202}
   - component: {fileID: 8724781646391684398}
   - component: {fileID: 4586859012644622965}
-  - component: {fileID: 3682566154727703155}
+  - component: {fileID: -4639757121528924229}
+  - component: {fileID: 88178298206555474}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -4444,6 +4446,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8137473814549735202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraHolder: {fileID: 1141215766398316333}
+  sprintSpeed: 4
+  currentSpeed: 0
+  gravityForce: -9.81
+  velocity: {x: 0, y: 0, z: 0}
+  groundCheck: {fileID: 9115280105432258644}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 63
+  groundDistance: 0.4
+  grounded: 1
+  smoothTime: 0.1
+  moveAmount: {x: 0, y: 0, z: 0}
+  currentMovementType: 0
+  currentCrouchType: 1
+--- !u!143 &3682566154727703155
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1654778427836828203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4495,33 +4542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8137473814549735202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraHolder: {fileID: 1141215766398316333}
-  sprintSpeed: 4
-  currentSpeed: 0
-  gravityForce: -9.81
-  velocity: {x: 0, y: 0, z: 0}
-  groundCheck: {fileID: 9115280105432258644}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 63
-  groundDistance: 0.4
-  grounded: 1
-  smoothTime: 0.1
-  moveAmount: {x: 0, y: 0, z: 0}
-  currentMovementType: 0
-  currentCrouchType: 1
 --- !u!114 &8724781646391684398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4554,24 +4574,49 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   mouseSensHorizontal: 3
   mouseSensVertical: 3
---- !u!143 &3682566154727703155
-CharacterController:
+--- !u!114 &-4639757121528924229
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 4956978653042181620}
+--- !u!114 &88178298206555474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c220392efde426428c43e9fb8aae782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0

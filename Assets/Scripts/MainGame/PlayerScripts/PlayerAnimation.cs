@@ -20,16 +20,16 @@ public class PlayerAnimation : MonoBehaviour
     // Declaring player's appearances objects
     [Space]
     [Header("Player's poses")]
-    [SerializeField] private GameObject playerStandingPose = null;
-    [SerializeField] private GameObject playerCrouchingPose = null;
-    [SerializeField] private GameObject playerSprintingPose = null;
+    [SerializeField] private GameObject playerStandingPose;
+    [SerializeField] private GameObject playerCrouchingPose;
+    [SerializeField] private GameObject playerSprintingPose;
 
     // Player Smooth Crouch variables
     [Space] [Header("Smooth Crouch variables")] [SerializeField]
     private float crouchSpeed = 0.3f;
     private float standingHeight = 2f; // In "Start", will be set to the height of the "StandardHitbox" capsule
     private float crouchingHeight = 1f; // In "Start", will be set to half the height of the "StandardHitbox" capsule
-    [SerializeField] private Transform playerCamera = null;
+    [SerializeField] private Transform playerCamera;
 
     void Awake() // Don't touch !
     {

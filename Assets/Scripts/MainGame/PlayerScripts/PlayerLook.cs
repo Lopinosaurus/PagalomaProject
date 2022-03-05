@@ -9,7 +9,7 @@ public class PlayerLook : MonoBehaviour
 {
     #region Attributes
 
-    [SerializeField] private GameObject cameraHolder = null;
+    [SerializeField] private GameObject cameraHolder;
 
     // Sensitivity
     [Space]
