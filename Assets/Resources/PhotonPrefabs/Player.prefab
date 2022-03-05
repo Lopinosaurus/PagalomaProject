@@ -4459,10 +4459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
-  sprintSpeed: 4
   currentSpeed: 0
-  gravityForce: -9.81
-  velocity: {x: 0, y: 0, z: 0}
   groundCheck: {fileID: 9115280105432258644}
   groundMask:
     serializedVersion: 2
