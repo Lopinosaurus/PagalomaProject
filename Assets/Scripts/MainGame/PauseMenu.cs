@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject menuUI;
     [SerializeField] private PlayerController playerController;
 
+
     // Update is called once per frame
     void Update()
     {
@@ -28,8 +29,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
-        playerController.PlayerInput.SwitchCurrentActionMap("Player");
-        Cursor.visible = false;
         Debug.Log("Visible = false");
         Cursor.lockState = CursorLockMode.Locked;
         menuUI.SetActive(false);
@@ -38,7 +37,7 @@ public class PauseMenu : MonoBehaviour
 
     void PauseGame()
     {
-        playerController.PlayerInput.SwitchCurrentActionMap("UI");
+        
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         menuUI.SetActive(true);
