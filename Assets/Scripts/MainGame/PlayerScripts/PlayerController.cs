@@ -6,8 +6,7 @@ using Photon.Pun;
 
 [RequireComponent(typeof(PlayerMovement)),
  RequireComponent(typeof(PlayerLook)),
- RequireComponent(typeof(PlayerAnimation)),
- RequireComponent(typeof(CharacterController))]
+ RequireComponent(typeof(PlayerAnimation))]
 
 public class PlayerController : MonoBehaviour
 {
