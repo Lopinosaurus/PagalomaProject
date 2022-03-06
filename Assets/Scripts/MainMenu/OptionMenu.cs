@@ -12,4 +12,9 @@ public class OptionMenu : MonoBehaviour
     {
         MainAudioMixer.SetFloat("MainVolume", volume);
     }
+
+    public void SetQuality(int qualityIndex)
+    {
+        QualitySettings.SetQualityLevel(qualityIndex);
+    }
 }
