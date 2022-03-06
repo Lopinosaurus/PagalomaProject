@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player height settings")]
     private float crouchedHeight;
     private float standingHeight;
+    private float cameraStandingHeight;
+    private float cameraCrouchedHeight;
     
     // Jump values
     [Space]
@@ -99,9 +101,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        var height = _characterController.height;
-        crouchedHeight = height / 2;
-        standingHeight = height;
+        float camHeight = cameraHolder.transform.localPosition.y;
+        crouchedHeight = camHeight / 2;
+        standingHeight = camHeight;
+        cameraStandingHeight = ca;
+        cameraCrouchedHeight = cameraStandingHeight * 0.5f;
     }
 
     #endregion
@@ -117,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camPosition = cameraHolder.transform.localPosition;
         if (Math.Abs(_characterController.height - desiredHeight) > 0)
         {
-            AdjustHeight(desiredHeight);
+            AdjustHeight(desiredHeight); // changes the CaracterController diomensions
             camPosition.y = _characterController.height;
         }
         
@@ -272,14 +276,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // _characterController.AddForce(transform.up * jumpForce);
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("input fo jump detected");
-        }
-
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            Debug.Log("Should jump");
             velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
         }
 
