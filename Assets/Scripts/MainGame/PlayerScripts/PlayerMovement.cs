@@ -6,7 +6,7 @@ using System;
 using Photon.Pun;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerController)), RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerController))]
 
 public class PlayerMovement : MonoBehaviour
 {
