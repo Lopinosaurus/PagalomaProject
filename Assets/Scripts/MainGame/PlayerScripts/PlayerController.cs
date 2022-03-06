@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 // ReSharper disable All
 
 [RequireComponent(typeof(PlayerMovement)),
@@ -22,8 +23,11 @@ public class PlayerController : MonoBehaviour
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     private PlayerAnimation _playerAnimation;
-    
+
     // Miscellaneous
+    [SerializeField] private PlayerInput playerInput;
+
+    public PlayerInput PlayerInput => playerInput;
 
     #endregion
 

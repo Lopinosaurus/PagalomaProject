@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
-
+    
     public enum MovementTypes
     {
         Stand,

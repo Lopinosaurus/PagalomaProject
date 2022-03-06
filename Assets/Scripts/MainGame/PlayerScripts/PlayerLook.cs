@@ -32,7 +32,7 @@ public class PlayerLook : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetMouseButton(0))
         {
@@ -47,7 +47,7 @@ public class PlayerLook : MonoBehaviour
             Cursor.visible = true;
             shouldLookAround = false;
         }
-    }
+    }*/
 
     #endregion
     
