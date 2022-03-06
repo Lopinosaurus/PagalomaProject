@@ -381,7 +381,7 @@ RectTransform:
   - {fileID: 42689329}
   - {fileID: 1593643842}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -673,7 +673,7 @@ RectTransform:
   m_Children:
   - {fileID: 1399625673}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -693,7 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuName: loading
-  open: 1
+  open: 0
 --- !u!1 &42689328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1082,7 @@ RectTransform:
   - {fileID: 621856164}
   - {fileID: 667984112}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2229,6 +2229,7 @@ GameObject:
   - component: {fileID: 277934001}
   - component: {fileID: 277934003}
   - component: {fileID: 277934002}
+  - component: {fileID: 277934005}
   - component: {fileID: 277934004}
   m_Layer: 5
   m_Name: OptionMenu
@@ -2273,7 +2274,7 @@ RectTransform:
   - {fileID: 2061471788}
   - {fileID: 159578117}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 8
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2332,6 +2333,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainAudioMixer: {fileID: 24100000, guid: bff1f46dc9fea834aac2958d14e0fa50, type: 2}
   resDropdown: {fileID: 2139306935}
+--- !u!114 &277934005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277934000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5720478a3e01ec445bacc61278f045d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuName: options
+  open: 0
 --- !u!1 &295660662
 GameObject:
   m_ObjectHideFlags: 0
@@ -4861,7 +4876,7 @@ RectTransform:
   - {fileID: 1929549088}
   - {fileID: 1083950706}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5352,25 +5367,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182358930}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1753307482}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 277934000}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1182358935}
+          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6157,7 +6160,7 @@ RectTransform:
   m_Children:
   - {fileID: 1752039703}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7688,9 +7691,9 @@ GameObject:
   - component: {fileID: 1182358931}
   - component: {fileID: 1182358933}
   - component: {fileID: 1182358932}
-  - component: {fileID: 1182358934}
+  - component: {fileID: 1182358935}
   m_Layer: 5
-  m_Name: PlayMenu
+  m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7711,7 +7714,7 @@ RectTransform:
   - {fileID: 1779202154}
   - {fileID: 1578202085}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7756,7 +7759,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182358930}
   m_CullTransparentMesh: 1
---- !u!114 &1182358934
+--- !u!114 &1182358935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7765,9 +7768,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1182358930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f25a051efebf05c4d88ba0fc25d9f941, type: 3}
+  m_Script: {fileID: 11500000, guid: 5720478a3e01ec445bacc61278f045d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuName: main
+  open: 1
 --- !u!1 &1205647732
 GameObject:
   m_ObjectHideFlags: 0
@@ -8323,41 +8328,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182358930}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1753307482}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 18218290}
+          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 18218288}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1362225000
 MonoBehaviour:
@@ -9363,8 +9344,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182358934}
-        m_TargetAssemblyTypeName: PlayMenu, Assembly-CSharp
+      - m_Target: {fileID: 1753307481}
+        m_TargetAssemblyTypeName: Launcher, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -10270,6 +10251,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1182358931}
+  - {fileID: 277934001}
   - {fileID: 40008107}
   - {fileID: 18218291}
   - {fileID: 894635629}
@@ -10277,8 +10260,6 @@ RectTransform:
   - {fileID: 647019650}
   - {fileID: 95272567}
   - {fileID: 1797459361}
-  - {fileID: 1182358931}
-  - {fileID: 277934001}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10322,6 +10303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menus:
+  - {fileID: 1182358935}
   - {fileID: 40008108}
   - {fileID: 18218290}
   - {fileID: 894635630}
@@ -10329,6 +10311,7 @@ MonoBehaviour:
   - {fileID: 647019651}
   - {fileID: 95272568}
   - {fileID: 1797459362}
+  - {fileID: 277934005}
 --- !u!1 &1755083304
 GameObject:
   m_ObjectHideFlags: 0
@@ -10374,7 +10357,7 @@ RectTransform:
   - {fileID: 246448530}
   - {fileID: 683096460}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10871,29 +10854,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 277934000}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1753307482}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 277934005}
+          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1182358930}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1779202156
 MonoBehaviour:
@@ -11175,7 +11146,7 @@ RectTransform:
   - {fileID: 1458757470}
   - {fileID: 991431170}
   m_Father: {fileID: 1753307480}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
