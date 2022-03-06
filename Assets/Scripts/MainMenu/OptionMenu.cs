@@ -37,6 +37,13 @@ public class OptionMenu : MonoBehaviour
         resDropdown.RefreshShownValue();
     }
 
+    public void SetScreenRes(int resIndex)
+    {
+        Resolution ScreenRes = screenRes[resIndex];
+
+        Screen.SetResolution(ScreenRes.width, ScreenRes.height, Screen.fullScreen);
+    }
+
     public void SetVolume(float volume)
     {
         MainAudioMixer.SetFloat("MainVolume", volume);
