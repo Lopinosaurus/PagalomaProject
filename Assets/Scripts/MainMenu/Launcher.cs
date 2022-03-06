@@ -30,7 +30,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
 
     void Start()
     {
-        MenuManager.Instance.OpenMenu("username");
+        MenuManager.Instance.OpenMenu("main");
     }
 
     // CONNECTION
@@ -111,6 +111,12 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         startGameButton.SetActive(PhotonNetwork.IsMasterClient); // Activate startGameButton for new host
+    }
+    
+    public void Quit()
+    {
+        Debug.Log("Leaving Game...");
+        Application.Quit();
     }
 
     // CALLBACKS

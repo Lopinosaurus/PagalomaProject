@@ -276,8 +276,19 @@ public class PlayerMovement : MonoBehaviour
     {
         // _characterController.AddForce(transform.up * jumpForce);
 
+<<<<<<< HEAD
         if (Input.GetButtonDown("Jump") && grounded)
         {
+=======
+        // if (Input.GetButtonDown("Jump"))
+        // {
+        //      Debug.Log("input fo jump detected");
+        // }
+
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            // Debug.Log("Should jump");
+>>>>>>> 20b34c6ffd7add78ffb2e5df759a80e81d8f83b9
             velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
         }
 
