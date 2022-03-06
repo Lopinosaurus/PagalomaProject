@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private float sprintSpeed = 6f;
     private float crouchSpeed = 2f;
     private float walkSpeed = 4f;
-    private Vector2 move;
-    
+    private Vector2 moveRaw2D;
+
     // Gravity
     [Space] [Header("Gravity settings")]
     private float gravityForce = -9.81f;
@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
         
         // Player Controls
         _playerControls = new PlayerControls();
-        _playerControls.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += _ => move = Vector2.zero;
+        _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
+        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
     }
     
     private void OnEnable()
@@ -139,26 +139,17 @@ public class PlayerMovement : MonoBehaviour
 
     #region Movements
 
-    private float movementX;
-    private float movementY;
-    
-    private void OnMove(InputValue movementValue)
-            {
-                Vector2 movementVector = movementValue.Get<Vector2>();
-                movementX = movementVector.x;
-                movementY = movementVector.y;
-            }
-    
     public void Move()
     {
-        Vector3 moveDir = new Vector3
+
+        Vector3 moveRaw3D = new Vector3
         {
-            x = movementX,
+            x = moveRaw2D.x,
             y = 0.0f,
-            z = movementY,
+            z = moveRaw2D.y
         };
         
-        moveDir = moveDir.normalized;
+        moveRaw3D = moveRaw3D.normalized;
 
         // Updates the grounded boolean state
         UpdateGrounded();
@@ -170,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateCrouch();
 
         // Updates the walk state
-        UpdateWalk(moveDir);
+        UpdateWalk(moveRaw3D);
 
         // Updates gravity
         UpdateGravity(); // changes 'transformGravity'
@@ -179,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateSpeed();
         
         // Sets the new movement vector based on the inputs
-        SetMoveAmount(moveDir);
+        SetMoveAmount(moveRaw3D);
         
         
 
