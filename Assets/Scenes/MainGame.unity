@@ -1879,6 +1879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuUI: {fileID: 1860833229}
+  playerController: {fileID: 4656714414789940587, guid: dc0fbb472967a0745b0551b3244b48a2, type: 3}
 --- !u!1 &551546427
 GameObject:
   m_ObjectHideFlags: 0
