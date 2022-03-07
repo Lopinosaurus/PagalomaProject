@@ -29,6 +29,13 @@ public class PlayerMovement : MonoBehaviour
     private float crouchSpeed = 2f;
     private float walkSpeed = 4f;
     private Vector2 moveRaw2D;
+    
+    [Space]
+    [Header("Movement settings")]
+    [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
+    [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
+    private Vector3 moveSmoothVelocity;
+    public Vector3 moveAmount = Vector3.zero;
 
     // Gravity
     [Space] [Header("Gravity settings")]
@@ -41,28 +48,23 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public bool grounded;
 
-    // Heights
+    // Crouch & Hitboxes
     [Space]
     [Header("Player height settings")]
-    private float crouchedHeight;
-    private float standingHeight;
-    private float cameraStandingHeight;
-    private float cameraCrouchedHeight;
+    [SerializeField] private float crouchSmoothTime = 0.1f;
+    private Vector3 crouchSmoothVelocityVector3;
+    private float crouchSmoothVelocity;
+    private float crouchedHitboxHeight;
+    private float standingHitboxHeight;
+    private float standingCameraHeight;
+    private float crouchedCameraHeight;
     
     // Jump values
     [Space]
     [Header("Player jump settings")]
-    private float jumpForce = 2f;
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
-    
-    private Vector3 smoothMoveVelocity;
-    public Vector3 moveAmount = Vector3.zero;
-    
-    [Space]
-    [Header("Movement settings")]
-    [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
-    [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
-    
+    private float jumpForce = 2f;
+
     public enum MovementTypes
     {
         Stand,
@@ -101,44 +103,51 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        float hitboxHeight = _characterController.height;
+        crouchedHitboxHeight = hitboxHeight * 0.78f;
+        standingHitboxHeight = hitboxHeight;
+        
         float camHeight = cameraHolder.transform.localPosition.y;
-        crouchedHeight = camHeight / 2;
-        standingHeight = camHeight;
-        cameraStandingHeight = ca;
-        cameraCrouchedHeight = cameraStandingHeight * 0.5f;
+        standingCameraHeight = camHeight;
+        crouchedCameraHeight = standingCameraHeight * 0.7f;
     }
 
     #endregion
     
-    public void UpdateHitbox(MovementTypes _currentMovementType)
+    public void UpdateHitbox()
     {
-        // Updates player's hitbox about crouch
         #region Crouch management
         
-        float desiredHeight = standingHeight;
-        if (MovementTypes.Crouch == currentMovementType) desiredHeight = crouchedHeight;
+            // This is for the CharacterController's dimensions and the camera position
 
-        Vector3 camPosition = cameraHolder.transform.localPosition;
-        if (Math.Abs(_characterController.height - desiredHeight) > 0)
-        {
-            AdjustHeight(desiredHeight); // changes the CaracterController diomensions
-            camPosition.y = _characterController.height;
-        }
-        
-        cameraHolder.transform.localPosition = camPosition;
+            float desiredHitboxHeight = currentMovementType switch
+            {
+                MovementTypes.Crouch => crouchedHitboxHeight,
+                _ => standingHitboxHeight
+            };
 
-        #endregion
+            if (Math.Abs(_characterController.height - desiredHitboxHeight) > 0)
+            {
+                AdjustPlayerHeight(desiredHitboxHeight);
+                
+                Vector3 camPosition = cameraHolder.transform.localPosition;
+                camPosition.y = crouchedCameraHeight + (standingCameraHeight - crouchedCameraHeight) * ((_characterController.height - crouchedHitboxHeight) / (standingHitboxHeight - crouchedHitboxHeight));
+                
+                cameraHolder.transform.localPosition = camPosition;
+            }
+
+
+            #endregion
     }
     
-    
     // Sets the hitbox's height to the input value progressively
-    private void AdjustHeight(float height)
+    private void AdjustPlayerHeight(float desiredHeight)
     {
         // Calculates the current center of the player
-        float center = height / 2f;
+        float center = desiredHeight / 2f;
 
-        _characterController.height = Mathf.Lerp(_characterController.height, height, crouchSpeed);
-        _characterController.center = Vector3.Lerp(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
+        _characterController.height = Mathf.SmoothDamp(_characterController.height, desiredHeight, ref crouchSmoothVelocity, crouchSmoothTime);
+        _characterController.center = Vector3.SmoothDamp(_characterController.center, new Vector3(0, center, 0), ref crouchSmoothVelocityVector3, crouchSmoothTime);
     }
 
     #region Movements
@@ -177,11 +186,6 @@ public class PlayerMovement : MonoBehaviour
         SetMoveAmount(moveRaw3D);
         
         
-
-        if (Vector3.zero != velocity)
-        {
-            // Debug.Log("velocity vector is: " + velocity);
-        }
         
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
@@ -191,6 +195,11 @@ public class PlayerMovement : MonoBehaviour
         // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
     }
     
+    private void UpdateGrounded()
+    {
+        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+    }
+
     private bool UpdateSprint()
     {
         if (MovementTypes.Crouch == currentMovementType) return false;
@@ -271,29 +280,6 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
-
-    public bool UpdateJump() // changes 'transformJump'
-    {
-        // _characterController.AddForce(transform.up * jumpForce);
-
-<<<<<<< HEAD
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-=======
-        // if (Input.GetButtonDown("Jump"))
-        // {
-        //      Debug.Log("input fo jump detected");
-        // }
-
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            // Debug.Log("Should jump");
->>>>>>> 20b34c6ffd7add78ffb2e5df759a80e81d8f83b9
-            velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
-        }
-
-        return true; // for now, no conditions prevents the player from jumping
-    }
     
     private void UpdateGravity()
     {
@@ -325,19 +311,34 @@ public class PlayerMovement : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-
-    private void UpdateGrounded()
+    
+    public bool UpdateJump() // changes 'transformJump'
     {
-        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        // _characterController.AddForce(transform.up * jumpForce);
+
+
+        // if (Input.GetButtonDown("Jump"))
+        // {
+        //      Debug.Log("input fo jump detected");
+        // }
+
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            // Debug.Log("Should jump");
+            velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
+        }
+
+        return true; // for now, no conditions prevents the player from jumping
     }
 
+    
     #endregion
     
     #region Setters
 
     private void SetMoveAmount(Vector3 moveDir)
     {
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref smoothMoveVelocity, smoothTime);
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref moveSmoothVelocity, smoothTime);
     }
     
     public bool SetGroundedState(bool _grounded)

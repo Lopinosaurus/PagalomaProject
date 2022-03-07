@@ -75,14 +75,11 @@ public class PlayerController : MonoBehaviour
         //TODO
         // Will soon be improved to remove jittering
         _playerMovement.Move();
-
-        UpdateHitbox();
+        _playerMovement.UpdateHitbox();
     }
     
     #endregion
-
-    private void UpdateHitbox() => _playerAnimation.UpdateHitbox(_playerMovement.currentMovementType);
-
+    
 
     // Network syncronization
     #region RPCs
