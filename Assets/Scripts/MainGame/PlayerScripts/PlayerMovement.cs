@@ -114,42 +114,6 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
     
-    public void UpdateHitbox()
-    {
-        #region Crouch management
-        
-            // This is for the CharacterController's dimensions and the camera position
-
-            float desiredHitboxHeight = currentMovementType switch
-            {
-                MovementTypes.Crouch => crouchedHitboxHeight,
-                _ => standingHitboxHeight
-            };
-
-            if (Math.Abs(_characterController.height - desiredHitboxHeight) > 0)
-            {
-                AdjustPlayerHeight(desiredHitboxHeight);
-                
-                Vector3 camPosition = cameraHolder.transform.localPosition;
-                camPosition.y = crouchedCameraHeight + (standingCameraHeight - crouchedCameraHeight) * ((_characterController.height - crouchedHitboxHeight) / (standingHitboxHeight - crouchedHitboxHeight));
-                
-                cameraHolder.transform.localPosition = camPosition;
-            }
-
-
-            #endregion
-    }
-    
-    // Sets the hitbox's height to the input value progressively
-    private void AdjustPlayerHeight(float desiredHeight)
-    {
-        // Calculates the current center of the player
-        float center = desiredHeight / 2f;
-
-        _characterController.height = Mathf.SmoothDamp(_characterController.height, desiredHeight, ref crouchSmoothVelocity, crouchSmoothTime);
-        _characterController.center = Vector3.SmoothDamp(_characterController.center, new Vector3(0, center, 0), ref crouchSmoothVelocityVector3, crouchSmoothTime);
-    }
-
     #region Movements
 
     public void Move()
@@ -329,6 +293,42 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return true; // for now, no conditions prevents the player from jumping
+    }
+
+    public void UpdateHitbox()
+    {
+        #region Crouch management
+        
+        // This is for the CharacterController's dimensions and the camera position
+
+        float desiredHitboxHeight = currentMovementType switch
+        {
+            MovementTypes.Crouch => crouchedHitboxHeight,
+            _ => standingHitboxHeight
+        };
+
+        if (Math.Abs(_characterController.height - desiredHitboxHeight) > 0)
+        {
+            AdjustPlayerHeight(desiredHitboxHeight);
+                
+            Vector3 camPosition = cameraHolder.transform.localPosition;
+            camPosition.y = crouchedCameraHeight + (standingCameraHeight - crouchedCameraHeight) * ((_characterController.height - crouchedHitboxHeight) / (standingHitboxHeight - crouchedHitboxHeight));
+                
+            cameraHolder.transform.localPosition = camPosition;
+        }
+
+
+        #endregion
+    }
+    
+    // Sets the hitbox's height to the input value progressively
+    private void AdjustPlayerHeight(float desiredHeight)
+    {
+        // Calculates the current center of the player
+        float center = desiredHeight / 2f;
+
+        _characterController.height = Mathf.SmoothDamp(_characterController.height, desiredHeight, ref crouchSmoothVelocity, crouchSmoothTime);
+        _characterController.center = Vector3.SmoothDamp(_characterController.center, new Vector3(0, center, 0), ref crouchSmoothVelocityVector3, crouchSmoothTime);
     }
 
     

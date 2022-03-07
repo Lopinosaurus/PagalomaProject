@@ -86,7 +86,10 @@ public class PlayerController : MonoBehaviour
 
     [PunRPC]
     // Syncronizes the appearance
-    void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType) => _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+    void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
+    {
+        _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+    }
 
     #endregion
 }
