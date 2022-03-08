@@ -20,7 +20,11 @@ public class PlayerMovement : MonoBehaviour
     
     // Player Controls
     private PlayerControls _playerControls;
-    
+    private Vector2 moveRaw2D;
+    private bool wantsCrouch;
+    private bool wantsSprint;
+    private bool wantsJump;
+
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
@@ -28,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
     private float sprintSpeed = 6f;
     private float crouchSpeed = 2f;
     private float walkSpeed = 4f;
-    private Vector2 moveRaw2D;
     
     [Space]
     [Header("Movement settings")]
@@ -45,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     // Ground check
     public Transform groundCheck;
     [SerializeField] public LayerMask groundMask;
-    public float groundDistance = 0.4f;
+    public float groundDistance = 0.01f;
     public bool grounded;
 
     // Crouch & Hitboxes
@@ -88,8 +91,14 @@ public class PlayerMovement : MonoBehaviour
         
         // Player Controls
         _playerControls = new PlayerControls();
+        // for the ZQSD movements
         _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
+        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;        // for the Crouch button
+        wantsCrouch = false;
+        // for the Sprint button
+        wantsSprint = false;
+        // for the Jump button
+        wantsJump = false;
     }
     
     private void OnEnable()
@@ -118,6 +127,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
+        // for the Crouch button
+        wantsCrouch = _playerControls.Player.Crouch.WasPerformedThisFrame();
+        // for the Sprint button
+        wantsSprint = _playerControls.Player.Sprint.WasPerformedThisFrame();
+        // for the Jump button
+        wantsJump = _playerControls.Player.Jump.WasPressedThisFrame();
 
         Vector3 moveRaw3D = new Vector3
         {
@@ -161,7 +176,10 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateGrounded()
     {
-        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        grounded = _characterController.isGrounded;
+        // grounded = Physics.CheckBox(groundCheck.position, new Vector3(radius, 0.01f, radius / 2), Quaternion.identity);
+        // grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        Debug.Log("Grounded state is: " + grounded);
     }
 
     private bool UpdateSprint()
@@ -169,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
         if (MovementTypes.Crouch == currentMovementType) return false;
 
         // Checks if players wants to sprint and if he pressed a directional key
-        if (Input.GetButton("Sprint") && (0 != Input.GetAxisRaw("Horizontal") || 0 != Input.GetAxisRaw("Vertical")))
+        if (wantsSprint && Vector2.zero != moveRaw2D)
         {
             return SetCurrentMovementType(MovementTypes.Sprint);
         }
@@ -188,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
         switch (currentCrouchType)
         {
             // Will crouch the player
-            case CrouchModes.Hold when Input.GetButton("Crouch"):
+            case CrouchModes.Hold when wantsCrouch:
 
                 // Sets the MovementType to crouched
                 return SetCurrentMovementType(MovementTypes.Crouch);
@@ -207,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
 
             case CrouchModes.Toggle:
             {
-                if (Input.GetButtonDown("Crouch"))
+                if (wantsCrouch)
                 {
                     // Checks the current state of crouch
                     if (currentMovementType == MovementTypes.Crouch)
@@ -278,15 +296,12 @@ public class PlayerMovement : MonoBehaviour
     
     public bool UpdateJump() // changes 'transformJump'
     {
-        // _characterController.AddForce(transform.up * jumpForce);
+        if (wantsJump)
+        {
+             Debug.Log("input to jump detected");
+        }
 
-
-        // if (Input.GetButtonDown("Jump"))
-        // {
-        //      Debug.Log("input fo jump detected");
-        // }
-
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (wantsJump && grounded)
         {
             // Debug.Log("Should jump");
             velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
