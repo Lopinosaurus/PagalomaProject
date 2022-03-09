@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.Animations;
 
 [RequireComponent(typeof(PlayerController))]
 
@@ -11,6 +12,8 @@ public class PlayerLook : MonoBehaviour
     #region Attributes
 
     [SerializeField] private Transform camHolderTransform;
+    private PlayerController _playerController;
+    private PlayerControls _playerControls;
     
     // Sensitivity
     [Space]
@@ -27,6 +30,7 @@ public class PlayerLook : MonoBehaviour
     private float mouseX;
     private float mouseY;
     
+    
     // Current player values
     private float rotationX;
     private float rotationY;
@@ -35,10 +39,19 @@ public class PlayerLook : MonoBehaviour
 
     #region Unity Methods
 
+    private void Awake()
+    {
+        //TODO should be the same as in PlayerMovement.cs ?
+        _playerControls = new PlayerControls();
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        _playerControls.Player.Look.performed += ctx => mouseX = ctx.ReadValue<Vector2>().x;
+        _playerControls.Player.Look.performed += ctx => mouseY = ctx.ReadValue<Vector2>().y;
     }
 
     #endregion
@@ -47,8 +60,11 @@ public class PlayerLook : MonoBehaviour
     {
         if (!shouldLookAround) return;
 
-        mouseX = Input.GetAxisRaw("Mouse X");
-        mouseY = Input.GetAxisRaw("Mouse Y");
+        // mouseX = Input.GetAxisRaw("Mouse X");
+        // mouseY = Input.GetAxisRaw("Mouse Y");
+        
+        Debug.Log("mouse X is: " + mouseX);
+        Debug.Log("mouse Y is: " + mouseY);
 
         rotationY += mouseX * mouseSensX;
         rotationX -= mouseY * mouseSensY;

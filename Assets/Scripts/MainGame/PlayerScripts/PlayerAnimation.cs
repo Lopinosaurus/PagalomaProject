@@ -9,7 +9,7 @@ using Photon.Pun;
 public class PlayerAnimation : MonoBehaviour
 {
     // Movement component
-    private CharacterController _characterController;
+    private PlayerMovement _playerMovement;
 
     // Network component
     private PhotonView _photonView;
@@ -25,9 +25,9 @@ public class PlayerAnimation : MonoBehaviour
     [Space] [Header("Smooth Crouch variables")]
     [SerializeField] private Transform playerCamera;
 
-    void Awake() // Don't touch !
+    private void Awake() // Don't touch !
     {
-        _characterController = GetComponent<CharacterController>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _photonView = GetComponent<PhotonView>();
     }
 
@@ -39,11 +39,13 @@ public class PlayerAnimation : MonoBehaviour
         playerSprintingPose.SetActive(false);
     }
 
-    public void UpdateAppearance(PlayerMovement.MovementTypes _currentMovementType)
+    public void UpdateAppearance()
     {
-        playerStandingPose.SetActive(_currentMovementType == PlayerMovement.MovementTypes.Stand || _currentMovementType == PlayerMovement.MovementTypes.Walk); 
-        playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == _currentMovementType);
-        playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == _currentMovementType);
+        PlayerMovement.MovementTypes currentMovementType = _playerMovement.currentMovementType;
+        
+        playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand || currentMovementType == PlayerMovement.MovementTypes.Walk); 
+        playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == currentMovementType);
+        playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == currentMovementType);
     
         //TODO: re-enable network
         // Network sync: hitbox

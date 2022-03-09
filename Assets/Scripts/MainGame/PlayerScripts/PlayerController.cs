@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
-// ReSharper disable All
 
 [RequireComponent(typeof(PlayerMovement)),
  RequireComponent(typeof(PlayerLook)),
@@ -27,7 +26,6 @@ public class PlayerController : MonoBehaviour
     // Miscellaneous
     [SerializeField] GameObject cameraHolder;
     [SerializeField] private PlayerInput playerInput;
-
     public PlayerInput PlayerInput => playerInput;
 
     #endregion
@@ -66,7 +64,7 @@ public class PlayerController : MonoBehaviour
         _playerMovement.UpdateJump();
         
         // Updates the appearance based on the MovementType
-        _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+        _playerAnimation.UpdateAppearance();
     }
     
     private void FixedUpdate()
@@ -82,14 +80,14 @@ public class PlayerController : MonoBehaviour
     #endregion
     
 
-    // Network syncronization
+    // Network synchronization
     #region RPCs
 
     [PunRPC]
-    // Syncronizes the appearance
+    // Synchronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
     {
-        _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+        _playerAnimation.UpdateAppearance();
     }
 
     #endregion

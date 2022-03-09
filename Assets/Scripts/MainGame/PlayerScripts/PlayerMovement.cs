@@ -19,7 +19,10 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _characterController;
     
     // Player Controls
-    private PlayerControls _playerControls;
+    private PlayerController _playerController;
+    private static PlayerControls _playerControls;
+
+    // private PlayerControls _playerControls;
     private Vector2 moveRaw2D;
     private bool wantsCrouch;
     private bool wantsSprint;
@@ -58,10 +61,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float crouchSmoothTime = 0.1f;
     private Vector3 crouchSmoothVelocityVector3;
     private float crouchSmoothVelocity;
-    private float crouchedHitboxHeight;
-    private float standingHitboxHeight;
-    private float standingCameraHeight;
-    private float crouchedCameraHeight;
+    private float standingHitboxHeight = 1.8f;
+    private float crouchedHitboxHeight = 1.404f;
+    private float standingCameraHeight = 1.68f;
+    private float crouchedCameraHeight = 1.176f;
     
     // Jump values
     [Space]
@@ -88,10 +91,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() // Don't touch !
     {
-        _characterController = GetComponent<CharacterController>();
-        
         // Player Controls
         _playerControls = new PlayerControls();
+
+        _characterController = GetComponent<CharacterController>();
+        _playerController = GetComponent<PlayerController>();
+        
+        float hitboxHeight = _characterController.height;
+        crouchedHitboxHeight = hitboxHeight * 0.78f;
+        standingHitboxHeight = hitboxHeight;
+
+        float camHeight = cameraHolder.transform.localPosition.y;
+        crouchedCameraHeight = camHeight * 0.7f;
+        standingCameraHeight = camHeight;
+    }
+
+    private void OnEnable()
+    {
+        _playerControls.Player.Enable();
+    }
+    private void OnDisable()
+    {    
+        _playerControls.Player.Disable();
+    }
+
+    private void Start()
+    {
         // for the ZQSD movements
         _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
         _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
@@ -104,26 +129,6 @@ public class PlayerMovement : MonoBehaviour
         // for the Jump button
         _playerControls.Player.Jump.performed += ctx => wantsJump = ctx.ReadValueAsButton();
         _playerControls.Player.Jump.canceled += ctx => wantsJump = ctx.ReadValueAsButton();
-    }
-    
-    private void OnEnable()
-    {
-        _playerControls.Player.Enable();
-    }
-    private void OnDisable()
-    {    
-        _playerControls.Player.Disable();
-    }
-
-    private void Start()
-    {
-        float hitboxHeight = _characterController.height;
-        crouchedHitboxHeight = hitboxHeight * 0.78f;
-        standingHitboxHeight = hitboxHeight;
-        
-        float camHeight = cameraHolder.transform.localPosition.y;
-        standingCameraHeight = camHeight;
-        crouchedCameraHeight = standingCameraHeight * 0.7f;
     }
 
     #endregion
@@ -322,8 +327,9 @@ public class PlayerMovement : MonoBehaviour
             AdjustPlayerHeight(desiredHitboxHeight);
                 
             Vector3 camPosition = cameraHolder.transform.localPosition;
+
             camPosition.y = crouchedCameraHeight + (standingCameraHeight - crouchedCameraHeight) * ((_characterController.height - crouchedHitboxHeight) / (standingHitboxHeight - crouchedHitboxHeight));
-                
+            
             cameraHolder.transform.localPosition = camPosition;
         }
 
