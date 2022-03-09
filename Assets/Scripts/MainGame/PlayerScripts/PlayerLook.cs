@@ -60,11 +60,11 @@ public class PlayerLook : MonoBehaviour
     {
         if (!shouldLookAround) return;
 
-        // mouseX = Input.GetAxisRaw("Mouse X");
-        // mouseY = Input.GetAxisRaw("Mouse Y");
+        mouseX = Input.GetAxisRaw("Mouse X");
+        mouseY = Input.GetAxisRaw("Mouse Y");
         
-        Debug.Log("mouse X is: " + mouseX);
-        Debug.Log("mouse Y is: " + mouseY);
+        // Debug.Log("mouse X is: " + mouseX);
+        // Debug.Log("mouse Y is: " + mouseY);
 
         rotationY += mouseX * mouseSensX;
         rotationX -= mouseY * mouseSensY;
