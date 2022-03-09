@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PlayerController))]
 
@@ -11,7 +12,8 @@ public class PlayerLook : MonoBehaviour
 {
     #region Attributes
 
-    [SerializeField] private Transform camHolderTransform;
+    [FormerlySerializedAs("camHolderTransform")] [SerializeField] private Transform camHolder;
+    [SerializeField] private Transform camOrientation;
     private PlayerController _playerController;
     private PlayerControls _playerControls;
     
@@ -29,11 +31,14 @@ public class PlayerLook : MonoBehaviour
     // Mouse input values
     private float mouseX;
     private float mouseY;
-    
-    
+
     // Current player values
     private float rotationX;
     private float rotationY;
+    private float smoothValueX;
+    private float smoothValueY;
+    private float smoothTimeX = 0.01f;
+    private float smoothTimeY = 0.01f;
 
     #endregion
 
@@ -60,19 +65,23 @@ public class PlayerLook : MonoBehaviour
     {
         if (!shouldLookAround) return;
 
-        // mouseX = Input.GetAxisRaw("Mouse X");
-        // mouseY = Input.GetAxisRaw("Mouse Y");
+        mouseX = Input.GetAxisRaw("Mouse X");
+        mouseY = Input.GetAxisRaw("Mouse Y");
         
-        Debug.Log("mouse X is: " + mouseX);
-        Debug.Log("mouse Y is: " + mouseY);
-
         rotationY += mouseX * mouseSensX;
         rotationX -= mouseY * mouseSensY;
 
         rotationX = Mathf.Clamp(rotationX, -80f, 70f);
 
-        camHolderTransform.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
-        transform.Rotate(Vector3.up * camHolderTransform.localRotation.eulerAngles.y);
+        Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
+        camOrientation.rotation = rotation;
+
+        rotationX = Mathf.SmoothDampAngle(rotationX, rotation.eulerAngles.x, ref smoothValueX, smoothTimeX);
+        rotationY = Mathf.SmoothDampAngle(rotationY, rotation.eulerAngles.y, ref smoothValueY, smoothTimeY);
+
+        camHolder.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        transform.rotation = Quaternion.Euler(0, rotationY, 0);
+        
         // transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensY));
         //
         // YLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensX;

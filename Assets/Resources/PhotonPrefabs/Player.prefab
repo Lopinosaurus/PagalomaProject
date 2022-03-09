@@ -517,7 +517,7 @@ Transform:
   m_Children:
   - {fileID: 2997643764292009107}
   m_Father: {fileID: 5413455336871077530}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9118603271664355303
 MonoBehaviour:
@@ -1729,7 +1729,7 @@ Transform:
   - {fileID: 6075856805755197790}
   - {fileID: 3710117858414592867}
   m_Father: {fileID: 5413455336871077530}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3084032827043420931
 GameObject:
@@ -2946,6 +2946,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4999920669126847698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6032906085478402495}
+  m_Layer: 7
+  m_Name: CamOrientation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6032906085478402495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4999920669126847698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.68, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5413455336871077530}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5051375863513590900
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,7 +4189,7 @@ Transform:
   m_Children:
   - {fileID: 9115280105432258644}
   m_Father: {fileID: 5413455336871077530}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6912669093537850562
 GameObject:
@@ -4439,6 +4469,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 6032906085478402495}
   - {fileID: 6598090228381821785}
   - {fileID: 5538425792144464989}
   - {fileID: 8790835795673358768}
@@ -4458,6 +4489,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 31
   playerInput: {fileID: -4639757121528924229}
 --- !u!114 &-8137473814549735202
 MonoBehaviour:
@@ -4497,6 +4531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolderTransform: {fileID: 6598090228381821785}
+  camOrientation: {fileID: 6032906085478402495}
   mouseSensX: 3
   mouseSensY: 3
 --- !u!143 &3682566154727703155
