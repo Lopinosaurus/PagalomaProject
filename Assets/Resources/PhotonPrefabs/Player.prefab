@@ -4539,6 +4539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraHolder: {fileID: 1141215766398316333}
   playerInput: {fileID: -4639757121528924229}
 --- !u!114 &8724781646391684398
 MonoBehaviour:
@@ -4568,9 +4569,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfa373cc0fff384992ddcb05a9bde70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHolder: {fileID: 1141215766398316333}
-  mouseSensHorizontal: 3
-  mouseSensVertical: 3
+  camHolderTransform: {fileID: 6598090228381821785}
+  mouseSensX: 3
+  mouseSensY: 3
 --- !u!114 &-4639757121528924229
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
+    [SerializeField] GameObject cameraHolder;
     [SerializeField] private PlayerInput playerInput;
 
     public PlayerInput PlayerInput => playerInput;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine) return;
         
-        Destroy(GetComponentInChildren<Camera>().gameObject);
+        Destroy(cameraHolder);
         Destroy(_characterController);
     }
 

@@ -29,10 +29,11 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float currentSpeed;
-    private float sprintSpeed = 6f;
-    private float crouchSpeed = 2f;
-    private float walkSpeed = 4f;
-    
+
+    private const float sprintSpeed = 6f;
+    private const float crouchSpeed = 2f;
+    private const float walkSpeed = 4f;
+
     [Space]
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
@@ -93,12 +94,16 @@ public class PlayerMovement : MonoBehaviour
         _playerControls = new PlayerControls();
         // for the ZQSD movements
         _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;        // for the Crouch button
-        wantsCrouch = false;
+        _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
+        // for the Crouch button
+        _playerControls.Player.Crouch.performed += ctx => wantsCrouch = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.canceled += ctx => wantsCrouch = ctx.ReadValueAsButton();
         // for the Sprint button
-        wantsSprint = false;
+        _playerControls.Player.Sprint.performed += ctx => wantsSprint = ctx.ReadValueAsButton();
+        _playerControls.Player.Sprint.canceled += ctx => wantsSprint = ctx.ReadValueAsButton();
         // for the Jump button
-        wantsJump = false;
+        _playerControls.Player.Jump.performed += ctx => wantsJump = ctx.ReadValueAsButton();
+        _playerControls.Player.Jump.canceled += ctx => wantsJump = ctx.ReadValueAsButton();
     }
     
     private void OnEnable()
@@ -127,13 +132,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move()
     {
-        // for the Crouch button
-        wantsCrouch = _playerControls.Player.Crouch.WasPerformedThisFrame();
-        // for the Sprint button
-        wantsSprint = _playerControls.Player.Sprint.WasPerformedThisFrame();
-        // for the Jump button
-        wantsJump = _playerControls.Player.Jump.WasPressedThisFrame();
-
         Vector3 moveRaw3D = new Vector3
         {
             x = moveRaw2D.x,
@@ -163,9 +161,8 @@ public class PlayerMovement : MonoBehaviour
         
         // Sets the new movement vector based on the inputs
         SetMoveAmount(moveRaw3D);
-        
-        
-        
+
+
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
         
@@ -176,10 +173,9 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateGrounded()
     {
-        grounded = _characterController.isGrounded;
+        SetGroundedState(_characterController.isGrounded);
         // grounded = Physics.CheckBox(groundCheck.position, new Vector3(radius, 0.01f, radius / 2), Quaternion.identity);
         // grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        Debug.Log("Grounded state is: " + grounded);
     }
 
     private bool UpdateSprint()
@@ -271,6 +267,11 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
+
+        if (!grounded && velocity.y < 0)
+        {
+            //TODO
+        }
     }
     
     private void UpdateSpeed()
@@ -296,14 +297,8 @@ public class PlayerMovement : MonoBehaviour
     
     public bool UpdateJump() // changes 'transformJump'
     {
-        if (wantsJump)
-        {
-             Debug.Log("input to jump detected");
-        }
-
         if (wantsJump && grounded)
         {
-            // Debug.Log("Should jump");
             velocity.y = Mathf.Sqrt(jumpForce * gravityForce * -2f);
         }
 

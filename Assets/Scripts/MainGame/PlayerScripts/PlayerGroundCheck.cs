@@ -35,7 +35,8 @@ public class PlayerGroundCheck : MonoBehaviour
     }
     
     #endregion
-    
+
+    #region not needed ATM
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject == _playerMovement.gameObject)
@@ -57,4 +58,6 @@ public class PlayerGroundCheck : MonoBehaviour
             return;
         _playerMovement.SetGroundedState(true);
     }
+ 
+    #endregion
 }
