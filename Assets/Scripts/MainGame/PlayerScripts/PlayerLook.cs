@@ -9,6 +9,7 @@ public class PlayerLook : MonoBehaviour
 {
     #region Attributes
 
+<<<<<<< Updated upstream
     [SerializeField] private GameObject cameraHolder;
 
     // Sensitivity
@@ -21,6 +22,35 @@ public class PlayerLook : MonoBehaviour
     private float verticalLookRotation;
     private bool shouldLookAround = true;
 
+=======
+    [FormerlySerializedAs("camHolderTransform")] [SerializeField] private Transform camHolder;
+    [SerializeField] private Transform camOrientation;
+    private PlayerControls _playerControls;
+    
+    // Sensitivity
+    [Space]
+    [Header("Mouse settings")]
+    [Range(0.01f, 8f)]
+    [SerializeField] private float mouseSensX = 3f;
+    [Range(0.01f, 8f)]
+    [SerializeField] private float mouseSensY = 3f;
+    
+    // private float YLookRotation;
+    private bool shouldLookAround = true;
+
+    // Mouse input values
+    private float mouseX;
+    private float mouseY;
+
+    // Current player values
+    private float rotationX;
+    private float rotationY;
+    private float smoothValueX;
+    private float smoothValueY;
+    private float smoothTimeX = 0.8f;
+    private float smoothTimeY = 0.8f;
+
+>>>>>>> Stashed changes
     #endregion
 
     #region Unity Methods

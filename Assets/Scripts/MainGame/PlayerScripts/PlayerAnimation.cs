@@ -50,7 +50,11 @@ public class PlayerAnimation : MonoBehaviour
         crouchingHeight = standingHeight / 2f;
     }
 
+<<<<<<< Updated upstream
     public void UpdateAppearance(PlayerMovement.MovementTypes _currentMovementType)
+=======
+    public void UpdateMovementAppearance()
+>>>>>>> Stashed changes
     {
         playerStandingPose.SetActive(_currentMovementType == PlayerMovement.MovementTypes.Stand || _currentMovementType == PlayerMovement.MovementTypes.Walk); 
         playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == _currentMovementType);
@@ -63,6 +67,7 @@ public class PlayerAnimation : MonoBehaviour
     */
     }
 
+<<<<<<< Updated upstream
     public void UpdateHitbox(PlayerMovement.MovementTypes _currentMovementType)
     {
         // Updates player's hitbox about crouch
@@ -90,5 +95,10 @@ public class PlayerAnimation : MonoBehaviour
 
         _characterController.height = Mathf.LerpUnclamped(_characterController.height, height, crouchSpeed);
         _characterController.center = Vector3.LerpUnclamped(_characterController.center, new Vector3(0, center, 0), crouchSpeed);
+=======
+    public void DeathAppearance()
+    {
+        
+>>>>>>> Stashed changes
     }
 }

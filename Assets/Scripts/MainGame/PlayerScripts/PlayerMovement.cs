@@ -19,8 +19,20 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _characterController;
     
     // Player Controls
+<<<<<<< Updated upstream
     private PlayerControls _playerControls;
     
+=======
+    private PlayerController _playerController;
+    public PlayerControls PlayerControls;
+
+    // private PlayerControls _playerControls;
+    private Vector2 moveRaw2D;
+    private bool wantsCrouch;
+    private bool wantsSprint;
+    private bool wantsJump;
+
+>>>>>>> Stashed changes
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
@@ -80,6 +92,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() // Don't touch !
     {
+<<<<<<< Updated upstream
+=======
+        // Player Controls
+        PlayerControls = new PlayerControls();
+
+>>>>>>> Stashed changes
         _characterController = GetComponent<CharacterController>();
         
         // Player Controls
@@ -90,18 +108,33 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnEnable()
     {
-        _playerControls.Player.Enable();
+        PlayerControls.Player.Enable();
     }
     private void OnDisable()
     {    
-        _playerControls.Player.Disable();
+        PlayerControls.Player.Disable();
     }
 
     private void Start()
     {
+<<<<<<< Updated upstream
         var height = _characterController.height;
         crouchedHeight = height / 2;
         standingHeight = height;
+=======
+        // for the ZQSD movements
+        PlayerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
+        PlayerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
+        // for the Crouch button
+        PlayerControls.Player.Crouch.performed += ctx => wantsCrouch = ctx.ReadValueAsButton();
+        PlayerControls.Player.Crouch.canceled += ctx => wantsCrouch = ctx.ReadValueAsButton();
+        // for the Sprint button
+        PlayerControls.Player.Sprint.performed += ctx => wantsSprint = ctx.ReadValueAsButton();
+        PlayerControls.Player.Sprint.canceled += ctx => wantsSprint = ctx.ReadValueAsButton();
+        // for the Jump button
+        PlayerControls.Player.Jump.performed += ctx => wantsJump = ctx.ReadValueAsButton();
+        PlayerControls.Player.Jump.canceled += ctx => wantsJump = ctx.ReadValueAsButton();
+>>>>>>> Stashed changes
     }
 
     #endregion

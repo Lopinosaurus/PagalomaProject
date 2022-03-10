@@ -1,5 +1,6 @@
 using System;
-using System.Linq;
+using System.Collections;
+using MainGame.PlayerScripts.Roles;
 using UnityEngine;
 using Photon.Pun;
 // ReSharper disable All
@@ -14,17 +15,31 @@ public class PlayerController : MonoBehaviour
     #region Attributes
     
     // Movement components
-    private CharacterController _characterController;
+    internal CharacterController _characterController;
     
     // Network component
     private PhotonView _photonView;
     
     // Sub scripts
+<<<<<<< Updated upstream
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     private PlayerAnimation _playerAnimation;
     
     // Miscellaneous
+=======
+    internal PlayerMovement _playerMovement;
+    internal PlayerLook _playerLook;
+    internal PlayerAnimation _playerAnimation;
+
+    // Miscellaneous
+    [SerializeField] internal GameObject cameraHolder;
+    [SerializeField] public LayerMask groundMask;
+
+    [SerializeField] private PlayerInput playerInput;
+    public PlayerInput PlayerInput => playerInput;
+    internal Camera _camera;
+>>>>>>> Stashed changes
 
     #endregion
 
@@ -42,10 +57,19 @@ public class PlayerController : MonoBehaviour
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
         _playerAnimation = GetComponent<PlayerAnimation>();
+        
+        // Miscellaneous
+        _camera = cameraHolder.GetComponentInChildren<Camera>();
+        if (_camera == null)
+        {
+            throw new Exception("There is no camera attached to the CamHolder child !");
+        }
     }
     
     private void Start()
     {
+        Time.timeScale = 1f; // should be removed if necessary
+        
         if (_photonView.IsMine) return;
         
         Destroy(GetComponentInChildren<Camera>().gameObject);
@@ -62,7 +86,11 @@ public class PlayerController : MonoBehaviour
         _playerMovement.UpdateJump();
         
         // Updates the appearance based on the MovementType
+<<<<<<< Updated upstream
         _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+=======
+        _playerAnimation.UpdateMovementAppearance();
+>>>>>>> Stashed changes
     }
     
     private void FixedUpdate()
@@ -72,6 +100,7 @@ public class PlayerController : MonoBehaviour
         //TODO
         // Will soon be improved to remove jittering
         _playerMovement.Move();
+<<<<<<< Updated upstream
 
         UpdateHitbox();
     }
@@ -87,6 +116,23 @@ public class PlayerController : MonoBehaviour
     [PunRPC]
     // Syncronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType) => _playerAnimation.UpdateAppearance(_playerMovement.currentMovementType);
+=======
+        
+        _playerMovement.UpdateHitbox();
+    }
+    
+    #endregion
+    
+    // Network synchronization
+    #region RPCs
+
+    [PunRPC]
+    // Synchronizes the appearance
+    void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
+    {
+        _playerAnimation.UpdateMovementAppearance();
+    }
+>>>>>>> Stashed changes
 
     #endregion
 }
