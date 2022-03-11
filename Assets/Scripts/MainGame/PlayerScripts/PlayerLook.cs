@@ -12,9 +12,8 @@ public class PlayerLook : MonoBehaviour
 {
     #region Attributes
 
-    [FormerlySerializedAs("camHolderTransform")] [SerializeField] private Transform camHolder;
-    [SerializeField] private Transform camOrientation;
-    private PlayerController _playerController;
+    [SerializeField] private Transform camHolder;
+    
     private PlayerControls _playerControls;
     
     // Sensitivity
@@ -74,14 +73,13 @@ public class PlayerLook : MonoBehaviour
         rotationX = Mathf.Clamp(rotationX, -80f, 70f);
 
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
-        camOrientation.rotation = rotation;
 
         rotationX = Mathf.SmoothDampAngle(rotationX, rotation.eulerAngles.x, ref smoothValueX, smoothTimeX);
         rotationY = Mathf.SmoothDampAngle(rotationY, rotation.eulerAngles.y, ref smoothValueY, smoothTimeY);
 
         camHolder.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         transform.rotation = Quaternion.Euler(0, rotationY, 0);
-        
+
         // transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensY));
         //
         // YLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensX;
@@ -89,5 +87,4 @@ public class PlayerLook : MonoBehaviour
         //
         // transform.localEulerAngles = Vector3.left * YLookRotation;
     }
-    
 }

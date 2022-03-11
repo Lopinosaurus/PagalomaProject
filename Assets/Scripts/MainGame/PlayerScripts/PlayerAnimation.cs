@@ -46,11 +46,5 @@ public class PlayerAnimation : MonoBehaviour
         playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand || currentMovementType == PlayerMovement.MovementTypes.Walk); 
         playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == currentMovementType);
         playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == currentMovementType);
-    
-        //TODO: re-enable network
-        // Network sync: hitbox
-        /*
-        _photonView.RPC("RPC_UpdateAppearance", RpcTarget.Others, _playerMovement.currentMovementType);
-    */
     }
 }

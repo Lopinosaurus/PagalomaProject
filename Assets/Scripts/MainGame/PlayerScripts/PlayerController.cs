@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     // Miscellaneous
     [SerializeField] GameObject cameraHolder;
     [SerializeField] private PlayerInput playerInput;
-    public PlayerInput PlayerInput => playerInput;
 
     #endregion
 
@@ -71,9 +70,9 @@ public class PlayerController : MonoBehaviour
     {
         if (!_photonView.IsMine) return;
         
-        //TODO
-        // Will soon be improved to remove jittering
+        //TODO improve to remove jittering
         _playerMovement.Move();
+        
         _playerMovement.UpdateHitbox();
     }
     

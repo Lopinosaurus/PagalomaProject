@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using Photon.Pun;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PlayerController))]
@@ -19,12 +20,12 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _characterController;
     
     // Player Controls
-    private PlayerController _playerController;
     private static PlayerControls _playerControls;
 
     // private PlayerControls _playerControls;
     private Vector2 moveRaw2D;
-    private bool wantsCrouch;
+    private bool wantsCrouchHold;
+    private bool wantsCrouchToggle;
     private bool wantsSprint;
     private bool wantsJump;
 
@@ -32,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float currentSpeed;
-
     private const float sprintSpeed = 6f;
     private const float crouchSpeed = 2f;
     private const float walkSpeed = 4f;
@@ -50,12 +50,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     
     // Ground check
-    public Transform groundCheck;
-    [SerializeField] public LayerMask groundMask;
-    public float groundDistance = 0.01f;
     public bool grounded;
+    /*[SerializeField] public LayerMask groundMask;
+    public Transform groundCheck;
+    public float groundDistance = 0.01f;*/
 
-    // Crouch & Hitboxes
+    // Crouch & Hitboxes 
     [Space]
     [Header("Player height settings")]
     [SerializeField] private float crouchSmoothTime = 0.1f;
@@ -95,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
         _playerControls = new PlayerControls();
 
         _characterController = GetComponent<CharacterController>();
-        _playerController = GetComponent<PlayerController>();
         
         float hitboxHeight = _characterController.height;
         crouchedHitboxHeight = hitboxHeight * 0.78f;
@@ -121,8 +120,9 @@ public class PlayerMovement : MonoBehaviour
         _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
         _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;
         // for the Crouch button
-        _playerControls.Player.Crouch.performed += ctx => wantsCrouch = ctx.ReadValueAsButton();
-        _playerControls.Player.Crouch.canceled += ctx => wantsCrouch = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.performed += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.canceled += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.started += ctx => wantsCrouchToggle = ctx.ReadValueAsButton();
         // for the Sprint button
         _playerControls.Player.Sprint.performed += ctx => wantsSprint = ctx.ReadValueAsButton();
         _playerControls.Player.Sprint.canceled += ctx => wantsSprint = ctx.ReadValueAsButton();
@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateCrouch();
 
         // Updates the walk state
-        UpdateWalk(moveRaw3D);
+        UpdateWalk();
 
         // Updates gravity
         UpdateGravity(); // changes 'transformGravity'
@@ -165,8 +165,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateSpeed();
         
         // Sets the new movement vector based on the inputs
-        SetMoveAmount(moveRaw3D);
-
+        SetMoveAmount(moveRaw3D); // changes 'moveAmount'
 
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
@@ -183,85 +182,53 @@ public class PlayerMovement : MonoBehaviour
         // grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
     }
 
-    private bool UpdateSprint()
+    private void UpdateSprint()
     {
-        if (MovementTypes.Crouch == currentMovementType) return false;
+        if (MovementTypes.Crouch == currentMovementType) return;
 
         // Checks if players wants to sprint and if he pressed a directional key
         if (wantsSprint && Vector2.zero != moveRaw2D)
         {
-            return SetCurrentMovementType(MovementTypes.Sprint);
+            SetCurrentMovementType(MovementTypes.Sprint);
         }
         else
         {
-            return SetCurrentMovementType(MovementTypes.Stand);
+            SetCurrentMovementType(MovementTypes.Stand);
         }
     }
     
-    private bool UpdateCrouch()
+    private void UpdateCrouch()
     {
-        // TODO
-        //  Simplify the crouch system including the Hold and Toggle options
-        
-        // Checks the current crouch mode (toggle or hold)
         switch (currentCrouchType)
         {
-            // Will crouch the player
-            case CrouchModes.Hold when wantsCrouch:
-
-                // Sets the MovementType to crouched
-                return SetCurrentMovementType(MovementTypes.Crouch);
-            
-            // Will uncrouch the player if there is no input
             case CrouchModes.Hold:
-            {
-                if (MovementTypes.Crouch == currentMovementType)
-                {
-                    // Sets the MovementType to stand
-                    return SetCurrentMovementType(MovementTypes.Stand);
-                }
-                    
-                break;
-            }
-
+                SetCurrentMovementType(wantsCrouchHold
+                    ? MovementTypes.Crouch
+                    : MovementTypes.Stand);
+            
+                return;
             case CrouchModes.Toggle:
             {
-                if (wantsCrouch)
+                if (wantsCrouchToggle)
                 {
-                    // Checks the current state of crouch
-                    if (currentMovementType == MovementTypes.Crouch)
-                    {
-                        // Checks if UNcrouching is possible (example: no obstacles above)
-                        if (true)
-                        {
-                            // Sets the MovementType to stand
-                            return SetCurrentMovementType(MovementTypes.Stand);
-                        }
-                    }
-                    else
-                    {
-                        // Sets the MovementType to crouched
-                        return SetCurrentMovementType(MovementTypes.Crouch);
-                    }
+                    SetCurrentMovementType(MovementTypes.Crouch == currentMovementType
+                        ? MovementTypes.Stand
+                        : MovementTypes.Crouch);
                 }
-
-                break;
+            
+                return;
             }
             default:
-                throw new ArgumentOutOfRangeException("A movement type other than .Stand and .Crouch was entered:" + currentCrouchType.ToString());
+                throw new ArgumentOutOfRangeException();
         }
-
-        return false;
     }
     
-    private bool UpdateWalk(Vector3 _moveDir)
+    private void UpdateWalk()
     {
-        if (MovementTypes.Stand == currentMovementType && Vector3.zero != _moveDir)
+        if (MovementTypes.Stand == currentMovementType && Vector2.zero != moveRaw2D)
         {
-            return SetCurrentMovementType(MovementTypes.Walk);
+            SetCurrentMovementType(MovementTypes.Walk);
         }
-
-        return false;
     }
     
     private void UpdateGravity()
@@ -275,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!grounded && velocity.y < 0)
         {
-            //TODO
+            //TODO make the player stick to the ground
         }
     }
     
