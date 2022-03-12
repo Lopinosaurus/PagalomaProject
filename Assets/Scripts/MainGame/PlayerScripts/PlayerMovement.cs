@@ -166,7 +166,8 @@ public class PlayerMovement : MonoBehaviour
         
         // Sets the new movement vector based on the inputs
         SetMoveAmount(moveRaw3D); // changes 'moveAmount'
-
+        
+        
         // Applies direction from directional inputs
         Vector3 transformDirection = transform.TransformDirection(moveAmount);
         
@@ -199,6 +200,8 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateCrouch()
     {
+        if (MovementTypes.Sprint == currentMovementType) return;
+        
         switch (currentCrouchType)
         {
             case CrouchModes.Hold:
