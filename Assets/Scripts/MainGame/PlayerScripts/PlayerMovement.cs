@@ -15,12 +15,13 @@ public class PlayerMovement : MonoBehaviour
     
     // External GameObjects and components
     [SerializeField] private GameObject cameraHolder;
+    
+    // Player Controller & Controls
+    private PlayerController _playerController;
+    private PlayerControls _playerControls;
 
     // Movement components
     private CharacterController _characterController;
-    
-    // Player Controls
-    private static PlayerControls _playerControls;
 
     // private PlayerControls _playerControls;
     private Vector2 moveRaw2D;
@@ -89,10 +90,11 @@ public class PlayerMovement : MonoBehaviour
 
     #region Unity methods
 
-    private void Awake() // Don't touch !
+    private void Awake()
     {
-        // Player Controls
-        _playerControls = new PlayerControls();
+        // Player Controller
+        _playerController = GetComponent<PlayerController>();
+        _playerControls = _playerController.playerControls;
 
         _characterController = GetComponent<CharacterController>();
         

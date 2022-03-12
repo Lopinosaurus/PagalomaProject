@@ -13,19 +13,23 @@ public class PlayerController : MonoBehaviour
     #region Attributes
     
     // Movement components
-    private CharacterController _characterController;
+    internal CharacterController characterController;
     
     // Network component
     private PhotonView _photonView;
     
     // Sub scripts
-    private PlayerMovement _playerMovement;
-    private PlayerLook _playerLook;
-    private PlayerAnimation _playerAnimation;
+    internal PlayerMovement playerMovement;
+    internal PlayerLook playerLook;
+    private PlayerAnimation playerAnimation;
 
     // Miscellaneous
-    [SerializeField] GameObject cameraHolder;
+    [SerializeField] internal GameObject cameraHolder;
+    internal Camera camera;
     [SerializeField] private PlayerInput playerInput;
+    
+    // Player Controls
+    internal PlayerControls playerControls;
 
     #endregion
 
@@ -33,16 +37,24 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
+        // Player Controls
+        playerControls = new PlayerControls();
+
         // Movement components
-        _characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         
         // Network component
         _photonView = GetComponent<PhotonView>();
         
+        // Camera component
+        camera = cameraHolder.GetComponentInChildren<Camera>();
+
+        if (null == camera) throw new Exception("There is no camera attached to the Camera Holder !");
+        
         // Sub scripts
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerLook = GetComponent<PlayerLook>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
+        playerMovement = GetComponent<PlayerMovement>();
+        playerLook = GetComponent<PlayerLook>();
+        playerAnimation = GetComponent<PlayerAnimation>();
     }
     
     private void Start()
@@ -50,20 +62,20 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine) return;
         
         Destroy(cameraHolder);
-        Destroy(_characterController);
+        Destroy(characterController);
     }
 
     private void Update()
     {
         if (!_photonView.IsMine) return;
         
-        _playerLook.Look();
+        playerLook.Look();
         
         // Updates the jump feature
-        _playerMovement.UpdateJump();
+        playerMovement.UpdateJump();
         
         // Updates the appearance based on the MovementType
-        _playerAnimation.UpdateAppearance();
+        playerAnimation.UpdateAppearance();
     }
     
     private void FixedUpdate()
@@ -71,9 +83,9 @@ public class PlayerController : MonoBehaviour
         if (!_photonView.IsMine) return;
         
         //TODO improve to remove jittering
-        _playerMovement.Move();
+        playerMovement.Move();
         
-        _playerMovement.UpdateHitbox();
+        playerMovement.UpdateHitbox();
     }
     
     #endregion
@@ -86,7 +98,7 @@ public class PlayerController : MonoBehaviour
     // Synchronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
     {
-        _playerAnimation.UpdateAppearance();
+        playerAnimation.UpdateAppearance();
     }
 
     #endregion

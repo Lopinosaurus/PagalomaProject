@@ -20,9 +20,40 @@ namespace MainGame.PlayerScripts.Roles
            this.vote = null;
        }
 
+       #region Gameplay methods
+
+       private IEnumerator coroutine;
        public void Die()
        {
-           throw new NotImplementedException();
+           // Disable every control
+           playerControls.Disable();
+
+           // Freezes the player & Disable collision
+           playerLook.enabled = false;
+           playerMovement.enabled = false;
+           characterController.enabled = false;
+           characterController.detectCollisions = false;
+
+           // Moves the camera above the player
+           Vector3 endingPos = cameraHolder.transform.position;
+
+           Vector3 rayOrigin = camera.WorldToViewportPoint(new Vector3(0.5f,0.5f,0));
+           if (Physics.Raycast(rayOrigin, Vector3.up, out RaycastHit hitInfo, 5.1f))
+           {
+               endingPos = hitInfo.point;
+           }
+
+           coroutine = MoveCameraOnDeath(endingPos);
+           StartCoroutine(coroutine);
        }
+
+       private IEnumerator MoveCameraOnDeath(Vector3 endingPos)
+       {
+           Vector3 velocity = default;
+           Vector3.SmoothDamp(cameraHolder.transform.position, endingPos, ref velocity, 0.01f);
+           yield return new WaitUntil(() => cameraHolder.transform.position == endingPos);
+       }
+       
+       #endregion
     }
 }
