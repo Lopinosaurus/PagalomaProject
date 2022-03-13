@@ -124,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
         // for the Crouch button
         _playerControls.Player.Crouch.performed += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
         _playerControls.Player.Crouch.canceled += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
+        
+        //TODO fix toggle
         _playerControls.Player.Crouch.started += ctx => wantsCrouchToggle = ctx.ReadValueAsButton();
         // for the Sprint button
         _playerControls.Player.Sprint.performed += ctx => wantsSprint = ctx.ReadValueAsButton();
@@ -202,16 +204,15 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateCrouch()
     {
-        if (MovementTypes.Sprint == currentMovementType) return;
-        
         switch (currentCrouchType)
         {
             case CrouchModes.Hold:
-                SetCurrentMovementType(wantsCrouchHold
-                    ? MovementTypes.Crouch
-                    : MovementTypes.Stand);
-            
+                if (wantsCrouchHold)
+                    SetCurrentMovementType(MovementTypes.Crouch);
+                else if (MovementTypes.Crouch == currentMovementType)
+                    SetCurrentMovementType(MovementTypes.Stand);
                 return;
+                
             case CrouchModes.Toggle:
             {
                 if (wantsCrouchToggle)

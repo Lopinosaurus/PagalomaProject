@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PlayerController))]
@@ -13,8 +14,8 @@ public class PlayerLook : MonoBehaviour
     #region Attributes
 
     [SerializeField] private Transform camHolder;
-    
-    private PlayerControls _playerControls;
+    [SerializeField] private PlayerControls _playerControls;
+    private PlayerController _playerController;
     
     // Sensitivity
     [Space]
@@ -28,8 +29,9 @@ public class PlayerLook : MonoBehaviour
     private bool shouldLookAround = true;
 
     // Mouse input values
-    private float mouseX;
-    private float mouseY;
+    private float mouseDeltaX;
+    private float mouseDeltaY;
+    private Vector2 mouseDelta;
 
     // Current player values
     private float rotationX;
@@ -45,8 +47,8 @@ public class PlayerLook : MonoBehaviour
 
     private void Awake()
     {
-        //TODO should be the same as in PlayerMovement.cs ?
-        _playerControls = new PlayerControls();
+        _playerController = GetComponent<PlayerController>();
+        _playerControls = _playerController.playerControls;
     }
 
     private void Start()
@@ -54,9 +56,12 @@ public class PlayerLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _playerControls.Player.Look.performed += ctx => mouseX = ctx.ReadValue<Vector2>().x;
-        _playerControls.Player.Look.performed += ctx => mouseY = ctx.ReadValue<Vector2>().y;
+        _playerControls.Player.Look.performed += ctx => mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerControls.Player.Look.performed += ctx => mouseDeltaY = ctx.ReadValue<Vector2>().y;
+        _playerControls.Player.Look.canceled += ctx => mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerControls.Player.Look.canceled += ctx => mouseDeltaY = ctx.ReadValue<Vector2>().y;
     }
+
 
     #endregion
     
@@ -64,11 +69,8 @@ public class PlayerLook : MonoBehaviour
     {
         if (!shouldLookAround) return;
 
-        mouseX = Input.GetAxisRaw("Mouse X");
-        mouseY = Input.GetAxisRaw("Mouse Y");
-        
-        rotationY += mouseX * mouseSensX;
-        rotationX -= mouseY * mouseSensY;
+        rotationY += mouseDeltaX * mouseSensX;
+        rotationX -= mouseDeltaY * mouseSensY;
 
         rotationX = Mathf.Clamp(rotationX, -80f, 70f);
 
