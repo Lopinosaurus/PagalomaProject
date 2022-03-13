@@ -13,20 +13,20 @@ public class PlayerController : MonoBehaviour
     #region Attributes
     
     // Movement components
-    internal CharacterController characterController;
+    private CharacterController characterController;
     
     // Network component
     private PhotonView _photonView;
     
     // Sub scripts
-    internal PlayerMovement playerMovement;
-    internal PlayerLook playerLook;
+    private PlayerMovement playerMovement;
+    private PlayerLook playerLook;
     private PlayerAnimation playerAnimation;
 
     // Miscellaneous
-    [SerializeField] internal GameObject cameraHolder;
-    internal Camera camera;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] internal GameObject cameraHolder;
+    private Camera cam;
     
     // Player Controls
     internal PlayerControls playerControls;
@@ -47,9 +47,9 @@ public class PlayerController : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
         
         // Camera component
-        camera = cameraHolder.GetComponentInChildren<Camera>();
+        cam = cameraHolder.GetComponentInChildren<Camera>();
 
-        if (null == camera) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == cam) throw new Exception("There is no camera attached to the Camera Holder !");
         
         // Sub scripts
         playerMovement = GetComponent<PlayerMovement>();
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         playerAnimation = GetComponent<PlayerAnimation>();
     }
     
-    private void Start()
+    internal void Start()
     {
         if (_photonView.IsMine) return;
         
