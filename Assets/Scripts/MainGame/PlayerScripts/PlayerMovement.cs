@@ -94,7 +94,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Player Controller
         _playerController = GetComponent<PlayerController>();
-        _playerControls = _playerController.playerControls;
 
         _characterController = GetComponent<CharacterController>();
         
@@ -106,18 +105,12 @@ public class PlayerMovement : MonoBehaviour
         crouchedCameraHeight = camHeight * 0.7f;
         standingCameraHeight = camHeight;
     }
-
-    private void OnEnable()
-    {
-        _playerControls.Player.Enable();
-    }
-    private void OnDisable()
-    {    
-        _playerControls.Player.Disable();
-    }
-
+    
     private void Start()
     {
+        _playerControls = _playerController.playerControls;
+        _playerControls.Player.Enable();
+
         // for the ZQSD movements
         _playerControls.Player.Move.performed += ctx => moveRaw2D = ctx.ReadValue<Vector2>();
         _playerControls.Player.Move.canceled += _ => moveRaw2D = Vector2.zero;

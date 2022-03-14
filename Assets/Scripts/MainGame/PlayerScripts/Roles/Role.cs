@@ -27,11 +27,10 @@ namespace MainGame.PlayerScripts.Roles
         private PlayerLook _playerLook;
         private CharacterController _characterController;
         private Camera cam;
-
-
-        // Death camera coroutine
-       private Vector3 velocity;
-
+        
+        // Die variables
+        private const float maxDeathCamDistance = 5.0f;
+        
        public Role(string username, string color)
        {
            this.isAlive = true;
@@ -47,7 +46,6 @@ namespace MainGame.PlayerScripts.Roles
        private void Awake()
        {
            _playerController = GetComponent<PlayerController>();
-           playerControls = _playerController.playerControls;
            _playerLook = GetComponent<PlayerLook>();
            _playerMovement = GetComponent<PlayerMovement>();
            _characterController = GetComponent<CharacterController>();
@@ -56,57 +54,76 @@ namespace MainGame.PlayerScripts.Roles
 
        private void Start()
        {
+           playerControls = _playerController.playerControls;
+           
            playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
        }
 
        private void LateUpdate()
        {
-           if (selfKill)
-           {
-               Debug.Log("Die executed !");
-               Die();
-           }
+           if (selfKill && isAlive) Die();
        }
 
        #endregion
        
        #region Gameplay methods
 
-       private IEnumerator coroutine;
        public void Die()
        {
-           // Disable every control
+           // Disable components & gameplay variables
            playerControls.Disable();
-
-           // Disable collision
-           _playerController.enabled = false;
            _characterController.detectCollisions = false;
-
-           // Initial camera position
-           Vector3 endingPos = _cameraHolder.transform.position;
+           _playerController.enabled = false;
+           isAlive = false;
            
-           Debug.Log("endingPos is:" + endingPos);
+           // Initial camera position
+           Vector3 startingPos = _cameraHolder.transform.position;
+           Quaternion startingRot = _cameraHolder.transform.rotation;
+           Vector3 endingPos = new Vector3
+           {
+               x = startingPos.x,
+               y = startingPos.y + maxDeathCamDistance,
+               z = startingPos.z
+           };
+          
+           Debug.Log("startingRot is:" + startingRot);
 
            // Final camera position
-           Vector3 rayOrigin = cam.WorldToViewportPoint(new Vector3(0.5f,0.5f,0));
-           if (Physics.Raycast(rayOrigin, Vector3.up, out RaycastHit hitInfo, 5.1f))
+           if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
            {
-               endingPos = hitInfo.point;
+               endingPos.y = hitInfo.point.y - 0.2f;
            }
            
-           StartCoroutine(MoveCameraOnDeath(endingPos));
+           // Final camera rotation
+           Quaternion endingRot = Quaternion.identity;
+           endingRot.eulerAngles = new Vector3
+           {
+               x = 90,
+               y = endingRot.eulerAngles.y,
+               z = 180,
+           };
+           
+           Debug.Log("endingRot is:" + endingRot);
+
+           StartCoroutine(MoveCamHolder(endingPos, endingRot));
        }
-       
-       // Moves the camera above the player
-       private IEnumerator MoveCameraOnDeath(Vector3 endingPos)
+
+       private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
        {
            while (_cameraHolder.transform.position != endingPos)
            {
-               Vector3.SmoothDamp(_cameraHolder.transform.position, endingPos, ref velocity, 1f);
+               Vector3 position = _cameraHolder.transform.position;
+               Quaternion rotation = _cameraHolder.transform.localRotation;
+
+               position = Vector3.Slerp(position, endingPos, 0.02f);
+               rotation = Quaternion.Slerp(rotation, endingRot, 0.05f);
+               
+               _cameraHolder.transform.position = position;
+               _cameraHolder.transform.localRotation = rotation;
                yield return null;
            }
        }
-       
+
        #endregion
     }
 }

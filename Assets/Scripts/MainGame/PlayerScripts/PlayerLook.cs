@@ -48,13 +48,14 @@ public class PlayerLook : MonoBehaviour
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
-        _playerControls = _playerController.playerControls;
     }
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        _playerControls = _playerController.playerControls;
 
         _playerControls.Player.Look.performed += ctx => mouseDeltaX = ctx.ReadValue<Vector2>().x;
         _playerControls.Player.Look.performed += ctx => mouseDeltaY = ctx.ReadValue<Vector2>().y;

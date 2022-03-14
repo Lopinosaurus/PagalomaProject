@@ -4514,7 +4514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
   mouseSensX: 4
-  mouseSensY: 8
+  mouseSensY: 4
 --- !u!143 &3682566154727703155
 CharacterController:
   m_ObjectHideFlags: 0

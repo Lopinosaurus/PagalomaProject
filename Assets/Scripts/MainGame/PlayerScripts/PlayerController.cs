@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     
     // Player Controls
-    internal PlayerControls playerControls;
+    public PlayerControls playerControls;
 
     #endregion
 
