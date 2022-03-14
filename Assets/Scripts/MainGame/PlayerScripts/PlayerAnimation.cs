@@ -20,6 +20,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private GameObject playerStandingPose;
     [SerializeField] private GameObject playerCrouchingPose;
     [SerializeField] private GameObject playerSprintingPose;
+    [SerializeField] private GameObject playerDeathPose;
 
     // Player Smooth Crouch variables
     [Space] [Header("Smooth Crouch variables")]
@@ -37,13 +38,23 @@ public class PlayerAnimation : MonoBehaviour
         playerStandingPose.SetActive(true);
         playerCrouchingPose.SetActive(false);
         playerSprintingPose.SetActive(false);
+        playerDeathPose.SetActive(false);
     }
 
+    public void EnableDeathAppearance()
+    {
+        playerStandingPose.SetActive(false);
+        playerCrouchingPose.SetActive(false);
+        playerSprintingPose.SetActive(false);
+        playerDeathPose.SetActive(true);
+    }
+    
     public void UpdateAppearance()
     {
         PlayerMovement.MovementTypes currentMovementType = _playerMovement.currentMovementType;
         
-        playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand || currentMovementType == PlayerMovement.MovementTypes.Walk); 
+        playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand ||
+                                     currentMovementType == PlayerMovement.MovementTypes.Walk); 
         playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == currentMovementType);
         playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == currentMovementType);
     }

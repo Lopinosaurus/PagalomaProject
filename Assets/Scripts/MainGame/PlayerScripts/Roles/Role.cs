@@ -25,6 +25,7 @@ namespace MainGame.PlayerScripts.Roles
         private PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
+        private PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
         private Camera cam;
         
@@ -47,6 +48,7 @@ namespace MainGame.PlayerScripts.Roles
        {
            _playerController = GetComponent<PlayerController>();
            _playerLook = GetComponent<PlayerLook>();
+           _playerAnimation = GetComponent<PlayerAnimation>();
            _playerMovement = GetComponent<PlayerMovement>();
            _characterController = GetComponent<CharacterController>();
            cam = _cameraHolder.GetComponentInChildren<Camera>();
@@ -105,6 +107,8 @@ namespace MainGame.PlayerScripts.Roles
            
            Debug.Log("endingRot is:" + endingRot);
 
+           // Start camera animation
+           _playerAnimation.EnableDeathAppearance();
            StartCoroutine(MoveCamHolder(endingPos, endingRot));
        }
 
