@@ -12,16 +12,18 @@ namespace MainGame.PlayerScripts.Roles
         #region Attributes
         
         // Gameplay attributes
+        public string roleName;
         public bool isAlive;
         public string username;
         public string color;
         public Role vote;
         
         [SerializeField] private bool selfKill = false;
+        [SerializeField] private bool kill = false;
 
         // Controls
         [SerializeField] private GameObject _cameraHolder;
-        private PlayerControls playerControls;
+        public PlayerControls playerControls;
         private PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
@@ -59,17 +61,24 @@ namespace MainGame.PlayerScripts.Roles
            playerControls = _playerController.playerControls;
            
            playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
+           playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
+           playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
        }
 
        private void LateUpdate()
        {
            if (selfKill && isAlive) Die();
+           if (kill) KillTarget();
        }
 
        #endregion
        
        #region Gameplay methods
 
+       public virtual void KillTarget()
+       {
+           Debug.Log("E pressed");
+       }
        public void Die()
        {
            // Disable components & gameplay variables
