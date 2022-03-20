@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class DetectCollision : MonoBehaviour
 {
-    public Collider previousCollider = null;
+    private Collider previousCollider = null;
     [SerializeField] private Werewolf _werewolf;
     
     private void OnCollisionEnter(Collision collision)
@@ -16,8 +16,12 @@ public class DetectCollision : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("name of the Trigger collider is: " + other.name);
-        if (other != previousCollider) _werewolf.UpdateTarget(other);
+        if (other != previousCollider)
+        {
+            _werewolf.UpdateTarget(other);
+            Debug.Log("name of the Trigger collider is: " + other.name);
+
+        }
         previousCollider = other;
     }
 

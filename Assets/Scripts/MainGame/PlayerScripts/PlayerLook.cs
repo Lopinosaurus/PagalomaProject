@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -16,6 +17,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Transform camHolder;
     [SerializeField] private PlayerControls _playerControls;
     private PlayerController _playerController;
+    private PhotonView _photonView;
     
     // Sensitivity
     [Space]
@@ -52,6 +54,11 @@ public class PlayerLook : MonoBehaviour
 
     private void Start()
     {
+        if (!_photonView.IsMine)
+        {
+            // Enable head components' layers
+        }
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
