@@ -9,6 +9,7 @@ namespace MainGame.PlayerScripts.Roles
     {
         private bool hasCooldown;
         private Role target;
+        [SerializeField] private SphereCollider attackCollider;
 
         public Werewolf(string username, string color) : base(username, color)
         {

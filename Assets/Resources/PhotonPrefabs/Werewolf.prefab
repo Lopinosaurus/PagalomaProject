@@ -3900,7 +3900,7 @@ GameObject:
   - component: {fileID: 6853504549310616309}
   - component: {fileID: 169518325998912448}
   m_Layer: 7
-  m_Name: TargetCollider
+  m_Name: AttackCollider
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5905,8 +5905,9 @@ GameObject:
   - component: {fileID: -4639757121528924229}
   - component: {fileID: -5454740212722824924}
   - component: {fileID: 6357160355226169689}
+  - component: {fileID: 159311996791757570}
   m_Layer: 7
-  m_Name: Player
+  m_Name: Werewolf
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6192,6 +6193,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &159311996791757570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248291a9c779a464a8a955d705542c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roleName: werewolf
+  isAlive: 0
+  username: 
+  color: 
+  vote: {fileID: 0}
+  selfKill: 0
+  kill: 0
+  _cameraHolder: {fileID: 1141215766398316333}
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0
