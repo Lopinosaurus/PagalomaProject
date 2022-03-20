@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private const float sprintSpeed = 6f;
     private const float crouchSpeed = 2f;
     private const float walkSpeed = 4f;
+    private const float smoothTimeSpeedTransition = 0.5f;
 
     [Space]
     [Header("Movement settings")]
@@ -247,23 +248,48 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateSpeed()
     {
+        SetCurrentSpeed(GetSpeed());
+    }
+
+    private float GetMovementTransitionSpeed()
+    {
+        float res = Time.deltaTime;
+        
         switch (currentMovementType)
         {
             case MovementTypes.Stand:
-                SetCurrentSpeed(0f);
+                 res *= 1f;
                 break;
             case MovementTypes.Crouch:
-                SetCurrentSpeed(crouchSpeed);
+                res *= 1.5f;
                 break;
             case MovementTypes.Walk:
-                SetCurrentSpeed(walkSpeed);
+                res *= 1.2f;
                 break;
             case MovementTypes.Sprint:
-                SetCurrentSpeed(sprintSpeed);
+                res *= 2.5f;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        Debug.Log("transition speed:" + res);
+
+        if (res < 0.1f) res = 0.1f;
+
+        return res;
+    }
+    
+    private float GetSpeed()
+    {
+        return currentMovementType switch
+        {
+            MovementTypes.Stand => 0f,
+            MovementTypes.Crouch => crouchSpeed,
+            MovementTypes.Walk => walkSpeed,
+            MovementTypes.Sprint => sprintSpeed,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
     
     public bool UpdateJump() // changes 'transformJump'
@@ -303,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
     
-    // Sets the hitbox's height to the input value progressively
+    // Sets the hitbox height to the input value progressively
     private void AdjustPlayerHeight(float desiredHeight)
     {
         // Calculates the current center of the player
@@ -320,39 +346,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetMoveAmount(Vector3 moveDir)
     {
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref moveSmoothVelocity, smoothTime);
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref moveSmoothVelocity,
+            smoothTime);
     }
     
-    public bool SetGroundedState(bool _grounded)
+    public void SetGroundedState(bool _grounded)
     {
-        // Checks whether a change occured
-        bool changeOccured = _grounded != grounded;
-        
         grounded = _grounded;
-        
-        return changeOccured;
     }
 
-    private bool SetCurrentMovementType (MovementTypes _currentMovementType)
+    private void SetCurrentMovementType(MovementTypes _currentMovementType)
     {
-        // Checks whether a change occured
-        bool changeOccured = _currentMovementType != currentMovementType;
-        
         currentMovementType = _currentMovementType;
-        
-        return changeOccured;
     }
 
-    private bool SetCurrentSpeed(float _currentSpeed)
+    private void SetCurrentSpeed(float targetSpeed)
     {
-        // Checks whether a change occured
-        bool changeOccured = Math.Abs(currentSpeed - _currentSpeed) > 0f;
-        
-        //TODO
-        //Find a way to smoothen the speed transition
-        currentSpeed = _currentSpeed;
-        
-        return changeOccured;
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, smoothTimeSpeedTransition);
     }
     
     #endregion

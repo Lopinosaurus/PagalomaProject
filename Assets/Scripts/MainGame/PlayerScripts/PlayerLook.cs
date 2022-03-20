@@ -22,10 +22,10 @@ public class PlayerLook : MonoBehaviour
     // Sensitivity
     [Space]
     [Header("Mouse settings")]
-    [Range(0.01f, 8f)]
-    [SerializeField] private float mouseSensX = 3f;
-    [Range(0.01f, 8f)]
-    [SerializeField] private float mouseSensY = 3f;
+    [Range(4f, 128f)]
+    [SerializeField] private float mouseSensX = 10f;
+    [Range(4f, 128f)]
+    [SerializeField] private float mouseSensY = 10f;
 
     // private float YLookRotation;
     private bool shouldLookAround = true;
@@ -50,6 +50,7 @@ public class PlayerLook : MonoBehaviour
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     private void Start()
