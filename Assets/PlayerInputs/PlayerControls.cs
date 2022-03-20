@@ -89,6 +89,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Kill"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0caec8b-442b-4187-9c33-77778f7c0e46"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -355,6 +364,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Die"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a1e5d45-c016-4742-9bf7-e8f5d6317737"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Kill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -492,6 +512,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
+        m_Player_Kill = m_Player.FindAction("Kill", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
@@ -561,6 +582,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Die;
+    private readonly InputAction m_Player_Kill;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -572,6 +594,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Die => m_Wrapper.m_Player_Die;
+        public InputAction @Kill => m_Wrapper.m_Player_Kill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -602,6 +625,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Die.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
                 @Die.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
                 @Die.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
+                @Kill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
+                @Kill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
+                @Kill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -627,6 +653,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Die.started += instance.OnDie;
                 @Die.performed += instance.OnDie;
                 @Die.canceled += instance.OnDie;
+                @Kill.started += instance.OnKill;
+                @Kill.performed += instance.OnKill;
+                @Kill.canceled += instance.OnKill;
             }
         }
     }
@@ -718,6 +747,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
+        void OnKill(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
