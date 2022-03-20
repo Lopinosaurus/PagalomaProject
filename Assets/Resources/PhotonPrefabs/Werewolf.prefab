@@ -3914,7 +3914,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4634643927463130667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.912, z: 0}
+  m_LocalPosition: {x: 0, y: 1.19, z: 1.15}
   m_LocalScale: {x: 3.6618218, y: 3.6618218, z: 3.6618218}
   m_Children: []
   m_Father: {fileID: 8790835795673358768}
@@ -3939,7 +3939,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4642840711084280737
 GameObject:
@@ -6213,6 +6213,7 @@ MonoBehaviour:
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
+  attackCollider: {fileID: 0}
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0

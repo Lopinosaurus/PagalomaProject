@@ -9,29 +9,36 @@ namespace MainGame.PlayerScripts.Roles
     {
         private bool hasCooldown;
         private Role target;
-        [SerializeField] private SphereCollider attackCollider;
+        [SerializeField] private Collider potentialTarget;
+        [SerializeField] private DetectCollision _detectCollision;
 
         public Werewolf(string username, string color) : base(username, color)
         {
             this.hasCooldown = false;
             this.target = null;
         }
-
-        private void OnTriggerEnter(Collider other)
+        
+        public void UpdateTarget(Collider other)
         {
+            if (null == other)
+            {
+                target = null;
+                return;
+            };
+            
             Debug.Log("In OnTriggerEnter");
             Debug.Log("other.tag = "+other.tag);
             if (other.CompareTag("Player"))
             {
-                Villager tempTaget;
-                if (other.TryGetComponent<Villager>(out tempTaget))
+                Villager tempTarget;
+                if (other.TryGetComponent<Villager>(out tempTarget))
                 {
-                    if (this.roleName == "werewolf")
+                    if (this.roleName == "werewolf") // always true
                     {
-                        if (tempTaget.roleName == "werewolf") return;
+                        if (tempTarget.roleName == "werewolf") return;
                         else
                         {
-                            target = tempTaget;
+                            target = tempTarget;
                             Debug.Log(target.name);
                         }
                     }
@@ -44,6 +51,7 @@ namespace MainGame.PlayerScripts.Roles
             if (!hasCooldown)
             {
                 Debug.Log("In KillTarget");
+                
                 if (target != null && target.isAlive)
                 {
                     transform.position = target.transform.position;
