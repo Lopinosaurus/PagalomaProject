@@ -12,6 +12,7 @@ public class FootstepEffect : MonoBehaviour
     
     void Update()
     {
+        if (characterController == null) return; // idk if this is OK
         if (characterController.isGrounded && footsteps.isPlaying == false && characterController.velocity.magnitude > 0f)
 
         {
