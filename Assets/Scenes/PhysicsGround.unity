@@ -546,6 +546,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Werewolf
       objectReference: {fileID: 0}
+    - target: {fileID: 7608168957379526285, guid: 962e1606cc6175345868e8be39cfc2f5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9118603271664355303, guid: 962e1606cc6175345868e8be39cfc2f5, type: 3}
       propertyPath: sceneViewId
       value: 3

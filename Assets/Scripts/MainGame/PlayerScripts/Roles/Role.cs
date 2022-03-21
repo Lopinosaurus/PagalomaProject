@@ -69,7 +69,7 @@ namespace MainGame.PlayerScripts.Roles
 
        public virtual void KillTarget()
        {
-           Debug.Log("E pressed");
+           Debug.Log("E pressed but you are not a Werewolf");
        }
        public void Die()
        {

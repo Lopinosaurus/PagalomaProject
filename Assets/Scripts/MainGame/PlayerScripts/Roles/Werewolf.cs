@@ -20,11 +20,11 @@ namespace MainGame.PlayerScripts.Roles
                     if (add)
                     {
                         _targets.Add(tempTarget);
-                        Debug.Log("[+] Target added: "+tempTarget.name);
+                        // Debug.Log("[+] Target added: "+tempTarget.name);
                     } else if (_targets.Contains(tempTarget))
                     {
                         _targets.Remove(tempTarget);
-                        Debug.Log("[-] Target removed: "+tempTarget.name);
+                        // Debug.Log("[-] Target removed: "+tempTarget.name);
                     }
                 }
             }
@@ -32,7 +32,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void KillTarget()
         {
-            Debug.Log("In KillTarget");
+            // Debug.Log("In KillTarget");
             //if (!_hasCooldown)
             //{
                 if (_targets.Count > 0)
@@ -40,7 +40,7 @@ namespace MainGame.PlayerScripts.Roles
                     Role target = _targets[_targets.Count - 1];
                     if (target.isAlive == false)
                     {
-                        Debug.Log("[-] Can't kill because Target is already dead :(");
+                        Debug.Log("[-] Can't kill: Target is already dead");
                         return;
                     }
                     transform.position = target.transform.position;
@@ -50,12 +50,12 @@ namespace MainGame.PlayerScripts.Roles
                 }
                 else
                 {
-                    Debug.Log("No target");
+                    Debug.Log("[-] Can't kill: No target to kill");
                 }
             //}
             //else
             //{
-            //    Debug.Log("[-] Can't kill because of Cooldown");
+            //    Debug.Log("[-] Can't kill: You have a Cooldown");
             //}
         }
     }
