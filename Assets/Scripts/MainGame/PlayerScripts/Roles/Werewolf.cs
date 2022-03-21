@@ -7,40 +7,24 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Werewolf : Role
     {
-        private bool hasCooldown;
-        private Role target;
-        [SerializeField] private Collider potentialTarget;
-        [SerializeField] private DetectCollision _detectCollision;
+        // private bool _hasCooldown = false;
+        private List<Role> _targets = new List<Role>();
 
-        public Werewolf(string username, string color) : base(username, color)
+        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
-            this.hasCooldown = false;
-            this.target = null;
-        }
-        
-        public void UpdateTarget(Collider other)
-        {
-            if (null == other)
-            {
-                target = null;
-                return;
-            };
-            
-            Debug.Log("In OnTriggerEnter");
-            Debug.Log("other.tag = "+other.tag);
             if (other.CompareTag("Player"))
             {
-                Villager tempTarget;
-                if (other.TryGetComponent<Villager>(out tempTarget))
+                Role tempTarget = (Role)other.GetComponent<Villager>();
+                if (tempTarget != null)
                 {
-                    if (this.roleName == "werewolf") // always true
+                    if (add)
                     {
-                        if (tempTarget.roleName == "werewolf") return;
-                        else
-                        {
-                            target = tempTarget;
-                            Debug.Log(target.name);
-                        }
+                        _targets.Add(tempTarget);
+                        Debug.Log("[+] Target added: "+tempTarget.name);
+                    } else if (_targets.Contains(tempTarget))
+                    {
+                        _targets.Remove(tempTarget);
+                        Debug.Log("[-] Target removed: "+tempTarget.name);
                     }
                 }
             }
@@ -48,22 +32,31 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void KillTarget()
         {
-            if (!hasCooldown)
-            {
-                Debug.Log("In KillTarget");
-                
-                if (target != null && target.isAlive)
+            Debug.Log("In KillTarget");
+            //if (!_hasCooldown)
+            //{
+                if (_targets.Count > 0)
                 {
+                    Role target = _targets[_targets.Count - 1];
+                    if (target.isAlive == false)
+                    {
+                        Debug.Log("[-] Can't kill because Target is already dead :(");
+                        return;
+                    }
                     transform.position = target.transform.position;
                     target.Die();
-                    target = null;
-                    hasCooldown = true;
+                    _targets.Remove(target);
+                    //_hasCooldown = true;
                 }
                 else
                 {
                     Debug.Log("No target");
                 }
-            }
+            //}
+            //else
+            //{
+            //    Debug.Log("[-] Can't kill because of Cooldown");
+            //}
         }
     }
 }

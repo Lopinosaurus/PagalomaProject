@@ -42,6 +42,8 @@ MonoBehaviour:
   - PRC_GetRole
   - PRC_SentRole
   - RPC_UpdateAppearance
+  - RPC_GetRole
+  - RPC_ReceiveRole
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

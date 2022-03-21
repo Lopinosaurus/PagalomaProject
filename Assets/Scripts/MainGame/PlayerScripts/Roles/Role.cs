@@ -13,7 +13,7 @@ namespace MainGame.PlayerScripts.Roles
         
         // Gameplay attributes
         public string roleName;
-        public bool isAlive;
+        public bool isAlive = true;
         public string username;
         public string color;
         public Role vote;
@@ -34,15 +34,7 @@ namespace MainGame.PlayerScripts.Roles
         // Die variables
         private const float maxDeathCamDistance = 5.0f;
         
-       public Role(string username, string color)
-       {
-           this.isAlive = true;
-           this.username = username;
-           this.color = color;
-           this.vote = null;
-       }
-
-       #endregion
+        #endregion
 
        #region Unity Methods
 
