@@ -9,23 +9,23 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    private PhotonView PV;
+    private PhotonView _photonView;
     public string roleName;
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     private void Start()
     {
-        if (PV.IsMine)
+        if (_photonView.IsMine)
         {
             // Get local player role
-            PV.RPC("RPC_GetRole", RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
+            _photonView.RPC("RPC_GetRole", RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
         }
     }
 
-    void CreateController()
+    private void CreateController()
     {
         if (roleName != null)
         {
@@ -38,9 +38,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void DisplayRole() // Display role name when set
+    private void DisplayRole() // Display role name when set
     {
-        if (PV.IsMine)
+        if (_photonView.IsMine)
         {
             RoomManager.Instance.DisplayRole(roleName);
             CreateController(); // Call CreateController only when roleName have been received
@@ -48,16 +48,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void RPC_GetRole() // Only the Master Client received this RPC
+    private void RPC_GetRole() // Only the Master Client received this RPC
     {
         roleName = RoomManager.Instance.GetNextRoleName(); // Get the role from RoomManager
         RoomManager.Instance.nextPlayerRoleIndex ++;
-        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName); // Broadcast the new role
+        _photonView.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName); // Broadcast the new role
         DisplayRole();
     }
 
     [PunRPC]
-    void RPC_ReceiveRole(string whichRole) // Apply the role that have been broadcast
+    private void RPC_ReceiveRole(string whichRole) // Apply the role that have been broadcast
     {
         roleName = whichRole;
         DisplayRole();

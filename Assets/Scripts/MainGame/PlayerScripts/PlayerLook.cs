@@ -31,17 +31,16 @@ public class PlayerLook : MonoBehaviour
     private bool shouldLookAround = true;
 
     // Mouse input values
-    private float mouseDeltaX;
-    private float mouseDeltaY;
-    private Vector2 mouseDelta;
+    private float _mouseDeltaX;
+    private float _mouseDeltaY;
 
     // Current player values
-    private float rotationX;
-    private float rotationY;
-    private float smoothValueX;
-    private float smoothValueY;
-    private float smoothTimeX = 0.01f;
-    private float smoothTimeY = 0.01f;
+    private float _rotationX;
+    private float _rotationY;
+    private float _smoothValueX;
+    private float _smoothValueY;
+    private const float SmoothTimeX = 0.01f;
+    private const float SmoothTimeY = 0.01f;
 
     #endregion
 
@@ -63,12 +62,12 @@ public class PlayerLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _playerControls = _playerController.playerControls;
+        _playerControls = _playerController.PlayerControls;
 
-        _playerControls.Player.Look.performed += ctx => mouseDeltaX = ctx.ReadValue<Vector2>().x;
-        _playerControls.Player.Look.performed += ctx => mouseDeltaY = ctx.ReadValue<Vector2>().y;
-        _playerControls.Player.Look.canceled += ctx => mouseDeltaX = ctx.ReadValue<Vector2>().x;
-        _playerControls.Player.Look.canceled += ctx => mouseDeltaY = ctx.ReadValue<Vector2>().y;
+        _playerControls.Player.Look.performed += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerControls.Player.Look.performed += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
+        _playerControls.Player.Look.canceled += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerControls.Player.Look.canceled += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
     }
 
 
@@ -78,18 +77,18 @@ public class PlayerLook : MonoBehaviour
     {
         if (!shouldLookAround) return;
 
-        rotationY += mouseDeltaX * mouseSensX;
-        rotationX -= mouseDeltaY * mouseSensY;
+        _rotationY += _mouseDeltaX * mouseSensX;
+        _rotationX -= _mouseDeltaY * mouseSensY;
 
-        rotationX = Mathf.Clamp(rotationX, -80f, 70f);
+        _rotationX = Mathf.Clamp(_rotationX, -80f, 70f);
 
-        Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
+        Quaternion rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
 
-        rotationX = Mathf.SmoothDampAngle(rotationX, rotation.eulerAngles.x, ref smoothValueX, smoothTimeX);
-        rotationY = Mathf.SmoothDampAngle(rotationY, rotation.eulerAngles.y, ref smoothValueY, smoothTimeY);
+        _rotationX = Mathf.SmoothDampAngle(_rotationX, rotation.eulerAngles.x, ref _smoothValueX, SmoothTimeX);
+        _rotationY = Mathf.SmoothDampAngle(_rotationY, rotation.eulerAngles.y, ref _smoothValueY, SmoothTimeY);
 
-        camHolder.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation = Quaternion.Euler(0, rotationY, 0);
+        camHolder.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+        transform.rotation = Quaternion.Euler(0, _rotationY, 0);
 
         // transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensY));
         //

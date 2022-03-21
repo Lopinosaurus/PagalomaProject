@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
@@ -13,23 +12,23 @@ public class PlayerController : MonoBehaviour
     #region Attributes
     
     // Movement components
-    private CharacterController characterController;
+    private CharacterController _characterController;
     
     // Network component
     private PhotonView _photonView;
     
     // Sub scripts
-    private PlayerMovement playerMovement;
-    private PlayerLook playerLook;
-    private PlayerAnimation playerAnimation;
+    private PlayerMovement _playerMovement;
+    private PlayerLook _playerLook;
+    private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
-    private Camera cam;
+    private Camera _cam;
     
     // Player Controls
-    public PlayerControls playerControls;
+    public PlayerControls PlayerControls;
 
     #endregion
 
@@ -38,23 +37,23 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // Player Controls
-        playerControls = new PlayerControls();
+        PlayerControls = new PlayerControls();
 
         // Movement components
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
         
         // Network component
         _photonView = GetComponent<PhotonView>();
         
         // Camera component
-        cam = cameraHolder.GetComponentInChildren<Camera>();
+        _cam = cameraHolder.GetComponentInChildren<Camera>();
 
-        if (null == cam) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
         
         // Sub scripts
-        playerMovement = GetComponent<PlayerMovement>();
-        playerLook = GetComponent<PlayerLook>();
-        playerAnimation = GetComponent<PlayerAnimation>();
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerLook = GetComponent<PlayerLook>();
+        _playerAnimation = GetComponent<PlayerAnimation>();
     }
     
     internal void Start()
@@ -62,30 +61,30 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine) return;
         
         Destroy(cameraHolder);
-        Destroy(characterController);
+        Destroy(_characterController);
     }
 
     private void Update()
     {
         if (!_photonView.IsMine) return;
         
-        playerLook.Look();
+        _playerLook.Look();
         
         // Updates the jump feature
-        playerMovement.UpdateJump();
+        _playerMovement.UpdateJump();
         
         // Updates the appearance based on the MovementType
-        playerAnimation.UpdateAppearance();
+        _playerAnimation.UpdateAppearance();
     }
     
     private void FixedUpdate()
     {
         if (!_photonView.IsMine) return;
         
-        //TODO improve to remove jittering
-        playerMovement.Move();
+        //TODO improve to remove jitter
+        _playerMovement.Move();
         
-        playerMovement.UpdateHitbox();
+        _playerMovement.UpdateHitbox();
     }
     
     #endregion
@@ -98,7 +97,7 @@ public class PlayerController : MonoBehaviour
     // Synchronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
     {
-        playerAnimation.UpdateAppearance();
+        _playerAnimation.UpdateAppearance();
     }
 
     #endregion
