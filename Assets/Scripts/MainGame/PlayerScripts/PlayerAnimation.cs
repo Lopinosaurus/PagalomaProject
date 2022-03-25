@@ -24,7 +24,7 @@ public class PlayerAnimation : MonoBehaviour
 
     // Player Smooth Crouch variables
     [Space] [Header("Smooth Crouch variables")]
-    [SerializeField] private Transform _playerCamera;
+    [SerializeField] private Transform _playerCameraRender;
 
     private void Awake() // Don't touch !
     {
