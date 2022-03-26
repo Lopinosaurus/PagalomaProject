@@ -282,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 2174250159478165951}
   cameraHolder: {fileID: 3919937540409626216}
+  _roleComponent: {fileID: 6189924410238691954}
 --- !u!82 &6418986661574876424
 AudioSource:
   m_ObjectHideFlags: 0

@@ -20,11 +20,11 @@ namespace MainGame.PlayerScripts.Roles
                     if (add)
                     {
                         _targets.Add(tempTarget);
-                        // Debug.Log("[+] Target added: "+tempTarget.name);
+                        Debug.Log("[+] Target added: "+tempTarget.name);
                     } else if (_targets.Contains(tempTarget))
                     {
                         _targets.Remove(tempTarget);
-                        // Debug.Log("[-] Target removed: "+tempTarget.name);
+                        Debug.Log("[-] Target removed: "+tempTarget.name);
                     }
                 }
             }
@@ -32,6 +32,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void KillTarget()
         {
+            Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
             // Debug.Log("In KillTarget");
             //if (!_hasCooldown)
             //{

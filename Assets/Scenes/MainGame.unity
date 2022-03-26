@@ -1937,8 +1937,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 1250184675}
   mainScreen: {fileID: 515588696}
   roles:
-  - Villager
   - Werewolf
+  - Villager
   - Seer
   - Villager
   - Hunter

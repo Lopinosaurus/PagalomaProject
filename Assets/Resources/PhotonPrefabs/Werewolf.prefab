@@ -5958,6 +5958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
+  _roleComponent: {fileID: 159311996791757570}
 --- !u!114 &-8137473814549735202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6066,7 +6067,7 @@ MonoBehaviour:
   playerCrouchingPose: {fileID: 2733481884318518846}
   playerSprintingPose: {fileID: 5624145344108875213}
   playerDeathPose: {fileID: 4361605156172055184}
-  playerCamera: {fileID: 6598090228381821785}
+  _playerCameraRender: {fileID: 0}
 --- !u!114 &-4639757121528924229
 MonoBehaviour:
   m_ObjectHideFlags: 0
