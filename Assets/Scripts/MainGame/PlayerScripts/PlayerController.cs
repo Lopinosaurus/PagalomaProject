@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     // Miscellaneous
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
-    [SerializeField] private Role _roleComponent;
     private Camera _cam;
     
     // Player Controls
@@ -63,8 +62,8 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine) return;
         
         Destroy(cameraHolder);
-        Destroy(_characterController);
-        _roleComponent.enabled = false;
+        // Destroy(_characterController);
+        playerInput.enabled = false;
     }
 
     private void Update()
