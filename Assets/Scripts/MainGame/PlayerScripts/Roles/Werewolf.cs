@@ -8,7 +8,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Werewolf : Role
     {
         // private bool _hasCooldown = false;
-        private List<Role> _targets = new List<Role>();
+        public List<Role> _targets = new List<Role>();
 
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {

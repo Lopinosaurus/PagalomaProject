@@ -5958,7 +5958,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
-  _roleComponent: {fileID: 159311996791757570}
 --- !u!114 &-8137473814549735202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6228,6 +6227,7 @@ MonoBehaviour:
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
+  _targets: []
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0

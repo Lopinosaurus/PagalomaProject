@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = System.Object;
@@ -34,6 +35,9 @@ namespace MainGame.PlayerScripts.Roles
         // Die variables
         private const float maxDeathCamDistance = 5.0f;
         
+        // Network component
+        private PhotonView _photonView;
+        
         #endregion
 
        #region Unity Methods
@@ -46,15 +50,19 @@ namespace MainGame.PlayerScripts.Roles
            _playerMovement = GetComponent<PlayerMovement>();
            _characterController = GetComponent<CharacterController>();
            cam = _cameraHolder.GetComponentInChildren<Camera>();
+           _photonView = GetComponent<PhotonView>();
        }
 
        private void Start()
        {
-           playerControls = _playerController.PlayerControls;
+           if (_photonView.IsMine)
+           {
+               playerControls = _playerController.PlayerControls;
            
-           playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+               playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
+               playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
+               playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+           }
        }
 
        private void LateUpdate()
@@ -74,43 +82,43 @@ namespace MainGame.PlayerScripts.Roles
        public void Die()
        {
            // Disable components & gameplay variables
-           playerControls.Disable();
+           if (playerControls != null) playerControls.Disable();
            _characterController.detectCollisions = false;
            _playerController.enabled = false;
            isAlive = false;
            
            // Initial camera position
-           Vector3 startingPos = _cameraHolder.transform.position;
-           Quaternion startingRot = _cameraHolder.transform.rotation;
-           Vector3 endingPos = new Vector3
+           if (_cameraHolder != null)
            {
-               x = startingPos.x,
-               y = startingPos.y + maxDeathCamDistance,
-               z = startingPos.z
-           };
-          
-           Debug.Log("startingRot is:" + startingRot);
-
-           // Final camera position
-           if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
-           {
-               endingPos.y = hitInfo.point.y - 0.2f;
-           }
-           
-           // Final camera rotation
-           Quaternion endingRot = Quaternion.identity;
-           endingRot.eulerAngles = new Vector3
-           {
-               x = 90,
-               y = endingRot.eulerAngles.y,
-               z = 180,
-           };
-           
-           Debug.Log("endingRot is:" + endingRot);
-
+               Vector3 startingPos = _cameraHolder.transform.position;
+               Quaternion startingRot = _cameraHolder.transform.rotation;
+               Vector3 endingPos = new Vector3
+               {
+                   x = startingPos.x,
+                   y = startingPos.y + maxDeathCamDistance,
+                   z = startingPos.z
+               };
+               // Debug.Log("startingRot is:" + startingRot);
+               
+               // Final camera position
+               if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
+               {
+                   endingPos.y = hitInfo.point.y - 0.2f;
+               }
+               
+               // Final camera rotation
+               Quaternion endingRot = Quaternion.identity;
+               endingRot.eulerAngles = new Vector3
+               {
+                   x = 90,
+                   y = endingRot.eulerAngles.y,
+                   z = 180,
+               };
+               // Debug.Log("endingRot is:" + endingRot);
+               StartCoroutine(MoveCamHolder(endingPos, endingRot));
+            }
            // Start camera animation
            _playerAnimation.EnableDeathAppearance();
-           StartCoroutine(MoveCamHolder(endingPos, endingRot));
        }
 
        private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
