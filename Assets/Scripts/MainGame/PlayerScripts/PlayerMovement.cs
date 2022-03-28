@@ -7,8 +7,6 @@ using Photon.Pun;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerController))]
-
 public class PlayerMovement : MonoBehaviour
 {
     #region Attributes
@@ -25,18 +23,18 @@ public class PlayerMovement : MonoBehaviour
 
     // private PlayerControls _playerControls;
     private Vector2 _moveRaw2D;
-    private bool _wantsCrouchHold;
+    public bool wantsCrouchHold;
     private bool _wantsCrouchToggle;
-    private bool _wantsSprint;
-    private bool _wantsJump;
+    public bool wantsSprint;
+    public bool wantsJump;
 
     // Movement speeds
     [Space]
     [Header("Player speed settings")]
     [SerializeField] private float currentSpeed;
-    private const float SprintSpeed = 6f;
-    private const float CrouchSpeed = 2f;
-    private const float WalkSpeed = 4f;
+    private const float SprintSpeed = 3f;
+    private const float CrouchSpeed = 1f;
+    private const float WalkSpeed = 2f;
     private const float SmoothTimeSpeedTransition = 0.5f;
 
     [Space]
@@ -49,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     // Gravity
     [Space] [Header("Gravity settings")]
     private float gravityForce = -9.81f;
-    private Vector3 _velocity = Vector3.zero;
+    public Vector3 _velocity = Vector3.zero;
     
     // Ground check
     public bool grounded;
@@ -96,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         // Player Controller
         _playerController = GetComponent<PlayerController>();
 
-        _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponentInChildren<CharacterController>();
         
         float hitboxHeight = _characterController.height;
         _crouchedHitboxHeight = hitboxHeight * 0.78f;
@@ -116,17 +114,17 @@ public class PlayerMovement : MonoBehaviour
         _playerControls.Player.Move.performed += ctx => _moveRaw2D = ctx.ReadValue<Vector2>();
         _playerControls.Player.Move.canceled += _ => _moveRaw2D = Vector2.zero;
         // for the Crouch button
-        _playerControls.Player.Crouch.performed += ctx => _wantsCrouchHold = ctx.ReadValueAsButton();
-        _playerControls.Player.Crouch.canceled += ctx => _wantsCrouchHold = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.performed += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
+        _playerControls.Player.Crouch.canceled += ctx => wantsCrouchHold = ctx.ReadValueAsButton();
         
         //TODO fix toggle
         _playerControls.Player.Crouch.started += ctx => _wantsCrouchToggle = ctx.ReadValueAsButton();
         // for the Sprint button
-        _playerControls.Player.Sprint.performed += ctx => _wantsSprint = ctx.ReadValueAsButton();
-        _playerControls.Player.Sprint.canceled += ctx => _wantsSprint = ctx.ReadValueAsButton();
+        _playerControls.Player.Sprint.performed += ctx => wantsSprint = ctx.ReadValueAsButton();
+        _playerControls.Player.Sprint.canceled += ctx => wantsSprint = ctx.ReadValueAsButton();
         // for the Jump button
-        _playerControls.Player.Jump.performed += ctx => _wantsJump = ctx.ReadValueAsButton();
-        _playerControls.Player.Jump.canceled += ctx => _wantsJump = ctx.ReadValueAsButton();
+        _playerControls.Player.Jump.performed += ctx => wantsJump = ctx.ReadValueAsButton();
+        _playerControls.Player.Jump.canceled += ctx => wantsJump = ctx.ReadValueAsButton();
     }
 
     #endregion
@@ -167,11 +165,11 @@ public class PlayerMovement : MonoBehaviour
         
         
         // Applies direction from directional inputs
-        Vector3 transformDirection = transform.TransformDirection(moveAmount);
         
+        /*Vector3 transformDirection = transform.TransformDirection(moveAmount);
         _characterController.Move( transformDirection * Time.fixedDeltaTime);
-        _characterController.Move(_velocity * Time.fixedDeltaTime);
-        // _rigidBody.MovePosition(_rigidBody.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        _characterController.Move(_velocity * Time.fixedDeltaTime);*/
+        
     }
     
     private void UpdateGrounded()
@@ -186,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
         if (MovementTypes.Crouch == currentMovementType) return;
 
         // Checks if players wants to sprint and if he pressed a directional key
-        if (_wantsSprint && Vector2.zero != _moveRaw2D)
+        if (wantsSprint && Vector2.zero != _moveRaw2D)
         {
             SetCurrentMovementType(MovementTypes.Sprint);
         }
@@ -201,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
         switch (currentCrouchType)
         {
             case CrouchModes.Hold:
-                if (_wantsCrouchHold)
+                if (wantsCrouchHold)
                     SetCurrentMovementType(MovementTypes.Crouch);
                 else if (MovementTypes.Crouch == currentMovementType)
                     SetCurrentMovementType(MovementTypes.Stand);
@@ -294,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
     
     public bool UpdateJump() // changes 'transformJump'
     {
-        if (_wantsJump && grounded)
+        if (wantsJump && grounded)
         {
             _velocity.y = Mathf.Sqrt(JumpForce * gravityForce * -2f);
         }

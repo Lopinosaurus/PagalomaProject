@@ -4,9 +4,7 @@ using Photon.Pun;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement)),
- RequireComponent(typeof(PlayerLook)),
- RequireComponent(typeof(PlayerAnimation))]
-
+ RequireComponent(typeof(PlayerLook))]
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
@@ -40,7 +38,7 @@ public class PlayerController : MonoBehaviour
         PlayerControls = new PlayerControls();
 
         // Movement components
-        _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponentInChildren<CharacterController>();
         
         // Network component
         _photonView = GetComponent<PhotonView>();
@@ -53,38 +51,41 @@ public class PlayerController : MonoBehaviour
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
+        _playerAnimation = GetComponentInChildren<PlayerAnimation>();
     }
     
     internal void Start()
     {
-        if (_photonView.IsMine) return;
-        
-        Destroy(cameraHolder);
-        Destroy(_characterController);
+        if (!_photonView.IsMine)
+        {
+            Destroy(cameraHolder);
+            Destroy(_characterController);
+        }
     }
 
     private void Update()
     {
-        if (!_photonView.IsMine) return;
-        
-        _playerLook.Look();
-        
-        // Updates the jump feature
-        _playerMovement.UpdateJump();
-        
-        // Updates the appearance based on the MovementType
-        _playerAnimation.UpdateAppearance();
+        if (!_photonView.IsMine)
+        {
+            _playerLook.Look();
+
+            // Updates the jump feature
+            _playerMovement.UpdateJump();
+        }
     }
     
     private void FixedUpdate()
     {
-        if (!_photonView.IsMine) return;
-        
-        //TODO improve to remove jitter
-        _playerMovement.Move();
-        
-        _playerMovement.UpdateHitbox();
+        if (_photonView.IsMine)
+        {
+            //TODO improve to remove jitter
+            _playerMovement.Move();
+
+            _playerMovement.UpdateHitbox();
+
+            // Updates the appearance based on the MovementType
+            _playerAnimation.UpdateAnimationsBasic();
+        }
     }
     
     #endregion
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
     // Synchronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
     {
-        _playerAnimation.UpdateAppearance();
+        _playerAnimation.UpdateAnimationsBasic();
     }
 
     #endregion

@@ -22,17 +22,17 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private bool kill = false;
 
         // Controls
-        [SerializeField] private GameObject _cameraHolder;
-        public PlayerControls playerControls;
+        [SerializeField] private GameObject cameraHolder;
+        public PlayerControls PlayerControls;
         private PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
         private PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
-        private Camera cam;
+        private Camera _cam;
         
         // Die variables
-        private const float maxDeathCamDistance = 5.0f;
+        private const float MaxDeathCamDistance = 5.0f;
         
         #endregion
 
@@ -45,16 +45,16 @@ namespace MainGame.PlayerScripts.Roles
            _playerAnimation = GetComponent<PlayerAnimation>();
            _playerMovement = GetComponent<PlayerMovement>();
            _characterController = GetComponent<CharacterController>();
-           cam = _cameraHolder.GetComponentInChildren<Camera>();
+           _cam = cameraHolder.GetComponentInChildren<Camera>();
        }
 
        private void Start()
        {
-           playerControls = _playerController.PlayerControls;
+           PlayerControls = _playerController.PlayerControls;
            
-           playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+           PlayerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
+           PlayerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
+           PlayerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
        }
 
        private void LateUpdate()
@@ -74,25 +74,25 @@ namespace MainGame.PlayerScripts.Roles
        public void Die()
        {
            // Disable components & gameplay variables
-           playerControls.Disable();
+           PlayerControls.Disable();
            _characterController.detectCollisions = false;
            _playerController.enabled = false;
            isAlive = false;
            
            // Initial camera position
-           Vector3 startingPos = _cameraHolder.transform.position;
-           Quaternion startingRot = _cameraHolder.transform.rotation;
+           Vector3 startingPos = cameraHolder.transform.position;
+           Quaternion startingRot = cameraHolder.transform.rotation;
            Vector3 endingPos = new Vector3
            {
                x = startingPos.x,
-               y = startingPos.y + maxDeathCamDistance,
+               y = startingPos.y + MaxDeathCamDistance,
                z = startingPos.z
            };
           
            Debug.Log("startingRot is:" + startingRot);
 
            // Final camera position
-           if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
+           if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, MaxDeathCamDistance))
            {
                endingPos.y = hitInfo.point.y - 0.2f;
            }
@@ -115,16 +115,16 @@ namespace MainGame.PlayerScripts.Roles
 
        private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
        {
-           while (_cameraHolder.transform.position != endingPos)
+           while (cameraHolder.transform.position != endingPos)
            {
-               Vector3 position = _cameraHolder.transform.position;
-               Quaternion rotation = _cameraHolder.transform.localRotation;
+               Vector3 position = cameraHolder.transform.position;
+               Quaternion rotation = cameraHolder.transform.localRotation;
 
                position = Vector3.Slerp(position, endingPos, 0.02f);
                rotation = Quaternion.Slerp(rotation, endingRot, 0.05f);
                
-               _cameraHolder.transform.position = position;
-               _cameraHolder.transform.localRotation = rotation;
+               cameraHolder.transform.position = position;
+               cameraHolder.transform.localRotation = rotation;
                yield return null;
            }
        }

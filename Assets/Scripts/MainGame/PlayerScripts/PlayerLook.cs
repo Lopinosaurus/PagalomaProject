@@ -8,8 +8,6 @@ using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(PlayerController))]
-
 public class PlayerLook : MonoBehaviour
 {
     #region Attributes

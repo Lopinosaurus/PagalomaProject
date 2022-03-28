@@ -4,58 +4,41 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-[RequireComponent(typeof(PlayerController))]
-
 public class PlayerAnimation : MonoBehaviour
 {
-    // Movement component
+    // Scripts components
     private PlayerMovement _playerMovement;
-
-    // Network component
+    private CharacterController _characterController;
     private PhotonView _photonView;
+    [SerializeField] private Animator _animator;
+    
+    // Boolean States hashes
 
-    // Declaring player's appearances objects
-    [Space]
-    [Header("Player's poses")]
-    [SerializeField] private GameObject playerStandingPose;
-    [SerializeField] private GameObject playerCrouchingPose;
-    [SerializeField] private GameObject playerSprintingPose;
-    [SerializeField] private GameObject playerDeathPose;
-
-    // Player Smooth Crouch variables
-    [Space] [Header("Smooth Crouch variables")]
-    [SerializeField] private Transform _playerCameraRender;
+    private static readonly int isStanding = Animator.StringToHash("isStanding");
+    private static readonly int isWalking = Animator.StringToHash("isWalking");
+    private static readonly int isSprinting = Animator.StringToHash("isSprinting");
 
     private void Awake() // Don't touch !
     {
         _playerMovement = GetComponent<PlayerMovement>();
+        _characterController = GetComponent<CharacterController>();
         _photonView = GetComponent<PhotonView>();
-    }
-
-    private void Start() // Don't touch !
-    {
-        // Player's appearances
-        playerStandingPose.SetActive(true);
-        playerCrouchingPose.SetActive(false);
-        playerSprintingPose.SetActive(false);
-        playerDeathPose.SetActive(false);
     }
 
     public void EnableDeathAppearance()
     {
-        playerStandingPose.SetActive(false);
-        playerCrouchingPose.SetActive(false);
-        playerSprintingPose.SetActive(false);
-        playerDeathPose.SetActive(true);
+
     }
     
-    public void UpdateAppearance()
+    public void UpdateAnimationsBasic()
     {
-        PlayerMovement.MovementTypes currentMovementType = _playerMovement.currentMovementType;
+        // Toggles "Stand" animation
+        _animator.SetBool(isStanding, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
         
-        playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand ||
-                                     currentMovementType == PlayerMovement.MovementTypes.Walk); 
-        playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == currentMovementType);
-        playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == currentMovementType);
+        // Toggles "Walk" animation
+        _animator.SetBool(isWalking, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Walk);
+
+        // Toggles "Sprint" animation
+        _animator.SetBool(isSprinting, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Sprint);
     }
 }
