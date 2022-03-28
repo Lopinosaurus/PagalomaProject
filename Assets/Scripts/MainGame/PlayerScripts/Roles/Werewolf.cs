@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -32,6 +34,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void KillTarget()
         {
+            
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
             // Debug.Log("In KillTarget");
             //if (!_hasCooldown)
@@ -47,6 +50,8 @@ namespace MainGame.PlayerScripts.Roles
                     transform.position = target.transform.position;
                     target.Die();
                     _targets.Remove(target);
+                    _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
+                    
                     //_hasCooldown = true;
                 }
                 else
@@ -58,6 +63,16 @@ namespace MainGame.PlayerScripts.Roles
             //{
             //    Debug.Log("[-] Can't kill: You have a Cooldown");
             //}
+        }
+
+        [PunRPC]
+        public void RPC_KillTarget(int userId)
+        {
+            // foreach (Player player in PhotonNetwork.PlayerList) 
+            // {
+            //     print(player.UserId);
+            // }
+            // if (target.isAlive == false) target.Die();
         }
     }
 }

@@ -8,7 +8,7 @@ using Object = System.Object;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    public class Role : MonoBehaviour
+    public class Role : MonoBehaviour, IPunInstantiateMagicCallback
     {
         #region Attributes
         
@@ -16,6 +16,7 @@ namespace MainGame.PlayerScripts.Roles
         public string roleName;
         public bool isAlive = true;
         public string username;
+        public int userId;
         public string color;
         public Role vote;
         
@@ -36,7 +37,7 @@ namespace MainGame.PlayerScripts.Roles
         private const float maxDeathCamDistance = 5.0f;
         
         // Network component
-        private PhotonView _photonView;
+        protected PhotonView _photonView; // Use protected to be able to access it in subclasses
         
         #endregion
 
@@ -137,6 +138,12 @@ namespace MainGame.PlayerScripts.Roles
            }
        }
 
+       public void OnPhotonInstantiate(PhotonMessageInfo info)
+       {
+            // e.g. store this gameobject as this player's charater in Player.TagObject
+            Role playerRole = info.photonView.GetComponent<Role>();
+            RoomManager.Instance.players.Add(playerRole);
+       }
        #endregion
     }
 }

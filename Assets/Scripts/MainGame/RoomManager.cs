@@ -6,6 +6,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon; // Used for OnRoomPropertiesUpdate
 using UnityEngine.SceneManagement;
 using System.IO;
+using MainGame.PlayerScripts.Roles;
 using TMPro;
 
 public class RoomManager : MonoBehaviourPunCallbacks
@@ -18,6 +19,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
     public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
+    public List<Role> players; 
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
         loadingScreen.SetActive(true);
+        players = new List<Role>();
     }
 
     public override void OnEnable()
@@ -88,4 +91,5 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         roleText.text = "You are "+roleName;
     }
+    
 }

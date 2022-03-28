@@ -5890,7 +5890,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
-  _roleComponent: {fileID: 856530735381850155}
 --- !u!114 &-8137473814549735202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6155,6 +6154,7 @@ MonoBehaviour:
   roleName: villager
   isAlive: 1
   username: 
+  userId: 0
   color: 
   vote: {fileID: 0}
   selfKill: 0

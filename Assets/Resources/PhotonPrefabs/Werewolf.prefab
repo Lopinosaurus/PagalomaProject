@@ -6222,6 +6222,7 @@ MonoBehaviour:
   roleName: werewolf
   isAlive: 1
   username: 
+  userId: 0
   color: 
   vote: {fileID: 0}
   selfKill: 0
