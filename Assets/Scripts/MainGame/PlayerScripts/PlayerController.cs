@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     // Sub scripts
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
-    private PlayerAnimation _playerAnimation;
+    [SerializeField] private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
     [SerializeField] private PlayerInput playerInput;
@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
-        _playerAnimation = GetComponentInChildren<PlayerAnimation>();
     }
     
     internal void Start()
@@ -65,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!_photonView.IsMine)
+        if (_photonView.IsMine)
         {
             _playerLook.Look();
 

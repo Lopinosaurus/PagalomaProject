@@ -7,38 +7,33 @@ using Photon.Pun;
 public class PlayerAnimation : MonoBehaviour
 {
     // Scripts components
-    private PlayerMovement _playerMovement;
-    private CharacterController _characterController;
-    private PhotonView _photonView;
+    
+    [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private Animator _animator;
+    public Animator Animator => _animator;
     
     // Boolean States hashes
 
-    private static readonly int isStanding = Animator.StringToHash("isStanding");
-    private static readonly int isWalking = Animator.StringToHash("isWalking");
-    private static readonly int isSprinting = Animator.StringToHash("isSprinting");
-
-    private void Awake() // Don't touch !
-    {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _characterController = GetComponent<CharacterController>();
-        _photonView = GetComponent<PhotonView>();
-    }
+    private readonly int isStandingHash = Animator.StringToHash("isStanding");
+    private readonly int isWalkingHash = Animator.StringToHash("isWalking");
+    private readonly int isSprintingHash = Animator.StringToHash("isSprinting");
 
     public void EnableDeathAppearance()
     {
-
+        return;
     }
     
     public void UpdateAnimationsBasic()
     {
+        
+        
         // Toggles "Stand" animation
-        _animator.SetBool(isStanding, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
+        _animator.SetBool(isStandingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
         
         // Toggles "Walk" animation
-        _animator.SetBool(isWalking, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Walk);
+        _animator.SetBool(isWalkingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Walk);
 
         // Toggles "Sprint" animation
-        _animator.SetBool(isSprinting, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Sprint);
+        _animator.SetBool(isSprintingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Sprint);
     }
 }

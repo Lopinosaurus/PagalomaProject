@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     
     // Player Controller & Controls
     private PlayerController _playerController;
+    private PlayerAnimation _playerAnimation;
     private PlayerControls _playerControls;
 
     // Movement components
@@ -91,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        // Player Controller
         _playerController = GetComponent<PlayerController>();
+        _playerAnimation = GetComponentInChildren<PlayerAnimation>();
 
         _characterController = GetComponentInChildren<CharacterController>();
         
@@ -139,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             y = 0.0f,
             z = _moveRaw2D.y
         };
-        
+
         moveRaw3D = moveRaw3D.normalized;
 
         // Updates the grounded boolean state
@@ -159,19 +160,23 @@ public class PlayerMovement : MonoBehaviour
 
         // Updates the speed based on the MovementType
         UpdateSpeed();
-        
+
         // Sets the new movement vector based on the inputs
         SetMoveAmount(moveRaw3D); // changes 'moveAmount'
-        
-        
+
+
+
         // Applies direction from directional inputs
+        Vector3 transformDirection = transform.TransformDirection(moveAmount);
         
-        /*Vector3 transformDirection = transform.TransformDirection(moveAmount);
-        _characterController.Move( transformDirection * Time.fixedDeltaTime);
-        _characterController.Move(_velocity * Time.fixedDeltaTime);*/
-        
+        /*
+        _characterController.Move(transformDirection * Time.fixedDeltaTime);
+        */
+
+        // Applies gravity
+        _characterController.Move(_velocity * Time.fixedDeltaTime);
     }
-    
+
     private void UpdateGrounded()
     {
         SetGroundedState(_characterController.isGrounded);
