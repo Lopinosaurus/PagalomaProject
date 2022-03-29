@@ -43,7 +43,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
     private Vector3 _moveSmoothVelocity;
-    public Vector3 moveAmount = Vector3.zero;
+    private Vector3 _moveAmount = Vector3.zero;
+    public Vector3 transformDirection;
 
     // Gravity
     [Space] [Header("Gravity settings")]
@@ -167,11 +168,10 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Applies direction from directional inputs
-        Vector3 transformDirection = transform.TransformDirection(moveAmount);
-        
-        /*
-        _characterController.Move(transformDirection * Time.fixedDeltaTime);
-        */
+        // transformDirection = transform.TransformDirection(_moveAmount);
+        // _characterController.Move(transformDirection * Time.fixedDeltaTime);
+
+        transformDirection = _moveAmount;
 
         // Applies gravity
         _characterController.Move(_velocity * Time.fixedDeltaTime);
@@ -349,7 +349,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetMoveAmount(Vector3 moveDir)
     {
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * currentSpeed, ref _moveSmoothVelocity,
+        _moveAmount = Vector3.SmoothDamp(_moveAmount, moveDir * currentSpeed, ref _moveSmoothVelocity,
             smoothTime);
     }
     
