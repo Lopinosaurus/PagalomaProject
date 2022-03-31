@@ -32,6 +32,16 @@ public class PlayerController : MonoBehaviour
 
     #region Unity methods
     
+    private void OnEnable()
+    {
+        PlayerControls.Player.Enable();
+    }
+    
+    private void OnDisable()
+    {
+        PlayerControls.Player.Disable();
+    }
+    
     private void Awake()
     {
         // Player Controls

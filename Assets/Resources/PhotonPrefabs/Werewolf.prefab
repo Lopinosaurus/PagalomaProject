@@ -5956,6 +5956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerAnimation: {fileID: 0}
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
 --- !u!114 &-8137473814549735202
@@ -5971,10 +5972,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
+  isRootMotion: 0
+  wantsCrouchHold: 0
+  wantsSprint: 0
+  wantsJump: 0
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
   moveAmount: {x: 0, y: 0, z: 0}
+  _velocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouchSmoothTime: 0.1
   smoothTime: 0.1
@@ -6062,11 +6068,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd4c48089c38f54aa8aa6bae7b8b965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStandingPose: {fileID: 8126347909802486617}
-  playerCrouchingPose: {fileID: 2733481884318518846}
-  playerSprintingPose: {fileID: 5624145344108875213}
-  playerDeathPose: {fileID: 4361605156172055184}
-  playerCamera: {fileID: 6598090228381821785}
+  _characterController: {fileID: 0}
+  _playerMovement: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!114 &-4639757121528924229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6226,7 +6230,7 @@ MonoBehaviour:
   vote: {fileID: 0}
   selfKill: 0
   kill: 0
-  _cameraHolder: {fileID: 1141215766398316333}
+  cameraHolder: {fileID: 1141215766398316333}
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0

@@ -2423,7 +2423,7 @@ MonoBehaviour:
   currentMovementType: 0
   currentCrouchType: 1
   moveAmount: {x: 0, y: 0, z: 0}
-  _velocity: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouchSmoothTime: 0.1
   smoothTime: 0.1
@@ -2689,6 +2689,9 @@ MonoBehaviour:
   _characterController: {fileID: 838235907301293933}
   _playerMovement: {fileID: 660215560512379707}
   _animator: {fileID: 6405752964217084733}
+  _animatorControllerScript: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
+  _animatorControllerRoot: {fileID: 9100000, guid: aad6d12903a17e740b99d3f94a4c48c7, type: 2}
+  enableRootMotion: 0
 --- !u!95 &6405752964217084733
 Animator:
   serializedVersion: 3
@@ -2702,7 +2705,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
