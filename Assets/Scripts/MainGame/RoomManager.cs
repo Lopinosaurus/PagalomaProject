@@ -19,7 +19,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
     public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
-    public List<Role> players; 
+    public List<Role> players; // List of the Role of all the players
 
     private void Awake()
     {

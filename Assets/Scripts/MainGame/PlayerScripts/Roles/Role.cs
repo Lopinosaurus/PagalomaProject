@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = System.Object;
@@ -16,9 +18,10 @@ namespace MainGame.PlayerScripts.Roles
         public string roleName;
         public bool isAlive = true;
         public string username;
-        public int userId;
+        public string userId;
         public string color;
         public Role vote;
+        [SerializeField] private TMP_Text actionText;
         
         [SerializeField] private bool selfKill = false;
         [SerializeField] private bool kill = false;
@@ -137,13 +140,15 @@ namespace MainGame.PlayerScripts.Roles
                yield return null;
            }
        }
-
+       
+       #endregion
+       
        public void OnPhotonInstantiate(PhotonMessageInfo info)
        {
-            // e.g. store this gameobject as this player's charater in Player.TagObject
+            // Add instantiated role dy players list
             Role playerRole = info.photonView.GetComponent<Role>();
             RoomManager.Instance.players.Add(playerRole);
+            playerRole.userId = info.Sender.UserId;
        }
-       #endregion
     }
 }

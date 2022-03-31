@@ -32,9 +32,8 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-        public override void KillTarget()
+        public override void KillTarget() // TODO: Add kill animation
         {
-            
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
             // Debug.Log("In KillTarget");
             //if (!_hasCooldown)
@@ -66,13 +65,20 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         [PunRPC]
-        public void RPC_KillTarget(int userId)
+        public void RPC_KillTarget(string userId) // TODO: Add kill animation
         {
-            // foreach (Player player in PhotonNetwork.PlayerList) 
-            // {
-            //     print(player.UserId);
-            // }
-            // if (target.isAlive == false) target.Die();
+            Role target = null;
+            foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId
+            {
+                if (player.userId == userId) target = player;
+            }
+
+            if (target != null)
+            {
+                if (target.isAlive) target.Die();
+                else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, Target is already dead");
+            }
+            else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, target = null");
         }
     }
 }
