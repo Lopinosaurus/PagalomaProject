@@ -12,7 +12,7 @@ public class FootstepEffect : MonoBehaviour
     
     void Update()
     {
-        if (characterController == null) return; // idk if this is OK
+        if (characterController == null) return; // Avoid error on CharacterController destruction
         if (characterController.isGrounded && footsteps.isPlaying == false && characterController.velocity.magnitude > 0f)
 
         {

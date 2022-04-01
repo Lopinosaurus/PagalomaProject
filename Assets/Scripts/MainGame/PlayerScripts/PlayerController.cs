@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     // Miscellaneous
     [SerializeField] private PlayerInput playerInput;
+    public PlayerInput PlayerInput => playerInput;
     [SerializeField] internal GameObject cameraHolder;
     private Camera cam;
     
