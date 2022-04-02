@@ -31,8 +31,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         {
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
 
+            roleName = "Player";
+
             #if UNITY_EDITOR
-                roleName = "Player";
             #endif
             
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
