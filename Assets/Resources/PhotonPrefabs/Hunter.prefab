@@ -5852,7 +5852,7 @@ GameObject:
   - component: {fileID: -5454740212722824924}
   - component: {fileID: 6357160355226169689}
   - component: {fileID: 856530735381850155}
-  - component: {fileID: 4728699227370324764}
+  - component: {fileID: -1037527400339193147}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: Player
@@ -5889,7 +5889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAnimation: {fileID: 0}
+  _playerAnimation: {fileID: 8724781646391684398}
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
 --- !u!114 &-8137473814549735202
@@ -6153,15 +6153,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0584ef3612f4fc74aa8e8075c28a3619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roleName: villager
+  roleName: hunter
   isAlive: 1
   username: 
+  userId: 
   color: 
   vote: {fileID: 0}
+  actionText: {fileID: 0}
   selfKill: 0
   kill: 0
-  cameraHolder: {fileID: 1141215766398316333}
---- !u!114 &4728699227370324764
+  _cameraHolder: {fileID: 1141215766398316333}
+--- !u!114 &-1037527400339193147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -31,10 +31,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (roleName != null)
         {
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
-            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity);
             // Role playerRole = player.GetComponent<Role>();
             // RoomManager.Instance.players.Add(playerRole);
-            // Use OnPhotonInstantiate callback
         }
         else
         {

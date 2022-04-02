@@ -2652,11 +2652,13 @@ MonoBehaviour:
   roleName: 
   isAlive: 1
   username: 
+  userId: 
   color: 
   vote: {fileID: 0}
+  actionText: {fileID: 0}
   selfKill: 0
   kill: 0
-  cameraHolder: {fileID: 1141215766398316333}
+  _cameraHolder: {fileID: 1141215766398316333}
 --- !u!143 &838235907301293933
 CharacterController:
   m_ObjectHideFlags: 0

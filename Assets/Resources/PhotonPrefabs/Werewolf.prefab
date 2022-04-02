@@ -5957,7 +5957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAnimation: {fileID: 0}
+  _playerAnimation: {fileID: 8724781646391684398}
   playerInput: {fileID: -4639757121528924229}
   cameraHolder: {fileID: 1141215766398316333}
 --- !u!114 &-8137473814549735202
@@ -6066,8 +6066,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd4c48089c38f54aa8aa6bae7b8b965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 0}
-  _playerMovement: {fileID: 0}
+  _characterController: {fileID: 3682566154727703155}
+  _playerMovement: {fileID: -8137473814549735202}
   _animator: {fileID: 0}
 --- !u!114 &-4639757121528924229
 MonoBehaviour:
@@ -6224,11 +6224,14 @@ MonoBehaviour:
   roleName: werewolf
   isAlive: 1
   username: 
+  userId: 
   color: 
   vote: {fileID: 0}
+  actionText: {fileID: 0}
   selfKill: 0
   kill: 0
-  cameraHolder: {fileID: 1141215766398316333}
+  _cameraHolder: {fileID: 1141215766398316333}
+  _targets: []
 --- !u!114 &8779985016098771038
 MonoBehaviour:
   m_ObjectHideFlags: 0
