@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         if (!_photonView.IsMine)
         {
             Destroy(cameraHolder);
-            Destroy(_characterController);
+            playerInput.enabled = false;
         }
     }
 
