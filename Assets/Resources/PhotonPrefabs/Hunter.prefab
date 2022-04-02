@@ -5852,6 +5852,7 @@ GameObject:
   - component: {fileID: -5454740212722824924}
   - component: {fileID: 6357160355226169689}
   - component: {fileID: 856530735381850155}
+  - component: {fileID: 4728699227370324764}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: Player
@@ -5904,15 +5905,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
-  isRootMotion: 0
-  wantsCrouchHold: 0
-  wantsSprint: 0
-  wantsJump: 0
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
-  moveAmount: {x: 0, y: 0, z: 0}
-  _velocity: {x: 0, y: 0, z: 0}
+  moveAmountNormalized: {x: 0, y: 0, z: 0}
+  moveAmountRaw: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouchSmoothTime: 0.1
   smoothTime: 0.1
@@ -6163,6 +6161,21 @@ MonoBehaviour:
   selfKill: 0
   kill: 0
   cameraHolder: {fileID: 1141215766398316333}
+--- !u!114 &4728699227370324764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e035be400efc74db07a5288589ed8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearDoor: 0
+  door: {fileID: 0}
+  PV: {fileID: 1654778427836828203}
 --- !u!1 &7686103083645008553
 GameObject:
   m_ObjectHideFlags: 0

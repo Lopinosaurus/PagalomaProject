@@ -2378,6 +2378,7 @@ GameObject:
   - component: {fileID: 838235907301293933}
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 6405752964217084733}
+  - component: {fileID: -7244464857301056814}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2416,13 +2417,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
-  wantsCrouchHold: 0
-  wantsSprint: 0
-  wantsJump: 0
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
-  moveAmount: {x: 0, y: 0, z: 0}
+  moveAmountNormalized: {x: 0, y: 0, z: 0}
+  moveAmountRaw: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   grounded: 0
   crouchSmoothTime: 0.1
@@ -2689,9 +2688,6 @@ MonoBehaviour:
   _characterController: {fileID: 838235907301293933}
   _playerMovement: {fileID: 660215560512379707}
   _animator: {fileID: 6405752964217084733}
-  _animatorControllerScript: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
-  _animatorControllerRoot: {fileID: 9100000, guid: aad6d12903a17e740b99d3f94a4c48c7, type: 2}
-  enableRootMotion: 0
 --- !u!95 &6405752964217084733
 Animator:
   serializedVersion: 3
@@ -2711,6 +2707,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-7244464857301056814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e035be400efc74db07a5288589ed8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearDoor: 0
+  door: {fileID: 0}
+  PV: {fileID: 7578259937013170486}
 --- !u!1 &7716088027617932813
 GameObject:
   m_ObjectHideFlags: 0
