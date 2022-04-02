@@ -44,7 +44,7 @@ MonoBehaviour:
   - RPC_UpdateAppearance
   - RPC_GetRole
   - RPC_ReceiveRole
-  - RPC_KillTarget
+  - RPC_OpenCloseDoor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
