@@ -782,6 +782,7 @@ GameObject:
   - component: {fileID: 8025901093200320342}
   - component: {fileID: 3836713938624666415}
   - component: {fileID: 4351194644085480314}
+  - component: {fileID: 8047418154873416192}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -799,7 +800,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5.046627, y: 0.75414443, z: -0.6827136}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7283264158354356676}
   m_Father: {fileID: 4973511417253933607}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -892,6 +894,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 7601848965248180357}
+  doorAnim: {fileID: 0}
+--- !u!95 &8047418154873416192
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250996816712331343}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5961266989973124246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,12 +1324,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7601848965248180357}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.209, y: 0.9, z: 0.327}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.16237307, y: 0.14585555, z: 1.0097136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4973511417253933607}
-  m_RootOrder: 15
+  m_Father: {fileID: 8965612072667844454}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!23 &8389847629338882615
 MeshRenderer:
@@ -1606,7 +1628,6 @@ Transform:
   - {fileID: 8123974261876010109}
   - {fileID: 4372640516522558386}
   - {fileID: 2535809898637740617}
-  - {fileID: 7283264158354356676}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

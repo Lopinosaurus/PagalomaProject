@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4814263207810306148}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -3.431, y: 2.606, z: 0.095}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.029160261, y: 0.30320024, z: 0.80622125}
   m_LocalScale: {x: 1, y: 1, z: 0.96222997}
   m_Children: []
-  m_Father: {fileID: 5037090001170736141}
-  m_RootOrder: 3
+  m_Father: {fileID: 8975216998806133068}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!23 &3024572508490306240
 MeshRenderer:
@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 8035435923240829308}
   - component: {fileID: 5350208297934709835}
   - component: {fileID: 4782961916694888457}
+  - component: {fileID: 5877058987427377629}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -126,7 +127,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.4018397, y: 2.3027997, z: -0.7112212}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3242309181220225059}
   m_Father: {fileID: 5037090001170736141}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -219,6 +221,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 4814263207810306148}
+  doorAnim: {fileID: 0}
+--- !u!95 &5877058987427377629
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5205432381110576741}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7316148358670304099
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +464,6 @@ Transform:
   - {fileID: 8975216998806133068}
   - {fileID: 5194730844835894768}
   - {fileID: 6502823225662147061}
-  - {fileID: 3242309181220225059}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

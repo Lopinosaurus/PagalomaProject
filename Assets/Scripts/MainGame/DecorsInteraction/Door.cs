@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
     public GameObject message;
 
+    private void Start()
+    {
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
-        message.SetActive(true);
+        other.GetComponent<PlayerInteraction>().NearDoor(message, gameObject);
     }
     private void OnTriggerExit(Collider other)
     {
-        message.SetActive(false);
+        other.GetComponent<PlayerInteraction>().FarDoor(message, gameObject);
     }
 }

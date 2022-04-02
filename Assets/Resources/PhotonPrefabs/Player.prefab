@@ -4423,6 +4423,7 @@ GameObject:
   - component: {fileID: 8724781646391684398}
   - component: {fileID: -4639757121528924229}
   - component: {fileID: -5454740212722824924}
+  - component: {fileID: 1092497130526896880}
   - component: {fileID: 6357160355226169689}
   m_Layer: 7
   m_Name: Player
@@ -4632,6 +4633,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 3682566154727703155}
   footsteps: {fileID: 6357160355226169689}
+--- !u!114 &1092497130526896880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e035be400efc74db07a5288589ed8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearDoor: 0
+  door: {fileID: 0}
+  PV: {fileID: 1654778427836828203}
 --- !u!82 &6357160355226169689
 AudioSource:
   m_ObjectHideFlags: 0

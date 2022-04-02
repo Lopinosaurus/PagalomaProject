@@ -26,11 +26,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720841630297537777}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.231, y: 1.516, z: 3.69}
+  m_LocalPosition: {x: -0.21298939, y: 0.39703584, z: 0.06818986}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6149638711303725614}
-  m_RootOrder: 3
+  m_Father: {fileID: 7799901637642346351}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &8560492696988091868
 MeshRenderer:
@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 9165717076447659871}
   - component: {fileID: 8640709459963729314}
   - component: {fileID: 4268604481594587501}
+  - component: {fileID: 160723537059847171}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -223,7 +224,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.4439894, y: 1.1189642, z: 3.6218102}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3244473500690065868}
   m_Father: {fileID: 6149638711303725614}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -316,6 +318,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 720841630297537777}
+  doorAnim: {fileID: 0}
+--- !u!95 &160723537059847171
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380994101053136966}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7137288466272423997
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +368,6 @@ Transform:
   - {fileID: 7799901637642346351}
   - {fileID: 1017172469218562414}
   - {fileID: 5372260256062328790}
-  - {fileID: 3244473500690065868}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

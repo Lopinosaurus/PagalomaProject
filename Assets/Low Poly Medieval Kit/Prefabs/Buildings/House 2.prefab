@@ -122,12 +122,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5164653673333155711}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.7529995, y: 3.252, z: -0.529}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.35730672, y: 0.075218916, z: 0.103479266}
   m_LocalScale: {x: 1, y: 1, z: 0.96223}
   m_Children: []
-  m_Father: {fileID: 7354132601295334917}
-  m_RootOrder: 3
+  m_Father: {fileID: 6874206374583391044}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &8278898220620235949
 MeshRenderer:
@@ -318,7 +318,6 @@ Transform:
   - {fileID: 6874206374583391044}
   - {fileID: 5893154021442237417}
   - {fileID: 8779447847409370109}
-  - {fileID: 844223493240443059}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -336,6 +335,7 @@ GameObject:
   - component: {fileID: 5506754926615268212}
   - component: {fileID: 1663398441949658090}
   - component: {fileID: 4898117732360932407}
+  - component: {fileID: 3566927131800544}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -353,7 +353,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.1103063, y: 3.1767812, z: -0.63247925}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 844223493240443059}
   m_Father: {fileID: 7354132601295334917}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -446,3 +447,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 5164653673333155711}
+  doorAnim: {fileID: 0}
+--- !u!95 &3566927131800544
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770150970575465581}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

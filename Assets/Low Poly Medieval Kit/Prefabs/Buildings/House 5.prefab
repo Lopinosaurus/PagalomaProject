@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3031528636200868041}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.887, y: 2.293, z: 1.974}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.68716633, y: 0.41484988, z: 0.08212912}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7584169937389202941}
-  m_RootOrder: 5
+  m_Father: {fileID: 5671417581768624174}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &4474433884406582771
 MeshRenderer:
@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 8349792060113861882}
   - component: {fileID: 4475233126559902691}
   - component: {fileID: 4575671384192423140}
+  - component: {fileID: 8334685746955044888}
   m_Layer: 0
   m_Name: Door 1
   m_TagString: Untagged
@@ -126,7 +127,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.2587023, y: 2.0061197, z: 6.2698264}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3078316540512139494}
   m_Father: {fileID: 7584169937389202941}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -219,6 +221,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 4040832938258276169}
+  doorAnim: {fileID: 0}
+--- !u!95 &8334685746955044888
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3086461669081348954}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3443022344184518276
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,12 +362,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4040832938258276169}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.887, y: 2.293, z: 6.364}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -0.3717023, y: 0.28688025, z: 0.09417343}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7584169937389202941}
-  m_RootOrder: 4
+  m_Father: {fileID: 6324574763345300159}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!23 &6393635834349019875
 MeshRenderer:
@@ -538,8 +560,6 @@ Transform:
   - {fileID: 5671417581768624174}
   - {fileID: 3941349847532691482}
   - {fileID: 6228118066449428054}
-  - {fileID: 3078316540512139494}
-  - {fileID: 1630520457109742988}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -557,6 +577,7 @@ GameObject:
   - component: {fileID: 1178798346129034063}
   - component: {fileID: 1448429644721333159}
   - component: {fileID: 2503419058108457027}
+  - component: {fileID: 5857527085005088097}
   m_Layer: 0
   m_Name: Door 2
   m_TagString: Untagged
@@ -574,7 +595,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.1998336, y: 1.8781501, z: 1.8918709}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1630520457109742988}
   m_Father: {fileID: 7584169937389202941}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -668,3 +690,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   message: {fileID: 3031528636200868041}
+  doorAnim: {fileID: 0}
+--- !u!95 &5857527085005088097
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6969484593280651616}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea31762b089d03458394234d8421303, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
