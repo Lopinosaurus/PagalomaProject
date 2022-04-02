@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Photon.Pun;
-using UnityEditor.Animations;
 
 public class PlayerAnimation : MonoBehaviour
 {
