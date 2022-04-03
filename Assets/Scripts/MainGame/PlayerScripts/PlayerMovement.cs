@@ -42,8 +42,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
-    private Vector3 _moveSmoothVelocity;
-    public Vector3 moveAmountNormalized;
+    private Vector3 _;
+    public Vector3 localMoveAmount;
     public Vector3 moveAmountRaw;
     private Vector3 _transformDirection;
     private Vector2 _inputMoveNormalized2D;
@@ -52,10 +52,13 @@ public class PlayerMovement : MonoBehaviour
     // Gravity
     [Space] [Header("Gravity settings")]
     private float gravityForce = -9.81f;
-    public Vector3 velocity = Vector3.zero;
+    public Vector3 upwardVelocity = Vector3.zero;
     
     // Ground check
     public bool grounded;
+
+    public float floorDistanceMult = 1.2f;
+    public float slopeCompensationForce = 60f;
     /*[SerializeField] public LayerMask groundMask;
     public Transform groundCheck;
     public float groundDistance = 0.01f;*/
@@ -76,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player jump settings")]
     [SerializeField] private float smoothTime = 0.10f; // Default 0.15: feel free to set back to default if needed
     private const float JumpForce = 2f;
+    public bool isJumping;
 
     public enum MovementTypes
     {
@@ -143,25 +147,12 @@ public class PlayerMovement : MonoBehaviour
             y = 0.0f,
             z = _inputMoveNormalized2D.y
         };
-        
-        Vector3 _inputMoveRaw3D = new Vector3
-        {
-            x = _inputMoveNormalized2D.x != 0 ? _inputMoveNormalized2D.x / Mathf.Abs(_inputMoveNormalized2D.x) : 0,
-            y = 0.0f,
-            z = _inputMoveNormalized2D.y != 0 ? _inputMoveNormalized2D.y / Mathf.Abs(_inputMoveNormalized2D.y) : 0
-        };
 
         // Updates the grounded boolean state
         UpdateGrounded();
 
-        // Updates the sprinting state
-        UpdateSprint();
-
-        // Updates the crouching state
-        UpdateCrouch();
-
-        // Updates the walk state
-        UpdateWalk();
+        // Updates the current movement type
+        UpdateMovementState();
 
         // Updates gravity
         UpdateGravity(); // changes 'transformGravity'
@@ -170,16 +161,14 @@ public class PlayerMovement : MonoBehaviour
         UpdateSpeed();
 
         // Sets the new movement vector based on the inputs
-        moveAmountNormalized = SmoothMoveAmount(_inputMoveNormalized3D);
-
-        moveAmountRaw = SmoothMoveAmount(_inputMoveRaw3D);
+        localMoveAmount = SmoothMoveAmount(_inputMoveNormalized3D);
         
-        // Applies direction from directional inputs
-        _transformDirection = transform.TransformDirection(moveAmountNormalized);
-        _characterController.Move(_transformDirection * Time.fixedDeltaTime);
+        
 
-        // Applies gravity
-        _characterController.Move(velocity * Time.fixedDeltaTime);
+        Vector3 finalDirection = transform.TransformDirection(localMoveAmount) + upwardVelocity;
+        finalDirection *= Time.fixedDeltaTime;
+
+        _characterController.Move(finalDirection);
     }
 
     private void UpdateGrounded()
@@ -189,69 +178,48 @@ public class PlayerMovement : MonoBehaviour
         // grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
     }
 
-    private void UpdateSprint()
+    private void UpdateMovementState()
     {
-        if (MovementTypes.Crouch == currentMovementType) return;
-
-        // Checks if players wants to sprint and if he pressed a directional key
-        if (WantsSprint && Vector2.zero != _inputMoveNormalized2D)
+        if (WantsCrouchHold)
         {
-            SetCurrentMovementType(MovementTypes.Sprint);
+            currentMovementType = MovementTypes.Crouch;
+        }
+        else if (Vector2.zero == _inputMoveNormalized2D)
+        {
+            currentMovementType = MovementTypes.Stand;
+        }
+        else if (WantsSprint)
+        {
+            currentMovementType = MovementTypes.Sprint;
         }
         else
         {
-            SetCurrentMovementType(MovementTypes.Stand);
+            currentMovementType = MovementTypes.Walk;
         }
     }
-    
-    private void UpdateCrouch()
-    {
-        switch (currentCrouchType)
-        {
-            case CrouchModes.Hold:
-                if (WantsCrouchHold)
-                    SetCurrentMovementType(MovementTypes.Crouch);
-                else if (MovementTypes.Crouch == currentMovementType)
-                    SetCurrentMovementType(MovementTypes.Stand);
-                return;
-                
-            case CrouchModes.Toggle:
-            {
-                if (_wantsCrouchToggle)
-                {
-                    SetCurrentMovementType(MovementTypes.Crouch == currentMovementType
-                        ? MovementTypes.Stand
-                        : MovementTypes.Crouch);
-                }
-            
-                return;
-            }
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-    
-    private void UpdateWalk()
-    {
-        if (MovementTypes.Stand == currentMovementType && Vector2.zero != _inputMoveNormalized2D)
-        {
-            SetCurrentMovementType(MovementTypes.Walk);
-        }
-    }
-    
+
     private void UpdateGravity()
     {
-        velocity.y += gravityForce * Time.fixedDeltaTime;
+        upwardVelocity.y += gravityForce * Time.fixedDeltaTime;
 
-        if (grounded && velocity.y < 0)
+        if (grounded && upwardVelocity.y < 0 && !OnSlope())
         {
-            velocity.y = -2f;
+            var unused = 0f;
+            upwardVelocity.y = Mathf.SmoothDamp(upwardVelocity.y, -2.0f, ref unused, Time.fixedDeltaTime);
         }
+        
+        if (!isJumping && OnSlope())
+        {
+            upwardVelocity.y -= -slopeCompensationForce * Time.deltaTime * _characterController.height / 2;
+        }
+    }
 
-        if (!grounded && velocity.y < 0)
-        {
-            //TODO make the player stick to the ground
-        }
+    private bool OnSlope()
+    {
+        return !grounded &&
+             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+                 _characterController.height / 2 * floorDistanceMult) &&
+              hit.normal != Vector3.up;
     }
     
     private void UpdateSpeed()
@@ -300,14 +268,18 @@ public class PlayerMovement : MonoBehaviour
         };
     }
     
-    public bool UpdateJump() // changes 'transformJump'
+    public void UpdateJump() // changes 'transformJump'
     {
+        if (isJumping && grounded)
+        {
+            isJumping = false;
+        }
+        
         if (WantsJump && grounded)
         {
-            velocity.y = Mathf.Sqrt(JumpForce * gravityForce * -2f);
+            upwardVelocity.y = Mathf.Sqrt(JumpForce * gravityForce * -2f);
+            isJumping = true;
         }
-
-        return true; // for now, no conditions prevents the player from jumping
     }
 
     public void UpdateHitbox()
@@ -354,7 +326,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 SmoothMoveAmount(Vector3 moveDir)
     {
-        return Vector3.SmoothDamp(moveAmountNormalized, moveDir * currentSpeed, ref _moveSmoothVelocity,
+        return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _,
             smoothTime);
     }
     

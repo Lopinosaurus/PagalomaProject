@@ -2670,7 +2670,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1.8
   m_Radius: 0.4
-  m_SlopeLimit: 45
+  m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -2701,7 +2701,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d2aecb59bfb32384992824dadda924bc, type: 3}
   m_Controller: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2757,6 +2757,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: VelocityZ
+  - Type: 4
+    SynchronizeType: 0
+    Name: isCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0

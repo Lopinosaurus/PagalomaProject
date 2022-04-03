@@ -80,6 +80,9 @@ public class PlayerController : MonoBehaviour
 
             // Updates the jump feature
             _playerMovement.UpdateJump();
+            
+            // Updates the appearance based on the MovementType
+            _playerAnimation.UpdateAnimationsBasic();
         }
     }
     
@@ -92,8 +95,7 @@ public class PlayerController : MonoBehaviour
 
             _playerMovement.UpdateHitbox();
 
-            // Updates the appearance based on the MovementType
-            _playerAnimation.UpdateAnimationsBasic();
+
         }
     }
     
