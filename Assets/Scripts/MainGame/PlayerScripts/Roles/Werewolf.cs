@@ -68,8 +68,11 @@ namespace MainGame.PlayerScripts.Roles
 
         private void UpdateActionText()
         {
-            if (_targets.Count > 0 && _hasCooldown == false) actionText.text = "Press E to Kill";
-            else actionText.text = "";
+            if (_photonView.IsMine)
+            {
+                if (_targets.Count > 0 && _hasCooldown == false) actionText.text = "Press E to Kill";
+                else actionText.text = "";
+            }
         }
 
         [PunRPC]

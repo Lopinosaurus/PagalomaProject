@@ -2520,12 +2520,15 @@ MonoBehaviour:
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
-  moveAmountNormalized: {x: 0, y: 0, z: 0}
+  localMoveAmount: {x: 0, y: 0, z: 0}
   moveAmountRaw: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
+  upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
+  floorDistanceMult: 1.2
+  slopeCompensationForce: 60
   crouchSmoothTime: 0.1
   smoothTime: 0.1
+  isJumping: 0
 --- !u!114 &2867563762611503884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2750,6 +2753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roleName: werewolf
   isAlive: 1
+  _hasCooldown: 0
   username: 
   userId: 
   color: 
@@ -2860,6 +2864,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: VelocityZ
+  - Type: 4
+    SynchronizeType: 0
+    Name: isCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
