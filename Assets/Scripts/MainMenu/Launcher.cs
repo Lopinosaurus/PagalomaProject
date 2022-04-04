@@ -70,6 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
         {
             RoomOptions options = new RoomOptions();
             options.BroadcastPropsChangeToAll = true;
+            options.PublishUserId = true;
             PhotonNetwork.CreateRoom(roomNameInputField.text, options);
             MenuManager.Instance.OpenMenu("loading");
         }
