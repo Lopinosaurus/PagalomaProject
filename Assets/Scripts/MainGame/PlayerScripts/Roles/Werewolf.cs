@@ -30,12 +30,12 @@ namespace MainGame.PlayerScripts.Roles
                     }
                 }
             }
+            UpdateActionText();
         }
 
         public override void KillTarget() // TODO: Add kill animation
         {
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
-            // Debug.Log("In KillTarget");
             //if (!_hasCooldown)
             //{
                 if (_targets.Count > 0)
@@ -47,11 +47,13 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
                     transform.position = target.transform.position;
+                    // _hasCooldown = true;
                     target.Die();
                     _targets.Remove(target);
+                    UpdateActionText();
                     _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
                     
-                    //_hasCooldown = true;
+                    
                 }
                 else
                 {
@@ -62,6 +64,12 @@ namespace MainGame.PlayerScripts.Roles
             //{
             //    Debug.Log("[-] Can't kill: You have a Cooldown");
             //}
+        }
+
+        private void UpdateActionText()
+        {
+            if (_targets.Count > 0 && _hasCooldown == false) actionText.text = "Press E to Kill";
+            else actionText.text = "";
         }
 
         [PunRPC]

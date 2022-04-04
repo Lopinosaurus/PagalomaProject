@@ -17,11 +17,13 @@ namespace MainGame.PlayerScripts.Roles
         // Gameplay attributes
         public string roleName;
         public bool isAlive = true;
+        [SerializeField] protected bool _hasCooldown = false;
         public string username;
         public string userId;
         public string color;
         public Role vote;
-        [SerializeField] private TMP_Text actionText;
+        [SerializeField] protected TMP_Text actionText;
+        [SerializeField] protected TMP_Text deathText;
         
         [SerializeField] private bool selfKill = false;
         [SerializeField] private bool kill = false;
@@ -55,6 +57,10 @@ namespace MainGame.PlayerScripts.Roles
            _characterController = GetComponent<CharacterController>();
            cam = _cameraHolder.GetComponentInChildren<Camera>();
            _photonView = GetComponent<PhotonView>();
+           actionText = RoomManager.Instance.actionText;
+           deathText = RoomManager.Instance.deathText;
+           actionText.text = "";
+           deathText.enabled = false;
        }
 
        private void Start()
@@ -85,6 +91,8 @@ namespace MainGame.PlayerScripts.Roles
        }
        public void Die()
        {
+           // Show death label
+           if (_photonView.IsMine) deathText.enabled = true;
            // Disable components & gameplay variables
            if (playerControls != null) playerControls.Disable();
            _characterController.detectCollisions = false;
@@ -119,9 +127,9 @@ namespace MainGame.PlayerScripts.Roles
                    z = 180,
                };
                // Debug.Log("endingRot is:" + endingRot);
+               // Start camera animation
                StartCoroutine(MoveCamHolder(endingPos, endingRot));
             }
-           // Start camera animation
            _playerAnimation.EnableDeathAppearance();
        }
 

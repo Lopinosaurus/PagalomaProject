@@ -2755,6 +2755,7 @@ MonoBehaviour:
   color: 
   vote: {fileID: 0}
   actionText: {fileID: 0}
+  deathText: {fileID: 0}
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333, guid: 962e1606cc6175345868e8be39cfc2f5, type: 3}
