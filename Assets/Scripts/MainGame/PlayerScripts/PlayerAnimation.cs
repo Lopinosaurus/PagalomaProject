@@ -17,6 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     // Boolean States hashes
 
     private readonly int _isStandingHash = Animator.StringToHash("isStanding");
+    private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
     private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
     private readonly int _isSprintingHash = Animator.StringToHash("isSprinting");
 
@@ -48,6 +49,9 @@ public class PlayerAnimation : MonoBehaviour
         
         // Toggles "Stand" animation
         _animator.SetBool(_isStandingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
+        
+        // Toggles "Crouch" animation
+        _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
         
         // Toggles "Walk" animation
         _animator.SetBool(_isWalkingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Walk);
