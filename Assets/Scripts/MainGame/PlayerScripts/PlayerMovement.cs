@@ -210,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (!isJumping && OnSlope())
         {
-            upwardVelocity.y -= -slopeCompensationForce * Time.deltaTime * _characterController.height / 2;
+            upwardVelocity.y -= slopeCompensationForce * Time.deltaTime * _characterController.height / 2;
         }
     }
 

@@ -163,6 +163,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     // GAME
     public void StartGame()
     {
+        startGameButton.SetActive(false);
+        MenuManager.Instance.OpenMenu("loading");
         PhotonNetwork.LoadLevel(1); // Switch scene for all players
     }
 }
