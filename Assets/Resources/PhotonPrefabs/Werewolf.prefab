@@ -1961,6 +1961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _werewolf: {fileID: -261016046557369421}
+  _seer: {fileID: 0}
 --- !u!1 &6358290745547917386
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,7 +2763,7 @@ MonoBehaviour:
   deathText: {fileID: 0}
   selfKill: 0
   kill: 0
-  _cameraHolder: {fileID: 1141215766398316333, guid: 962e1606cc6175345868e8be39cfc2f5, type: 3}
+  _cameraHolder: {fileID: 1141215766398316333}
   _targets: []
 --- !u!143 &838235907301293933
 CharacterController:

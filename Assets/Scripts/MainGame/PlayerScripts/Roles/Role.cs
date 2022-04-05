@@ -24,6 +24,7 @@ namespace MainGame.PlayerScripts.Roles
         public Role vote;
         [SerializeField] protected TMP_Text actionText;
         [SerializeField] protected TMP_Text deathText;
+        [SerializeField] protected TMP_Text infoText;
         
         [SerializeField] private bool selfKill = false;
         [SerializeField] private bool kill = false;
@@ -58,8 +59,10 @@ namespace MainGame.PlayerScripts.Roles
            cam = _cameraHolder.GetComponentInChildren<Camera>();
            _photonView = GetComponent<PhotonView>();
            actionText = RoomManager.Instance.actionText;
+           infoText = RoomManager.Instance.infoText;
            deathText = RoomManager.Instance.deathText;
            actionText.text = "";
+           infoText.text = "";
            deathText.enabled = false;
        }
 
@@ -78,16 +81,16 @@ namespace MainGame.PlayerScripts.Roles
        private void LateUpdate()
        {
            if (selfKill && isAlive) Die();
-           if (kill) KillTarget();
+           if (kill) UseAbility();
        }
 
        #endregion
        
        #region Gameplay methods
 
-       public virtual void KillTarget()
+       public virtual void UseAbility()
        {
-           Debug.Log("E pressed but you are not a Werewolf");
+           Debug.Log("E pressed but you are have not ability because you are a Villager. (Villager < all UwU)");
        }
        public void Die()
        {
@@ -147,6 +150,17 @@ namespace MainGame.PlayerScripts.Roles
                _cameraHolder.transform.localRotation = rotation;
                yield return null;
            }
+       }
+
+       protected void UpdateInfoText(string message = "")
+       {
+           StartCoroutine(UpdateInfoText(message, 5));
+       }
+       
+       IEnumerator UpdateInfoText (string message, float delay) {
+           infoText.text = message;
+           yield return new WaitForSeconds(delay);
+           infoText.text = "";
        }
        
        #endregion

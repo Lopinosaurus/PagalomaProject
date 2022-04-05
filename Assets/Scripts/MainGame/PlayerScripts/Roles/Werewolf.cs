@@ -16,24 +16,28 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (other.CompareTag("Player"))
             {
-                Role tempTarget = (Role)other.GetComponent<Villager>();
-                if (tempTarget != null)
+                Role tempTarget = (Role)other.GetComponent<Role>();
+                if (tempTarget != null && !(tempTarget is Werewolf))
                 {
                     if (add)
                     {
                         _targets.Add(tempTarget);
-                        Debug.Log("[+] Target added: "+tempTarget.name);
+                        Debug.Log("[+] Werewolf target added: "+tempTarget.name);
                     } else if (_targets.Contains(tempTarget))
                     {
                         _targets.Remove(tempTarget);
-                        Debug.Log("[-] Target removed: "+tempTarget.name);
+                        Debug.Log("[-] Werewolf target removed: "+tempTarget.name);
                     }
                 }
             }
             UpdateActionText();
         }
 
-        public override void KillTarget() // TODO: Add kill animation
+        public override void UseAbility()
+        {
+            KillTarget();
+        }
+        private void KillTarget() // TODO: Add kill animation
         {
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
             //if (!_hasCooldown)

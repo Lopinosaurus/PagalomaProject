@@ -2421,12 +2421,15 @@ MonoBehaviour:
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
-  moveAmountNormalized: {x: 0, y: 0, z: 0}
+  localMoveAmount: {x: 0, y: 0, z: 0}
   moveAmountRaw: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 0}
+  upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
+  floorDistanceMult: 1.2
+  slopeCompensationForce: 60
   crouchSmoothTime: 0.1
   smoothTime: 0.1
+  isJumping: 0
 --- !u!114 &2867563762611503884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2754,14 +2757,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roleName: villager
   isAlive: 1
+  _hasCooldown: 0
   username: 
   userId: 
   color: 
   vote: {fileID: 0}
   actionText: {fileID: 0}
+  deathText: {fileID: 0}
   selfKill: 0
   kill: 0
-  _cameraHolder: {fileID: 1141215766398316333, guid: dc0fbb472967a0745b0551b3244b48a2, type: 3}
+  _cameraHolder: {fileID: 1141215766398316333}
 --- !u!1 &7716088027617932813
 GameObject:
   m_ObjectHideFlags: 0
