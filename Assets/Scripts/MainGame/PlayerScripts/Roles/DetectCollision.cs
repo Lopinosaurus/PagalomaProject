@@ -7,15 +7,18 @@ using UnityEngine;
 public class DetectCollision : MonoBehaviour
 {
     [SerializeField] private Werewolf _werewolf;
-
+    [SerializeField] private Seer _seer;
+    
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log("[+] Collision detected with: " + other.name);
-        _werewolf.UpdateTarget(other, true);
+        if (_werewolf != null) _werewolf.UpdateTarget(other, true);
+        if (_seer != null) _seer.UpdateTarget(other, true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _werewolf.UpdateTarget(other, false);
+        if (_werewolf != null) _werewolf.UpdateTarget(other, false);
+        if (_seer != null) _seer.UpdateTarget(other, false);
     }
 }

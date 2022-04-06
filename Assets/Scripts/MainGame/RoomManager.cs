@@ -21,6 +21,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text roleText;
     public TMP_Text actionText;
     public TMP_Text deathText;
+    public TMP_Text infoText;
     public List<Role> players; // List of the Role of all the players
 
     private void Awake()
