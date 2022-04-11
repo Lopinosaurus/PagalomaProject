@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
     public string roleName;
+    public PlayerController playerController;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -30,7 +31,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (roleName != null)
         {
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
+            playerController = player.GetComponent<PlayerController>();
         }
         else
         {
