@@ -1881,6 +1881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuUI: {fileID: 1860833229}
   playerController: {fileID: 4656714414789940587, guid: dc0fbb472967a0745b0551b3244b48a2, type: 3}
+  inputActionAsset: {fileID: 0}
 --- !u!1 &551546427
 GameObject:
   m_ObjectHideFlags: 0
@@ -5732,6 +5733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuUI: {fileID: 1860833229}
   playerController: {fileID: 1403187608120190503, guid: f8c4cb7adbd90b54797d7f0576091aa0, type: 3}
+  inputActionAsset: {fileID: -944628639613478452, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
 --- !u!1 &1867844345
 GameObject:
   m_ObjectHideFlags: 0

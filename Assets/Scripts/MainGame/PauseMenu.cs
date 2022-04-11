@@ -9,12 +9,19 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public GameObject menuUI;
     [SerializeField] private PlayerController playerController;
-    private PlayerControls playerControls;
-    private PlayerControls.PlayerActions playeractions;
-    
-    // [SerializeField] private InputActionMap inUIActionMap;
-    // [SerializeField] private InputActionMap inGameActionMap;
+    [SerializeField] private InputActionAsset inputActionAsset;
+    private InputActionMap actionMapUI;
+    private InputActionMap actionMapPlayer;
 
+    void Start()
+    {
+        Debug.Log("InputActionAsset = " + inputActionAsset);
+        Debug.Log("Start Loading Action Maps");
+        actionMapUI = inputActionAsset.FindActionMap("Player", true);
+        Debug.Log("Loaded InUI Action Map");
+        actionMapPlayer = inputActionAsset.FindActionMap("Player", true);
+        Debug.Log("Loaded All action maps");
+    }
     
     void Update()
     {
@@ -47,13 +54,10 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         menuUI.SetActive(true);
         isPaused = true;
-
-        playeractions.Enable();
-        //playerControls.Enable();
         Debug.Log("Current Action Map beforge change = " + playerController.PlayerInput.currentActionMap);
         playerController.PlayerInput.currentActionMap.Enable();
         Debug.Log("Current Action Map after change" + playerController.PlayerInput.currentActionMap);
-        
+
         // Setting first to default actionMap
         //playerController.PlayerInput.currentActionMap = inGameActionMap;
         
