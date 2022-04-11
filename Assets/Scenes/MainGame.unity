@@ -8115,7 +8115,7 @@ MonoBehaviour:
   sunColor:
     serializedVersion: 2
     key0: {r: 1, g: 0.6813002, b: 0.1462264, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 0.9253613, b: 0.8537736, a: 1}
     key2: {r: 1, g: 0.68235296, b: 0.14509805, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -8177,7 +8177,7 @@ MonoBehaviour:
   moon: {fileID: 1521723916}
   moonColor:
     serializedVersion: 2
-    key0: {r: 0, g: 0.15616378, b: 0.5849056, a: 1}
+    key0: {r: 0, g: 0.21273908, b: 0.7924528, a: 1}
     key1: {r: 0, g: 0.15686275, b: 0.58431375, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -8251,7 +8251,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.2999878
       inSlope: -0.0050075864
       outSlope: -0.0050075864
       tangentMode: 0
@@ -8278,7 +8278,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 0.2999878
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -8293,7 +8293,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.2999878
       inSlope: -0.0050075864
       outSlope: -0.0050075864
       tangentMode: 0
@@ -8320,7 +8320,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 0.2999878
       inSlope: 0
       outSlope: 0
       tangentMode: 0

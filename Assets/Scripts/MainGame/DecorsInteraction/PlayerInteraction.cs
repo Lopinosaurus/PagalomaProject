@@ -10,7 +10,9 @@ public class PlayerInteraction : MonoBehaviour
 {
 
     [SerializeField] private bool nearDoor = false;
+    [SerializeField] private bool nearSign = false;
     public GameObject door;
+    public GameObject sign;
     [SerializeField] private PhotonView PV;
 
     // Update is called once per frame
@@ -21,22 +23,26 @@ public class PlayerInteraction : MonoBehaviour
             RPC_OpenCloseDoor(door.transform.name);
             PV.RPC("RPC_OpenCloseDoor", RpcTarget.Others, door.transform.name);
         }
+
+        if (nearSign && Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("[+] Should open voting screen");
+        }
     }
 
-    public void NearDoor(GameObject message, GameObject theDoor)
+    public void NearDoor(GameObject message, GameObject door, bool nearDoor)
     {
-        nearDoor = true;
-        this.door = theDoor;
-        message.SetActive(true);
-    }
-
-    public void FarDoor(GameObject message, GameObject theDoor)
-    {
-        nearDoor = false;
-        this.door = theDoor;
-        message.SetActive(false);
+        this.nearDoor = nearDoor;
+        this.door = door;
+        message.SetActive(nearDoor);
     }
     
+    public void NearSign(GameObject sign, bool nearSign)
+    {
+        this.nearSign = nearSign;
+        this.sign = sign;
+    }
+
     [PunRPC]
     public void RPC_OpenCloseDoor(string doorId)
     {
