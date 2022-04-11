@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PauseMenu : MonoBehaviour
+public class IGMenuManager : MonoBehaviour
 {
     public static bool isPaused = false;
-    public GameObject menuUI;
+    public GameObject pauseMenuUI;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private InputActionAsset inputActionAsset;
     private InputActionMap actionMapUI;
@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("InputActionAsset = " + inputActionAsset);
         Debug.Log("Start Loading Action Maps");
-        actionMapUI = inputActionAsset.FindActionMap("Player", true);
+        actionMapUI = inputActionAsset.FindActionMap("UI", true);
         Debug.Log("Loaded InUI Action Map");
         actionMapPlayer = inputActionAsset.FindActionMap("Player", true);
         Debug.Log("Loaded All action maps");
@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Visible = false");
         Cursor.lockState = CursorLockMode.Locked;
-        menuUI.SetActive(false);
+        pauseMenuUI.SetActive(false);
         isPaused = false;
         //playerController.PlayerInput.currentActionMap = inGameActionMap;
     }
@@ -52,12 +52,12 @@ public class PauseMenu : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        menuUI.SetActive(true);
+        pauseMenuUI.SetActive(true);
         isPaused = true;
         Debug.Log("Current Action Map beforge change = " + playerController.PlayerInput.currentActionMap);
-        playerController.PlayerInput.currentActionMap.Enable();
         Debug.Log("Current Action Map after change" + playerController.PlayerInput.currentActionMap);
-
+        
+        
         // Setting first to default actionMap
         //playerController.PlayerInput.currentActionMap = inGameActionMap;
         
@@ -74,8 +74,5 @@ public class PauseMenu : MonoBehaviour
     }
 }
 
-
-// ToDo : Basculer les actions maps dans les serializefields, et essayer de les copier depuis le PlayerControls (type InputActionMap) pour les balancer dans les 2 var inUiActionMap et
-// inGameActionMap
 
 //Note Toggle Sneak : faire un bool toggle actif ou pas, et a chaque appel verif ce bool. Si oui playeraction.togglesneak, sinon playeraction.sneakclassic
