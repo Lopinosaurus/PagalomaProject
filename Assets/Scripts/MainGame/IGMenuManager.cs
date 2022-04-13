@@ -8,7 +8,7 @@ public class IGMenuManager : MonoBehaviour
 {
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
-    public private PlayerController playerController;
+    public PlayerController playerController;
     [SerializeField] private InputActionAsset inputActionAsset;
     private InputActionMap actionMapUI;
     private InputActionMap actionMapPlayer;
@@ -21,6 +21,9 @@ public class IGMenuManager : MonoBehaviour
         Debug.Log("Loaded InUI Action Map");
         actionMapPlayer = inputActionAsset.FindActionMap("Player", true);
         Debug.Log("Loaded All action maps");
+        
+        actionMapUI.Enable();
+        actionMapPlayer.Enable();
     }
     
     void Update()
@@ -41,12 +44,11 @@ public class IGMenuManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        Debug.Log("Visible = false");
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenuUI.SetActive(false);
         isPaused = false;
-        playerController.PlayerInput.SwitchCurrentActionMap("Player");
-        //playerController.PlayerInput.currentActionMap = inGameActionMap;
+        playerController.PlayerInput.currentActionMap = actionMapPlayer;
+        Debug.Log("Current Action Map after change on Resume = " + playerController.PlayerInput.currentActionMap);
     }
 
     void PauseGame()
@@ -55,17 +57,9 @@ public class IGMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         pauseMenuUI.SetActive(true);
         isPaused = true;
-        Debug.Log("Current Action Map beforge change = " + playerController.PlayerInput.currentActionMap);
-        Debug.Log("Current Action Map after change" + playerController.PlayerInput.currentActionMap);
-        playerController.PlayerInput.SwitchCurrentActionMap("UI");
-        
-        // Setting first to default actionMap
-        //playerController.PlayerInput.currentActionMap = inGameActionMap;
-        
-        // As the player is in UI, switching to UI mode
-        //playerController.PlayerInput.currentActionMap = inUIActionMap;
-        
-        
+        playerController.PlayerInput.currentActionMap = actionMapUI;
+        Debug.Log("Current Action Map after change on Pause = " + playerController.PlayerInput.currentActionMap);
+        //playerController.PlayerInput.SwitchCurrentActionMap("UI");
     }
 
     public void Quit()
