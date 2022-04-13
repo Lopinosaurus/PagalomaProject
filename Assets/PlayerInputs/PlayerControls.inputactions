@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TestPlayer",
+                    "type": "Button",
+                    "id": "2013c540-9952-4c4a-952a-f012d490df7d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -351,6 +360,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Kill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3fb3f3c-a717-41c2-be8d-60f23328dcb7",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestPlayer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

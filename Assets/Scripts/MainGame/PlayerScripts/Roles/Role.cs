@@ -53,7 +53,7 @@ namespace MainGame.PlayerScripts.Roles
            playerControls = _playerController.playerControls;
            
            playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
+           playerControls.Player.Kill.performed += ctx => kill = ctx.ReadValueAsButton();
            playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
        }
 

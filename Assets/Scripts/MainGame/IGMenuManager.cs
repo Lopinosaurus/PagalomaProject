@@ -6,19 +6,29 @@ using UnityEngine.InputSystem;
 
 public class IGMenuManager : MonoBehaviour
 {
+    public static IGMenuManager Instance;
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
-    public static PlayerController playerController;
-    public static bool testButton;
+    public PlayerInput playerInput;
+    public bool testButton = false;
+    public bool testPlayerButton = false;
 
-    public static void AssignTestKey()
+    void Awake()
     {
-        playerController.playerControls.UI.Test.started += ctx => testButton = ctx.ReadValueAsButton();
-        //playerController.playerControls.UI.test.started += ctx => testButton = ctx.ReadValueAsButton();
+        Instance = this;
     }
+    // public void AssignTestKey()
+    // {
+    //     playerInput.actions["Test"].started += ctx => testButton = ctx.ReadValueAsButton();
+    //     playerInput.actions["Test"].canceled += ctx => testButton = ctx.ReadValueAsButton();
+    //     playerInput.actions["TestPlayer"].started += ctx => testPlayerButton = ctx.ReadValueAsButton();
+    //     playerInput.actions["TestPlayer"].canceled += ctx => testPlayerButton = ctx.ReadValueAsButton();
+    //     //playerInput.UI.Test.started += ctx => testButton = ctx.ReadValueAsButton();
+    // }
     void Update()
     {
-        if (testButton) Debug.Log("[+] UI map enabled !");
+        // if (testButton) Debug.Log("[+] UI map enabled ! (Test performed)");
+        // if (testPlayerButton) Debug.Log("[+] Player map enabled ! (TestPlayer performed)");
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
@@ -38,12 +48,11 @@ public class IGMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenuUI.SetActive(false);
         isPaused = false;
-        if (playerController != null)
+        if (playerInput != null)
         {
-            playerController.PlayerInput.SwitchCurrentActionMap("Player");
-            Debug.Log("Current Action Map after change on Resume = " + playerController.PlayerInput.currentActionMap);
+            playerInput.SwitchCurrentActionMap("Player");
+            Debug.Log("Current Action Map after change on Resume = " + playerInput.currentActionMap);
         }
-       
     }
 
     void PauseGame()
@@ -52,10 +61,10 @@ public class IGMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         pauseMenuUI.SetActive(true);
         isPaused = true;
-        if (playerController != null)
+        if (playerInput != null)
         {
-            playerController.PlayerInput.SwitchCurrentActionMap("UI");
-            Debug.Log("Current Action Map after change on Pause = " + playerController.PlayerInput.currentActionMap);
+            playerInput.SwitchCurrentActionMap("UI");
+            Debug.Log("Current Action Map after change on Pause = " + playerInput.currentActionMap);
             //playerController.PlayerInput.SwitchCurrentActionMap("UI");
         }
     }
