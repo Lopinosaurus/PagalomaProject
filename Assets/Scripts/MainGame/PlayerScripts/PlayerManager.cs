@@ -6,12 +6,13 @@ using Photon.Pun;
 using System.IO;
 using Random = UnityEngine.Random;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
     public string roleName;
-    public PlayerController playerController;
+    public static PlayerController playerController;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -32,7 +33,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         {
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
-            playerController = player.GetComponent<PlayerController>();
+            IGMenuManager.playerController =  player.GetComponent<PlayerController>();
+            IGMenuManager.AssignTestKey();
         }
         else
         {
