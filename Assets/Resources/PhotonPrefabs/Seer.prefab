@@ -2805,7 +2805,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nearDoor: 0
+  nearSign: 0
   door: {fileID: 0}
+  sign: {fileID: 0}
   PV: {fileID: 7578259937013170486}
 --- !u!114 &4444993969401394640
 MonoBehaviour:

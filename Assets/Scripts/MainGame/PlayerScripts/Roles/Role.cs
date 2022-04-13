@@ -32,6 +32,7 @@ namespace MainGame.PlayerScripts.Roles
         // Controls
         [SerializeField] private GameObject _cameraHolder;
         public PlayerControls playerControls;
+        public PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
@@ -51,6 +52,7 @@ namespace MainGame.PlayerScripts.Roles
 
        private void Awake()
        {
+           _playerInput = GetComponent<PlayerInput>();
            _playerController = GetComponent<PlayerController>();
            _playerLook = GetComponent<PlayerLook>();
            _playerAnimation = GetComponent<PlayerAnimation>();
@@ -72,9 +74,12 @@ namespace MainGame.PlayerScripts.Roles
            {
                playerControls = _playerController.PlayerControls;
            
-               playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-               playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
-               playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+               // Il faut remplacer ça :
+               // playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
+               // par ça :
+               _playerInput.actions["Die"].started += ctx => selfKill = ctx.ReadValueAsButton();
+               _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+               _playerInput.actions["Kill"].canceled  += ctx => kill = ctx.ReadValueAsButton();
            }
        }
 

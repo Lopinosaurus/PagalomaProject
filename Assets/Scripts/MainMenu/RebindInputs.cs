@@ -25,7 +25,7 @@ public class RebindInputs : MonoBehaviour
         waitingForInput.SetActive(true);
 
         // Swap BindMap to "In UI" mode
-        playerController.PlayerInput.SwitchCurrentActionMap("UI");
+        //playerController.PlayerInput.SwitchCurrentActionMap("UI");
 
         rebindingOperation = refJump.action.PerformInteractiveRebinding()
             .WithControlsExcluding("Escape")
@@ -44,7 +44,7 @@ public class RebindInputs : MonoBehaviour
         waitingForInput.SetActive(false);
 
         // Swap BindMap to "In Game" mode
-        playerController.PlayerInput.SwitchCurrentActionMap("Player");
+        //playerController.PlayerInput.SwitchCurrentActionMap("Player");
 
     }
 }
