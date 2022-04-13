@@ -45,6 +45,7 @@ public class IGMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenuUI.SetActive(false);
         isPaused = false;
+        playerController.PlayerInput.SwitchCurrentActionMap("Player");
         //playerController.PlayerInput.currentActionMap = inGameActionMap;
     }
 
@@ -56,7 +57,7 @@ public class IGMenuManager : MonoBehaviour
         isPaused = true;
         Debug.Log("Current Action Map beforge change = " + playerController.PlayerInput.currentActionMap);
         Debug.Log("Current Action Map after change" + playerController.PlayerInput.currentActionMap);
-        
+        playerController.PlayerInput.SwitchCurrentActionMap("UI");
         
         // Setting first to default actionMap
         //playerController.PlayerInput.currentActionMap = inGameActionMap;
