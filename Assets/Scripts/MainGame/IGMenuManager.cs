@@ -8,7 +8,7 @@ public class IGMenuManager : MonoBehaviour
 {
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
-    [SerializeField] private PlayerController playerController;
+    public private PlayerController playerController;
     [SerializeField] private InputActionAsset inputActionAsset;
     private InputActionMap actionMapUI;
     private InputActionMap actionMapPlayer;
