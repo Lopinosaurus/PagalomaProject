@@ -46,7 +46,7 @@ public class Map : MonoBehaviour
         {
             if (hit.transform.tag == "mapFloor")
             {
-                y = hit.point.y + 1;
+                y = hit.point.y + 4.5f;
                 Vector3 direction = hit.normal;
                 Instantiate(village, new Vector3(x, y, z), RandomRotation(), villageFolder.transform);
                 

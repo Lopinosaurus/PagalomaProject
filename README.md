@@ -80,7 +80,6 @@ Planned Features:
 
 
 * [Unity](https://unity.com/fr)
-* [JSON](https://www.json.org/json-fr.html)
 * [C#](https://docs.microsoft.com/fr-fr/dotnet/csharp/)
 * [VSCODE](https://code.visualstudio.com/)
 

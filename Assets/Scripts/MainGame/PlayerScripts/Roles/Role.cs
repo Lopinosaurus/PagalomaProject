@@ -1,22 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = System.Object;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    public class Role : MonoBehaviour
+    public class Role : MonoBehaviour, IPunInstantiateMagicCallback
     {
         #region Attributes
         
         // Gameplay attributes
         public string roleName;
         public bool isAlive = true;
+        [SerializeField] protected bool _hasCooldown = false;
         public string username;
+        public string userId;
         public string color;
         public Role vote;
+        [SerializeField] protected TMP_Text actionText;
+        [SerializeField] protected TMP_Text deathText;
+        [SerializeField] protected TMP_Text infoText;
         
         [SerializeField] private bool selfKill = false;
         [SerializeField] private bool kill = false;
@@ -34,6 +42,9 @@ namespace MainGame.PlayerScripts.Roles
         // Die variables
         private const float maxDeathCamDistance = 5.0f;
         
+        // Network component
+        protected PhotonView _photonView; // Use protected to be able to access it in subclasses
+        
         #endregion
 
        #region Unity Methods
@@ -46,71 +57,83 @@ namespace MainGame.PlayerScripts.Roles
            _playerMovement = GetComponent<PlayerMovement>();
            _characterController = GetComponent<CharacterController>();
            cam = _cameraHolder.GetComponentInChildren<Camera>();
+           _photonView = GetComponent<PhotonView>();
+           actionText = RoomManager.Instance.actionText;
+           infoText = RoomManager.Instance.infoText;
+           deathText = RoomManager.Instance.deathText;
+           actionText.text = "";
+           infoText.text = "";
+           deathText.enabled = false;
        }
 
        private void Start()
        {
-           playerControls = _playerController.playerControls;
+           if (_photonView.IsMine)
+           {
+               playerControls = _playerController.PlayerControls;
            
-           playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.performed += ctx => kill = ctx.ReadValueAsButton();
-           playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+               playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
+               playerControls.Player.Kill.started += ctx => kill = ctx.ReadValueAsButton();
+               playerControls.Player.Kill.canceled  += ctx => kill = ctx.ReadValueAsButton();
+           }
        }
 
        private void LateUpdate()
        {
            if (selfKill && isAlive) Die();
-           if (kill) KillTarget();
+           if (kill) UseAbility();
        }
 
        #endregion
        
        #region Gameplay methods
 
-       public virtual void KillTarget()
+       public virtual void UseAbility()
        {
-           Debug.Log("E pressed");
+           Debug.Log("E pressed but you are have not ability because you are a Villager. (Villager < all UwU)");
        }
        public void Die()
        {
+           // Show death label
+           if (_photonView.IsMine) deathText.enabled = true;
            // Disable components & gameplay variables
-           playerControls.Disable();
+           if (playerControls != null) playerControls.Disable();
            _characterController.detectCollisions = false;
            _playerController.enabled = false;
            isAlive = false;
            
            // Initial camera position
-           Vector3 startingPos = _cameraHolder.transform.position;
-           Quaternion startingRot = _cameraHolder.transform.rotation;
-           Vector3 endingPos = new Vector3
+           if (_cameraHolder != null)
            {
-               x = startingPos.x,
-               y = startingPos.y + maxDeathCamDistance,
-               z = startingPos.z
-           };
-          
-           Debug.Log("startingRot is:" + startingRot);
-
-           // Final camera position
-           if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
-           {
-               endingPos.y = hitInfo.point.y - 0.2f;
-           }
-           
-           // Final camera rotation
-           Quaternion endingRot = Quaternion.identity;
-           endingRot.eulerAngles = new Vector3
-           {
-               x = 90,
-               y = endingRot.eulerAngles.y,
-               z = 180,
-           };
-           
-           Debug.Log("endingRot is:" + endingRot);
-
-           // Start camera animation
+               Vector3 startingPos = _cameraHolder.transform.position;
+               Quaternion startingRot = _cameraHolder.transform.rotation;
+               Vector3 endingPos = new Vector3
+               {
+                   x = startingPos.x,
+                   y = startingPos.y + maxDeathCamDistance,
+                   z = startingPos.z
+               };
+               // Debug.Log("startingRot is:" + startingRot);
+               
+               // Final camera position
+               if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
+               {
+                   endingPos.y = hitInfo.point.y - 0.2f;
+               }
+               
+               // Final camera rotation
+               Quaternion endingRot = Quaternion.identity;
+               endingRot.eulerAngles = new Vector3
+               {
+                   x = 90,
+                   y = endingRot.eulerAngles.y,
+                   z = 180,
+               };
+               // Debug.Log("endingRot is:" + endingRot);
+               // Start camera animation
+               StartCoroutine(MoveCamHolder(endingPos, endingRot));
+            }
            _playerAnimation.EnableDeathAppearance();
-           StartCoroutine(MoveCamHolder(endingPos, endingRot));
        }
 
        private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
@@ -129,6 +152,25 @@ namespace MainGame.PlayerScripts.Roles
            }
        }
 
+       protected void UpdateInfoText(string message = "")
+       {
+           StartCoroutine(UpdateInfoText(message, 5));
+       }
+       
+       IEnumerator UpdateInfoText (string message, float delay) {
+           infoText.text = message;
+           yield return new WaitForSeconds(delay);
+           infoText.text = "";
+       }
+       
        #endregion
+       
+       public void OnPhotonInstantiate(PhotonMessageInfo info)
+       {
+            // Add instantiated role dy players list
+            Role playerRole = info.photonView.GetComponent<Role>();
+            RoomManager.Instance.players.Add(playerRole);
+            playerRole.userId = info.Sender.UserId;
+       }
     }
 }

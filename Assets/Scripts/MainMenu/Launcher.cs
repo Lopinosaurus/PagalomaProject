@@ -70,6 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
         {
             RoomOptions options = new RoomOptions();
             options.BroadcastPropsChangeToAll = true;
+            options.PublishUserId = true;
             PhotonNetwork.CreateRoom(roomNameInputField.text, options);
             MenuManager.Instance.OpenMenu("loading");
         }
@@ -162,6 +163,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     // GAME
     public void StartGame()
     {
+        startGameButton.SetActive(false);
+        MenuManager.Instance.OpenMenu("loading");
         PhotonNetwork.LoadLevel(1); // Switch scene for all players
     }
 }

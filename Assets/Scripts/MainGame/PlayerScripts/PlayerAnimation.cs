@@ -4,58 +4,59 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-[RequireComponent(typeof(PlayerController))]
-
 public class PlayerAnimation : MonoBehaviour
 {
-    // Movement component
-    private PlayerMovement _playerMovement;
+    // Scripts components
 
-    // Network component
-    private PhotonView _photonView;
+    [SerializeField] private CharacterController _characterController;
+    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private Animator _animator;
 
-    // Declaring player's appearances objects
-    [Space]
-    [Header("Player's poses")]
-    [SerializeField] private GameObject playerStandingPose;
-    [SerializeField] private GameObject playerCrouchingPose;
-    [SerializeField] private GameObject playerSprintingPose;
-    [SerializeField] private GameObject playerDeathPose;
+    public Animator Animator => _animator;
 
-    // Player Smooth Crouch variables
-    [Space] [Header("Smooth Crouch variables")]
-    [SerializeField] private Transform playerCamera;
+    // Boolean States hashes
 
-    private void Awake() // Don't touch !
-    {
-        _playerMovement = GetComponent<PlayerMovement>();
-        _photonView = GetComponent<PhotonView>();
-    }
+    private readonly int _isStandingHash = Animator.StringToHash("isStanding");
+    private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
+    private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
+    private readonly int _isSprintingHash = Animator.StringToHash("isSprinting");
 
-    private void Start() // Don't touch !
-    {
-        // Player's appearances
-        playerStandingPose.SetActive(true);
-        playerCrouchingPose.SetActive(false);
-        playerSprintingPose.SetActive(false);
-        playerDeathPose.SetActive(false);
-    }
-
+    private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
+    private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+    private readonly int _blendHash = Animator.StringToHash("Blend");
+    
     public void EnableDeathAppearance()
     {
-        playerStandingPose.SetActive(false);
-        playerCrouchingPose.SetActive(false);
-        playerSprintingPose.SetActive(false);
-        playerDeathPose.SetActive(true);
+        return;
     }
     
-    public void UpdateAppearance()
+    public void UpdateAnimationsBasic()
     {
-        PlayerMovement.MovementTypes currentMovementType = _playerMovement.currentMovementType;
+        Vector3 movementVector = new Vector3
+        {
+            x = _playerMovement.moveAmountRaw.x,
+            z = _playerMovement.moveAmountRaw.z
+        };
         
-        playerStandingPose.SetActive(currentMovementType == PlayerMovement.MovementTypes.Stand ||
-                                     currentMovementType == PlayerMovement.MovementTypes.Walk); 
-        playerCrouchingPose.SetActive(PlayerMovement.MovementTypes.Crouch == currentMovementType);
-        playerSprintingPose.SetActive(PlayerMovement.MovementTypes.Sprint == currentMovementType);
+        // Sets the velocity in X to the CharacterController X velocity
+        _animator.SetFloat(_velocityXHash, movementVector.x);
+        
+        // Sets the velocity in Z to the CharacterController Z velocity
+        _animator.SetFloat(_velocityZHash, movementVector.z);
+        
+        // Sets the blend value to the magnitude of the Vector2 input
+        _animator.SetFloat(_blendHash, 0.5f);
+        
+        // Toggles "Stand" animation
+        _animator.SetBool(_isStandingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
+        
+        // Toggles "Crouch" animation
+        _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
+        
+        // Toggles "Walk" animation
+        _animator.SetBool(_isWalkingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Walk);
+
+        // Toggles "Sprint" animation
+        _animator.SetBool(_isSprintingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Sprint);
     }
 }

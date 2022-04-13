@@ -1,92 +1,102 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement)),
- RequireComponent(typeof(PlayerLook)),
- RequireComponent(typeof(PlayerAnimation))]
-
+ RequireComponent(typeof(PlayerLook))]
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
     
     // Movement components
-    private CharacterController characterController;
+    private CharacterController _characterController;
     
     // Network component
     private PhotonView _photonView;
     
     // Sub scripts
-    private PlayerMovement playerMovement;
-    private PlayerLook playerLook;
-    private PlayerAnimation playerAnimation;
+    private PlayerMovement _playerMovement;
+    private PlayerLook _playerLook;
+    [SerializeField] private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
     [SerializeField] private PlayerInput playerInput;
-    public PlayerInput PlayerInput => playerInput;
     [SerializeField] internal GameObject cameraHolder;
-    private Camera cam;
+    private Camera _cam;
     
     // Player Controls
-    public PlayerControls playerControls;
+    public PlayerControls PlayerControls;
 
     #endregion
 
     #region Unity methods
     
+    private void OnEnable()
+    {
+        PlayerControls.Player.Enable();
+    }
+    
+    private void OnDisable()
+    {
+        PlayerControls.Player.Disable();
+    }
+    
     private void Awake()
     {
         // Player Controls
-        playerControls = new PlayerControls();
+        PlayerControls = new PlayerControls();
 
         // Movement components
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponentInChildren<CharacterController>();
         
         // Network component
         _photonView = GetComponent<PhotonView>();
         
         // Camera component
-        cam = cameraHolder.GetComponentInChildren<Camera>();
+        _cam = cameraHolder.GetComponentInChildren<Camera>();
 
-        if (null == cam) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
         
         // Sub scripts
-        playerMovement = GetComponent<PlayerMovement>();
-        playerLook = GetComponent<PlayerLook>();
-        playerAnimation = GetComponent<PlayerAnimation>();
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerLook = GetComponent<PlayerLook>();
     }
     
     internal void Start()
     {
-        if (_photonView.IsMine) return;
-        
-        Destroy(cameraHolder);
-        Destroy(characterController);
+        if (!_photonView.IsMine)
+        {
+            Destroy(cameraHolder);
+            playerInput.enabled = false;
+        }
     }
 
     private void Update()
     {
-        if (!_photonView.IsMine) return;
-        
-        playerLook.Look();
-        
-        // Updates the jump feature
-        playerMovement.UpdateJump();
-        
-        // Updates the appearance based on the MovementType
-        playerAnimation.UpdateAppearance();
+        if (_photonView.IsMine)
+        {
+            _playerLook.Look();
+
+            // Updates the jump feature
+            _playerMovement.UpdateJump();
+            
+            // Updates the appearance based on the MovementType
+            _playerAnimation.UpdateAnimationsBasic();
+        }
     }
     
     private void FixedUpdate()
     {
-        if (!_photonView.IsMine) return;
-        
-        //TODO improve to remove jittering
-        playerMovement.Move();
-        
-        playerMovement.UpdateHitbox();
+        if (_photonView.IsMine)
+        {
+            //TODO improve to remove jitter
+            _playerMovement.Move();
+
+            _playerMovement.UpdateHitbox();
+
+
+        }
     }
     
     #endregion
@@ -99,7 +109,7 @@ public class PlayerController : MonoBehaviour
     // Synchronizes the appearance
     void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
     {
-        playerAnimation.UpdateAppearance();
+        _playerAnimation.UpdateAnimationsBasic();
     }
 
     #endregion
