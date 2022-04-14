@@ -27,6 +27,7 @@ public class PlayerInteraction : MonoBehaviour
         if (nearSign && Input.GetMouseButtonDown(0))
         {
             Debug.Log("[+] Should open voting screen");
+            IGMenuManager.Instance.OpenVoteMenu();
         }
     }
 

@@ -8,7 +8,8 @@ public class IGMenuManager : MonoBehaviour
 {
     public static IGMenuManager Instance;
     public static bool isPaused = false;
-    public GameObject pauseMenuUI;
+    public GameObject pauseMenu;
+    public GameObject voteMenu;
     public PlayerInput playerInput;
     public bool testButton = false;
     public bool testPlayerButton = false;
@@ -17,6 +18,13 @@ public class IGMenuManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        pauseMenu.SetActive(false);
+        voteMenu.SetActive(false);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -36,7 +44,8 @@ public class IGMenuManager : MonoBehaviour
     public void ResumeGame()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        pauseMenuUI.SetActive(false);
+        pauseMenu.SetActive(false);
+        voteMenu.SetActive(false);
         isPaused = false;
         if (playerInput != null)
         {
@@ -48,7 +57,7 @@ public class IGMenuManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        pauseMenuUI.SetActive(true);
+        pauseMenu.SetActive(true);
         isPaused = true;
         if (playerInput != null)
         {
@@ -56,11 +65,22 @@ public class IGMenuManager : MonoBehaviour
         }
     }
 
+    public void OpenVoteMenu()
+    {
+        if (playerInput != null)
+        {
+            playerInput.SwitchCurrentActionMap("UI");
+        }
+        voteMenu.SetActive(true);
+    }
+
     public void Quit()
     {
         Debug.Log("Leaving Game...");
         Application.Quit();
     }
+    
+    
 }
 
 
