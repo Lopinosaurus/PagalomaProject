@@ -10,6 +10,7 @@ public class Map : MonoBehaviour
     public GameObject treesFolder;
     public GameObject villageFolder;
     public GameObject stonesFolder;
+    public GameObject bushesFolder;
     public GameObject village;
     // public int seed ;
     public List<GameObject> deadTrees;
@@ -17,6 +18,7 @@ public class Map : MonoBehaviour
     public List<GameObject> longTrees;
     public List<GameObject> simpleTrees;
     public List<GameObject> stones;
+    public List<GameObject> bushes;
 
     // Start is called before the first frame update
     public void Generate(int seed)
@@ -25,6 +27,7 @@ public class Map : MonoBehaviour
         // Random.seed = seed;
         AddVillage();
         AddStones();
+        AddBushes();
         AddTrees();
     }
 
@@ -55,6 +58,24 @@ public class Map : MonoBehaviour
         }
 }
 
+    public void AddBushes()
+    {
+        int add = 20; // a possible tree each 50 m2
+        List<float[]> possibleBushes = RandomListXY(add); //List of position of all trees (maybe not possible)
+        foreach (float[] possibleBush in possibleBushes)
+        {
+            float y = 0f;
+            Vector3 direction = new Vector3(0, 0, 0);
+            if (PositionValid(possibleBush, ref y, ref direction))
+            { 
+                GameObject bush = Instantiate(
+                    RandomBush(), new Vector3(possibleBush[0], y-0.2f,possibleBush[1]), 
+                    StoneRotation(direction), bushesFolder.transform);
+                bush.tag = "bush";
+            }
+        }
+    }
+    
     public void AddStones()
     {
         int add = 50; // a possible tree each 50 m2
@@ -66,7 +87,7 @@ public class Map : MonoBehaviour
             if (PositionValid(possibleStone, ref y, ref direction))
             { 
                 GameObject stone = Instantiate(
-                    RandomStone(), new Vector3(possibleStone[0], y-0.2f,possibleStone[1]), 
+                    RandomStone(), new Vector3(possibleStone[0], y+0.1f,possibleStone[1]), 
                     StoneRotation(direction), stonesFolder.transform);
                 stone.tag = "stone";
             }
@@ -140,6 +161,10 @@ public class Map : MonoBehaviour
         return Quaternion.LookRotation(new Vector3(x,0,z),dir);
     }
     
+    public GameObject RandomBush()
+    {
+        return bushes[Random.Range(0, bushes.Count)];
+    }
     public GameObject RandomStone()
     {
         return stones[Random.Range(0, stones.Count)];

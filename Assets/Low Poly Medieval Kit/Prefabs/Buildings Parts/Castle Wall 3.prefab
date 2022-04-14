@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8543191246815092152}
   - component: {fileID: 1135086611703176044}
   - component: {fileID: 6978727967634381120}
-  - component: {fileID: 8080306536885538167}
+  - component: {fileID: 6609242667384152108}
+  - component: {fileID: 8252076107816046704}
   m_Layer: 0
   m_Name: Castle Wall 3
   m_TagString: Untagged
@@ -55,6 +56,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,8 +82,9 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &8080306536885538167
-MeshCollider:
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6609242667384152108
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -89,7 +93,19 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 321586273605183332, guid: dfb4fa96d5164464b8f0f2e679026d15, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 10.171324, y: 7.984584, z: 1.5457082}
+  m_Center: {x: 3.8560762, y: 3.828713, z: 0.24478269}
+--- !u!65 &8252076107816046704
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536339997701278561}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6827509, y: 7.984584, z: 9.807162}
+  m_Center: {x: -0.38821018, y: 3.828713, z: -3.885944}

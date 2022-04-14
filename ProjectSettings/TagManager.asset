@@ -9,6 +9,8 @@ TagManager:
   - tree
   - spawn
   - stone
+  - sign
+  - bush
   layers:
   - Default
   - TransparentFX
