@@ -2870,6 +2870,7 @@ MonoBehaviour:
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
+  _playerInput: {fileID: 0}
   _targets: []
 --- !u!1 &7716088027617932813
 GameObject:
