@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Photon.Pun;
+using Photon.Realtime;
 using Unity.Mathematics;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Serialization;
 
@@ -18,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController _playerController;
     private PlayerAnimation _playerAnimation;
     private PlayerControls _playerControls;
+    private PlayerInput _playerInput;
 
     // Movement components
     private CharacterController _characterController;
@@ -102,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerController = GetComponent<PlayerController>();
         _playerAnimation = GetComponentInChildren<PlayerAnimation>();
+        _playerInput = GetComponent<PlayerInput>();
 
         _characterController = GetComponentInChildren<CharacterController>();
         
@@ -119,20 +123,20 @@ public class PlayerMovement : MonoBehaviour
         _playerControls = _playerController.PlayerControls;
         
         // for the ZQSD movements
-        _playerControls.Player.Move.performed += ctx => _inputMoveNormalized2D = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += _ => _inputMoveNormalized2D = Vector2.zero;
+        _playerInput.actions["Move"].performed += ctx => _inputMoveNormalized2D = ctx.ReadValue<Vector2>();
+        _playerInput.actions["Move"].canceled += _ => _inputMoveNormalized2D = Vector2.zero;
         // for the Crouch button
-        _playerControls.Player.Crouch.performed += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
-        _playerControls.Player.Crouch.canceled += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
+        _playerInput.actions["Crouch"].performed += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
+        _playerInput.actions["Crouch"].canceled += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
         
         //TODO fix toggle
-        _playerControls.Player.Crouch.started += ctx => _wantsCrouchToggle = ctx.ReadValueAsButton();
+        _playerInput.actions["Crouch"].started += ctx => _wantsCrouchToggle = ctx.ReadValueAsButton();
         // for the Sprint button
-        _playerControls.Player.Sprint.performed += ctx => WantsSprint = ctx.ReadValueAsButton();
-        _playerControls.Player.Sprint.canceled += ctx => WantsSprint = ctx.ReadValueAsButton();
+        _playerInput.actions["Sprint"].performed += ctx => WantsSprint = ctx.ReadValueAsButton();
+        _playerInput.actions["Sprint"].canceled += ctx => WantsSprint = ctx.ReadValueAsButton();
         // for the Jump button
-        _playerControls.Player.Jump.performed += ctx => WantsJump = ctx.ReadValueAsButton();
-        _playerControls.Player.Jump.canceled += ctx => WantsJump = ctx.ReadValueAsButton();
+        _playerInput.actions["Jump"].performed += ctx => WantsJump = ctx.ReadValueAsButton();
+        _playerInput.actions["Jump"].canceled += ctx => WantsJump = ctx.ReadValueAsButton();
     }
 
     #endregion

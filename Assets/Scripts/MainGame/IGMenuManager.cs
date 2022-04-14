@@ -17,18 +17,8 @@ public class IGMenuManager : MonoBehaviour
     {
         Instance = this;
     }
-    // public void AssignTestKey()
-    // {
-    //     playerInput.actions["Test"].started += ctx => testButton = ctx.ReadValueAsButton();
-    //     playerInput.actions["Test"].canceled += ctx => testButton = ctx.ReadValueAsButton();
-    //     playerInput.actions["TestPlayer"].started += ctx => testPlayerButton = ctx.ReadValueAsButton();
-    //     playerInput.actions["TestPlayer"].canceled += ctx => testPlayerButton = ctx.ReadValueAsButton();
-    //     //playerInput.UI.Test.started += ctx => testButton = ctx.ReadValueAsButton();
-    // }
     void Update()
     {
-        // if (testButton) Debug.Log("[+] UI map enabled ! (Test performed)");
-        // if (testPlayerButton) Debug.Log("[+] Player map enabled ! (TestPlayer performed)");
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
@@ -51,7 +41,6 @@ public class IGMenuManager : MonoBehaviour
         if (playerInput != null)
         {
             playerInput.SwitchCurrentActionMap("Player");
-            Debug.Log("Current Action Map after change on Resume = " + playerInput.currentActionMap);
         }
     }
 
@@ -64,8 +53,6 @@ public class IGMenuManager : MonoBehaviour
         if (playerInput != null)
         {
             playerInput.SwitchCurrentActionMap("UI");
-            Debug.Log("Current Action Map after change on Pause = " + playerInput.currentActionMap);
-            //playerController.PlayerInput.SwitchCurrentActionMap("UI");
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
@@ -15,6 +16,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Transform camHolder;
     private PlayerControls _playerControls;
     private PlayerController _playerController;
+    private PlayerInput _playerInput;
     private PhotonView _photonView;
     private CharacterController _characterController;
     
@@ -49,6 +51,7 @@ public class PlayerLook : MonoBehaviour
     {
         _playerController = GetComponent<PlayerController>();
         _characterController = GetComponent<CharacterController>();
+        _playerInput = GetComponent<PlayerInput>();
         _photonView = GetComponent<PhotonView>();
     }
 
@@ -64,10 +67,10 @@ public class PlayerLook : MonoBehaviour
 
         _playerControls = _playerController.PlayerControls;
 
-        _playerControls.Player.Look.performed += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
-        _playerControls.Player.Look.performed += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
-        _playerControls.Player.Look.canceled += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
-        _playerControls.Player.Look.canceled += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
+        _playerInput.actions["Look"].performed += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerInput.actions["Look"].performed += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
+        _playerInput.actions["Look"].canceled += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
+        _playerInput.actions["Look"].canceled += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
     }
 
 

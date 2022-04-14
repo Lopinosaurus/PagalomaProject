@@ -30,10 +30,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (roleName != null)
         {
-            Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 1, Random.Range (0, 10));
+            Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 10, Random.Range (0, 10));
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
             IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
-            // IGMenuManager.Instance.AssignTestKey();
         }
         else
         {
