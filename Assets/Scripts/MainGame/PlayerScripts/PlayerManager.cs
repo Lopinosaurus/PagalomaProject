@@ -30,8 +30,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (roleName != null)
         {
+            string color = "TestColor";
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 10, Random.Range (0, 10));
-            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", roleName), spawnPoint, Quaternion.identity);
+            string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instancitationData);
             IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
         }
         else

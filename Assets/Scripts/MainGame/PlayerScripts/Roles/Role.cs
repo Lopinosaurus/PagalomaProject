@@ -10,10 +10,11 @@ using Object = System.Object;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    public class Role : MonoBehaviour, IPunInstantiateMagicCallback
+    public class Role : MonoBehaviour
     {
         #region Attributes
-        
+
+        public bool isActive;
         // Gameplay attributes
         public string roleName;
         public bool isAlive = true;
@@ -31,7 +32,6 @@ namespace MainGame.PlayerScripts.Roles
 
         // Controls
         [SerializeField] private GameObject _cameraHolder;
-        public PlayerControls playerControls;
         public PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
         private PlayerController _playerController;
@@ -52,6 +52,7 @@ namespace MainGame.PlayerScripts.Roles
 
        private void Awake()
        {
+           isActive = false;
            _playerInput = GetComponent<PlayerInput>();
            _playerController = GetComponent<PlayerController>();
            _playerLook = GetComponent<PlayerLook>();
@@ -68,15 +69,11 @@ namespace MainGame.PlayerScripts.Roles
            deathText.enabled = false;
        }
 
-       private void Start()
+       public void Activate()
        {
+           isActive = true;
            if (_photonView.IsMine)
            {
-               playerControls = _playerController.PlayerControls;
-           
-               // Il faut remplacer ça :
-               // playerControls.Player.Die.started += ctx => selfKill = ctx.ReadValueAsButton();
-               // par ça :
                _playerInput.actions["Die"].started += ctx => selfKill = ctx.ReadValueAsButton();
                _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
                _playerInput.actions["Kill"].canceled  += ctx => kill = ctx.ReadValueAsButton();
@@ -93,16 +90,26 @@ namespace MainGame.PlayerScripts.Roles
        
        #region Gameplay methods
 
+       public void SetPlayerColor(string color)
+       {
+           this.color = color;
+           // TODO Update appearance
+       }
+
        public virtual void UseAbility()
        {
            Debug.Log("E pressed but you are have not ability because you are a Villager. (Villager < all UwU)");
        }
        public void Die()
        {
-           // Show death label
-           if (_photonView.IsMine) deathText.enabled = true;
+           // Show death label & disable inputs
+           if (_photonView.IsMine)
+           {
+               deathText.enabled = true;
+               _playerInput.actions["Die"].Disable();
+               _playerInput.actions["Kill"].Disable();
+           }
            // Disable components & gameplay variables
-           if (playerControls != null) playerControls.Disable();
            _characterController.detectCollisions = false;
            _playerController.enabled = false;
            isAlive = false;
@@ -169,13 +176,5 @@ namespace MainGame.PlayerScripts.Roles
        }
        
        #endregion
-       
-       public void OnPhotonInstantiate(PhotonMessageInfo info)
-       {
-            // Add instantiated role dy players list
-            Role playerRole = info.photonView.GetComponent<Role>();
-            RoomManager.Instance.players.Add(playerRole);
-            playerRole.userId = info.Sender.UserId;
-       }
     }
 }

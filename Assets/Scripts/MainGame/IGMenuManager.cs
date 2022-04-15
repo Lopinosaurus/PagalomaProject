@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class IGMenuManager : MonoBehaviour
 {
@@ -77,7 +79,8 @@ public class IGMenuManager : MonoBehaviour
     public void Quit()
     {
         Debug.Log("Leaving Game...");
-        Application.Quit();
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
     }
     
     

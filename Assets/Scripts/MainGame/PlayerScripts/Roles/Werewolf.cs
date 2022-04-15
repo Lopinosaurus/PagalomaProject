@@ -16,7 +16,12 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (other.CompareTag("Player"))
             {
-                Role tempTarget = (Role)other.GetComponent<Role>();
+                Role tempTarget = null;
+                foreach (Role role in other.GetComponents<Role>())
+                {
+                    if (role.enabled) tempTarget = role;
+                }
+
                 if (tempTarget != null && !(tempTarget is Werewolf))
                 {
                     if (add)

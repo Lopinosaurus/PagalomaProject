@@ -11,14 +11,14 @@ public class DetectCollision : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log("[+] Collision detected with: " + other.name);
-        if (_werewolf != null) _werewolf.UpdateTarget(other, true);
-        if (_seer != null) _seer.UpdateTarget(other, true);
+        Debug.Log("[+] Collision detected with: " + other.name);
+        if (_werewolf.isActive) _werewolf.UpdateTarget(other, true);
+        if (_seer.isActive) _seer.UpdateTarget(other, true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (_werewolf != null) _werewolf.UpdateTarget(other, false);
-        if (_seer != null) _seer.UpdateTarget(other, false);
+        if (_werewolf.isActive) _werewolf.UpdateTarget(other, false);
+        if (_seer.isActive) _seer.UpdateTarget(other, false);
     }
 }
