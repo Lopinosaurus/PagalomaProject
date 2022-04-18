@@ -21,7 +21,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] protected bool _hasCooldown = false;
         public string username;
         public string userId;
-        public string color;
+        public Color color;
         public Role vote;
         [SerializeField] protected TMP_Text actionText;
         [SerializeField] protected TMP_Text deathText;
@@ -91,7 +91,7 @@ namespace MainGame.PlayerScripts.Roles
        
        #region Gameplay methods
 
-       public void SetPlayerColor(string color)
+       public void SetPlayerColor(Color color)
        {
            this.color = color;
            // TODO Update appearance

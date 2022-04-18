@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
     public string roleName;
+    public string color;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -30,7 +31,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (roleName != null)
         {
-            string color = "TestColor";
             Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 10, Random.Range (0, 10));
             string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instancitationData);
@@ -55,15 +55,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     void RPC_GetRole() // Only the Master Client received this RPC
     {
         roleName = RoomManager.Instance.GetNextRoleName(); // Get the role from RoomManager
+        color = RoomManager.Instance.GetNextColor();
         RoomManager.Instance.nextPlayerRoleIndex ++;
-        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName); // Broadcast the new role
+        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName, color); // Broadcast the new role and color
         DisplayRole();
     }
 
     [PunRPC]
-    void RPC_ReceiveRole(string whichRole) // Apply the role that have been broadcast
+    void RPC_ReceiveRole(string roleName, string color) // Apply the role that have been broadcast
     {
-        roleName = whichRole;
+        this.roleName = roleName;
+        this.color = color;
         DisplayRole();
     }
 }

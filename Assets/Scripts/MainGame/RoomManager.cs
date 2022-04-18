@@ -6,8 +6,10 @@ using Photon.Pun;
 using ExitGames.Client.Photon; // Used for OnRoomPropertiesUpdate
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Linq;
 using MainGame.PlayerScripts.Roles;
 using TMPro;
+using Random = System.Random;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -15,12 +17,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
+
+    public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
+    {
+        { "red", Color.red },
+        { "blue", Color.blue },
+        { "yellow", Color.yellow },
+        { "white", Color.white },
+        { "black", Color.black },
+        { "cyan", Color.cyan },
+        { "magenta", Color.magenta },
+        { "grey", Color.grey }
+    };
+    public string[] colors;
+    
     public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
     public TMP_Text actionText;
     public TMP_Text deathText;
     public TMP_Text infoText;
     public List<Role> players; // List of the Role of all the players
+    public Role localPlayer; // Reference to the local player's role
 
     private void Awake()
     {
@@ -33,6 +50,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Instance = this;
         IGMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
+
+        // Shuffle colors list
+        Random rng = new Random();
+        colors = new[] { "red", "blue", "yellow", "white", "black", "cyan", "magenta", "grey" };
+        colors = colors.OrderBy(a => rng.Next()).ToArray();
     }
 
     public override void OnEnable()
@@ -86,6 +108,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public string GetNextRoleName()
     {
         return roles[nextPlayerRoleIndex];
+    }
+    
+    public string GetNextColor()
+    {
+        return colors[nextPlayerRoleIndex];
     }
 
     public void DisplayRole(string roleName)

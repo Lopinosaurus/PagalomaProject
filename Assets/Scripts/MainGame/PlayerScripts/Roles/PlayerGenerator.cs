@@ -30,7 +30,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             object[] instanciationData = info.photonView.InstantiationData;
             string roleName = (string)instanciationData[0];
-            string color = (string)instanciationData[1];
+            Color color = RoomManager.Instance.colorsDict[(string)instanciationData[1]];
             string username = (string)instanciationData[2];
             string userId = (string)instanciationData[3];
 
@@ -66,6 +66,10 @@ namespace MainGame.PlayerScripts.Roles
                 
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
+                // Store reference to the local player
+                if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
+                // Update Voting List
+                VoteMenu.Instance.SetUp();
             }
             else
             {

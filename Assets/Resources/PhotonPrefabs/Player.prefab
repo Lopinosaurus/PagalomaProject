@@ -2837,7 +2837,7 @@ MonoBehaviour:
   _hasCooldown: 0
   username: 
   userId: 
-  color: 
+  color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}
@@ -2864,7 +2864,7 @@ MonoBehaviour:
   _hasCooldown: 0
   username: 
   userId: 
-  color: 
+  color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   _hasCooldown: 0
   username: 
   userId: 
-  color: 
+  color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}

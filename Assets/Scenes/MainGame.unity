@@ -2762,6 +2762,7 @@ GameObject:
   - component: {fileID: 545822849}
   - component: {fileID: 545822848}
   - component: {fileID: 545822852}
+  - component: {fileID: 545822853}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2871,6 +2872,20 @@ MonoBehaviour:
   voteMenu: {fileID: 1824923142}
   loadingScreen: {fileID: 1250184675}
   playerInput: {fileID: 0}
+--- !u!114 &545822853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545822847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c71b40bbd3b44c9bfce594e87be9a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voteList: {fileID: 880488201}
+  voteListItem: {fileID: 1426795346255268687, guid: 158b93b15189ec444b8b9c4f10107189, type: 3}
 --- !u!1 &551546427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,12 +2953,23 @@ MonoBehaviour:
   - Villager
   - Villager
   - Werewolf
+  colors:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   nextPlayerRoleIndex: 0
   roleText: {fileID: 223803737}
   actionText: {fileID: 1649025060}
   deathText: {fileID: 786444671}
   infoText: {fileID: 1274354631}
   players: []
+  localPlayer: {fileID: 0}
 --- !u!4 &551546430
 Transform:
   m_ObjectHideFlags: 0
@@ -4378,7 +4404,7 @@ GameObject:
   - component: {fileID: 880488203}
   - component: {fileID: 880488202}
   m_Layer: 5
-  m_Name: PlayerList
+  m_Name: VoteList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
