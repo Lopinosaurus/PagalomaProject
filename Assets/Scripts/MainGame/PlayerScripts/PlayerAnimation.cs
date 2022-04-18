@@ -34,8 +34,8 @@ public class PlayerAnimation : MonoBehaviour
     {
         Vector3 movementVector = new Vector3
         {
-            x = _playerMovement.moveAmountRaw.x,
-            z = _playerMovement.moveAmountRaw.z
+            x = _playerMovement.localMoveAmountRaw.x,
+            z = _playerMovement.localMoveAmountRaw.z
         };
         
         // Sets the velocity in X to the CharacterController X velocity

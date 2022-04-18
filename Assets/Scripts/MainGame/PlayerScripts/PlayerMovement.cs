@@ -40,17 +40,17 @@ public class PlayerMovement : MonoBehaviour
     private const float CrouchSpeed = 1f;
     private const float WalkSpeed = 2f;
     private const float SmoothTimeSpeedTransition = 0.5f;
-
+    
     [Space]
     [Header("Movement settings")]
     [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
     [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
     private Vector3 _;
-    public Vector3 localMoveAmount;
-    public Vector3 moveAmountRaw;
+    public Vector3 localMoveAmountNormalized;
+    public Vector3 localMoveAmountRaw;
     private Vector3 _transformDirection;
-    private Vector2 _inputMoveNormalized2D;
-    private Vector3 _inputMoveNormalized3D;
+    private Vector3 inputMoveRaw3D;
+    private Vector3 inputMoveNormalized3D;
 
     // Gravity
     [Space] [Header("Gravity settings")]
@@ -123,8 +123,8 @@ public class PlayerMovement : MonoBehaviour
         _playerControls = _playerController.PlayerControls;
         
         // for the ZQSD movements
-        _playerInput.actions["Move"].performed += ctx => _inputMoveNormalized2D = ctx.ReadValue<Vector2>();
-        _playerInput.actions["Move"].canceled += _ => _inputMoveNormalized2D = Vector2.zero;
+        _playerInput.actions["Move"].performed += OnPerformedMove;
+        _playerInput.actions["Move"].canceled += unused => inputMoveRaw3D = Vector3.zero;
         // for the Crouch button
         _playerInput.actions["Crouch"].performed += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
         _playerInput.actions["Crouch"].canceled += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
@@ -139,18 +139,27 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.actions["Jump"].canceled += ctx => WantsJump = ctx.ReadValueAsButton();
     }
 
+    private void OnPerformedMove(InputAction.CallbackContext ctx)
+    {
+        inputMoveRaw3D = new Vector3
+        {
+            x = ctx.ReadValue<Vector2>().x,
+            z = ctx.ReadValue<Vector2>().y
+        };
+    }
+
     #endregion
     
     #region Movements
 
     public void Move()
     {
-        _inputMoveNormalized3D = new Vector3
+        inputMoveNormalized3D = new Vector3
         {
-            x = _inputMoveNormalized2D.x,
+            x = inputMoveRaw3D.x,
             y = 0.0f,
-            z = _inputMoveNormalized2D.y
-        };
+            z = inputMoveRaw3D.z
+        }.normalized;
 
         // Updates the grounded boolean state
         UpdateGrounded();
@@ -165,11 +174,12 @@ public class PlayerMovement : MonoBehaviour
         UpdateSpeed();
 
         // Sets the new movement vector based on the inputs
-        localMoveAmount = SmoothMoveAmount(_inputMoveNormalized3D);
+        localMoveAmountNormalized = SmoothMoveAmount(localMoveAmountNormalized ,inputMoveNormalized3D);
+        localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, inputMoveRaw3D);
         
-        
+        Debug.Log("angle: " + GetAngleFromFloor());
 
-        Vector3 finalDirection = transform.TransformDirection(localMoveAmount) + upwardVelocity;
+        Vector3 finalDirection = transform.TransformDirection(localMoveAmountNormalized) + upwardVelocity;
         finalDirection *= Time.fixedDeltaTime;
 
         _characterController.Move(finalDirection);
@@ -188,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currentMovementType = MovementTypes.Crouch;
         }
-        else if (Vector2.zero == _inputMoveNormalized2D)
+        else if (Vector3.zero == inputMoveRaw3D)
         {
             currentMovementType = MovementTypes.Stand;
         }
@@ -214,16 +224,25 @@ public class PlayerMovement : MonoBehaviour
         
         if (!isJumping && OnSlope())
         {
-            upwardVelocity.y -= slopeCompensationForce * Time.deltaTime * _characterController.height / 2;
+            upwardVelocity.y -= GetAngleFromFloor() * slopeCompensationForce * _characterController.height / 2;
         }
     }
 
     private bool OnSlope()
     {
-        return !grounded &&
-             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
-                 _characterController.height / 2 * floorDistanceMult) &&
-              hit.normal != Vector3.up;
+        if (!grounded) return false;
+        bool onSlope = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+            _characterController.height / 2 * floorDistanceMult) && hit.normal != Vector3.up;
+        return onSlope;
+    }
+
+    private float GetAngleFromFloor()
+    {
+        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+            _characterController.height / 2 * floorDistanceMult);
+        float angle = Vector3.Angle(Vector3.up, hit.normal);
+
+        return angle;
     }
     
     private void UpdateSpeed()
@@ -328,7 +347,7 @@ public class PlayerMovement : MonoBehaviour
     
     #region Setters
 
-    private Vector3 SmoothMoveAmount(Vector3 moveDir)
+    private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
     {
         return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _,
             smoothTime);
