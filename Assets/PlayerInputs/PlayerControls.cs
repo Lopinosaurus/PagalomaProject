@@ -37,6 +37,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e5b642ff-04b3-415a-93d8-1da37d413c83"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""51cc2848-9d57-4843-9fd1-c88338cfce99"",
@@ -94,15 +103,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": ""Kill"",
                     ""type"": ""Button"",
                     ""id"": ""d0caec8b-442b-4187-9c33-77778f7c0e46"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TestPlayer"",
-                    ""type"": ""Button"",
-                    ""id"": ""2013c540-9952-4c4a-952a-f012d490df7d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -387,12 +387,45 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e3fb3f3c-a717-41c2-be8d-60f23328dcb7"",
-                    ""path"": ""<Keyboard>/p"",
+                    ""id"": ""d76cb7a3-93c1-44bb-94fd-742953274f64"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TestPlayer"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""238e4bae-8db0-45cf-bef9-a944c666aa7c"",
+                    ""path"": ""<Pen>/tip"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f02ef280-fb13-4ea5-b92d-da15eac7df3e"",
+                    ""path"": ""<Touchscreen>/touch*/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73a9f122-c679-4e1b-8465-e24d006b39b4"",
+                    ""path"": ""<XRController>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR"",
+                    ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -981,6 +1014,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
@@ -988,7 +1022,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
         m_Player_Kill = m_Player.FindAction("Kill", throwIfNotFound: true);
-        m_Player_TestPlayer = m_Player.FindAction("TestPlayer", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
@@ -1061,6 +1094,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Click;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Crouch;
@@ -1068,12 +1102,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Die;
     private readonly InputAction m_Player_Kill;
-    private readonly InputAction m_Player_TestPlayer;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Click => m_Wrapper.m_Player_Click;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
@@ -1081,7 +1115,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Die => m_Wrapper.m_Player_Die;
         public InputAction @Kill => m_Wrapper.m_Player_Kill;
-        public InputAction @TestPlayer => m_Wrapper.m_Player_TestPlayer;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1094,6 +1127,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Click.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
@@ -1115,9 +1151,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Kill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
                 @Kill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
                 @Kill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
-                @TestPlayer.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestPlayer;
-                @TestPlayer.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestPlayer;
-                @TestPlayer.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestPlayer;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1125,6 +1158,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
@@ -1146,9 +1182,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Kill.started += instance.OnKill;
                 @Kill.performed += instance.OnKill;
                 @Kill.canceled += instance.OnKill;
-                @TestPlayer.started += instance.OnTestPlayer;
-                @TestPlayer.performed += instance.OnTestPlayer;
-                @TestPlayer.canceled += instance.OnTestPlayer;
             }
         }
     }
@@ -1306,6 +1339,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
@@ -1313,7 +1347,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
         void OnKill(InputAction.CallbackContext context);
-        void OnTestPlayer(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

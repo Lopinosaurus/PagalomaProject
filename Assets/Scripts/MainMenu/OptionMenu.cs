@@ -15,26 +15,30 @@ public class OptionMenu : MonoBehaviour
     {
         screenRes = Screen.resolutions;
 
-        resDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
-
-        int currentResIndex = 0;
-
-        for (int i = 0; i < screenRes.Length; i++ )
+        if (resDropdown != null)
         {
-            string option = screenRes[i].width + "x" + screenRes[i].height;
-            options.Add(option);
+            resDropdown.ClearOptions();
 
-            if (screenRes[i].width == Screen.currentResolution.width && screenRes[i].height == Screen.currentResolution.height)
+            List<string> options = new List<string>();
+
+            int currentResIndex = 0;
+
+            for (int i = 0; i < screenRes.Length; i++)
             {
-                currentResIndex = i;
-            }
-        }
+                string option = screenRes[i].width + "x" + screenRes[i].height;
+                options.Add(option);
 
-        resDropdown.AddOptions(options);
-        resDropdown.value = currentResIndex;
-        resDropdown.RefreshShownValue();
+                if (screenRes[i].width == Screen.currentResolution.width &&
+                    screenRes[i].height == Screen.currentResolution.height)
+                {
+                    currentResIndex = i;
+                }
+            }
+
+            resDropdown.AddOptions(options);
+            resDropdown.value = currentResIndex;
+            resDropdown.RefreshShownValue();
+        }
     }
 
     public void SetScreenRes(int resIndex)

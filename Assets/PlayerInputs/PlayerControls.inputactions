@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Click",
+                    "type": "PassThrough",
+                    "id": "e5b642ff-04b3-415a-93d8-1da37d413c83",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "51cc2848-9d57-4843-9fd1-c88338cfce99",
@@ -72,15 +81,6 @@
                     "name": "Kill",
                     "type": "Button",
                     "id": "d0caec8b-442b-4187-9c33-77778f7c0e46",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TestPlayer",
-                    "type": "Button",
-                    "id": "2013c540-9952-4c4a-952a-f012d490df7d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -365,12 +365,45 @@
                 },
                 {
                     "name": "",
-                    "id": "e3fb3f3c-a717-41c2-be8d-60f23328dcb7",
-                    "path": "<Keyboard>/p",
+                    "id": "d76cb7a3-93c1-44bb-94fd-742953274f64",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "TestPlayer",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "238e4bae-8db0-45cf-bef9-a944c666aa7c",
+                    "path": "<Pen>/tip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f02ef280-fb13-4ea5-b92d-da15eac7df3e",
+                    "path": "<Touchscreen>/touch*/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73a9f122-c679-4e1b-8465-e24d006b39b4",
+                    "path": "<XRController>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -10,21 +10,18 @@ public class IGMenuManager : MonoBehaviour
 {
     public static IGMenuManager Instance;
     public static bool isPaused = false;
+    
+    // Menu screens
     public GameObject pauseMenu;
+    public GameObject optionMenu;
     public GameObject voteMenu;
+    public GameObject loadingScreen;
+        
     public PlayerInput playerInput;
-    public bool testButton = false;
-    public bool testPlayerButton = false;
 
     void Awake()
     {
         Instance = this;
-    }
-
-    private void Start()
-    {
-        pauseMenu.SetActive(false);
-        voteMenu.SetActive(false);
     }
 
     void Update()
@@ -45,35 +42,29 @@ public class IGMenuManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        if (optionMenu.activeSelf) optionMenu.SetActive(false);
+        else if (pauseMenu.activeSelf) pauseMenu.SetActive(false);
+        else voteMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        pauseMenu.SetActive(false);
-        voteMenu.SetActive(false);
         isPaused = false;
-        if (playerInput != null)
-        {
-            playerInput.SwitchCurrentActionMap("Player");
-        }
+        if (playerInput != null) playerInput.SwitchCurrentActionMap("Player");
     }
 
     void PauseGame()
     {
+        pauseMenu.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        pauseMenu.SetActive(true);
         isPaused = true;
-        if (playerInput != null)
-        {
-            playerInput.SwitchCurrentActionMap("UI");
-        }
+        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void OpenVoteMenu()
     {
-        if (playerInput != null)
-        {
-            playerInput.SwitchCurrentActionMap("UI");
-        }
         voteMenu.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void Quit()
@@ -82,8 +73,6 @@ public class IGMenuManager : MonoBehaviour
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);
     }
-    
-    
 }
 
 

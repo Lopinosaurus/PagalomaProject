@@ -13,8 +13,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
     [SerializeField] private GameObject map;
-    [SerializeField] private GameObject loadingScreen;
-    [SerializeField] private GameObject mainScreen;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
     public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
     public int nextPlayerRoleIndex;
@@ -33,7 +31,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
-        loadingScreen.SetActive(true);
+        IGMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
     }
 
@@ -81,7 +79,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             int seed = (int) propertiesThatChanged["MapSeed"]; // Get the seed value
             Debug.Log("Game seed received: "+seed);
             map.GetComponent<Map>().Generate(seed); // Generate the map
-            loadingScreen.SetActive(false);
+            IGMenuManager.Instance.loadingScreen.SetActive(false);
         }
     }
 

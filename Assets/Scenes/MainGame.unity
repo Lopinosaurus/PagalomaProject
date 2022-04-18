@@ -1337,7 +1337,7 @@ RectTransform:
   - {fileID: 348415829}
   - {fileID: 599510196}
   m_Father: {fileID: 545822851}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2462,7 +2462,7 @@ RectTransform:
   - {fileID: 786444670}
   - {fileID: 1274354630}
   m_Father: {fileID: 545822851}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2841,11 +2841,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 307012796}
   - {fileID: 515588697}
-  - {fileID: 1250184676}
-  - {fileID: 1860833230}
   - {fileID: 1824923143}
+  - {fileID: 1860833230}
+  - {fileID: 307012796}
+  - {fileID: 1250184676}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2867,10 +2867,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 1860833229}
+  optionMenu: {fileID: 307012792}
   voteMenu: {fileID: 1824923142}
+  loadingScreen: {fileID: 1250184675}
   playerInput: {fileID: 0}
-  testButton: 0
-  testPlayerButton: 0
 --- !u!1 &551546427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,8 +2924,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 1977719086}
-  loadingScreen: {fileID: 1250184675}
-  mainScreen: {fileID: 515588696}
   roles:
   - Seer
   - Werewolf
@@ -6068,7 +6066,7 @@ RectTransform:
   - {fileID: 79275451}
   - {fileID: 608369782}
   m_Father: {fileID: 545822851}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9246,7 +9244,6 @@ GameObject:
   - component: {fileID: 1824923143}
   - component: {fileID: 1824923146}
   - component: {fileID: 1824923145}
-  - component: {fileID: 1824923144}
   m_Layer: 5
   m_Name: VoteMenu
   m_TagString: Untagged
@@ -9270,27 +9267,13 @@ RectTransform:
   - {fileID: 1672070670}
   - {fileID: 1437944626}
   m_Father: {fileID: 545822851}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1824923144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824923142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba692b5879e85d246a0bc629d2dc6cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainAudioMixer: {fileID: 24100000, guid: bff1f46dc9fea834aac2958d14e0fa50, type: 2}
-  resDropdown: {fileID: 0}
 --- !u!114 &1824923145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9362,7 +9345,7 @@ RectTransform:
   - {fileID: 1200724419}
   - {fileID: 1008257337}
   m_Father: {fileID: 545822851}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

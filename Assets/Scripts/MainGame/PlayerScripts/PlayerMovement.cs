@@ -177,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
         localMoveAmountNormalized = SmoothMoveAmount(localMoveAmountNormalized ,inputMoveNormalized3D);
         localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, inputMoveRaw3D);
         
-        Debug.Log("angle: " + GetAngleFromFloor());
+        // Debug.Log("angle: " + GetAngleFromFloor());
 
         Vector3 finalDirection = transform.TransformDirection(localMoveAmountNormalized) + upwardVelocity;
         finalDirection *= Time.fixedDeltaTime;

@@ -2492,8 +2492,8 @@ MonoBehaviour:
   currentSpeed: 0
   currentMovementType: 0
   currentCrouchType: 1
-  localMoveAmount: {x: 0, y: 0, z: 0}
-  moveAmountRaw: {x: 0, y: 0, z: 0}
+  localMoveAmountNormalized: {x: 0, y: 0, z: 0}
+  localMoveAmountRaw: {x: 0, y: 0, z: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
   floorDistanceMult: 1.2

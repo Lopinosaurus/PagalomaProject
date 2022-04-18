@@ -11,7 +11,6 @@ public class DetectCollision : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("[+] Collision detected with: " + other.name);
         if (_werewolf.isActive) _werewolf.UpdateTarget(other, true);
         if (_seer.isActive) _seer.UpdateTarget(other, true);
     }

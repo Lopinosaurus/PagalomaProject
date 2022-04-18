@@ -39,7 +39,7 @@ namespace MainGame.PlayerScripts.Roles
             if (roleName == "Villager")
             {
                 playerRole = Villager;
-                _attackCollider.SetActive(false);
+                Destroy(_attackCollider);
             }
             
             if (roleName == "Seer")
@@ -51,8 +51,7 @@ namespace MainGame.PlayerScripts.Roles
             {
                 playerRole = Werewolf;
             }
-
-            Debug.Log($"playerRole = {playerRole}");
+            
             if (playerRole != null)
             {
                 // Disable other roles
@@ -70,14 +69,13 @@ namespace MainGame.PlayerScripts.Roles
             }
             else
             {
-                Debug.Log("[-] PlayerGenerator: playerRole is null, it should never happen");
+                Debug.LogError("[-] PlayerGenerator: playerRole is null, it should never happen");
             }
 
-            // Try to deactivate _attackCollider for non-local players
-            if (!info.Sender.IsLocal)
+            // Deactivate _attackCollider for non-local players
+            if (!info.Sender.IsLocal && _attackCollider != null)
             {
-                Debug.Log("Should deactivate _attackCollider of new remote Player clone");
-                _attackCollider.SetActive(false); // This doesn't work, IDK why
+                Destroy(_attackCollider);
             }
         }
     }

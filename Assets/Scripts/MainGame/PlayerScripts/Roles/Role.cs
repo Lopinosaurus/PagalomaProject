@@ -77,6 +77,7 @@ namespace MainGame.PlayerScripts.Roles
                _playerInput.actions["Die"].started += ctx => selfKill = ctx.ReadValueAsButton();
                _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
                _playerInput.actions["Kill"].canceled  += ctx => kill = ctx.ReadValueAsButton();
+               _playerInput.actions["Click"].performed += ctx => PlayerInteraction.Instance.Click();
            }
        }
 
