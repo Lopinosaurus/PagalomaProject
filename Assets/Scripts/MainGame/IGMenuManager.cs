@@ -69,6 +69,7 @@ public class IGMenuManager : MonoBehaviour
 
     public void Quit()
     {
+        // May need to destroy RoomManager
         Debug.Log("Leaving Game...");
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);

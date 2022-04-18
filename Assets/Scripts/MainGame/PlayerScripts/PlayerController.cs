@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
     private Camera _cam;
+    private AudioListener _audioListener;
     
     // Player Controls
     public PlayerControls PlayerControls;
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
         
         // Camera component
         _cam = cameraHolder.GetComponentInChildren<Camera>();
+        _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
         if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
         
@@ -67,7 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!_photonView.IsMine)
         {
-            Destroy(cameraHolder);
+            Destroy(_cam);
+            Destroy(_audioListener);
             playerInput.enabled = false;
         }
     }

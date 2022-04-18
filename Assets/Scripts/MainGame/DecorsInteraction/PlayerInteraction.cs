@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        if (nearDoor && Input.GetKeyDown(KeyCode.E))
+        if (nearDoor && Input.GetKeyDown(KeyCode.E)) // Should be moved to Click()
         {
             RPC_OpenCloseDoor(door.transform.name);
             PV.RPC("RPC_OpenCloseDoor", RpcTarget.Others, door.transform.name);
