@@ -38,6 +38,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public TMP_Text infoText;
     public List<Role> players; // List of the Role of all the players
     public Role localPlayer; // Reference to the local player's role
+    public List<Role> votes; 
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Instance = this;
         IGMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
+        votes = new List<Role>();
 
         // Shuffle colors list
         Random rng = new Random();
@@ -119,5 +121,4 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         roleText.text = "You are "+roleName;
     }
-    
 }

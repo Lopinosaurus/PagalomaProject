@@ -114,6 +114,8 @@ namespace MainGame.PlayerScripts.Roles
            _characterController.detectCollisions = false;
            _playerController.enabled = false;
            isAlive = false;
+
+           VoteMenu.Instance.UpdateVoteItems();
            
            // Initial camera position
            if (_cameraHolder != null)

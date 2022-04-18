@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using MainGame.PlayerScripts.Roles;
 using Random = UnityEngine.Random;
 using TMPro;
 using UnityEngine.InputSystem;

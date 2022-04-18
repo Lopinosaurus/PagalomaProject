@@ -27,8 +27,15 @@ namespace MainGame.Menus
         {
             if (_player.isAlive)
             {
-                RoomManager.Instance.localPlayer.vote = _player;
-                background.color = _clicked;
+                if (RoomManager.Instance.localPlayer.vote == _player)
+                {
+                    RoomManager.Instance.localPlayer.vote = null;
+                    background.color = _notClicked;
+                } else
+                {
+                    RoomManager.Instance.localPlayer.vote = _player;
+                    background.color = _clicked;
+                }
                 VoteMenu.Instance.UpdateVoteItems();
             }
         }

@@ -12,12 +12,11 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private bool nearDoor = false;
     [SerializeField] private bool nearSign = false;
     public GameObject door;
-    public GameObject sign;
     [SerializeField] private PhotonView PV;
 
     private void Awake()
     {
-        Instance = this;
+        if (PV.IsMine) Instance = this;
     }
 
     void Update()
@@ -36,10 +35,9 @@ public class PlayerInteraction : MonoBehaviour
         message.SetActive(nearDoor);
     }
     
-    public void NearSign(GameObject sign, bool nearSign)
+    public void NearSign(bool nearSign)
     {
         this.nearSign = nearSign;
-        this.sign = sign;
     }
 
     public void Click()

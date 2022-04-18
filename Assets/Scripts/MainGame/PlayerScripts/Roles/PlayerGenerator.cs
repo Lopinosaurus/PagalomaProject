@@ -69,7 +69,7 @@ namespace MainGame.PlayerScripts.Roles
                 // Store reference to the local player
                 if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
                 // Update Voting List
-                VoteMenu.Instance.SetUp();
+                VoteMenu.Instance.Add(playerRole);
             }
             else
             {

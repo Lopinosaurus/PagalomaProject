@@ -46,6 +46,7 @@ MonoBehaviour:
   - RPC_ReceiveRole
   - RPC_OpenCloseDoor
   - RPC_KillTarget
+  - RPC_SubmitVote
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

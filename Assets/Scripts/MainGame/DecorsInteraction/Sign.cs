@@ -6,10 +6,10 @@ public class Sign : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<PlayerInteraction>().NearSign(gameObject, true);
+        other.GetComponent<PlayerInteraction>().NearSign(true);
     }
     private void OnTriggerExit(Collider other)
     {
-        other.GetComponent<PlayerInteraction>().NearSign(gameObject, false);
+        other.GetComponent<PlayerInteraction>().NearSign(false);
     }
 }
