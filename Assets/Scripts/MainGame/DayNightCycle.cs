@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MainGame;
+using MainGame.PlayerScripts.Roles;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
@@ -11,6 +15,7 @@ public class DayNightCycle : MonoBehaviour
     public float startTime = 0.4f;
     private float timeRate;
     public Vector3 noon;
+    public bool isDay;
     
     [Header("Sun")]
     public Light sun;
@@ -26,11 +31,19 @@ public class DayNightCycle : MonoBehaviour
     public AnimationCurve lightingIntensityMultiplier;
     public AnimationCurve reflectionsIntensityMultiplier;
     public AnimationCurve fogIntensityMultiplier;
+    
+    [SerializeField] private PhotonView PV;
+
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
 
     private void Start()
     {
         timeRate = 1.0f / fullDayLength;
         time = startTime;
+        isDay = true;
     }
 
     private void Update()
@@ -38,6 +51,26 @@ public class DayNightCycle : MonoBehaviour
         // increment time
         time += timeRate * Time.deltaTime;
         if (time >= 1.0f) time = 0.0f;
+
+        if (time > 0.25 && time < 0.75 && isDay == false)
+        {
+            isDay = true;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPC_NewDay", RpcTarget.Others, time);
+                NewDay();
+            }
+        } else if ((time <= 0.25 || time >= 0.75) && isDay)
+        {
+            isDay = false;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                RoomManager.Instance.ResolveVote();
+                RoomManager.Instance.CheckIfEOG();
+                PV.RPC("RPC_NewNight", RpcTarget.Others, time);
+                NewNight();
+            }
+        }
         
         // light rotation
         sun.transform.eulerAngles = (time - 0.25f) * noon * 4.0f;
@@ -69,5 +102,41 @@ public class DayNightCycle : MonoBehaviour
 
         // fog intensity
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
+    }
+    
+    public void NewDay()
+    {
+        RoomManager.Instance.UpdateInfoText("It's a new day, go to the sign to vote!");
+        VoteMenu.Instance.isDay = true;
+        VoteMenu.Instance.isFirstDay = false;
+        RoomManager.Instance.ClearTargets();
+        RoomManager.Instance.localPlayer.hasCooldown = true;
+        VoteMenu.Instance.UpdateVoteItems();
+    }
+
+    public void NewNight()
+    {
+        RoomManager.Instance.UpdateInfoText("It's the night, the powers are activated!");
+        RoomManager.Instance.votes = new List<Role>();
+        VoteMenu.Instance.isDay = false;
+        VoteMenu.Instance.isFirstDay = false;
+        RoomManager.Instance.localPlayer.hasCooldown = false;
+        VoteMenu.Instance.UpdateVoteItems();
+    }
+
+    [PunRPC]
+    void RPC_NewDay(float time)
+    {
+        this.time = time;
+        isDay = true;
+        NewDay();
+    }
+    
+    [PunRPC]
+    void RPC_NewNight(float time)
+    {
+        this.time = time;
+        isDay = false;
+        NewNight();
     }
 }

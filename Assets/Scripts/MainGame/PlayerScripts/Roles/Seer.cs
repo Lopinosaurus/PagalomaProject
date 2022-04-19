@@ -35,11 +35,11 @@ namespace MainGame.PlayerScripts.Roles
             UpdateActionText();
         }
         
-         private void UpdateActionText()
+        public override void UpdateActionText()
         {
             if (_photonView.IsMine)
             {
-                if (_targets.Count > 0 && _hasCooldown == false) actionText.text = "Press E to Reveal Role";
+                if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Reveal Role";
                 else actionText.text = "";
             }
         }
@@ -52,7 +52,7 @@ namespace MainGame.PlayerScripts.Roles
         private void SpyTarget()
         {
             Debug.Log("E pressed and you are a Seer, you gonna get someone's role");
-            //if (!_hasCooldown)
+            //if (!hasCooldown)
             //{
                 if (_targets.Count > 0)
                 {
@@ -62,9 +62,9 @@ namespace MainGame.PlayerScripts.Roles
                         Debug.Log("[-] Can't spy: Target is dead");
                         return;
                     }
-                    // _hasCooldown = true;
+                    // hasCooldown = true;
                     Debug.Log($"[+] The Role of the target is: {target.roleName}");
-                    UpdateInfoText($"You revealed a {target.roleName}");
+                    RoomManager.Instance.UpdateInfoText($"You revealed a {target.roleName}");
                 }
                 else
                 {

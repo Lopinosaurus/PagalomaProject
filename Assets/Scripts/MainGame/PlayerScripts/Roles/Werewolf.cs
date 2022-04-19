@@ -45,7 +45,7 @@ namespace MainGame.PlayerScripts.Roles
         private void KillTarget() // TODO: Add kill animation
         {
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
-            //if (!_hasCooldown)
+            //if (!hasCooldown)
             //{
                 if (_targets.Count > 0)
                 {
@@ -56,7 +56,7 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
                     transform.position = target.transform.position;
-                    // _hasCooldown = true;
+                    // hasCooldown = true;
                     target.Die();
                     _targets.Remove(target);
                     UpdateActionText();
@@ -75,11 +75,11 @@ namespace MainGame.PlayerScripts.Roles
             //}
         }
 
-        private void UpdateActionText()
+        public override void UpdateActionText()
         {
             if (_photonView.IsMine)
             {
-                if (_targets.Count > 0 && _hasCooldown == false) actionText.text = "Press E to Kill";
+                if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Kill";
                 else actionText.text = "";
             }
         }

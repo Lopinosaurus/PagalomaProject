@@ -16,11 +16,16 @@ namespace MainGame
         [SerializeField] private VoteListItem voteListItem;
         [SerializeField] private Button voteButton;
         [SerializeField] private PhotonView PV;
+        public bool isDay;
+        public bool isFirstDay;
 
         public void Awake()
         {
             Instance = this;
             PV = GetComponent<PhotonView>();
+            isFirstDay = true;
+            isDay = false;
+            voteButton.interactable = isDay;
         }
 
         // Add player to vote list
@@ -31,6 +36,8 @@ namespace MainGame
         
         public void UpdateVoteItems()
         {
+            if (RoomManager.Instance.localPlayer.vote != null && !RoomManager.Instance.localPlayer.vote.isAlive) RoomManager.Instance.localPlayer.vote = null;
+            voteButton.interactable = isDay;
             foreach (Transform trans in voteList)
             {
                 trans.GetComponent<VoteListItem>().UpdateItem();
@@ -43,13 +50,30 @@ namespace MainGame
             Role votedPlayer = RoomManager.Instance.localPlayer.vote;
             RoomManager.Instance.votes.Add(votedPlayer);
             if (votedPlayer != null) PV.RPC("RPC_SubmitVote", RpcTarget.Others, votedPlayer.userId);
-            else PV.RPC("RPC_SubmitVote", RpcTarget.Others, null);
+            else PV.RPC("RPC_SubmitVote", RpcTarget.Others, "");
+        }
+
+        public void KillVotedPlayer(string userId) // Only MasterClient has access to this method
+        {
+            PV.RPC("RPC_KillVotedPlayer", RpcTarget.All, userId);
+        }
+        private void __KillVotedPlayer(Role player)
+        {
+            string message;
+            if (player == null) message = "Nobody was eliminated today";
+            else
+            {
+                player.Die();
+                message = $"A {player.roleName} ({player.username}) has been eliminated, RIP";
+            }
+            Debug.Log(message);
+            RoomManager.Instance.UpdateInfoText(message);
         }
         
         [PunRPC]
-        void RPC_SubmitVote([CanBeNull] string userId)
+        void RPC_SubmitVote(string userId)
         {
-            if (userId != null)
+            if (userId != "")
             {
                 foreach (Role player in RoomManager.Instance.players)
                 {
@@ -60,6 +84,17 @@ namespace MainGame
             {
                 RoomManager.Instance.votes.Add(null);
             }
+        }
+
+        [PunRPC]
+        void RPC_KillVotedPlayer(string userId)
+        {
+            Role votedPlayer = null;
+            foreach (Role player in RoomManager.Instance.players)
+            {
+                if (player.userId == userId) votedPlayer = player;
+            }
+            __KillVotedPlayer(votedPlayer);
         }
     }
 }

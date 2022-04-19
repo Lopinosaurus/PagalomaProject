@@ -25,7 +25,7 @@ namespace MainGame.Menus
 
         public void OnClick()
         {
-            if (_player.isAlive)
+            if (_player.isAlive && VoteMenu.Instance.isDay)
             {
                 if (RoomManager.Instance.localPlayer.vote == _player)
                 {
@@ -45,7 +45,7 @@ namespace MainGame.Menus
             // Update clicked state (background color)
             if (_player.isAlive)
             {
-                if (RoomManager.Instance.localPlayer.vote == _player)
+                if (RoomManager.Instance.localPlayer.vote == _player && VoteMenu.Instance.isDay)
                 {
                     background.color = _clicked;
                 }
@@ -56,6 +56,7 @@ namespace MainGame.Menus
             }
             else // Item player is dead
             {
+                background.color = _notClicked;
                 text.fontStyle = FontStyles.Strikethrough;
             }
         }

@@ -18,15 +18,14 @@ namespace MainGame.PlayerScripts.Roles
         // Gameplay attributes
         public string roleName;
         public bool isAlive = true;
-        [SerializeField] protected bool _hasCooldown = false;
+        public bool hasCooldown = false;
         public string username;
         public string userId;
         public Color color;
         public Role vote;
         [SerializeField] protected TMP_Text actionText;
         [SerializeField] protected TMP_Text deathText;
-        [SerializeField] protected TMP_Text infoText;
-        
+
         [SerializeField] private bool selfKill = false;
         [SerializeField] private bool kill = false;
 
@@ -62,10 +61,8 @@ namespace MainGame.PlayerScripts.Roles
            cam = _cameraHolder.GetComponentInChildren<Camera>();
            _photonView = GetComponent<PhotonView>();
            actionText = RoomManager.Instance.actionText;
-           infoText = RoomManager.Instance.infoText;
            deathText = RoomManager.Instance.deathText;
            actionText.text = "";
-           infoText.text = "";
            deathText.enabled = false;
        }
 
@@ -101,6 +98,12 @@ namespace MainGame.PlayerScripts.Roles
        {
            Debug.Log("E pressed but you are have not ability because you are a Villager. (Villager < all UwU)");
        }
+
+       public virtual void UpdateActionText()
+       {
+           Debug.Log("In UpdateActionText() but you have no action text");
+       }
+       
        public void Die()
        {
            // Show death label & disable inputs
@@ -167,17 +170,6 @@ namespace MainGame.PlayerScripts.Roles
            }
        }
 
-       protected void UpdateInfoText(string message = "")
-       {
-           StartCoroutine(UpdateInfoText(message, 5));
-       }
-       
-       IEnumerator UpdateInfoText (string message, float delay) {
-           infoText.text = message;
-           yield return new WaitForSeconds(delay);
-           infoText.text = "";
-       }
-       
        #endregion
     }
 }
