@@ -7,6 +7,7 @@ using ExitGames.Client.Photon; // Used for OnRoomPropertiesUpdate
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
+using MainGame;
 using MainGame.PlayerScripts.Roles;
 using TMPro;
 using Random = System.Random;
@@ -52,6 +53,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         IGMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
         votes = new List<Role>();
+        infoText.text = "";
 
         // Shuffle colors list
         Random rng = new Random();
@@ -120,5 +122,67 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void DisplayRole(string roleName)
     {
         roleText.text = "You are "+roleName;
+    }
+    
+    public void UpdateInfoText(string message = "")
+    {
+        StartCoroutine(UpdateInfoText(message, 5));
+    }
+       
+    IEnumerator UpdateInfoText (string message, float delay) {
+        infoText.text = message;
+        yield return new WaitForSeconds(delay);
+        infoText.text = "";
+    }
+
+    // Compute who has to be eliminated at the end of the vote
+    public void ResolveVote() // Only MasterClient have access to this method
+    {
+        Dictionary<string, int> voteResults = new Dictionary<string, int>();
+        foreach (Role vote in votes)
+        {
+            string userId = "";
+            if (vote != null) userId = vote.userId;
+            
+            if (voteResults.ContainsKey(userId)) voteResults[userId]++;
+            else voteResults.Add(userId, 1);
+        }
+
+        int max = 0;
+        int max2 = 0;
+        string votedUserId = "";
+        foreach (string userId in voteResults.Keys)
+        {
+            if (voteResults[userId] > max)
+            {
+                max2 = max;
+                max = voteResults[userId];
+                votedUserId = userId;
+            } else if (voteResults[userId] == max)
+            {
+                max2 = max;
+            }
+        }
+
+        if (max == max2) votedUserId = "";
+        VoteMenu.Instance.KillVotedPlayer(votedUserId);
+    }
+    
+    public void ClearTargets() // Clear targets list of local player
+    {
+        if (localPlayer is Seer)
+        {
+            ((Seer)localPlayer)._targets = new List<Role>();
+        }
+        if (localPlayer is Werewolf)
+        {
+            ((Werewolf)localPlayer)._targets = new List<Role>();
+        }
+        localPlayer.UpdateActionText();
+    }
+
+    public void CheckIfEOG()
+    {
+        //TODO
     }
 }

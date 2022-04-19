@@ -2833,14 +2833,13 @@ MonoBehaviour:
   isActive: 0
   roleName: Villager
   isAlive: 1
-  _hasCooldown: 0
+  hasCooldown: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}
-  infoText: {fileID: 0}
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -2860,14 +2859,13 @@ MonoBehaviour:
   isActive: 0
   roleName: Seer
   isAlive: 1
-  _hasCooldown: 0
+  hasCooldown: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}
-  infoText: {fileID: 0}
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -2888,14 +2886,13 @@ MonoBehaviour:
   isActive: 0
   roleName: Werewolf
   isAlive: 1
-  _hasCooldown: 0
+  hasCooldown: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
   vote: {fileID: 0}
   actionText: {fileID: 0}
   deathText: {fileID: 0}
-  infoText: {fileID: 0}
   selfKill: 0
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}

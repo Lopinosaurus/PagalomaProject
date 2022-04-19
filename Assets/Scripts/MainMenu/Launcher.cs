@@ -50,7 +50,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     // USERNAME
     public void ChangeUsernameInput()
     {
-        if (userNameInputField.text.Length >= 3) userNameButton.SetActive(true);
+        if (userNameInputField.text.Length >= 3 && userNameInputField.text.Length <= 20) userNameButton.SetActive(true);
         else userNameButton.SetActive(false);
     }
     
