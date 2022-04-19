@@ -1,3 +1,4 @@
+// ReSharper disable All
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player speed settings")]
     [SerializeField] private float currentSpeed;
 
-    private const float SprintSpeed = 4f;
+    private const float SprintSpeed = 5f;
     private const float CrouchSpeed = 1f;
     private const float WalkSpeed = 2f;
     private const float SmoothTimeSpeedTransition = 0.5f;
@@ -48,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _;
     public Vector3 localMoveAmountNormalized;
     public Vector3 localMoveAmountRaw;
-    private Vector3 _transformDirection;
     private Vector3 inputMoveRaw3D;
     private Vector3 inputMoveNormalized3D;
 
