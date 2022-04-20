@@ -91,7 +91,7 @@ namespace MainGame.PlayerScripts.Roles
        public void SetPlayerColor(Color color)
        {
            this.color = color;
-           // TODO Update appearance
+           gameObject.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().materials[1].color = color;
        }
 
        public virtual void UseAbility()
