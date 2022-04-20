@@ -131,7 +131,8 @@ namespace MainGame.PlayerScripts.Roles
                    y = startingPos.y + maxDeathCamDistance,
                    z = startingPos.z
                };
-               // Debug.Log("startingRot is:" + startingRot);
+               
+               _playerAnimation.EnableDeathAppearance();
                
                // Final camera position
                if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
@@ -151,7 +152,6 @@ namespace MainGame.PlayerScripts.Roles
                // Start camera animation
                StartCoroutine(MoveCamHolder(endingPos, endingRot));
             }
-           _playerAnimation.EnableDeathAppearance();
        }
 
        private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)

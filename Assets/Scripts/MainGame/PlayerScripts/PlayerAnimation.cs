@@ -2,34 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 
 public class PlayerAnimation : MonoBehaviour
 {
     // Scripts components
-
-    [SerializeField] private CharacterController _characterController;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private Animator _animator;
 
     public Animator Animator => _animator;
 
     // Boolean States hashes
-
     private readonly int _isStandingHash = Animator.StringToHash("isStanding");
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
     private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
     private readonly int _isSprintingHash = Animator.StringToHash("isSprinting");
+    private readonly int _deathHash = Animator.StringToHash("Death");
 
+    // Float States hashes
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
     private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
     private readonly int _blendHash = Animator.StringToHash("Blend");
-    
-    public void EnableDeathAppearance()
-    {
-        return;
-    }
-    
+
     public void UpdateAnimationsBasic()
     {
         Vector3 movementVector = new Vector3
@@ -37,15 +32,6 @@ public class PlayerAnimation : MonoBehaviour
             x = _playerMovement.localMoveAmountRaw.x,
             z = _playerMovement.localMoveAmountRaw.z
         };
-        
-        // Sets the velocity in X to the CharacterController X velocity
-        _animator.SetFloat(_velocityXHash, movementVector.x);
-        
-        // Sets the velocity in Z to the CharacterController Z velocity
-        _animator.SetFloat(_velocityZHash, movementVector.z);
-        
-        // Sets the blend value to the magnitude of the Vector2 input
-        _animator.SetFloat(_blendHash, 0.5f);
         
         // Toggles "Stand" animation
         _animator.SetBool(_isStandingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
@@ -58,5 +44,20 @@ public class PlayerAnimation : MonoBehaviour
 
         // Toggles "Sprint" animation
         _animator.SetBool(_isSprintingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Sprint);
+
+        // Sets the velocity in X to the CharacterController X velocity
+        _animator.SetFloat(_velocityXHash, movementVector.x);
+        
+        // Sets the velocity in Z to the CharacterController Z velocity
+        _animator.SetFloat(_velocityZHash, movementVector.z);
+        
+        // Sets the blend value to the magnitude of the Vector2 input
+        _animator.SetFloat(_blendHash, 0.5f);
+    }
+
+    public void EnableDeathAppearance()
+    {
+        // Toggles "Dying" animation
+        _animator.SetTrigger(_deathHash);
     }
 }
