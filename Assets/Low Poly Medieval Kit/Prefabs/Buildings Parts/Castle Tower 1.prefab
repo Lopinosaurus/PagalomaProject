@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8006389717178731270}
   - component: {fileID: 2628668161721754575}
   - component: {fileID: 1619728677417970291}
-  - component: {fileID: 6078085684030306281}
+  - component: {fileID: 6386277041443288524}
   m_Layer: 0
   m_Name: Castle Tower 1
   m_TagString: Untagged
@@ -55,6 +55,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,7 +81,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &6078085684030306281
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6386277041443288524
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,7 +92,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
   m_Mesh: {fileID: -8060116998876790174, guid: dfb4fa96d5164464b8f0f2e679026d15, type: 3}

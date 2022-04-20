@@ -1374,7 +1374,7 @@ Transform:
   - {fileID: 527776512}
   - {fileID: 174657456}
   m_Father: {fileID: 511339787}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &322313832
 PrefabInstance:
@@ -2425,6 +2425,7 @@ Transform:
   - {fileID: 1973273560}
   - {fileID: 1969458501}
   - {fileID: 1751276672}
+  - {fileID: 932774951}
   - {fileID: 321894820}
   - {fileID: 2091880631}
   m_Father: {fileID: 0}
@@ -2735,6 +2736,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1973273559}
     - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushesFolder
+      value: 
+      objectReference: {fileID: 932774950}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
       propertyPath: stonesFolder
       value: 
       objectReference: {fileID: 1277252243}
@@ -2742,6 +2747,26 @@ PrefabInstance:
       propertyPath: villageFolder
       value: 
       objectReference: {fileID: 1969458500}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushes.Array.data[0]
+      value: 
+      objectReference: {fileID: 5403189892822996970, guid: 735163aeff7a1a74aa418bd40cd79186, type: 3}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushes.Array.data[1]
+      value: 
+      objectReference: {fileID: 7323625929470411953, guid: 59e584460fd551948a6ba92ebe8629bd, type: 3}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushes.Array.data[2]
+      value: 
+      objectReference: {fileID: 2548554771251362532, guid: 6782ad361a29c384fbdccfaa69219e51, type: 3}
+    - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+      propertyPath: bushes.Array.data[3]
+      value: 
+      objectReference: {fileID: 8466939504654046417, guid: af8c14819893b7c4894b720da2ba9064, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
 --- !u!4 &535566165 stripped
@@ -4728,6 +4753,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7112418708915378962, guid: 2f3b9abae49122d47a17439f41a141a1, type: 3}
   m_PrefabInstance: {fileID: 906520297}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &932774950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932774951}
+  m_Layer: 0
+  m_Name: bushesFolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &932774951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932774950}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 511339787}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &964116866
 GameObject:
   m_ObjectHideFlags: 0
@@ -10105,7 +10160,7 @@ Transform:
   - {fileID: 1239030581}
   - {fileID: 352126920}
   m_Father: {fileID: 511339787}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2113134651
 GameObject:
