@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using MainGame.PlayerScripts.Roles;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 using static System.Single;
@@ -26,7 +22,7 @@ public class AiController : MonoBehaviour
     private float timeBeforeSwitching;
     
     // NavMeshAgent settings
-    [Range(2f, 100f)]
+    [Range(0.01f, 100f)]
     public float regularSpeed = 2f;
     private const float acceleration = 3f;
 
@@ -51,9 +47,21 @@ public class AiController : MonoBehaviour
         
         if (GeometryUtility.TestPlanesAABB(targetPlanes, _capsuleCollider.bounds))
         {
-            // All possible destinations - the more the more accurate
             Vector3 camPosition = targetCam.transform.position;
-            Vector3[] destinations = {_capsuleCollider.ClosestPointOnBounds(camPosition)};
+            
+            Vector3 ColliderPosition = _capsuleCollider.transform.position;
+            float colliderHeight = _capsuleCollider.height;
+            Vector3 colliderCenter = Vector3.up * colliderHeight / 2 - camPosition;
+            
+            Vector3 dirCamToCenter = colliderCenter - camPosition;
+
+            // All possible destinations - the more the more accurate
+            Vector3[] destinations =
+            {
+                dirCamToCenter,
+                ColliderPosition,
+                ColliderPosition + Vector3.up * colliderHeight
+            };
             
             foreach (Vector3 destination in destinations)
             {

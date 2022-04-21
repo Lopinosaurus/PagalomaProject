@@ -47,8 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetRole: {fileID: 0}
-  _appearance: {fileID: 4839194971730351510}
-  isObserved: 0
+  isViewed: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  regularSpeed: 2
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -61,7 +64,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 77
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
