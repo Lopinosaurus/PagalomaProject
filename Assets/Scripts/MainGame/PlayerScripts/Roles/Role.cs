@@ -23,6 +23,7 @@ namespace MainGame.PlayerScripts.Roles
         public string userId;
         public Color color;
         public Role vote;
+        public bool hasVoted; // Has submitted vote this day
         [SerializeField] protected TMP_Text actionText;
         [SerializeField] protected TMP_Text deathText;
 
@@ -64,6 +65,7 @@ namespace MainGame.PlayerScripts.Roles
            deathText = RoomManager.Instance.deathText;
            actionText.text = "";
            deathText.enabled = false;
+           hasVoted = false;
        }
 
        public void Activate()

@@ -109,6 +109,7 @@ public class DayNightCycle : MonoBehaviour
         RoomManager.Instance.UpdateInfoText("It's a new day, go to the sign to vote!");
         VoteMenu.Instance.isDay = true;
         VoteMenu.Instance.isFirstDay = false;
+        RoomManager.Instance.localPlayer.hasVoted = false;
         RoomManager.Instance.ClearTargets();
         RoomManager.Instance.localPlayer.hasCooldown = true;
         VoteMenu.Instance.UpdateVoteItems();
@@ -121,6 +122,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasCooldown = false;
+        RoomManager.Instance.localPlayer.vote = null;
         VoteMenu.Instance.UpdateVoteItems();
     }
 

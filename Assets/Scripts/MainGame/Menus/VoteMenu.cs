@@ -37,7 +37,7 @@ namespace MainGame
         public void UpdateVoteItems()
         {
             if (RoomManager.Instance.localPlayer.vote != null && !RoomManager.Instance.localPlayer.vote.isAlive) RoomManager.Instance.localPlayer.vote = null;
-            voteButton.interactable = isDay;
+            voteButton.interactable = isDay && !RoomManager.Instance.localPlayer.hasVoted;
             foreach (Transform trans in voteList)
             {
                 trans.GetComponent<VoteListItem>().UpdateItem();
@@ -47,6 +47,7 @@ namespace MainGame
         public void SubmitVote()
         {
             voteButton.interactable = false;
+            RoomManager.Instance.localPlayer.hasVoted = true;
             Role votedPlayer = RoomManager.Instance.localPlayer.vote;
             RoomManager.Instance.votes.Add(votedPlayer);
             if (votedPlayer != null) PV.RPC("RPC_SubmitVote", RpcTarget.Others, votedPlayer.userId);

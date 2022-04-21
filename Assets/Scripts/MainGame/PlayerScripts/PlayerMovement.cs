@@ -350,8 +350,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
     {
         return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, 0.2f);
-        return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _,
-            smoothTime);
+        // return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _, smoothTime);
     }
     
     public void SetGroundedState(bool _grounded)
