@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,13 +16,25 @@ public class IGMenuManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject optionMenu;
     public GameObject voteMenu;
+    public GameObject endScreen;
     public GameObject loadingScreen;
-        
+    public TMP_Text victoryText;
+    public TMP_Text defeatText;
+    public TMP_Text whoWonText;
+    
     public PlayerInput playerInput;
 
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        voteMenu.SetActive(false);
+        optionMenu.SetActive(false);
+        voteMenu.SetActive(false);
+        endScreen.SetActive(false);
     }
 
     void Update()
@@ -65,6 +78,21 @@ public class IGMenuManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
+    }
+
+    public void OpenEndMenu(bool victory, int whoWon)
+    {
+        endScreen.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
+        
+        victoryText.enabled = victory;
+        defeatText.enabled = !victory;
+
+        if (whoWon == 1) whoWonText.text = "The Werewolves WON";
+        else if (whoWon == 2) whoWonText.text = "The Villagers WON";
+        else whoWonText.text = "Nobody WON";
     }
 
     public void Quit()

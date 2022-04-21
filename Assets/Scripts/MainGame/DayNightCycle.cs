@@ -52,21 +52,27 @@ public class DayNightCycle : MonoBehaviour
         time += timeRate * Time.deltaTime;
         if (time >= 1.0f) time = 0.0f;
 
-        if (time > 0.25 && time < 0.75 && isDay == false)
+        if (time > 0.25 && time < 0.75 && isDay == false) // New day
         {
             isDay = true;
             if (PhotonNetwork.IsMasterClient)
             {
                 PV.RPC("RPC_NewDay", RpcTarget.Others, time);
                 NewDay();
+                
+                int isEOG = RoomManager.Instance.CheckIfEOG();
+                if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
             }
-        } else if ((time <= 0.25 || time >= 0.75) && isDay)
+        } else if ((time <= 0.25 || time >= 0.75) && isDay) // New night
         {
             isDay = false;
             if (PhotonNetwork.IsMasterClient)
             {
                 RoomManager.Instance.ResolveVote();
-                RoomManager.Instance.CheckIfEOG();
+                
+                int isEOG = RoomManager.Instance.CheckIfEOG();
+                if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
+                
                 PV.RPC("RPC_NewNight", RpcTarget.Others, time);
                 NewNight();
             }
@@ -140,5 +146,11 @@ public class DayNightCycle : MonoBehaviour
         this.time = time;
         isDay = false;
         NewNight();
+    }
+
+    [PunRPC]
+    void RPC_EOG(int isEOG)
+    {
+        RoomManager.Instance.DisplayEndScreen(isEOG);
     }
 }

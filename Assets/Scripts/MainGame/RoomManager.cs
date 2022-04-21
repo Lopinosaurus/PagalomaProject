@@ -48,7 +48,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Destroy(gameObject); // There can only be one
             return;
         }
-        DontDestroyOnLoad(gameObject); // I am the only one
+        //DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
         IGMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
@@ -181,8 +181,30 @@ public class RoomManager : MonoBehaviourPunCallbacks
         localPlayer.UpdateActionText();
     }
 
-    public void CheckIfEOG()
+    public int CheckIfEOG() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead
     {
-        //TODO
+        int res = 0;
+        bool isThereWerewolf = false;
+        bool isThereVillager = false;
+        
+        foreach (Role role in players)
+        {
+            if (role.isAlive)
+            {
+                if (role is Werewolf) isThereWerewolf = true;
+                else isThereVillager = true;
+            }
+        }
+
+        if (isThereWerewolf && !isThereVillager) res = 1;
+        else if (!isThereWerewolf && isThereVillager) res = 2;
+        if (!isThereVillager && !isThereWerewolf) res = 3;
+        return res;
+    }
+
+    public void DisplayEndScreen(int isEOG)
+    {
+        bool victory = isEOG != 3 && ((isEOG == 1) == localPlayer is Werewolf);
+        IGMenuManager.Instance.OpenEndMenu(victory, isEOG);
     }
 }

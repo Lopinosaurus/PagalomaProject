@@ -120,6 +120,7 @@ namespace MainGame.PlayerScripts.Roles
            _playerController.enabled = false;
            isAlive = false;
 
+           RoomManager.Instance.ClearTargets();
            VoteMenu.Instance.UpdateVoteItems();
            
            // Initial camera position

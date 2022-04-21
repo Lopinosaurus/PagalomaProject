@@ -50,6 +50,7 @@ MonoBehaviour:
   - RPC_NewDay
   - RPC_NewNight
   - RPC_KillVotedPlayer
+  - RPC_EOG
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
