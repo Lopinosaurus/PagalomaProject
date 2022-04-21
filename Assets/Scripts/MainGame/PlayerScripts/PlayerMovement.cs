@@ -247,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void UpdateSpeed()
     {
-        SetCurrentSpeed(GetSpeed());
+        currentSpeed = GetSpeed();
     }
 
     private float GetMovementTransitionSpeed()
@@ -363,10 +363,5 @@ public class PlayerMovement : MonoBehaviour
         currentMovementType = _currentMovementType;
     }
 
-    private void SetCurrentSpeed(float targetSpeed)
-    {
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, SmoothTimeSpeedTransition);
-    }
-    
     #endregion
 }
