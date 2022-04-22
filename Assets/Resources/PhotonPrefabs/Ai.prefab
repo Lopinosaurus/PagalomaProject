@@ -51,7 +51,7 @@ MonoBehaviour:
   PlayerMask:
     serializedVersion: 2
     m_Bits: 0
-  regularSpeed: 2
+  regularSpeed: 0.01
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0

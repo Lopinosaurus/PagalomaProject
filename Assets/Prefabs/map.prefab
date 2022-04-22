@@ -115,8 +115,8 @@ MonoBehaviour:
   treesFolder: {fileID: 0}
   villageFolder: {fileID: 0}
   stonesFolder: {fileID: 0}
+  bushesFolder: {fileID: 0}
   village: {fileID: 519027989559285392, guid: 2d9a03d58f939e24681de91a1a82df35, type: 3}
-  seed: 1
   deadTrees:
   - {fileID: 4274055460859047206, guid: 52c2a0468fc6b334b8bbbee4d2cdef9e, type: 3}
   - {fileID: 5730253111998390793, guid: 8652999f91f5ab2489fa7af1bff17209, type: 3}
@@ -141,3 +141,4 @@ MonoBehaviour:
   - {fileID: 5002897348582614430, guid: cb7d7b3bca2bacd4188dce398b197190, type: 3}
   - {fileID: 7330669331910174397, guid: 04ea0f318afb0e74d90b064a1f316dd2, type: 3}
   - {fileID: 98636915652034778, guid: fcfdf395c0ca57b45b3878e886c08745, type: 3}
+  bushes: []
