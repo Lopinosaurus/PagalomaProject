@@ -676,7 +676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5365504288062960511, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.445427
+      value: -5.95
       objectReference: {fileID: 0}
     - target: {fileID: 5365504288062960511, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
       propertyPath: m_LocalPosition.y
@@ -684,7 +684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5365504288062960511, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.174875
+      value: -22.76
       objectReference: {fileID: 0}
     - target: {fileID: 5365504288062960511, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
       propertyPath: m_LocalRotation.w
@@ -727,66 +727,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1794669123}
     - target: {fileID: 9067956802355920111, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+      propertyPath: greenSphere
+      value: 
+      objectReference: {fileID: 1248650767}
+    - target: {fileID: 9067956802355920111, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+      propertyPath: maxSpawnRange
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9067956802355920111, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+      propertyPath: minSpawnRange
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9067956802355920111, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
       propertyPath: PlayerMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 9067956802355920111, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+      propertyPath: characterMask.m_Bits
       value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
---- !u!1 &580181802 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7608168957379526285, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+--- !u!114 &580181803 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 90339924765660988, guid: 5d492894bf90e0548a988da081434c07, type: 3}
   m_PrefabInstance: {fileID: 846498815}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &580181803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580181802}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: isStanding
-  - Type: 4
-    SynchronizeType: 0
-    Name: isWalking
-  - Type: 4
-    SynchronizeType: 0
-    Name: isSprinting
-  - Type: 1
-    SynchronizeType: 2
-    Name: Blend
-  - Type: 1
-    SynchronizeType: 2
-    Name: VelocityX
-  - Type: 1
-    SynchronizeType: 2
-    Name: VelocityZ
-  - Type: 4
-    SynchronizeType: 0
-    Name: isCrouching
-  - Type: 9
-    SynchronizeType: 0
-    Name: Death
-  m_SynchronizeLayers:
-  - SynchronizeType: 2
-    LayerIndex: 0
-  - SynchronizeType: 0
-    LayerIndex: 1
 --- !u!114 &580181807 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6822367263179889421, guid: 5d492894bf90e0548a988da081434c07, type: 3}
   m_PrefabInstance: {fileID: 846498815}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580181802}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0584ef3612f4fc74aa8e8075c28a3619, type: 3}
@@ -894,6 +872,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 90339924765660988, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 90339924765660988, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 90339924765660988, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 90339924765660988, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[3].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 325788432256241366, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1070,6 +1064,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4956978653042181620, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: field of view
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956978653042181620, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_FocalLength
+      value: 18.836226
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956978653042181620, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956978653042181620, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4957222124990666786, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1218,6 +1228,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7578259937013170486, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: ObservedComponents.Array.data[1]
+      value: 
+      objectReference: {fileID: 580181803}
     - target: {fileID: 7608168957379526285, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_Name
       value: Player

@@ -4,6 +4,8 @@ using MainGame.PlayerScripts.Roles;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
+using UnityEngine.U2D;
 using static System.Single;
 using Random = UnityEngine.Random;
 
@@ -29,7 +31,7 @@ public class AiController : MonoBehaviour
 
     
     // Insert the LayerMask corresponding the player 
-    [SerializeField] private LayerMask PlayerMask;
+    [FormerlySerializedAs("PlayerMask")] [SerializeField] private LayerMask characterMask;
     [SerializeField] private string obstacleTag;
     private int obstacleTagHash;
 
@@ -45,8 +47,8 @@ public class AiController : MonoBehaviour
     private const float allowedMaxDistanceFromDestination = 0.5f;
     
     // Spawn settings
-    private const float minSpawnRange = 30f;
-    private const float maxSpawnRange = 40f;
+    public  float minSpawnRange = 30f;
+    public  float maxSpawnRange = 40f;
     
     // NavMeshAgent settings
     [Range(0.01f, 100f)]
@@ -99,6 +101,8 @@ public class AiController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Input.GetMouseButtonDown(0)) transform.position = SpawnBehindPlayer(minSpawnRange, maxSpawnRange);
+
         // The clock decreases
         remainingTimeBeforeTransition -= Time.fixedDeltaTime;
 
@@ -233,38 +237,37 @@ public class AiController : MonoBehaviour
 
     private Vector3 FindHidingPlace()
     {
+        Vector3 targetPosition = targetPlayer.transform.position;
+        Vector3 hidingSpot = targetPosition;
         Vector3 position = transform.position;
-        Vector3 middle = (position + targetPlayer.transform.position) / 2;
-        
-        if (Physics.SphereCast(middle, middle.magnitude, position - middle, out RaycastHit ray))
-        {
-            if (ray.collider.tag.GetHashCode() == obstacleTagHash)
-            {
-                position = ray.collider.ClosestPoint(position);
-            }
-        }
+        float radius = (position.magnitude + targetPosition.magnitude) / 2;
 
-        return position;
+        // Potential obstacles to go to
+        Collider[] obstacles = Physics.OverlapSphere(position, radius, characterMask);
+
+        if (obstacles.Length > 0)
+        {
+            Collider obstacle = obstacles[Random.Range(0, obstacles.Length)];
+        
+            Vector3 obstaclePosition = obstacle.bounds.min;
+            hidingSpot = obstaclePosition - targetPosition;
+            hidingSpot += hidingSpot.normalized;
+        }
+        
+        return hidingSpot;
     }
     
     private Vector3 SpawnBehindPlayer(float minDistance, float maxDistance)
     {
         // SpawnPoint
-        Vector3 spawnPointLocal = Vector3.back;
-        // Moves the spawnPoint backwards
-        float backwardRange = Random.Range(minDistance, maxDistance);
-        spawnPointLocal *= backwardRange;
-        // Moves the spawnPoint sidewards
-        float sidewardsRange = Random.Range(-backwardRange / 3, backwardRange / 3);
-        // Calculates the angle between straight backwards spawnPoint and sidewards-move spawnPoint
-        float angle = Vector3.SignedAngle(spawnPointLocal,
-            spawnPointLocal + Vector3.right * sidewardsRange,
-            Vector3.back);
-        // Calculates the spawnPoint to make it shaped as a circle
-        spawnPointLocal = new Vector3(Mathf.Sin(angle) * spawnPointLocal.magnitude,
-            0, Mathf.Cos(angle) * spawnPointLocal.magnitude);
+        float spawnAngle = Random.Range(Mathf.PI * 11 / 8, Mathf.PI * 13 / 8);
+        Vector3 spawnPointLocal = new Vector3(Mathf.Cos(spawnAngle), 0, Mathf.Sin(spawnAngle));
+        // Sets the magnitude of the spawnPoint
+        float length = Random.Range(minDistance, maxDistance);
+        spawnPointLocal *= length;
+        
+        Vector3 spawnPointGlobal =  targetPlayer.transform.position + targetPlayer.transform.TransformDirection(spawnPointLocal);
 
-        Vector3 spawnPointGlobal = targetPlayer.transform.TransformPoint(spawnPointLocal);
         return spawnPointGlobal;
     }
 }

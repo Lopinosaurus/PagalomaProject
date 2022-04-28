@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player height settings")]
     [SerializeField] private float crouchSmoothTime = 0.1f;
     private Vector3 _crouchSmoothVelocityVector3;
+    public float crouchTransition;
     private float _crouchSmoothVelocity;
     private float _standingHitboxHeight = 1.8f;
     private float _crouchedHitboxHeight = 1.404f;
@@ -311,6 +312,8 @@ public class PlayerMovement : MonoBehaviour
         
         // This is for the CharacterController's dimensions and the camera position
 
+        crouchTransition = -(_crouchedCameraHeight - _characterController.height) / (_standingHitboxHeight - _crouchedCameraHeight);
+        
         float desiredHitboxHeight = currentMovementType switch
         {
             MovementTypes.Crouch => _crouchedHitboxHeight,

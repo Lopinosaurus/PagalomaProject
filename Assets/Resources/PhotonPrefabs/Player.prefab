@@ -2450,7 +2450,7 @@ GameObject:
   - component: {fileID: 1848938828090813196}
   - component: {fileID: 6221952432295534360}
   - component: {fileID: 590110878684623782}
-  - component: {fileID: 4444993969401394640}
+  - component: {fileID: 90339924765660988}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2499,6 +2499,7 @@ MonoBehaviour:
   floorDistanceMult: 1.2
   slopeCompensationForce: 60
   crouchSmoothTime: 0.1
+  crouchTransition: 0
   smoothTime: 0.1
   isJumping: 0
 --- !u!114 &2867563762611503884
@@ -2551,7 +2552,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3692144932518771190}
-  - {fileID: 4444993969401394640}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2875,7 +2876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackCollider: {fileID: 660008149618959238}
   _photonView: {fileID: 7578259937013170486}
---- !u!114 &4444993969401394640
+--- !u!114 &90339924765660988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2890,35 +2891,21 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: isStanding
-  - Type: 4
-    SynchronizeType: 0
-    Name: isWalking
-  - Type: 4
-    SynchronizeType: 0
-    Name: isSprinting
   - Type: 1
-    SynchronizeType: 2
-    Name: Blend
-  - Type: 1
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: VelocityX
   - Type: 1
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: VelocityZ
   - Type: 4
     SynchronizeType: 0
     Name: isCrouching
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Death
   m_SynchronizeLayers:
-  - SynchronizeType: 2
-    LayerIndex: 0
   - SynchronizeType: 0
-    LayerIndex: 1
+    LayerIndex: 0
 --- !u!1 &7716088027617932813
 GameObject:
   m_ObjectHideFlags: 0

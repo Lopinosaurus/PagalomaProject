@@ -528,11 +528,16 @@ ModelImporter:
     skeleton:
     - name: character@Dying front(Clone)
       parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Villager
+      parentName: character@Dying front(Clone)
       position: {x: -0.03209383, y: -0.00330168, z: 0.04038808}
       rotation: {x: -0.012707136, y: -0.015321085, z: -0.015776427, w: 0.9996774}
       scale: {x: 0.01, y: 0.01, z: 0.01}
     - name: mixamorig1:Hips
-      parentName: character@Dying front(Clone)
+      parentName: Villager
       position: {x: 0.0001, y: 100.1869, z: 0.6345}
       rotation: {x: 0, y: -0, z: -0.000010471975, w: 1}
       scale: {x: 1, y: 1, z: 1}
@@ -931,7 +936,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
