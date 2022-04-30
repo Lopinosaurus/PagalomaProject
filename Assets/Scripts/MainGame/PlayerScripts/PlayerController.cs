@@ -1,4 +1,5 @@
 using System;
+using MainGame.PlayerScripts;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
     
     // Movement components
     private CharacterController _characterController;
-    
+
     // Network component
     private PhotonView _photonView;
     
@@ -93,12 +94,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            //TODO improve to remove jitter
+            // Calculates by how much the player should be moved 
             _playerMovement.Move();
 
+            // Adjusts the player's hitbox when crouching
+            // TODO fix the tiny gap between the ground and the CharacterController
             _playerMovement.UpdateHitbox();
-
-
         }
     }
     

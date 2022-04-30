@@ -1096,9 +1096,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
+  near clip plane: 72.15
   far clip plane: 1000
-  field of view: 68
+  field of view: 86.7
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -2495,11 +2495,13 @@ MonoBehaviour:
   localMoveAmountNormalized: {x: 0, y: 0, z: 0}
   localMoveAmountRaw: {x: 0, y: 0, z: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
+  RaySize: 0
   grounded: 0
-  floorDistanceMult: 1.2
-  slopeCompensationForce: 60
+  slopeCompensationForce: 5
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   crouchSmoothTime: 0.1
-  crouchTransition: 0
   smoothTime: 0.1
   isJumping: 0
 --- !u!114 &2867563762611503884
@@ -2552,7 +2554,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 3692144932518771190}
-  - {fileID: 0}
+  - {fileID: 90339924765660988}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

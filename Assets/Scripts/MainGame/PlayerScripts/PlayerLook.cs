@@ -95,19 +95,10 @@ public class PlayerLook : MonoBehaviour
             _rotationX = Mathf.SmoothDampAngle(_rotationX, 80f, ref _, SmoothTimeX);
         }
 
-        Quaternion rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
-
-        _rotationX = Mathf.SmoothDampAngle(_rotationX, rotation.eulerAngles.x, ref _smoothValueX, SmoothTimeX);
-        _rotationY = Mathf.SmoothDampAngle(_rotationY, rotation.eulerAngles.y, ref _smoothValueY, SmoothTimeY);
+        /*_rotationX = Mathf.SmoothDampAngle(_rotationX, rotation.eulerAngles.x, ref _smoothValueX, SmoothTimeX);
+        _rotationY = Mathf.SmoothDampAngle(_rotationY, rotation.eulerAngles.y, ref _smoothValueY, SmoothTimeY);*/
 
         camHolder.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
         _characterController.transform.rotation = Quaternion.Euler(0, _rotationY, 0);
-
-        // transform.Rotate(Vector3.up * (Input.GetAxisRaw("Mouse X") * mouseSensY));
-        //
-        // YLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensX;
-        // YLookRotation = Mathf.Clamp(YLookRotation, -70f, 80f);
-        //
-        // transform.localEulerAngles = Vector3.left * YLookRotation;
     }
 }

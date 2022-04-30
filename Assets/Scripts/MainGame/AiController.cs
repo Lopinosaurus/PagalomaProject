@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MainGame.PlayerScripts.Roles;
 using UnityEditor.UIElements;
@@ -31,20 +32,29 @@ public class AiController : MonoBehaviour
 
     
     // Insert the LayerMask corresponding the player 
-    [FormerlySerializedAs("PlayerMask")] [SerializeField] private LayerMask characterMask;
+    [SerializeField] private LayerMask playerMask;
     [SerializeField] private string obstacleTag;
     private int obstacleTagHash;
 
     // Gameplay stats
     [SerializeField] private AiState currentState = AiState.Hidden;
-    [SerializeField] private int remainingHealth = 3;
     [SerializeField] private float remainingTimeBeforeTransition;
     [SerializeField] private float timeBeingCaught;
-    private float distanceFromTarget;
-    private const float cycleTime = 15f;
+    [SerializeField] private int remainingHealth = 3;
+    private Collider currentHidingObstacle;
+    private int moveCount = 0;
+    
+    private float distanceFromTarget => Vector3.Distance(transform.position, targetPlayer.transform.position);
+    
+    private const float cycleTime = 5;
     private const float maxBeingCaughtDelay = 0.8f;
     private const float maxWaitingTimeBeforeMoving = -10;
+    
+    private const float distanceToPlayerMaxBeforeAttacking = 10;
     private const float allowedMaxDistanceFromDestination = 0.5f;
+    private const float distanceFromObjectMinTreshold = 1;
+    private const float distanceFromObjectMaxTreshold = 1;
+    private const float obstacleMaxHeightTreshold = 1.5f;
     
     // Spawn settings
     public  float minSpawnRange = 30f;
@@ -101,7 +111,7 @@ public class AiController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetMouseButtonDown(0)) transform.position = SpawnBehindPlayer(minSpawnRange, maxSpawnRange);
+        if (Input.GetMouseButton(0)) Debug.DrawLine(_navMeshAgent.destination, transform.position, Color.red);
 
         // The clock decreases
         remainingTimeBeforeTransition -= Time.fixedDeltaTime;
@@ -118,8 +128,8 @@ public class AiController : MonoBehaviour
                     // If the Ai will be seen by moving, but it's been too long, it moves behind the player
                     if (remainingTimeBeforeTransition < maxWaitingTimeBeforeMoving)
                     {
-                        distanceFromTarget = Vector3.Distance(transform.position, targetPlayer.transform.position);
-                        transform.position = SpawnBehindPlayer(distanceFromTarget, distanceFromTarget);
+                        var distance = distanceFromTarget;
+                        transform.position = SpawnBehindPlayer(distance, distance);
 
                         remainingTimeBeforeTransition = cycleTime;
                     }
@@ -130,7 +140,7 @@ public class AiController : MonoBehaviour
                     if (remainingTimeBeforeTransition <= 0)
                     {
                         // Updates the destination to the hiding place position
-                        Vector3 newHidingPlace = FindHidingPlace();
+                        Vector3 newHidingPlace = FindHidingSpot(currentHidingObstacle);
                         _navMeshAgent.SetDestination(newHidingPlace);
                         Debug.DrawLine(transform.position, _navMeshAgent.destination);
 
@@ -138,8 +148,6 @@ public class AiController : MonoBehaviour
                         SetCurrentState(AiState.Transition);
                     }
                 }
-
-
                 break;
             }
             
@@ -235,25 +243,87 @@ public class AiController : MonoBehaviour
         }
     }
 
-    private Vector3 FindHidingPlace()
+    private Collider FindHidingObstacle()
     {
-        Vector3 targetPosition = targetPlayer.transform.position;
-        Vector3 hidingSpot = targetPosition;
         Vector3 position = transform.position;
-        float radius = (position.magnitude + targetPosition.magnitude) / 2;
-
-        // Potential obstacles to go to
-        Collider[] obstacles = Physics.OverlapSphere(position, radius, characterMask);
-
-        if (obstacles.Length > 0)
-        {
-            Collider obstacle = obstacles[Random.Range(0, obstacles.Length)];
         
-            Vector3 obstaclePosition = obstacle.bounds.min;
-            hidingSpot = obstaclePosition - targetPosition;
-            hidingSpot += hidingSpot.normalized;
+        Vector3 targetPosition = targetPlayer.transform.position;
+        Vector3 center = (position + targetPosition) / 2;
+
+        Collider hidingCollider = _capsuleCollider;
+        
+        // Potential colliders to go to
+        List<Collider> hitColliders = new List<Collider>(Physics.OverlapSphere(center, distanceFromTarget));
+
+        // Filters out colliders that are too far
+        if (hitColliders.Count > 0)
+        {
+            List<Collider> tooCloseColliders = new List<Collider>();
+            List<Collider> farAndCloseEnoughColliders = new List<Collider>();
+            
+            // Looks for valid colliders
+            foreach (Collider _collider in hitColliders)
+            {
+                float distanceBetweenColliderAndPlayer = Vector3.Distance(_collider.ClosestPoint(position), targetPosition);
+
+                if (_collider.gameObject.layer != playerMask)
+                {
+                    // If further than a given distance, then invalid
+                    if (distanceBetweenColliderAndPlayer < Vector3.Distance(position, targetPosition))
+                    {
+                        // If closer than a given distance, then invalid
+                        if (distanceBetweenColliderAndPlayer > distanceFromObjectMinTreshold)
+                        {
+                            farAndCloseEnoughColliders.Add(_collider);
+                            Debug.DrawRay(_collider.transform.position, Vector3.up * 5, Color.green, 3, false);
+                        }
+                        else
+                        {
+                            tooCloseColliders.Add(_collider);
+                            Debug.DrawRay(_collider.transform.position, Vector3.up * 5, Color.yellow, 3, false);
+                        }
+                    }
+                }
+            }
+
+            // Chooses a random collider between those available
+            if (farAndCloseEnoughColliders.Count > 0)
+            {
+                hidingCollider = farAndCloseEnoughColliders[Random.Range(0, farAndCloseEnoughColliders.Count)];
+            }
+            else if (tooCloseColliders.Count > 0)
+            {
+                hidingCollider = tooCloseColliders[Random.Range(0, tooCloseColliders.Count)];
+            }
+            
         }
         
+        
+        return hidingCollider;
+    }
+
+    private Vector3 FindHidingSpot(Collider hidingObstacle = null)
+    {
+        currentHidingObstacle = hidingObstacle ? FindHidingObstacle() : _capsuleCollider;
+        
+        Vector3 obstaclePosition = hidingObstacle.transform.position;
+        Vector3 targetPosition = targetPlayer.transform.position;
+
+        Vector3 hidingSpot; // result
+        
+        {
+            Vector3 direction = obstaclePosition - targetPosition;
+            direction += direction.normalized * 1.5f;
+
+            hidingSpot = targetPosition + direction;
+
+            // Sets the spawnPoint on the ground if possible
+            if (Physics.Raycast(hidingSpot, Vector3.down, out RaycastHit hit))
+            {
+                hidingSpot = hit.point;
+            }
+        }
+
         return hidingSpot;
     }
     
