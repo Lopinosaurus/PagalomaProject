@@ -29,14 +29,13 @@ public class AiController : MonoBehaviour
         Transition,
         Caught
     }
-
     
     // Insert the LayerMask corresponding the player 
-    [SerializeField] private LayerMask playerMask;
-    [SerializeField] private string obstacleTag;
-    private int obstacleTagHash;
+    [SerializeField] private string characterMaskName;
 
     // Gameplay stats
+    [Space]
+    [Header("Gameplay statistics")]
     [SerializeField] private AiState currentState = AiState.Hidden;
     [SerializeField] private float remainingTimeBeforeTransition;
     [SerializeField] private float timeBeingCaught;
@@ -57,10 +56,14 @@ public class AiController : MonoBehaviour
     private const float obstacleMaxHeightTreshold = 1.5f;
     
     // Spawn settings
+    [Space]
+    [Header("Spawn distances")]
     public  float minSpawnRange = 30f;
     public  float maxSpawnRange = 40f;
     
     // NavMeshAgent settings
+    [Space]
+    [Header("Nav Mesh Settings")]
     [Range(0.01f, 100f)]
     public float regularSpeed = 20f;
     private const float acceleration = 100f;
@@ -74,7 +77,6 @@ public class AiController : MonoBehaviour
         _capsuleCollider = GetComponent<CapsuleCollider>();
         if (_capsuleCollider == null) throw new Exception("null collider");
 
-        obstacleTagHash = obstacleTag.GetHashCode();
         remainingTimeBeforeTransition = cycleTime;
         
         // NavMesh settings
@@ -266,7 +268,8 @@ public class AiController : MonoBehaviour
             {
                 float distanceBetweenColliderAndPlayer = Vector3.Distance(_collider.ClosestPoint(position), targetPosition);
 
-                if (_collider.gameObject.layer != playerMask)
+                
+                if (_collider.gameObject.layer != LayerMask.NameToLayer(characterMaskName))
                 {
                     // If further than a given distance, then invalid
                     if (distanceBetweenColliderAndPlayer < Vector3.Distance(position, targetPosition))
