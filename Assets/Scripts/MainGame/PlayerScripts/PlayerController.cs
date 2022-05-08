@@ -2,6 +2,7 @@ using System;
 using MainGame.PlayerScripts;
 using UnityEngine;
 using Photon.Pun;
+using UnityEditor;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement)),
@@ -46,6 +47,9 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
+        // Bake occlusion
+        StaticOcclusionCulling.GenerateInBackground();
+        
         // Player Controls
         PlayerControls = new PlayerControls();
 

@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3283919557854651407
 Transform:
@@ -51,7 +51,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &800447454339290077
 Transform:
@@ -78,6 +78,10 @@ PrefabInstance:
     - target: {fileID: 1211986760970869025, guid: da10d7c79c140e8428abe0ec6cc02b1e, type: 3}
       propertyPath: m_Name
       value: smallStones6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211986760970869025, guid: da10d7c79c140e8428abe0ec6cc02b1e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5797605752577654051, guid: da10d7c79c140e8428abe0ec6cc02b1e, type: 3}
       propertyPath: m_RootOrder
@@ -185,6 +189,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bigStone5
       objectReference: {fileID: 0}
+    - target: {fileID: 7444078533870859102, guid: 4e052fbc00473a94b863f0e8e3133b68, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e052fbc00473a94b863f0e8e3133b68, type: 3}
 --- !u!4 &1807759924100766439 stripped
@@ -247,6 +255,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: smallStones1
       objectReference: {fileID: 0}
+    - target: {fileID: 5294693042610595858, guid: 95cd32842343a3949b21541061ec35c4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95cd32842343a3949b21541061ec35c4, type: 3}
 --- !u!4 &1523854468117359486 stripped
@@ -264,6 +276,10 @@ PrefabInstance:
     - target: {fileID: 114165393753473470, guid: 5f8920d8df49004439fde7b2b377ec2d, type: 3}
       propertyPath: m_Name
       value: smallStones8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114165393753473470, guid: 5f8920d8df49004439fde7b2b377ec2d, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6393055204076182403, guid: 5f8920d8df49004439fde7b2b377ec2d, type: 3}
       propertyPath: m_RootOrder
@@ -371,6 +387,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: smallStones2
       objectReference: {fileID: 0}
+    - target: {fileID: 7292772797354777926, guid: b7de050f7f8858143a048e2d45cf27c6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7de050f7f8858143a048e2d45cf27c6, type: 3}
 --- !u!4 &4748917024334206283 stripped
@@ -388,6 +408,10 @@ PrefabInstance:
     - target: {fileID: 2421802248199281633, guid: 28784d4a79399684581e9d32925683a1, type: 3}
       propertyPath: m_Name
       value: bigStone2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2421802248199281633, guid: 28784d4a79399684581e9d32925683a1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4704930320425577265, guid: 28784d4a79399684581e9d32925683a1, type: 3}
       propertyPath: m_RootOrder
@@ -450,6 +474,10 @@ PrefabInstance:
     - target: {fileID: 4967716598267930531, guid: c98969eaccc51b843866ce9ab445f46e, type: 3}
       propertyPath: m_Name
       value: bigStone1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4967716598267930531, guid: c98969eaccc51b843866ce9ab445f46e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7028086476189847237, guid: c98969eaccc51b843866ce9ab445f46e, type: 3}
       propertyPath: m_RootOrder
