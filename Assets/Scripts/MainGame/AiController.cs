@@ -21,8 +21,9 @@ public class AiController : MonoBehaviour
     
     private NavMeshAgent _navMeshAgent;
     private CapsuleCollider _capsuleCollider;
+    private Collider previousCollider;
     public bool isViewed;
-    public bool isInCameraField;
+
     private enum AiState
     {
         Hidden,
@@ -46,7 +47,7 @@ public class AiController : MonoBehaviour
     private float distanceFromTarget => Vector3.Distance(transform.position, targetPlayer.transform.position);
     
     private const float cycleTime = 5;
-    private const float maxBeingCaughtDelay = 0.8f;
+    private const float maxBeingCaughtDelay = /*0.8f*/ 9999f;
     private const float maxWaitingTimeBeforeMoving = -10;
     
     private const float distanceToPlayerMaxBeforeAttacking = 10;
@@ -75,7 +76,6 @@ public class AiController : MonoBehaviour
         
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
-        if (_capsuleCollider == null) throw new Exception("null collider");
 
         remainingTimeBeforeTransition = cycleTime;
         
@@ -92,13 +92,20 @@ public class AiController : MonoBehaviour
         isViewed = IsInCameraView();
         
         // Decides if the player is being observed
-        if (!isViewed)
+        if (!isViewed || AiState.Transition == currentState)
         {
             // Rotates towards the player only if is not looked at
-            transform.LookAt(targetPlayer.transform.position);
+            Transform _transform = transform;
+            _transform.LookAt(targetPlayer.transform.position);
+            Vector3 eulerAngles = _transform.rotation.eulerAngles;
+            eulerAngles.x = 0;
+            transform.rotation = Quaternion.Euler(eulerAngles);
         }
         else
         {
+            // Freezes the Ai if the player looks
+            EnableMovement(false);
+            
             if (currentState == AiState.Transition)
             {
                 if (timeBeingCaught >= maxBeingCaughtDelay)
@@ -113,57 +120,56 @@ public class AiController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // For debug
         if (Input.GetMouseButton(0)) Debug.DrawLine(_navMeshAgent.destination, transform.position, Color.red);
-
-        // The clock decreases
-        remainingTimeBeforeTransition -= Time.fixedDeltaTime;
 
         switch (currentState)
         {
             case AiState.Hidden:
             {
-                EnableMovement(false);
-                
                 // The Ai only moves if it won't be seen after moving
-                if (isInCameraField)
+                if (isViewed)
                 {
                     // If the Ai will be seen by moving, but it's been too long, it moves behind the player
                     if (remainingTimeBeforeTransition < maxWaitingTimeBeforeMoving)
                     {
                         var distance = distanceFromTarget;
                         transform.position = SpawnBehindPlayer(distance, distance);
-
-                        remainingTimeBeforeTransition = cycleTime;
                     }
                 }
                 else
-                // The Ai can here move without being seen
+                // The Ai can move without being seen
                 {
                     if (remainingTimeBeforeTransition <= 0)
                     {
                         // Updates the destination to the hiding place position
-                        Vector3 newHidingPlace = FindHidingSpot(currentHidingObstacle);
+                        Vector3 newHidingPlace = FindHidingSpot();
+                        Debug.DrawRay(newHidingPlace, Vector3.up * 10, Color.magenta, 3, false);
                         _navMeshAgent.SetDestination(newHidingPlace);
-                        Debug.DrawLine(transform.position, _navMeshAgent.destination);
+                        Debug.DrawLine(transform.position, _navMeshAgent.destination, Color.red, 5);
 
                         // Starts moving
                         SetCurrentState(AiState.Transition);
                     }
+                    
+                    // The clock decreases
+                    remainingTimeBeforeTransition -= Time.fixedDeltaTime;
                 }
+                
                 break;
             }
             
             case AiState.Transition:
                 
                 EnableMovement(true);
-                
-                // Makes sure the Ai won't try to move somewhere else while already moving
-                remainingTimeBeforeTransition = cycleTime;
+
+                _navMeshAgent.SetDestination(FindHidingSpot(currentHidingObstacle));
                 
                 // Decides if the Ai is finally hidden
                 if (_navMeshAgent.remainingDistance < allowedMaxDistanceFromDestination)
                 {
                     SetCurrentState(AiState.Hidden);
+                    remainingTimeBeforeTransition = cycleTime;
                 }
                 
                 break;
@@ -176,10 +182,9 @@ public class AiController : MonoBehaviour
                 transform.position = SpawnBehindPlayer(minSpawnRange, maxSpawnRange);
                 SetCurrentState(AiState.Hidden);
                 
-                // Resets the timer
+                // Resets the timer a bit higher than normal
                 remainingTimeBeforeTransition = cycleTime * 1.5f;
                 
-                Debug.Log("Caught !");
                 break;
         }
     }
@@ -193,16 +198,12 @@ public class AiController : MonoBehaviour
         
         if (GeometryUtility.TestPlanesAABB(targetPlanes, _capsuleCollider.bounds))
         {
-            isInCameraField = true;
-            
             Vector3 camPosition = targetCam.transform.position;
             
             float colliderHeight = _capsuleCollider.height;
             Vector3 ColliderPosition = _capsuleCollider.transform.position;
             Vector3 colliderCenter = ColliderPosition + Vector3.up * colliderHeight / 2;
-            
-            Vector3 dirCamToCenter = colliderCenter - camPosition;
-            
+
             // All possible destinations - the more the more accurate
             Vector3[] destinations =
             {
@@ -221,12 +222,7 @@ public class AiController : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            isInCameraField = false;
-        }
 
-        
         return false;
     }
 
@@ -255,7 +251,11 @@ public class AiController : MonoBehaviour
         Collider hidingCollider = _capsuleCollider;
         
         // Potential colliders to go to
-        List<Collider> hitColliders = new List<Collider>(Physics.OverlapSphere(center, distanceFromTarget));
+        List<Collider> hitColliders = new List<Collider>(
+            Physics.OverlapSphere(center, distanceFromTarget / 2));
+        
+        // Removes the previous collider
+        hitColliders.Remove(previousCollider);
 
         // Filters out colliders that are too far
         if (hitColliders.Count > 0)
@@ -267,14 +267,13 @@ public class AiController : MonoBehaviour
             foreach (Collider _collider in hitColliders)
             {
                 float distanceBetweenColliderAndPlayer = Vector3.Distance(_collider.ClosestPoint(position), targetPosition);
-
                 
                 if (_collider.gameObject.layer != LayerMask.NameToLayer(characterMaskName))
                 {
-                    // If further than a given distance, then invalid
+                    // If closer than the distance between Ai and Player, then valid
                     if (distanceBetweenColliderAndPlayer < Vector3.Distance(position, targetPosition))
                     {
-                        // If closer than a given distance, then invalid
+                        // If collider is farther enough from the player, then valid
                         if (distanceBetweenColliderAndPlayer > distanceFromObjectMinTreshold)
                         {
                             farAndCloseEnoughColliders.Add(_collider);
@@ -300,16 +299,20 @@ public class AiController : MonoBehaviour
             }
             
         }
-        
+
+        previousCollider = hidingCollider;
         
         return hidingCollider;
     }
 
-    private Vector3 FindHidingSpot(Collider hidingObstacle = null)
+    private Vector3 FindHidingSpot(Collider overrideCollider = null)
     {
-        currentHidingObstacle = hidingObstacle ? FindHidingObstacle() : _capsuleCollider;
+        if (!overrideCollider)
+        {
+            currentHidingObstacle = FindHidingObstacle();
+        }
         
-        Vector3 obstaclePosition = hidingObstacle.transform.position;
+        Vector3 obstaclePosition = currentHidingObstacle.transform.position;
         Vector3 targetPosition = targetPlayer.transform.position;
 
         Vector3 hidingSpot; // result

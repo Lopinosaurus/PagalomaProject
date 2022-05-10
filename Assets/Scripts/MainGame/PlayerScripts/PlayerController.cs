@@ -11,9 +11,6 @@ public class PlayerController : MonoBehaviour
 {
     #region Attributes
     
-    // Movement components
-    private CharacterController _characterController;
-
     // Network component
     private PhotonView _photonView;
     
@@ -27,6 +24,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal GameObject cameraHolder;
     private Camera _cam;
     private AudioListener _audioListener;
+    
+    // First person management
+    [SerializeField] private GameObject PlayerRender;
+    [Range(0, 2)] public float backShift = 1f;
+
     
     // Player Controls
     public PlayerControls PlayerControls;
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
         PlayerControls = new PlayerControls();
 
         // Movement components
-        _characterController = GetComponentInChildren<CharacterController>();
+        GetComponentInChildren<CharacterController>();
         
         // Network component
         _photonView = GetComponent<PhotonView>();
@@ -72,6 +74,9 @@ public class PlayerController : MonoBehaviour
     
     internal void Start()
     {
+        // Moves the player render backwards so that it doesn't clip with the camera
+        PlayerRender.transform.localPosition -= Vector3.back * backShift;
+        
         if (!_photonView.IsMine)
         {
             Destroy(_cam);
@@ -89,6 +94,9 @@ public class PlayerController : MonoBehaviour
             // Updates the jump feature
             _playerMovement.UpdateJump();
             
+            // Moves the player
+            _playerMovement.Move(Time.deltaTime);
+            
             // Updates the appearance based on the MovementType
             _playerAnimation.UpdateAnimationsBasic();
         }
@@ -98,9 +106,6 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            // Calculates by how much the player should be moved 
-            _playerMovement.Move();
-
             // Adjusts the player's hitbox when crouching
             // TODO fix the tiny gap between the ground and the CharacterController
             _playerMovement.UpdateHitbox();

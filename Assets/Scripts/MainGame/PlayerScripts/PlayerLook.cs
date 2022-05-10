@@ -28,9 +28,6 @@ public class PlayerLook : MonoBehaviour
     [Range(4f, 128f)]
     [SerializeField] private float mouseSensY = 10f;
 
-    // private float YLookRotation;
-    private bool shouldLookAround = true;
-
     // Mouse input values
     private float _mouseDeltaX;
     private float _mouseDeltaY;
@@ -38,10 +35,7 @@ public class PlayerLook : MonoBehaviour
     // Current player values
     private float _rotationX;
     private float _rotationY;
-    private float _smoothValueX;
-    private float _smoothValueY;
     private const float SmoothTimeX = 0.01f;
-    private const float SmoothTimeY = 0.01f;
     
     #endregion
 
@@ -78,8 +72,6 @@ public class PlayerLook : MonoBehaviour
     
     public void Look() // Modifies camera and player rotation
     {
-        if (!shouldLookAround) return;
-
         _rotationY += _mouseDeltaX * mouseSensX;
         _rotationX -= _mouseDeltaY * mouseSensY;
         
@@ -92,7 +84,7 @@ public class PlayerLook : MonoBehaviour
         }
         else if (_rotationX > 80f)
         {
-            _rotationX = Mathf.SmoothDampAngle(_rotationX, 80f, ref _, SmoothTimeX);
+             _rotationX = Mathf.SmoothDampAngle(_rotationX, 80f, ref _, SmoothTimeX);
         }
 
         /*_rotationX = Mathf.SmoothDampAngle(_rotationX, rotation.eulerAngles.x, ref _smoothValueX, SmoothTimeX);

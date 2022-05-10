@@ -49,18 +49,14 @@ MonoBehaviour:
   greenSphere: {fileID: 0}
   targetRole: {fileID: 0}
   isViewed: 0
-  isInCameraField: 0
-  characterMask:
-    serializedVersion: 2
-    m_Bits: 0
-  obstacleTag: 
+  characterMaskName: Ignore Character
   currentState: 0
-  remainingTimeBeforeTransition: 0
+  remainingTimeBeforeTransition: 15
   timeBeingCaught: 0
-  remainingHealth: 0
-  minSpawnRange: 0
-  maxSpawnRange: 0
-  regularSpeed: 0
+  remainingHealth: 3
+  minSpawnRange: 40
+  maxSpawnRange: 50
+  regularSpeed: 20
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -190,7 +186,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476d21816cc301341a0b4ed23fb7f462, type: 2}
+  - {fileID: 2100000, guid: f0b8d757bb2af7242a617808647780d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -433,7 +429,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 476d21816cc301341a0b4ed23fb7f462, type: 2}
+  - {fileID: 2100000, guid: f0b8d757bb2af7242a617808647780d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

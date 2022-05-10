@@ -134,7 +134,7 @@ namespace MainGame.PlayerScripts
     
         #region Movements
 
-        public void Move()
+        public void Move(float chosenDeltaTime)
         {
             Vector3 inputMoveNormalized3D = new Vector3
             {
@@ -163,7 +163,7 @@ namespace MainGame.PlayerScripts
             Vector3 currentMotion = transform.TransformDirection(localMoveAmountNormalized);
             currentMotion += upwardVelocity;
         
-            currentMotion *= Time.fixedDeltaTime;
+            currentMotion *= chosenDeltaTime;
 
             // Move
             _characterController.Move(currentMotion);
@@ -198,7 +198,7 @@ namespace MainGame.PlayerScripts
 
         private void UpdateGravity()
         {
-            upwardVelocity.y += gravityForce * Time.fixedDeltaTime;
+            upwardVelocity.y += gravityForce * Time.deltaTime;
 
             if (grounded && !isJumping)
             {
