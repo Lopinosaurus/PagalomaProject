@@ -15,7 +15,7 @@ using Random = System.Random;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
-    [SerializeField] private GameObject map;
+    public Map map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
     public string[] roles = new []{"Spy", "Werewolf", "Seer", "Lycan", "Villager", "Werewolf", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
 
@@ -77,9 +77,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (scene.buildIndex == 1) // MainGame scene
         {
-            // Instantiate local PlayerManager
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
-            
             // Master Client needs to generate the Map Seed
             if (PhotonNetwork.IsMasterClient)
             {
@@ -104,8 +101,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             int seed = (int) propertiesThatChanged["MapSeed"]; // Get the seed value
             Debug.Log("Game seed received: "+seed);
-            map.GetComponent<Map>().Generate(seed); // Generate the map
-            IGMenuManager.Instance.loadingScreen.SetActive(false);
+            map.Generate(seed); // Generate the map
+            // Instantiate local PlayerManager
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+            // IGMenuManager.Instance.loadingScreen.SetActive(false);
         }
     }
 

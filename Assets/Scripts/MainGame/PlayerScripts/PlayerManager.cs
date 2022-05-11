@@ -32,10 +32,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (roleName != null)
         {
-            Vector3 spawnPoint = new Vector3(Random.Range (0, 10), 10, Random.Range (0, 10));
+            Transform spawnList = RoomManager.Instance.map.village.transform.Find("spawns");
+            GameObject spawn = spawnList.GetChild(Random.Range(0, 8)).gameObject;
+            Debug.Log("spawn = "+spawn);
+            Vector3 spawnPoint = spawn.transform.position;
+            Debug.Log("spawnPoint = "+spawnPoint);
+            //Vector3 spawnPoint = new Vector3(42, 42, 42);
+            
             string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instancitationData);
             IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
+            IGMenuManager.Instance.loadingScreen.SetActive(false);
         }
         else
         {

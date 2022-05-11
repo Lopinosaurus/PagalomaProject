@@ -2814,6 +2814,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1392092453234658863, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
   m_PrefabInstance: {fileID: 535566164}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &535566166 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
+  m_PrefabInstance: {fileID: 535566164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf50e3c0f6861149a1b3dd34feadf49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &545822847
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,7 +3046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e199694b6f92534c9034af30a597b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 1977719086}
+  map: {fileID: 535566166}
   roles:
   - Spy
   - Werewolf
@@ -11038,11 +11049,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 652706898119691809, guid: 622972c594f47c649b052b80492c59f5, type: 3}
   m_PrefabInstance: {fileID: 1977163199}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1977719086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1736810666775123093, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
-  m_PrefabInstance: {fileID: 535566164}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2091880630
 GameObject:
