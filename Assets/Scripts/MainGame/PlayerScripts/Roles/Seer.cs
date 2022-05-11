@@ -64,7 +64,9 @@ namespace MainGame.PlayerScripts.Roles
                     }
                     // hasCooldown = true;
                     Debug.Log($"[+] The Role of the target is: {target.roleName}");
-                    RoomManager.Instance.UpdateInfoText($"You revealed a {target.roleName}");
+                    string displayedRole = target.roleName;
+                    if (displayedRole == "Lycan") displayedRole = "Werewolf";
+                    RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
                 }
                 else
                 {

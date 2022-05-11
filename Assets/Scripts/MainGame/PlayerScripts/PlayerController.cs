@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // Bake occlusion
-        StaticOcclusionCulling.GenerateInBackground();
+        // StaticOcclusionCulling.GenerateInBackground();
         
         // Player Controls
         PlayerControls = new PlayerControls();

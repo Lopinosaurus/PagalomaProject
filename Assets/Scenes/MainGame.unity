@@ -3037,9 +3037,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 1977719086}
   roles:
+  - Lycan
   - Seer
   - Werewolf
-  - Villager
   - Villager
   - Hunter
   - Villager
