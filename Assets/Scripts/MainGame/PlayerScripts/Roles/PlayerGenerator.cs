@@ -10,6 +10,7 @@ namespace MainGame.PlayerScripts.Roles
         private Seer Seer;
         private Werewolf Werewolf;
         private Lycan Lycan;
+        private Spy Spy;
         private Role[] roles = new Role[3];
         [SerializeField] private GameObject _attackCollider;
         [SerializeField] private PhotonView _photonView;
@@ -20,7 +21,8 @@ namespace MainGame.PlayerScripts.Roles
             Seer = GetComponent<Seer>();
             Werewolf = GetComponent<Werewolf>();
             Lycan = GetComponent<Lycan>();
-            roles = new[] { (Role)Villager, Seer, Werewolf, Lycan };
+            Spy = GetComponent<Spy>();
+            roles = new[] { (Role)Villager, Seer, Werewolf, Lycan, Spy };
             _photonView = GetComponent<PhotonView>();
         }
         void Start()
@@ -47,6 +49,12 @@ namespace MainGame.PlayerScripts.Roles
             if (roleName == "Lycan")
             {
                 playerRole = Lycan;
+                Destroy(_attackCollider);
+            }
+            
+            if (roleName == "Spy")
+            {
+                playerRole = Spy;
                 Destroy(_attackCollider);
             }
             

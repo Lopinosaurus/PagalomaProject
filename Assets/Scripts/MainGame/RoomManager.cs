@@ -17,7 +17,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public static RoomManager Instance;
     [SerializeField] private GameObject map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
-    public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
+    public string[] roles = new []{"Spy", "Werewolf", "Seer", "Lycan", "Villager", "Werewolf", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
 
     public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
     {

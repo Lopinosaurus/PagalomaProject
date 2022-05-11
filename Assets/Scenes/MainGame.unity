@@ -3037,10 +3037,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 1977719086}
   roles:
+  - Spy
+  - Werewolf
   - Lycan
   - Seer
-  - Werewolf
-  - Villager
   - Hunter
   - Villager
   - Werewolf

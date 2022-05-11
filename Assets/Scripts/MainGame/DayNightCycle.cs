@@ -116,8 +116,8 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = true;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasVoted = false;
-        RoomManager.Instance.ClearTargets();
         RoomManager.Instance.localPlayer.hasCooldown = true;
+        RoomManager.Instance.ClearTargets();
         VoteMenu.Instance.UpdateVoteItems();
     }
 
@@ -128,6 +128,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasCooldown = false;
+        RoomManager.Instance.localPlayer.UpdateActionText();
         RoomManager.Instance.localPlayer.vote = null;
         VoteMenu.Instance.UpdateVoteItems();
     }
