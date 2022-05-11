@@ -32,11 +32,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (roleName != null)
         {
-            Transform spawnList = RoomManager.Instance.map.village.transform.Find("spawns");
-            GameObject spawn = spawnList.GetChild(Random.Range(0, 8)).gameObject;
+            GameObject village = Map.FindMap();
+            Transform spawnList = village.transform.Find("spawns");
+            GameObject spawn = spawnList.GetChild(Random.Range(0,8)).gameObject;//spawnList.GetChild(Random.Range(0, 8)).gameObject;
             Debug.Log("spawn = "+spawn);
             Vector3 spawnPoint = spawn.transform.position;
-            Debug.Log("spawnPoint = "+spawnPoint);
+            Debug.Log("spawnPoint = " + spawnPoint);
             //Vector3 spawnPoint = new Vector3(42, 42, 42);
             
             string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
