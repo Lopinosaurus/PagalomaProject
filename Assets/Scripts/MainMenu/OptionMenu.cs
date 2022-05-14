@@ -1,65 +1,67 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class OptionMenu : MonoBehaviour
+namespace MainMenu
 {
-
-    Resolution[] screenRes;
-    public AudioMixer MainAudioMixer;
-    public Dropdown resDropdown;
-
-    public void Start()
+    public class OptionMenu : MonoBehaviour
     {
-        screenRes = Screen.resolutions;
 
-        if (resDropdown != null)
+        Resolution[] screenRes;
+        public AudioMixer MainAudioMixer;
+        public Dropdown resDropdown;
+
+        public void Start()
         {
-            resDropdown.ClearOptions();
+            screenRes = Screen.resolutions;
 
-            List<string> options = new List<string>();
-
-            int currentResIndex = 0;
-
-            for (int i = 0; i < screenRes.Length; i++)
+            if (resDropdown != null)
             {
-                string option = screenRes[i].width + "x" + screenRes[i].height;
-                options.Add(option);
+                resDropdown.ClearOptions();
 
-                if (screenRes[i].width == Screen.currentResolution.width &&
-                    screenRes[i].height == Screen.currentResolution.height)
+                List<string> options = new List<string>();
+
+                int currentResIndex = 0;
+
+                for (int i = 0; i < screenRes.Length; i++)
                 {
-                    currentResIndex = i;
+                    string option = screenRes[i].width + "x" + screenRes[i].height;
+                    options.Add(option);
+
+                    if (screenRes[i].width == Screen.currentResolution.width &&
+                        screenRes[i].height == Screen.currentResolution.height)
+                    {
+                        currentResIndex = i;
+                    }
                 }
+
+                resDropdown.AddOptions(options);
+                resDropdown.value = currentResIndex;
+                resDropdown.RefreshShownValue();
             }
-
-            resDropdown.AddOptions(options);
-            resDropdown.value = currentResIndex;
-            resDropdown.RefreshShownValue();
         }
-    }
 
-    public void SetScreenRes(int resIndex)
-    {
-        Resolution ScreenRes = screenRes[resIndex];
+        public void SetScreenRes(int resIndex)
+        {
+            Resolution ScreenRes = screenRes[resIndex];
 
-        Screen.SetResolution(ScreenRes.width, ScreenRes.height, Screen.fullScreen);
-    }
+            Screen.SetResolution(ScreenRes.width, ScreenRes.height, Screen.fullScreen);
+        }
 
-    public void SetVolume(float volume)
-    {
-        MainAudioMixer.SetFloat("MainVolume", volume);
-    }
+        public void SetVolume(float volume)
+        {
+            MainAudioMixer.SetFloat("MainVolume", volume);
+        }
 
-    public void SetQuality(int qualityIndex)
-    {
-        QualitySettings.SetQualityLevel(qualityIndex);
-    }
+        public void SetQuality(int qualityIndex)
+        {
+            QualitySettings.SetQualityLevel(qualityIndex);
+        }
 
-    public void EnableFullscreen(bool fullScreenEnabled)
-    {
-        Screen.fullScreen = fullScreenEnabled;
+        public void EnableFullscreen(bool fullScreenEnabled)
+        {
+            Screen.fullScreen = fullScreenEnabled;
+        }
     }
 }

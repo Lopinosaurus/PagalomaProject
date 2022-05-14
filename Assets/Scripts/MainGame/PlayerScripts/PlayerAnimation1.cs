@@ -1,40 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Photon.Pun;
 
-public class PlayerAnimation1 : MonoBehaviour
+namespace MainGame.PlayerScripts
 {
-    [SerializeField] private Animator _animator;
-    
-    // Boolean States hashes
-
-    private static readonly int isStandingHash = Animator.StringToHash("isStanding");
-    private static readonly int isWalkingHash = Animator.StringToHash("isWalking");
-    private static readonly int isSprintingHash = Animator.StringToHash("isSprinting");
-    private static readonly int justLandedHash = Animator.StringToHash("justLanded");
-
-    public void Update()
+    public class PlayerAnimation1 : MonoBehaviour
     {
-        bool isStanding = !Input.anyKey;
-        
-        bool goLeft = Input.GetKey(KeyCode.Q);
-        bool goRight = Input.GetKey(KeyCode.D);
-        bool goBack = Input.GetKey(KeyCode.S);
-        bool goForward = Input.GetKey(KeyCode.Z);
+        [SerializeField] private Animator _animator;
+    
+        // Boolean States hashes
 
-        bool isWalking = goLeft || goRight || goBack || goForward;
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift) && isWalking;
-        isWalking &= !isSprinting;
-        
-        // Toggles "Stand" animation
-        _animator.SetBool(isStandingHash, isStanding);
-        
-        // Toggles "Walk" animation
-        _animator.SetBool(isWalkingHash, isWalking);
+        private static readonly int isStandingHash = Animator.StringToHash("isStanding");
+        private static readonly int isWalkingHash = Animator.StringToHash("isWalking");
+        private static readonly int isSprintingHash = Animator.StringToHash("isSprinting");
+        private static readonly int justLandedHash = Animator.StringToHash("justLanded");
 
-        // Toggles "Sprint" animation
-        _animator.SetBool(isSprintingHash, isSprinting);
+        public void Update()
+        {
+            bool isStanding = !Input.anyKey;
+        
+            bool goLeft = Input.GetKey(KeyCode.Q);
+            bool goRight = Input.GetKey(KeyCode.D);
+            bool goBack = Input.GetKey(KeyCode.S);
+            bool goForward = Input.GetKey(KeyCode.Z);
+
+            bool isWalking = goLeft || goRight || goBack || goForward;
+            bool isSprinting = Input.GetKey(KeyCode.LeftShift) && isWalking;
+            isWalking &= !isSprinting;
+        
+            // Toggles "Stand" animation
+            _animator.SetBool(isStandingHash, isStanding);
+        
+            // Toggles "Walk" animation
+            _animator.SetBool(isWalkingHash, isWalking);
+
+            // Toggles "Sprint" animation
+            _animator.SetBool(isSprintingHash, isSprinting);
+        }
     }
 }

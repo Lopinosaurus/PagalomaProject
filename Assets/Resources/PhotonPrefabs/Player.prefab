@@ -496,7 +496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141215766398316333}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: 0.2}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2997643764292009107}
@@ -2531,6 +2531,13 @@ MonoBehaviour:
   _playerAnimation: {fileID: 7430318575100400553}
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
+<<<<<<< Updated upstream
+=======
+  PlayerRender: {fileID: 7117664136791764183}
+  backShift: 1
+  AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+  VillageTransform: {fileID: 0}
+>>>>>>> Stashed changes
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0

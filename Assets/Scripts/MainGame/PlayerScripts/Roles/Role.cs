@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using MainGame.DecorsInteraction;
+using MainGame.Menus;
+using MainGame.PlayerScripts;
 using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Object = System.Object;
 
-namespace MainGame.PlayerScripts.Roles
+namespace MainGame
 {
     public class Role : MonoBehaviour
     {
@@ -61,10 +61,14 @@ namespace MainGame.PlayerScripts.Roles
            _characterController = GetComponent<CharacterController>();
            cam = _cameraHolder.GetComponentInChildren<Camera>();
            _photonView = GetComponent<PhotonView>();
-           actionText = RoomManager.Instance.actionText;
-           deathText = RoomManager.Instance.deathText;
-           actionText.text = "";
-           deathText.enabled = false;
+           try
+           {
+               actionText = RoomManager.Instance.actionText;
+               deathText = RoomManager.Instance.deathText;
+               actionText.text = "";
+               deathText.enabled = false;
+           }
+           catch {}
            hasVoted = false;
        }
 
@@ -123,10 +127,9 @@ namespace MainGame.PlayerScripts.Roles
            VoteMenu.Instance.UpdateVoteItems();
            
            // Initial camera position
-           if (_cameraHolder != null)
+           if (_cameraHolder)
            {
                Vector3 startingPos = _cameraHolder.transform.position;
-               Quaternion startingRot = _cameraHolder.transform.rotation;
                Vector3 endingPos = new Vector3
                {
                    x = startingPos.x,

@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< Updated upstream
 using System;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
+=======
+>>>>>>> Stashed changes
 
-public class PlayerAnimation : MonoBehaviour
+namespace MainGame.PlayerScripts
 {
-    // Scripts components
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private Animator _animator;
+    public class PlayerAnimation : MonoBehaviour
+    {
+        // Scripts components
+        [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private Animator _animator;
 
-    public Animator Animator => _animator;
+        public Animator Animator => _animator;
 
+<<<<<<< Updated upstream
     // Boolean States hashes
     private readonly int _isStandingHash = Animator.StringToHash("isStanding");
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
@@ -24,15 +28,25 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
     private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
     private readonly int _blendHash = Animator.StringToHash("Blend");
+=======
+        // Boolean States hashes
+        private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
+        private readonly int _deathHash = Animator.StringToHash("Death");
 
-    public void UpdateAnimationsBasic()
-    {
-        Vector3 movementVector = new Vector3
+        // Float States hashes
+        private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
+        private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+>>>>>>> Stashed changes
+
+        public void UpdateAnimationsBasic()
         {
-            x = _playerMovement.localMoveAmountRaw.x,
-            z = _playerMovement.localMoveAmountRaw.z
-        };
+            Vector3 movementVector = new Vector3
+            {
+                x = _playerMovement.localMoveAmountRaw.x,
+                z = _playerMovement.localMoveAmountRaw.z
+            };
         
+<<<<<<< Updated upstream
         // Toggles "Stand" animation
         _animator.SetBool(_isStandingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Stand);
         
@@ -54,10 +68,22 @@ public class PlayerAnimation : MonoBehaviour
         // Sets the blend value to the magnitude of the Vector2 input
         _animator.SetFloat(_blendHash, 0.5f);
     }
+=======
+            // Toggles "Crouch" animation
+            _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
+        
+            // Sets the velocity in X to the CharacterController X velocity
+            _animator.SetFloat(_velocityXHash, movementVector.x);
+        
+            // Sets the velocity in Z to the CharacterController Z velocity
+            _animator.SetFloat(_velocityZHash, movementVector.z);
+        }
+>>>>>>> Stashed changes
 
-    public void EnableDeathAppearance()
-    {
-        // Toggles "Dying" animation
-        _animator.SetTrigger(_deathHash);
+        public void EnableDeathAppearance()
+        {
+            // Toggles "Dying" animation
+            _animator.SetTrigger(_deathHash);
+        }
     }
 }
