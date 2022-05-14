@@ -1,42 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+namespace MainMenu
 {
-    public static MenuManager Instance;
-    [SerializeField] private Menu[] menus;
-
-    void Awake()
+    public class MenuManager : MonoBehaviour
     {
-        Instance = this;
-    }
+        public static MenuManager Instance;
+        [SerializeField] private Menu[] menus;
 
-    public void OpenMenu(string menuName)
-    {
-        for (int i = 0; i < menus.Length; i++)
+        void Awake()
         {
-            if (menus[i].menuName == menuName)
+            Instance = this;
+        }
+
+        public void OpenMenu(string menuName)
+        {
+            for (int i = 0; i < menus.Length; i++)
             {
-                menus[i].Open();
-            }
-            else if (menus[i].open)
-            {
-                CloseMenu(menus[i]);
+                if (menus[i].menuName == menuName)
+                {
+                    menus[i].Open();
+                }
+                else if (menus[i].open)
+                {
+                    CloseMenu(menus[i]);
+                }
             }
         }
-    }
 
-    public void OpenMenu(Menu menu)
-    {
-        for (int i = 0; i < menus.Length; i++)
+        public void OpenMenu(Menu menu)
         {
-            if (menus[i].open) CloseMenu(menus[i]);
+            for (int i = 0; i < menus.Length; i++)
+            {
+                if (menus[i].open) CloseMenu(menus[i]);
+            }
+            menu.Open();
         }
-        menu.Open();
-    }
-    public void CloseMenu(Menu menu)
-    {
-        menu.Close();
+        public void CloseMenu(Menu menu)
+        {
+            menu.Close();
+        }
     }
 }
