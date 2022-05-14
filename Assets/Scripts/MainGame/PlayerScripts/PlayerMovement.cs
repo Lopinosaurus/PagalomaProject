@@ -358,18 +358,9 @@ public class PlayerMovement : MonoBehaviour
         grounded = _grounded;
     }
 
-<<<<<<< Updated upstream
     private void SetCurrentMovementType(MovementTypes _currentMovementType)
     {
         currentMovementType = _currentMovementType;
-=======
-        #endregion
-
-        public void SlowSpeed(int i)
-        {
-            throw new NotImplementedException();
-        }
->>>>>>> Stashed changes
     }
 
     #endregion

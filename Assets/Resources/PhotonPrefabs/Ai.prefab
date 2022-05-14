@@ -46,31 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70ac0d609b89cb42b5e94af4fb0ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
   targetRole: {fileID: 0}
   isViewed: 0
   PlayerMask:
     serializedVersion: 2
     m_Bits: 0
   regularSpeed: 2
-=======
-  dissimulateParticles: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
-  targetRole: {fileID: 0}
-  _navMeshAgent: {fileID: 933700854028002495}
-  _capsuleCollider: {fileID: 440363528293553627}
-  ignoreCharacter:
-    serializedVersion: 2
-    m_Bits: 128
-  currentState: 0
-  MoveCount: 0
-  TimeBeforeTransition: 5
-  timeBeingCaught: 0
-  remainingHealth: 3
-  minSpawnRange: 40
-  maxSpawnRange: 50
-  regularSpeed: 20
-  maxSpeed: 9999
->>>>>>> Stashed changes
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -91,7 +72,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2.51
   m_BaseOffset: 0
-  m_WalkableMask: 6
+  m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &440363528293553627
 CapsuleCollider:

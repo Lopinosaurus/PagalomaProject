@@ -1,25 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace MainGame
+public class FootstepEffect : MonoBehaviour
 {
-    public class FootstepEffect : MonoBehaviour
+    
+    [SerializeField] CharacterController characterController;
+    [SerializeField] AudioSource footsteps;
+
+
+    
+    void Update()
     {
-    
-        [SerializeField] CharacterController characterController;
-        [SerializeField] AudioSource footsteps;
+        if (characterController == null) return; // Avoid error on CharacterController destruction
+        if (characterController.isGrounded && footsteps.isPlaying == false && characterController.velocity.magnitude > 0f)
 
-
-    
-        void Update()
         {
-            if (!characterController) return; // Avoid error on CharacterController destruction
-            if (characterController.isGrounded && footsteps.isPlaying == false && characterController.velocity.magnitude > 0f)
-
-            {
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
-            }
+            footsteps.volume = Random.Range(0.8f, 1);
+            footsteps.pitch = Random.Range(0.8f, 1.1f);
+            footsteps.Play();
         }
     }
 }

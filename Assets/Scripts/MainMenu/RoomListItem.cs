@@ -1,24 +1,23 @@
-using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Photon.Realtime;
 using TMPro;
-using UnityEngine;
+using Photon.Pun;
 
-namespace MainMenu
+public class RoomListItem : MonoBehaviourPunCallbacks
 {
-    public class RoomListItem : MonoBehaviourPunCallbacks
-    {
-        [SerializeField] private TMP_Text text;
-        public RoomInfo info;
+    [SerializeField] private TMP_Text text;
+    public RoomInfo info;
     
-        public void SetUp(RoomInfo _info)
-        {
-            info = _info;
-            text.text = _info.Name;
-        }
+    public void SetUp(RoomInfo _info)
+    {
+        info = _info;
+        text.text = _info.Name;
+    }
 
-        public void OnClick()
-        {
-            Launcher.Instance.JoinRoom(info);
-        }
+    public void OnClick()
+    {
+        Launcher.Instance.JoinRoom(info);
     }
 }
