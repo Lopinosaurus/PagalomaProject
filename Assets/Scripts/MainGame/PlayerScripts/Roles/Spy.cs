@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -28,6 +29,8 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
             if (!hasCooldown)
             {
+                hasCooldown = true;
+                _photonView.RPC("RPC_BecomeInvisible", RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
             }
@@ -40,6 +43,12 @@ namespace MainGame.PlayerScripts.Roles
             PlayerRender.enabled = false;
             yield return new WaitForSeconds(10);
             PlayerRender.enabled = true;
+        }
+
+        [PunRPC]
+        public void RPC_BecomeInvisible()
+        {
+            StartCoroutine(UpdateInvisibility());
         }
     }
 }
