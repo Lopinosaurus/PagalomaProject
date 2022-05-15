@@ -157,7 +157,11 @@ public class AiController : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
-        }catch{}
+        }
+        catch
+        {
+            Debug.LogWarning("No RoomManager found ! (AiController)");
+        }
         
         
         if (!isAlive)
@@ -349,7 +353,7 @@ public class AiController : MonoBehaviour
         List<Collider> hitColliders = new List<Collider>(Physics.OverlapSphere(center, radius));
 
         // Filter out invalid colliders
-        hitColliders.RemoveAll(IsInvalidCollider);
+        hitColliders.RemoveAll(c => IsInvalidCollider(c));
         hitColliders.Remove(previousCollider);
         // Filters out colliders that are too far
         hitColliders.RemoveAll(c =>
@@ -402,12 +406,10 @@ public class AiController : MonoBehaviour
     private bool IsInvalidCollider(Collider c)
     {
         Type type = c.GetType();
-        return typeof(CharacterController) == type
+        return !c.CompareTag("tree")
+               && !c.CompareTag("stone")
+               || typeof(CharacterController) == type
                || typeof(CapsuleCollider) == type
-               || c.CompareTag("mapFloor")
-               || c.CompareTag("village")
-               || c.CompareTag("sign")
-               || c.CompareTag("Player")
                || c.gameObject.layer == characterMaskValue;
     }
 
@@ -432,7 +434,7 @@ public class AiController : MonoBehaviour
         
         if (Physics.Raycast(ray, out RaycastHit hit1, PositiveInfinity, characterMaskValue) && hit1.collider == currentHidingObstacle)
         {
-            hidingSpot = hit1.point + direction.normalized * 2;
+            hidingSpot = hit1.point + direction.normalized;
         }
 
         Debug.DrawRay(hidingSpot, Vector3.up * 6, Color.red, 2, false);

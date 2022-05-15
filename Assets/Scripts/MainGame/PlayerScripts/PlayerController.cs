@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("No RoomManager found !");
+            Debug.LogWarning("No RoomManager found ! (PlayerController)");
         }
     }
 
@@ -132,31 +132,40 @@ public class PlayerController : MonoBehaviour
 
                 // Already spawned check
                 if (IaAlreadySpawned) continue;
+                Debug.Log("SPAWNCHECK (1/5): No other exists");
 
                 try
                 {
                     // Alive check
                     if (!_role.isAlive) continue;
-                
+                    Debug.Log("SPAWNCHECK (2/5): is alive");
+
                     // Day check
-                    if (VoteMenu.Instance.isDay) continue;
+                    if (DayNightCycle.isDay) continue;
+                    Debug.Log("SPAWNCHECK (3/5): is not day", VoteMenu.Instance);
 
                     // Village check
                     bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude >
                                            minVillageDist * minVillageDist;
                     if (villageTooClose) continue;
+                    Debug.Log("SPAWNCHECK (4/5): village is far enough");
 
                     // Player check
-                    bool anyPlayerTooClose = false;
-                    var i = 0;
-                    while (!anyPlayerTooClose && i++ < playerPositions.Count)
+                    bool everyPlayerFarEnough = true;
+                    for (int i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
                     {
-                        anyPlayerTooClose = (playerPositions[i].position - transform.position).sqrMagnitude >
-                                            minPlayerDist * minPlayerDist;
+                        everyPlayerFarEnough &= (playerPositions[i].position - transform.position).sqrMagnitude >
+                                               minPlayerDist * minPlayerDist;
                     }
-                    if (anyPlayerTooClose) continue;
-                    
-                }catch{}
+
+                    if (!everyPlayerFarEnough) continue;
+                    Debug.Log("SPAWNCHECK (5/5): every player is far enough");
+
+                }
+                catch
+                {
+                    Debug.LogWarning("No RoomManager found ! (PlayerController)");
+                }
 
                 
                 // All conditions are valid
