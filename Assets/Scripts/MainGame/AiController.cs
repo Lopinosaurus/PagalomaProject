@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using UnityEngine;
@@ -142,15 +143,27 @@ public class AiController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawLine(_agent.destination, transform.position, Color.green);
+        /*Debug.DrawLine(_agent.destination, transform.position, Color.green);
         try
         {
             Debug.DrawRay(currentHidingObstacle.bounds.center,
                 Vector3.up * 5, Color.yellow, 0, false);
         }
-        catch{}
+        catch{}*/
 
+        if (isAlive && VoteMenu.Instance.isDay)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        if (!isAlive)
+        {
+            transform.position = targetPlayer.transform.position +
+                                 targetPlayer.transform.TransformDirection(Vector3.back * 90);
+        }
+        
+        
         switch (currentState)
         {
             case AiState.Hidden when isAlive:
@@ -239,8 +252,10 @@ public class AiController : MonoBehaviour
 
                     StartCoroutine(_playerMovement.SlowSpeed(timeBeforeDeath));
                     StartCoroutine(_playerLook.Shake(timeBeforeDeath));
-                    transform.position = new Vector3(0, -50, 0); //far
-                    Destroy(gameObject, timeBeforeDeath);
+                    
+                    Destroy(gameObject, timeBeforeDeath * 2);
+                    
+                    EnableMovementSpeed(Speed.Freeze);
                     
                     isAlive = false;
                 }
