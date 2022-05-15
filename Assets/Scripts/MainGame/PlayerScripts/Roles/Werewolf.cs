@@ -9,7 +9,6 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Werewolf : Role
     {
-        // private bool _hasCooldown = false;
         public List<Role> _targets = new List<Role>();
 
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
@@ -45,8 +44,8 @@ namespace MainGame.PlayerScripts.Roles
         private void KillTarget() // TODO: Add kill animation
         {
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
-            //if (!hasCooldown)
-            //{
+            if (!hasCooldown)
+            {
                 if (_targets.Count > 0)
                 {
                     Role target = _targets[_targets.Count - 1];
@@ -56,23 +55,26 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
                     transform.position = target.transform.position;
-                    // hasCooldown = true;
+                    hasCooldown = true;
+                    UpdateActionText();
+                    if (target.hasShield)
+                    {
+                        RoomManager.Instance.UpdateInfoText($"Kill attempt failed because the player has a shield!");
+                        return;
+                    }
                     target.Die();
                     _targets.Remove(target);
-                    UpdateActionText();
                     _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
-                    
-                    
                 }
                 else
                 {
                     Debug.Log("[-] Can't kill: No target to kill");
                 }
-            //}
-            //else
-            //{
-            //    Debug.Log("[-] Can't kill: You have a Cooldown");
-            //}
+            }
+            else
+            {
+                Debug.Log("[-] Can't kill: You have a Cooldown");
+            }
         }
 
         public override void UpdateActionText()

@@ -17,7 +17,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public static RoomManager Instance;
     public Map map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
-    public string[] roles = new []{"Spy", "Werewolf", "Seer", "Lycan", "Villager", "Werewolf", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
+    public string[] roles = new []{"Priest", "Spy", "Werewolf", "Seer", "Lycan", "Villager", "Werewolf", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
 
     public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
     {
@@ -28,7 +28,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         { "black", Color.black },
         { "cyan", Color.cyan },
         { "magenta", Color.magenta },
-        { "grey", Color.grey }
+        { "grey", Color.grey },
+        { "green", Color.green},
+        { "orange", new Color(1f, 0.5f, 0f)}
     };
     public string[] colors;
     
@@ -57,7 +59,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         // Shuffle colors list
         Random rng = new Random();
-        colors = new[] { "red", "blue", "yellow", "white", "black", "cyan", "magenta", "grey" };
+        colors = new[] { "red", "blue", "yellow", "white", "black", "cyan", "magenta", "grey", "green", "orange" };
         colors = colors.OrderBy(a => rng.Next()).ToArray();
     }
 

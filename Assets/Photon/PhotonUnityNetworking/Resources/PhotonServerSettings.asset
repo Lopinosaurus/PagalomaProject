@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_KillVotedPlayer
   - RPC_EOG
   - RPC_BecomeInvisible
+  - RPC_GiveShield
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
