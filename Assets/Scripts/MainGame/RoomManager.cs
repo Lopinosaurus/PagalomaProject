@@ -18,23 +18,29 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public static RoomManager Instance;
     public Map map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
-    public string[] roles = new []{"Priest", "Spy", "Werewolf", "Seer", "Lycan", "Villager", "Werewolf", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
-
     public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
     {
-        { "red", Color.red },
-        { "blue", Color.blue },
-        { "yellow", Color.yellow },
-        { "white", Color.white },
-        { "black", Color.black },
-        { "cyan", Color.cyan },
-        { "magenta", Color.magenta },
-        { "grey", Color.grey },
-        { "green", Color.green},
-        { "orange", new Color(1f, 0.5f, 0f)}
+        { "Red", Color.red },
+        { "Blue", Color.blue },
+        { "Yellow", Color.yellow },
+        { "Lime", new Color(0.26f, 1f, 0f)},
+        { "Pink", new Color(1f, 0f, 0.86f)},
+        { "Cyan", Color.cyan },
+        { "Orange", new Color(1f, 0.5f, 0f)},
+        { "White", Color.white },
+        { "Black", Color.black },
+        { "Purple", new Color(0.71f, 0f, 1f) },
+        { "Green", new Color(0f, 0.57f, 0.22f)},
+        { "Grey", Color.grey },
+        { "Brown", new Color(0.59f, 0.41f, 0.1f)},
+        { "Teal", new Color(0f, 0.5f, 0.5f)},
+        { "Maroon", new Color(0.5f, 0f, 0f)},
+        { "Peach", new Color(0.95f, 0.82f, 0.74f)}
     };
+
+    public string[] roles;
     public string[] colors;
-    
+
     public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
     public TMP_Text actionText;
@@ -47,6 +53,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public Role localPlayer; // Reference to the local player's role
     public List<Role> votes; 
 
+    
     private void Awake()
     {
         if (Instance) // Checks if another RoomManager exists
@@ -61,10 +68,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
         votes = new List<Role>();
         infoText.text = "";
 
-        // Shuffle colors list
+        int numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
+        colors = new []{ "Red", "Blue", "Yellow", "Lime", "Pink", "Cyan", "Orange", "White", "Black", "Purple", "Green", "Grey", "Brown", "Teal", "Maroon", "Peach" };
+        colors = colors.Take(numberOfPlayers).ToArray();
+        roles = roles.Take(numberOfPlayers).ToArray();
+        foreach (string c in colors) Debug.Log(c);
+        foreach (string c in roles) Debug.Log(c);
+        // Shuffle colors and roles lists
         Random rng = new Random();
-        colors = new[] { "red", "blue", "yellow", "white", "black", "cyan", "magenta", "grey", "green", "orange" };
         colors = colors.OrderBy(a => rng.Next()).ToArray();
+        roles = roles.OrderBy(a => rng.Next()).ToArray();
     }
 
     public override void OnEnable()
@@ -134,15 +148,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         InfoListItem item = Instantiate(infoListItem, infoList);
         item.GetComponent<InfoListItem>().SetUp(message);
         Destroy(item.gameObject, 5);
-        //DestroyAfterDelay(item, 5);
-    }
-       
-    void DestroyAfterDelay (InfoListItem item, float delay)
-    {
-        /*InfoListItem item = Instantiate(infoListItem, infoList);
-        item.GetComponent<InfoListItem>().SetUp(message);
-        yield return new WaitForSeconds(delay);*/
-        Destroy(item, delay);
     }
 
     // Compute who has to be eliminated at the end of the vote
