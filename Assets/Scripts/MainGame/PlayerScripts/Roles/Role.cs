@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MainGame.DecorsInteraction;
-using MainGame.Menus;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;

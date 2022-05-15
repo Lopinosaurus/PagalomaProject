@@ -1,9 +1,13 @@
-﻿using MainGame.PlayerScripts.Roles;
+﻿using System;
+using JetBrains.Annotations;
+using MainGame.Menus;
+using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainGame.Menus
+namespace MainGame
 {
     public class VoteMenu : MonoBehaviourPunCallbacks
     {
