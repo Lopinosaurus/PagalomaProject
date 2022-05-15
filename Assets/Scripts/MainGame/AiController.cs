@@ -71,13 +71,11 @@ public class AiController : MonoBehaviour
     private float maxSpawnRange = 40;
 
     // NavMeshAgent settings
-    [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)]
-    private float normalSpeed = 20;
-
-    [Range(1, 100)] private float fastSpeed = 9999;
+    [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)] private float normalSpeed = 20;
+    [Range(1, 100)] private float fastSpeed = 30;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
-    private const float acceleration = 9999;
+    private const float acceleration = 20;
 
     private void Start()
     {
