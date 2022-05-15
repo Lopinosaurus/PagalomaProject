@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +29,8 @@ namespace MainGame.PlayerScripts
         [Space]
         [Header("Player speed settings")]
         [SerializeField] private float currentSpeed;
+        private float currentSpeedMult = 1;
+        private const float baseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
@@ -248,7 +252,7 @@ namespace MainGame.PlayerScripts
 
         private float GetSpeed()
         {
-            return currentMovementType switch
+            var speed = currentMovementType switch
             {
                 MovementTypes.Stand => 0f,
                 MovementTypes.Crouch => CrouchSpeed,
@@ -256,6 +260,10 @@ namespace MainGame.PlayerScripts
                 MovementTypes.Sprint => SprintSpeed,
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+            speed *= currentSpeedMult;
+            
+            return speed;
         }
     
         public void UpdateJump()
@@ -319,5 +327,34 @@ namespace MainGame.PlayerScripts
         }
 
         #endregion
+
+        public IEnumerator SlowSpeed(float duration)
+        {
+            var timer = 0f;
+
+            // Decreases
+            while (timer < duration * 0.8f)
+            {
+                var progress = (duration - timer) / duration;
+                
+                timer += Time.deltaTime;
+                currentSpeedMult = Mathf.Lerp(baseSpeedMult, baseSpeedMult / 2, progress);
+
+                yield return null;
+            }
+            
+            // Increases back
+            while (timer < duration)
+            {
+                var progress = (duration - timer) / duration;
+                
+                timer += Time.deltaTime;
+                currentSpeedMult = Mathf.Lerp(baseSpeedMult / 2, baseSpeedMult, progress);
+
+                yield return null;
+            }
+
+            currentSpeedMult = 1;
+        }
     }
 }
