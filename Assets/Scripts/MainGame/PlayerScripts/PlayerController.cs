@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("SPAWNCHECK (2/5): is alive");
 
                     // Day check
-                    if (DayNightCycle.isDay) continue;
+                    if (VoteMenu.Instance.isDay) continue;
                     Debug.Log("SPAWNCHECK (3/5): is not day", VoteMenu.Instance);
 
                     // Village check
@@ -174,11 +174,11 @@ public class PlayerController : MonoBehaviour
             }
 
             // Can spawn the Ai
-            AiInstance = Instantiate(AiPrefab, transform.position + transform.TransformDirection(Vector3.back * 40),
-                Quaternion.identity);
+            AiInstance = Instantiate(AiPrefab, 
+                transform.position + transform.TransformDirection(Vector3.back + Vector3.up), Quaternion.identity);
 
             AiInstance.GetComponent<AiController>().targetRole = _role;
-
+            
             Debug.Log("Ai created");
 
             yield return null;

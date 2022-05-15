@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
+using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using static System.Single;
 using Random = UnityEngine.Random;
 
@@ -58,9 +61,8 @@ public class AiController : MonoBehaviour
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 3;
-    private const float MaxBeingCaughtDelay = 5;
-    private const float MaxWaitingTime = -3;
+    private const float CycleTime = 5;
+    private const float MaxBeingCaughtDelay = 3;
 
     private const float AttackMaxDistancePlayer = 2.5f;
     private const float SqrMinColliderPlayerDist = 27;
@@ -98,8 +100,6 @@ public class AiController : MonoBehaviour
         _agent.speed = _normalSpeed;
         _agent.acceleration = Acceleration;
         _agent.stoppingDistance = 0.5f;
-
-        transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
     }
 
     private void Update()
@@ -113,9 +113,8 @@ public class AiController : MonoBehaviour
             RotateTowardsPlayer();
         }
         
-        if (_isViewed && remainingTime <= CycleTime && AiState.Moving == currentState)
+        if (_isViewed && remainingTime <= CycleTime && AiState.Hidden == currentState)
         {
-            EnableMovementSpeed(Speed.Freeze);
             timeBeingCaught += Time.deltaTime;
         }
 
@@ -138,7 +137,7 @@ public class AiController : MonoBehaviour
     {
         try
         {
-            if (VoteMenu.Instance.isDay)
+            if (RoomManager.Instance && DayNightCycle.isDay)
             {
                 Destroy(gameObject);
                 return;
@@ -157,7 +156,12 @@ public class AiController : MonoBehaviour
             
             return;
         }
-        
+
+        if (!currentHidingObstacle)
+        {
+            transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
+            _agent.SetDestination(FindHidingSpot(false, true));
+        }
         
         switch (currentState)
         {
@@ -179,21 +183,27 @@ public class AiController : MonoBehaviour
                 // When the time has run out normally, moves forwards
                 else if (remainingTime < 0)
                 {
-                    remainingTime = CycleTime;
-                    moveCount++;
                     SetCurrentState(AiState.Moving);
                     _agent.SetDestination(FindHidingSpot(false));
+                    if (previousCollider != currentHidingObstacle) moveCount++;
                 }
                 
                 
                 break;
             
             case AiState.Moving when _isAlive:
+                EnableMovementSpeed(Speed.Normal);
+                remainingTime = CycleTime;
+                
                 // When the Ai has arrived, goes back to Hidden
-                if (!_agent.hasPath)
+                if (_agent.remainingDistance > RemainingMinDistance)
                 {
-                    remainingTime = CycleTime;
-                    _agent.SetDestination(FindHidingSpot(false));
+                    _agent.SetDestination(FindHidingSpot(true));
+                }
+                else
+                {
+                    SetCurrentState(AiState.Hidden);
+                    timeBeingCaught = 0;
                 }
 
                 break;
@@ -351,11 +361,8 @@ public class AiController : MonoBehaviour
 
         Collider newCollider = ChooseRandom(correctCol.Count > 0 ? correctCol : tooCloseCol);
 
-        if (!Equals(currentHidingObstacle, newCollider))
-        {
-            previousCollider = currentHidingObstacle;
-            currentHidingObstacle = newCollider;
-        }
+        previousCollider = currentHidingObstacle;
+        currentHidingObstacle = newCollider;
     }
 
     private Collider ChooseRandom(List<(Collider, float)> cols)
@@ -416,18 +423,19 @@ public class AiController : MonoBehaviour
             hidingSpot = hit1.point + direction.normalized;
         }
 
-        Debug.DrawRay(hidingSpot, Vector3.up * 6, Color.red, 2, false);
-
         // Sticks it to the ground
         if (Physics.Raycast(hidingSpot, Vector3.down, out RaycastHit hit, _characterMaskValue))
         {
             hidingSpot.y = hit.point.y;
         }
         
+        Debug.DrawRay(hidingSpot, Vector3.up * 6, Color.red, 2, false);
+
+        
         return hidingSpot;
     }
 
-    private Vector3 PositionBehindPlayer(float minDistance, float maxDistance)
+    public Vector3 PositionBehindPlayer(float minDistance, float maxDistance)
     {
         // SpawnPoint
         float spawnAngle = Random.Range(Mathf.PI * 11 / 8, Mathf.PI * 13 / 8);
