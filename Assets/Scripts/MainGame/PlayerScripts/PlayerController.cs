@@ -145,8 +145,9 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("SPAWNCHECK (3/5): is not day", VoteMenu.Instance);
 
                     // Village check
-                    bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude >
-                                           minVillageDist * minVillageDist;
+                    Debug.Log($"villagePos = {villageTransform.position} | pos = {transform.position}");
+                    bool villageTooClose =(villageTransform.position - transform.position).sqrMagnitude <
+                                          minVillageDist * minVillageDist;
                     if (villageTooClose) continue;
                     Debug.Log("SPAWNCHECK (4/5): village is far enough");
 

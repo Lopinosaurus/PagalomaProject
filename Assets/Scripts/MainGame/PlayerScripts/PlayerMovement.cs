@@ -34,6 +34,7 @@ namespace MainGame.PlayerScripts
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
+        private const float smoothMoveValue = 10f;
     
         [Space]
         [Header("Movement settings")]
@@ -52,9 +53,6 @@ namespace MainGame.PlayerScripts
         [SerializeField] public float RaySize;
         public bool grounded;
         public float slopeCompensationForce = 5f;
-        /*[SerializeField] public LayerMask groundMask;
-    public Transform groundCheck;
-    public float groundDistance = 0.01f;*/
 
         // Crouch & Hitboxes 
         [Space]
@@ -317,7 +315,7 @@ namespace MainGame.PlayerScripts
 
         private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
         {
-            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, 0.2f);
+            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, Time.deltaTime * smoothMoveValue);
             // return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _, smoothTime);
         }
     
