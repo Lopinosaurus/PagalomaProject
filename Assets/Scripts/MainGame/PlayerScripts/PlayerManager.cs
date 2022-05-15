@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     private PhotonView PV;
     public string roleName;
     public string color;
+    public int spawnIndex;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -34,12 +35,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         {
             GameObject village = Map.FindMap();
             Transform spawnList = village.transform.Find("spawns");
-            GameObject spawn = spawnList.GetChild(Random.Range(0,8)).gameObject;//spawnList.GetChild(Random.Range(0, 8)).gameObject;
+            GameObject spawn = spawnList.GetChild(spawnIndex).gameObject;
             Debug.Log("spawn = "+spawn);
             Vector3 spawnPoint = spawn.transform.position;
-            Debug.Log("spawnPoint = " + spawnPoint);
-            //Vector3 spawnPoint = new Vector3(42, 42, 42);
-            
+
             string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instancitationData);
             IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
@@ -65,16 +64,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         roleName = RoomManager.Instance.GetNextRoleName(); // Get the role from RoomManager
         color = RoomManager.Instance.GetNextColor();
+        spawnIndex = RoomManager.Instance.nextPlayerRoleIndex;
         RoomManager.Instance.nextPlayerRoleIndex ++;
-        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName, color); // Broadcast the new role and color
+        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName, color, spawnIndex); // Broadcast the new role and color
         DisplayRole();
     }
 
     [PunRPC]
-    void RPC_ReceiveRole(string roleName, string color) // Apply the role that have been broadcast
+    void RPC_ReceiveRole(string roleName, string color, int spawnIndex) // Apply the role that have been broadcast
     {
         this.roleName = roleName;
         this.color = color;
+        this.spawnIndex = spawnIndex;
         DisplayRole();
     }
 }
