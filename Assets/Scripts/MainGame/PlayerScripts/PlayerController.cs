@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using UnityEngine;
@@ -38,9 +39,9 @@ public class PlayerController : MonoBehaviour
     // Ai settings
     private Role _role;
     private GameObject AiInstance;
+    private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
-    private  List<Transform> playerPositions = new List<Transform>();
-    private readonly Transform villageTransform = RoomManager.Instance.map.village.transform;
+    private List<Transform> playerPositions;
     
     private float minVillageDist = 60f;
     private float minPlayerDist = 60f;
@@ -84,13 +85,23 @@ public class PlayerController : MonoBehaviour
         // Ai
         _role = GetComponent<Role>();
 
-        var t = RoomManager.Instance.players;
-        foreach (var role in t)
+        try
         {
-            if (role.userId != _role.userId)
+            villageTransform = RoomManager.Instance.map.village.transform;
+            
+            var t = RoomManager.Instance.players;
+            playerPositions = new List<Transform>();
+            foreach (var role in t)
             {
-                playerPositions.Add(role.gameObject.transform);
+                if (role.userId != _role.userId)
+                {
+                    playerPositions.Add(role.gameObject.transform);
+                }
             }
+        }
+        catch
+        {
+            Debug.LogWarning("No RoomManager found !");
         }
     }
 
@@ -105,8 +116,10 @@ public class PlayerController : MonoBehaviour
             Destroy(_audioListener);
             playerInput.enabled = false;
         }
-
-        StartCoroutine(AiCreator());
+        else
+        {
+            StartCoroutine(AiCreator());
+        }
     }
 
     private IEnumerator AiCreator()
@@ -120,24 +133,31 @@ public class PlayerController : MonoBehaviour
                 // Already spawned check
                 if (IaAlreadySpawned) continue;
 
-                // Alive check
-                if (!_role.isAlive) continue;
-
-                // Village check
-                bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude >
-                                       minVillageDist * minVillageDist;
-                if (villageTooClose) continue;
-
-                // Player check
-                bool anyPlayerTooClose = false;
-                var i = 0;
-                while (!anyPlayerTooClose && i++ < playerPositions.Count)
+                try
                 {
-                    anyPlayerTooClose = (playerPositions[i].position - transform.position).sqrMagnitude >
-                                        minPlayerDist * minPlayerDist;
-                }
+                    // Alive check
+                    if (!_role.isAlive) continue;
+                
+                    // Day check
+                    if (VoteMenu.Instance.isDay) continue;
 
-                if (anyPlayerTooClose) continue;
+                    // Village check
+                    bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude >
+                                           minVillageDist * minVillageDist;
+                    if (villageTooClose) continue;
+
+                    // Player check
+                    bool anyPlayerTooClose = false;
+                    var i = 0;
+                    while (!anyPlayerTooClose && i++ < playerPositions.Count)
+                    {
+                        anyPlayerTooClose = (playerPositions[i].position - transform.position).sqrMagnitude >
+                                            minPlayerDist * minPlayerDist;
+                    }
+                    if (anyPlayerTooClose) continue;
+                    
+                }catch{}
+
                 
                 // All conditions are valid
                 break;
@@ -146,6 +166,8 @@ public class PlayerController : MonoBehaviour
             // Can spawn the Ai
             AiInstance = Instantiate(AiPrefab, transform.position + transform.TransformDirection(Vector3.back * 40),
                 Quaternion.identity);
+
+            AiInstance.GetComponent<AiController>().targetRole = _role;
 
             Debug.Log("Ai created");
 

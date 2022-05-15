@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class AiController : MonoBehaviour
 {
-    [SerializeField] private Role targetRole;
+    public Role targetRole;
     [SerializeField] private GameObject dissimulateParticle;
     private GameObject targetPlayer;
     private Camera targetCam;
@@ -20,8 +20,8 @@ public class AiController : MonoBehaviour
     private CapsuleCollider _capsuleCollider;
     [SerializeField] private Collider previousCollider;
     [SerializeField] private Collider currentHidingObstacle;
-    public bool isViewed;
-    public bool isInCameraView;
+    private bool isViewed;
+    private bool isInCameraView;
 
     private enum AiState
     {
@@ -67,22 +67,23 @@ public class AiController : MonoBehaviour
     private const float remainingMinDistance = 1;
 
     // Spawn settings
-    [Space] [Header("Spawn distances")] public float minSpawnRange = 30;
-    public float maxSpawnRange = 40;
+    [Space] [Header("Spawn distances")] private float minSpawnRange = 30;
+    private float maxSpawnRange = 40;
 
     // NavMeshAgent settings
     [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)]
-    public float normalSpeed = 20;
+    private float normalSpeed = 20;
 
-    [Range(1, 100)] public float fastSpeed = 9999;
+    [Range(1, 100)] private float fastSpeed = 9999;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     private const float acceleration = 9999;
 
-    private void Awake()
+    private void Start()
     {
         targetPlayer = targetRole.gameObject;
         targetPlayer.GetComponent<CharacterController>();
+        
         _playerLook = targetPlayer.GetComponent<PlayerLook>();
         _playerMovement = targetPlayer.GetComponent<PlayerMovement>();
         targetPlayer = targetRole.gameObject;
@@ -151,16 +152,22 @@ public class AiController : MonoBehaviour
         }
         catch{}*/
 
-        if (isAlive && VoteMenu.Instance.isDay)
+        try
         {
-            Destroy(gameObject);
-            return;
-        }
-
+            if (VoteMenu.Instance.isDay)
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }catch{}
+        
+        
         if (!isAlive)
         {
             transform.position = targetPlayer.transform.position +
                                  targetPlayer.transform.TransformDirection(Vector3.back * 90);
+            
+            return;
         }
         
         
