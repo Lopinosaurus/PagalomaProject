@@ -36,7 +36,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             GameObject village = Map.FindMap();
             Transform spawnList = village.transform.Find("spawns");
             GameObject spawn = spawnList.GetChild(spawnIndex).gameObject;
-            Debug.Log("spawn = "+spawn);
             Vector3 spawnPoint = spawn.transform.position;
 
             string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};

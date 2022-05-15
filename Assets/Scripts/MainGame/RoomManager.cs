@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
 using MainGame;
+using MainGame.Menus;
 using MainGame.PlayerScripts.Roles;
 using TMPro;
 using Random = System.Random;
@@ -39,6 +40,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public TMP_Text actionText;
     public TMP_Text deathText;
     public TMP_Text infoText;
+    public Transform infoList;
+    [SerializeField] private InfoListItem infoListItem;    
+    
     public List<Role> players; // List of the Role of all the players
     public Role localPlayer; // Reference to the local player's role
     public List<Role> votes; 
@@ -127,13 +131,18 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     public void UpdateInfoText(string message = "")
     {
-        StartCoroutine(UpdateInfoText(message, 5));
+        InfoListItem item = Instantiate(infoListItem, infoList);
+        item.GetComponent<InfoListItem>().SetUp(message);
+        Destroy(item.gameObject, 5);
+        //DestroyAfterDelay(item, 5);
     }
        
-    IEnumerator UpdateInfoText (string message, float delay) {
-        infoText.text = message;
-        yield return new WaitForSeconds(delay);
-        infoText.text = "";
+    void DestroyAfterDelay (InfoListItem item, float delay)
+    {
+        /*InfoListItem item = Instantiate(infoListItem, infoList);
+        item.GetComponent<InfoListItem>().SetUp(message);
+        yield return new WaitForSeconds(delay);*/
+        Destroy(item, delay);
     }
 
     // Compute who has to be eliminated at the end of the vote

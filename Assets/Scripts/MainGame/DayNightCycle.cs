@@ -68,7 +68,7 @@ public class DayNightCycle : MonoBehaviour
             isDay = false;
             if (PhotonNetwork.IsMasterClient)
             {
-                RoomManager.Instance.ResolveVote();
+                if (VoteMenu.Instance.isFirstDay == false) RoomManager.Instance.ResolveVote();
                 
                 int isEOG = RoomManager.Instance.CheckIfEOG();
                 if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
