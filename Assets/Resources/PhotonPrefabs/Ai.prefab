@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5365504288062960511}
-  - component: {fileID: 4350553051326434313}
+  - component: {fileID: 4915019114238537278}
   - component: {fileID: 933700854028002495}
   - component: {fileID: 440363528293553627}
   m_Layer: 7
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4350553051326434313
+--- !u!114 &4915019114238537278
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118579898149976474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b70ac0d609b89cb42b5e94af4fb0ed2a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8bf88091537d5843935ae0f97c6e8a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetRole: {fileID: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   characterMask:
     serializedVersion: 2
     m_Bits: 128
-  currentState: 0
+  currentState: 1
   remainingTime: 0
   timeBeingCaught: 0
   remainingHealth: 1
@@ -68,10 +68,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 20
+  m_Acceleration: 999
   avoidancePriority: 77
-  m_AngularSpeed: 120
+  m_AngularSpeed: 999
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
