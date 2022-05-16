@@ -255,7 +255,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
     // Network synchronization
 
     #region RPCs

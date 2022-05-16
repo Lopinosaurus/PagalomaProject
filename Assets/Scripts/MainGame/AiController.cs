@@ -4,7 +4,7 @@ using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using UnityEditor;
-//using UnityEditor.SearchService;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -267,8 +267,8 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    //StartCoroutine(_playerMovement.SlowSpeed(TimeBeforeDeath));
-                    //StartCoroutine(_playerLook.Shake(TimeBeforeDeath));
+                    StartCoroutine(_playerMovement.SlowSpeed(TimeBeforeDeath));
+                    StartCoroutine(_playerLook.Shake(TimeBeforeDeath));
                     
                     Destroy(gameObject, TimeBeforeDeath + 5);
                     

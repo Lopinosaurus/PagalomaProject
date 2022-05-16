@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,11 +29,12 @@ namespace MainGame.PlayerScripts
         [Space]
         [Header("Player speed settings")]
         [SerializeField] private float currentSpeed;
-        public float currentSpeedMult = 1;
+        private float currentSpeedMult = 1;
         private const float baseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
+        private const float smoothMoveValue = 10f;
     
         [Space]
         [Header("Movement settings")]
@@ -50,9 +53,6 @@ namespace MainGame.PlayerScripts
         [SerializeField] public float RaySize;
         public bool grounded;
         public float slopeCompensationForce = 5f;
-        /*[SerializeField] public LayerMask groundMask;
-    public Transform groundCheck;
-    public float groundDistance = 0.01f;*/
 
         // Crouch & Hitboxes 
         [Space]
@@ -250,7 +250,7 @@ namespace MainGame.PlayerScripts
 
         private float GetSpeed()
         {
-            return currentMovementType switch
+            var speed = currentMovementType switch
             {
                 MovementTypes.Stand => 0f,
                 MovementTypes.Crouch => CrouchSpeed,
@@ -258,6 +258,10 @@ namespace MainGame.PlayerScripts
                 MovementTypes.Sprint => SprintSpeed,
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+            speed *= currentSpeedMult;
+            
+            return speed;
         }
     
         public void UpdateJump()
@@ -311,7 +315,7 @@ namespace MainGame.PlayerScripts
 
         private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
         {
-            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, 0.2f);
+            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, Time.deltaTime * smoothMoveValue);
             // return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _, smoothTime);
         }
     
@@ -321,5 +325,34 @@ namespace MainGame.PlayerScripts
         }
 
         #endregion
+
+        public IEnumerator SlowSpeed(float duration)
+        {
+            var timer = 0f;
+
+            // Decreases
+            while (timer < duration * 0.8f)
+            {
+                var progress = (duration - timer) / duration;
+                
+                timer += Time.deltaTime;
+                currentSpeedMult = Mathf.Lerp(baseSpeedMult, baseSpeedMult / 2, progress);
+
+                yield return null;
+            }
+            
+            // Increases back
+            while (timer < duration)
+            {
+                var progress = (duration - timer) / duration;
+                
+                timer += Time.deltaTime;
+                currentSpeedMult = Mathf.Lerp(baseSpeedMult / 2, baseSpeedMult, progress);
+
+                yield return null;
+            }
+
+            currentSpeedMult = 1;
+        }
     }
 }
