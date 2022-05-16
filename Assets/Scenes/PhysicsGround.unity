@@ -5,9 +5,9 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
-    smallestHole: 0.25
-    backfaceThreshold: 100
+    smallestOccluder: 0.1
+    smallestHole: 0.1
+    backfaceThreshold: 5
   m_SceneGUID: 0ae83a77cf9777b43ad94203bfe8b7a4
   m_OcclusionCullingData: {fileID: 36300000, guid: 9c9a44a38c778fc44b1aabfd5dfbae98, type: 2}
 --- !u!104 &2
@@ -1648,6 +1648,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 838235907301293933, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5413455336871077530, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1702,6 +1706,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9118603271664355303, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182737059992604612, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
