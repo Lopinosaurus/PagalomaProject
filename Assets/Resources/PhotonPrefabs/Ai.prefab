@@ -46,17 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70ac0d609b89cb42b5e94af4fb0ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  greenSphere: {fileID: 0}
   targetRole: {fileID: 0}
-  isViewed: 0
-  characterMaskName: Ignore Character
+  dissimulateParticle: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
+  previousCollider: {fileID: 0}
+  currentHidingObstacle: {fileID: 0}
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 128
   currentState: 0
-  remainingTimeBeforeTransition: 15
+  remainingTime: 0
   timeBeingCaught: 0
-  remainingHealth: 3
-  minSpawnRange: 40
-  maxSpawnRange: 50
-  regularSpeed: 20
+  remainingHealth: 1
+  moveCount: 0
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0
