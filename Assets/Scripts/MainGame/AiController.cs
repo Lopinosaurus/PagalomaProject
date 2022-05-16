@@ -20,6 +20,7 @@ public class AiController : MonoBehaviour
     private Plane[] _targetPlanes;
 
     private NavMeshAgent _agent;
+    private DayNightCycle _dayNightCycle;
     private CapsuleCollider _capsuleCollider;
     [SerializeField] private Collider previousCollider;
     [SerializeField] private Collider currentHidingObstacle;
@@ -39,7 +40,7 @@ public class AiController : MonoBehaviour
         Freeze,
         Attack,
         Normal,
-        Fast
+        Hiding
     }
 
     // Insert the LayerMask corresponding the player 
@@ -74,7 +75,7 @@ public class AiController : MonoBehaviour
 
     // NavMeshAgent settings
     [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)] private float _normalSpeed = 20;
-    [Range(1, 100)] private float _fastSpeed = 30;
+    [Range(1, 100)] private float _hidingSpeed = 5;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     private const float Acceleration = 20;
@@ -91,6 +92,14 @@ public class AiController : MonoBehaviour
 
         _agent = GetComponent<NavMeshAgent>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
+        try
+        {
+            _dayNightCycle = FindObjectOfType<DayNightCycle>();
+        }
+        catch
+        {
+            Debug.LogWarning("No DayNightCycle found ! (AiController)");
+        }
 
         remainingTime = CycleTime;
 
@@ -137,7 +146,7 @@ public class AiController : MonoBehaviour
     {
         try
         {
-            if (RoomManager.Instance && DayNightCycle.isDay)
+            if (RoomManager.Instance && _dayNightCycle.isDay)
             {
                 Destroy(gameObject);
                 return;
@@ -168,6 +177,9 @@ public class AiController : MonoBehaviour
             case AiState.Hidden when _isAlive:
                 // Reduces the timer
                 remainingTime -= Time.fixedDeltaTime;
+                
+                // Stays hidden
+                _agent.SetDestination(FindHidingSpot(true));
                 
                 // Sets the speed at fast
                 EnableMovementSpeed(Speed.Normal);
@@ -324,8 +336,8 @@ public class AiController : MonoBehaviour
             case Speed.Normal:
                 _agent.speed = _normalSpeed;
                 break;
-            case Speed.Fast:
-                _agent.speed = _fastSpeed;
+            case Speed.Hiding:
+                _agent.speed = _hidingSpeed;
                 break;
         }
     }
@@ -420,7 +432,7 @@ public class AiController : MonoBehaviour
         
         if (Physics.Raycast(ray, out RaycastHit hit1, PositiveInfinity, _characterMaskValue) && hit1.collider == currentHidingObstacle)
         {
-            hidingSpot = hit1.point + direction.normalized;
+            hidingSpot = hit1.point + direction.normalized * 0.5f;
         }
 
         // Sticks it to the ground
