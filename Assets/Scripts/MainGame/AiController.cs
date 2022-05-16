@@ -24,7 +24,7 @@ public class AiController : MonoBehaviour
     private Collider previousCollider;
     public bool isViewed;
 
-    private enum AiState
+    public enum AiState
     {
         Hidden,
         Transition,
@@ -35,27 +35,28 @@ public class AiController : MonoBehaviour
     [SerializeField] private string characterMaskName;
 
     // Gameplay stats
-    [Space]
-    [Header("Gameplay statistics")]
-    [SerializeField] private AiState currentState = AiState.Hidden;
-    [SerializeField] private float remainingTimeBeforeTransition;
+    [Space] [Header("Gameplay statistics")] [SerializeField]
+    private AiState currentState = AiState.Moving;
+    public AiState CurrentState => currentState;
+
+    [SerializeField] private float remainingTime;
     [SerializeField] private float timeBeingCaught;
-    [SerializeField] private int remainingHealth = 3;
-    private Collider currentHidingObstacle;
-    private int moveCount = 0;
-    
-    private float distanceFromTarget => Vector3.Distance(transform.position, targetPlayer.transform.position);
-    
-    private const float cycleTime = 5;
-    private const float maxBeingCaughtDelay = /*0.8f*/ 9999f;
-    private const float maxWaitingTimeBeforeMoving = -10;
-    
-    private const float distanceToPlayerMaxBeforeAttacking = 10;
-    private const float allowedMaxDistanceFromDestination = 0.5f;
-    private const float distanceFromObjectMinTreshold = 1;
-    private const float distanceFromObjectMaxTreshold = 1;
-    private const float obstacleMaxHeightTreshold = 1.5f;
-    
+    [SerializeField] private int remainingHealth = 1;
+
+    private bool _isAlive = true;
+    private const float TimeBeforeDeath = 15f;
+    [SerializeField] private int moveCount;
+    private const int MaxMoveCount = 10;
+
+    private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
+
+    private const float CycleTime = 5;
+    private const float MaxBeingCaughtDelay = 3;
+
+    private const float AttackMaxDistancePlayer = 2.5f;
+    private const float SqrMinColliderPlayerDist = 27;
+    private const float RemainingMinDistance = 1;
+
     // Spawn settings
     [Space]
     [Header("Spawn distances")]
