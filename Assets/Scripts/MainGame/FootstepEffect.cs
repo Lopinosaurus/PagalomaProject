@@ -37,7 +37,7 @@ public class FootstepEffect : MonoBehaviour
         
         else if (state == FootstepState.WALKING)
         {
-            footsteps.volume = Random.Range(0.2f, 0.4f);
+            footsteps.volume = Random.Range(0.25f, 0.35f);
             footsteps.pitch = Random.Range(0.8f, 1.1f);
             footsteps.Play();
             yield return new WaitForSeconds(.5f);
@@ -45,7 +45,7 @@ public class FootstepEffect : MonoBehaviour
         
         else if (state == FootstepState.SPRINTING)
         {
-            footsteps.volume = Random.Range(0.2f, 0.4f);
+            footsteps.volume = Random.Range(0.25f, 0.35f);
             footsteps.pitch = Random.Range(0.8f, 1.1f);
             footsteps.Play();
             yield return null;
@@ -63,7 +63,7 @@ public class FootstepEffect : MonoBehaviour
         #region Crouching Case
         
         if (characterController.isGrounded 
-            && (!footsteps.isPlaying) && characterController.velocity.magnitude > 0f 
+            && !footsteps.isPlaying && characterController.velocity.magnitude > 0f 
             && characterController.velocity.magnitude < 1.5f)
 
         {
@@ -87,7 +87,7 @@ public class FootstepEffect : MonoBehaviour
 
         #region Walking Case
         else if (characterController.isGrounded 
-            && (!footsteps.isPlaying) && characterController.velocity.magnitude > 0f 
+            && !footsteps.isPlaying && characterController.velocity.magnitude > 0f 
             && characterController.velocity.magnitude < 3f)
         {
             int soundTaker = Random.Range(1, 2);
@@ -113,7 +113,7 @@ public class FootstepEffect : MonoBehaviour
 
         #region Sprinting Case
         else if (characterController.isGrounded
-            && (!footsteps.isPlaying) && characterController.velocity.magnitude > 0f
+            && !footsteps.isPlaying && characterController.velocity.magnitude > 0f
             && characterController.velocity.magnitude < 6f)
         {
             int soundTaker = Random.Range(1, 2);
