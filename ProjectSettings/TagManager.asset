@@ -12,6 +12,7 @@ TagManager:
   - sign
   - bush
   - obstacle
+  - DayNightCycle
   layers:
   - Default
   - TransparentFX
