@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using MainGame;
 using MainGame.PlayerScripts;
+using MainGame.PlayerScripts.Roles;
 using UnityEngine;
 using Photon.Pun;
-using UnityEditor;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement)),
@@ -10,11 +13,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
-    
+
     // Network component
     private PhotonView _photonView;
-    
+
     // Sub scripts
+    private DayNightCycle _dayNightCycle;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     [SerializeField] private PlayerAnimation _playerAnimation;
@@ -24,12 +28,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal GameObject cameraHolder;
     private Camera _cam;
     private AudioListener _audioListener;
-    
+
     // First person management
     [SerializeField] private GameObject PlayerRender;
     [Range(0, 2)] public float backShift = 1f;
 
-    
+
     // Player Controls
     public PlayerControls PlayerControls;
 
@@ -43,52 +47,72 @@ public class PlayerController : MonoBehaviour
     private float minVillageDist = 60f;
     private float minPlayerDist = 60f;
     private bool IaAlreadySpawned => AiInstance;
-    private bool HasAlreadySpawnedOnce = false;
+    private bool hasAlreadySpawnedToday = false;
 
     #endregion
 
     #region Unity methods
-    
+
     private void OnEnable()
     {
         PlayerControls.Player.Enable();
     }
-    
+
     private void OnDisable()
     {
         PlayerControls.Player.Disable();
     }
-    
+
     private void Awake()
     {
-        // Bake occlusion
-        // StaticOcclusionCulling.GenerateInBackground();
-        
         // Player Controls
         PlayerControls = new PlayerControls();
 
         // Movement components
         GetComponentInChildren<CharacterController>();
-        
+
         // Network component
         _photonView = GetComponent<PhotonView>();
-        
+
         // Camera component
         _cam = cameraHolder.GetComponentInChildren<Camera>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
         if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
-        
+
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
+        _dayNightCycle = FindObjectOfType<DayNightCycle>();
+
+        // Ai
+        _role = GetComponent<Role>();
+
+        try
+        {
+            villageTransform = RoomManager.Instance.map.village.transform;
+            
+            var t = RoomManager.Instance.players;
+            playerPositions = new List<Transform>();
+            foreach (var role in t)
+            {
+                if (role.userId != _role.userId)
+                {
+                    playerPositions.Add(role.gameObject.transform);
+                }
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("No RoomManager found ! (PlayerController)");
+        }
     }
-    
+
     internal void Start()
     {
         // Moves the player render backwards so that it doesn't clip with the camera
         PlayerRender.transform.localPosition -= Vector3.back * backShift;
-        
+
         if (!_photonView.IsMine)
         {
             Destroy(_cam);
@@ -109,41 +133,59 @@ public class PlayerController : MonoBehaviour
             {
                 yield return new WaitForSeconds(2);
 
-                // Already spawned today check
-                try
-                {
-                    if (!VoteMenu.Instance.isNight)
-                    {
-                        HasAlreadySpawnedOnce = false;
-                    }
-                }
-                catch
-                {
-                    HasAlreadySpawnedOnce = false;
-                }
-                if (HasAlreadySpawnedOnce) continue;
-                Debug.Log("SPAWNCHECK (0/5): No other exists");
-                
+                 // Already spawned today check
+                 try
+                 {
+                     if (!VoteMenu.Instance.isNight)
+                     {
+                         hasAlreadySpawnedToday = false;
+                     }
+                 }
+                 catch
+                 {
+                     hasAlreadySpawnedToday = false;
+                 }
+                 if (IaAlreadySpawned)
+                 {
+                     Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+                     continue;
+                 };
+                 
+
+                 
                 // Already spawned check
-                if (IaAlreadySpawned) continue;
-                Debug.Log("SPAWNCHECK (1/5): No other exists");
+                if (IaAlreadySpawned)
+                {
+                    Debug.Log("SPAWNCHECK (1/5): Ai already exists");
+                    continue;
+                };
 
                 try
                 {
                     // Alive check
-                    if (!_role.isAlive) continue;
-                    Debug.Log("SPAWNCHECK (2/5): is alive");
+                    if (!_role.isAlive)
+                    {
+                        Debug.Log("SPAWNCHECK (2/5): is dead");
+                        continue;
+                    }
 
                     // Day check
-                    if (_dayNightCycle.isDay) continue;
-                    Debug.Log("SPAWNCHECK (3/5): is not day", _dayNightCycle.gameObject);
+                    if (!VoteMenu.Instance.isNight)
+                    {
+                        Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
+                        continue;
+                    }
+                    
 
                     // Village check
-                    Debug.Log($"villagePos = {villageTransform.position} | pos = {transform.position}");
                     bool villageTooClose =(villageTransform.position - transform.position).sqrMagnitude <
                                           minVillageDist * minVillageDist;
-                    if (villageTooClose) continue;
-                    Debug.Log("SPAWNCHECK (4/5): village is far enough");
+                    if (villageTooClose)
+                    {
+                        Debug.Log("SPAWNCHECK (4/5): village is too close");
+                        continue;
+                    }
+                    
 
                     // Player check
                     bool everyPlayerFarEnough = true;
@@ -153,8 +195,11 @@ public class PlayerController : MonoBehaviour
                                                minPlayerDist * minPlayerDist;
                     }
 
-                    if (!everyPlayerFarEnough) continue;
-                    Debug.Log("SPAWNCHECK (5/5): every player is far enough");
+                    if (!everyPlayerFarEnough)
+                    {
+                        Debug.Log("SPAWNCHECK (5/5): a player is too close");
+                        continue;
+                    }
 
                 }
                 catch
@@ -172,6 +217,8 @@ public class PlayerController : MonoBehaviour
                 transform.position + transform.TransformDirection(Vector3.back + Vector3.up), Quaternion.identity);
 
             AiInstance.GetComponent<AiController>().targetRole = _role;
+
+            hasAlreadySpawnedToday = true;
             
             Debug.Log("Ai created");
 
@@ -187,15 +234,15 @@ public class PlayerController : MonoBehaviour
 
             // Updates the jump feature
             _playerMovement.UpdateJump();
-            
+
             // Moves the player
             _playerMovement.Move(Time.deltaTime);
-            
+
             // Updates the appearance based on the MovementType
             _playerAnimation.UpdateAnimationsBasic();
         }
     }
-    
+
     private void FixedUpdate()
     {
         if (_photonView.IsMine)
@@ -205,11 +252,12 @@ public class PlayerController : MonoBehaviour
             _playerMovement.UpdateHitbox();
         }
     }
-    
+
     #endregion
-    
+
 
     // Network synchronization
+
     #region RPCs
 
     [PunRPC]
