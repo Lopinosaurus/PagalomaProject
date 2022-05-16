@@ -267,8 +267,8 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    StartCoroutine(_playerMovement.SlowSpeed(TimeBeforeDeath));
-                    StartCoroutine(_playerLook.Shake(TimeBeforeDeath));
+                    //StartCoroutine(_playerMovement.SlowSpeed(TimeBeforeDeath));
+                    //StartCoroutine(_playerLook.Shake(TimeBeforeDeath));
                     
                     Destroy(gameObject, TimeBeforeDeath + 5);
                     

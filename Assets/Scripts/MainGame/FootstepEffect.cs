@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class FootstepEffect : MonoBehaviour
@@ -13,8 +14,45 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] AudioClip wetCrouching;
     [SerializeField] AudioClip wetWalking;
     [SerializeField] AudioClip wetSprinting;
+    private bool _trueIsPlaying = false;
 
+    public enum FootstepState
+    {
+        CROUCHING,
+        WALKING,
+        SPRINTING
+    }
     
+    private IEnumerator _PlayFootstep(AudioClip clip, FootstepState state)
+    {
+        _trueIsPlaying = true;
+        footsteps.clip = clip;
+        if (state == FootstepState.CROUCHING)
+        {
+            footsteps.volume = Random.Range(0.1f, 0.2f);
+            footsteps.pitch = Random.Range(0.8f, 1.1f);
+            footsteps.Play();
+            yield return new WaitForSeconds(.8f);
+        }
+        
+        else if (state == FootstepState.WALKING)
+        {
+            footsteps.volume = Random.Range(0.2f, 0.4f);
+            footsteps.pitch = Random.Range(0.8f, 1.1f);
+            footsteps.Play();
+            yield return new WaitForSeconds(.5f);
+        }
+        
+        else if (state == FootstepState.SPRINTING)
+        {
+            footsteps.volume = Random.Range(0.2f, 0.4f);
+            footsteps.pitch = Random.Range(0.8f, 1.1f);
+            footsteps.Play();
+            yield return null;
+        }
+
+        _trueIsPlaying = false;
+    }
 
     void Update()
     {
@@ -33,18 +71,15 @@ public class FootstepEffect : MonoBehaviour
 
             if (1 == soundTaker)
             {
-                footsteps.clip = dryCrouching;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                if (!_trueIsPlaying)
+                {
+                    StartCoroutine(_PlayFootstep(dryCrouching, FootstepState.CROUCHING));
+                }
             }
 
             else
             {
-                footsteps.clip = wetCrouching;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                StartCoroutine(_PlayFootstep(wetCrouching, FootstepState.CROUCHING));
             }
         }
 
@@ -56,21 +91,22 @@ public class FootstepEffect : MonoBehaviour
             && characterController.velocity.magnitude < 3f)
         {
             int soundTaker = Random.Range(1, 2);
-
+            
+            
             if (1 == soundTaker)
             {
-                footsteps.clip = dryWalking;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                if (!_trueIsPlaying)
+                {
+                    StartCoroutine(_PlayFootstep(dryWalking, FootstepState.WALKING));
+                }
             }
 
             else
             {
-                footsteps.clip = wetWalking;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                if (!_trueIsPlaying)
+                {
+                    StartCoroutine(_PlayFootstep(wetWalking, FootstepState.WALKING));
+                }
             }
         }
         #endregion
@@ -84,18 +120,18 @@ public class FootstepEffect : MonoBehaviour
 
             if (1 == soundTaker)
             {
-                footsteps.clip = drySprinting;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                if (!_trueIsPlaying)
+                {
+                    StartCoroutine(_PlayFootstep(drySprinting, FootstepState.SPRINTING));
+                }
             }
 
             else
             {
-                footsteps.clip = wetSprinting;
-                footsteps.volume = Random.Range(0.8f, 1);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                if (!_trueIsPlaying)
+                {
+                    StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.SPRINTING));
+                }
             }
         }
         #endregion
