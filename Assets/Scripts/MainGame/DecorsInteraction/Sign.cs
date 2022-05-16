@@ -1,16 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace MainGame.DecorsInteraction
+public class Sign : MonoBehaviour
 {
-    public class Sign : MonoBehaviour
+    private void OnTriggerEnter(Collider other)
     {
-        private void OnTriggerEnter(Collider other)
-        {
-            other.GetComponent<PlayerInteraction>().NearSign(true);
-        }
-        private void OnTriggerExit(Collider other)
-        {
-            other.GetComponent<PlayerInteraction>().NearSign(false);
-        }
+        other.GetComponent<PlayerInteraction>().NearSign(true);
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        other.GetComponent<PlayerInteraction>().NearSign(false);
     }
 }

@@ -1,12 +1,12 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace MainGame
+public class SelfDestruct : MonoBehaviour
 {
-    public class SelfDestruct : MonoBehaviour
+    private void Awake()
     {
-        private void Awake()
-        {
-            Destroy(gameObject, 5);
-        }
+        Destroy(gameObject, 5);
     }
 }
