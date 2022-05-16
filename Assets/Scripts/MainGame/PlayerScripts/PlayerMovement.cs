@@ -27,6 +27,8 @@ namespace MainGame.PlayerScripts
         [Space]
         [Header("Player speed settings")]
         [SerializeField] private float currentSpeed;
+        public float currentSpeedMult = 1;
+        private const float baseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;

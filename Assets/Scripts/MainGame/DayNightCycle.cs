@@ -68,7 +68,7 @@ public class DayNightCycle : MonoBehaviour
             isDay = false;
             if (PhotonNetwork.IsMasterClient)
             {
-                RoomManager.Instance.ResolveVote();
+                if (VoteMenu.Instance.isFirstDay == false) RoomManager.Instance.ResolveVote();
                 
                 int isEOG = RoomManager.Instance.CheckIfEOG();
                 if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
@@ -116,8 +116,8 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = true;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasVoted = false;
-        RoomManager.Instance.ClearTargets();
         RoomManager.Instance.localPlayer.hasCooldown = true;
+        RoomManager.Instance.ClearTargets();
         VoteMenu.Instance.UpdateVoteItems();
     }
 
@@ -128,6 +128,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasCooldown = false;
+        RoomManager.Instance.localPlayer.UpdateActionText();
         RoomManager.Instance.localPlayer.vote = null;
         VoteMenu.Instance.UpdateVoteItems();
     }

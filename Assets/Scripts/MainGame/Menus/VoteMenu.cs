@@ -18,6 +18,7 @@ namespace MainGame
         [SerializeField] private PhotonView PV;
         public bool isDay;
         public bool isFirstDay;
+        public bool isNight => !isDay && !isFirstDay;
 
         public void Awake()
         {
@@ -65,7 +66,7 @@ namespace MainGame
             else
             {
                 player.Die();
-                message = $"A {player.roleName} ({player.username}) has been eliminated, RIP";
+                message = $"A {player.username} ({player.roleName}) has been eliminated, RIP";
             }
             Debug.Log(message);
             RoomManager.Instance.UpdateInfoText(message);

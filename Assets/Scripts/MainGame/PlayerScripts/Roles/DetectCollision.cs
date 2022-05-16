@@ -9,6 +9,7 @@ public class DetectCollision : MonoBehaviour
 {
     [SerializeField] private Werewolf _werewolf;
     [SerializeField] private Seer _seer;
+    [SerializeField] private Priest _priest;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -16,6 +17,7 @@ public class DetectCollision : MonoBehaviour
         {
             if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, true);
             if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, true);
+            if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, true);
         }
     }
 
@@ -25,6 +27,7 @@ public class DetectCollision : MonoBehaviour
         {
             if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, false);
             if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, false);
+            if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, false);
         }
     }
 }

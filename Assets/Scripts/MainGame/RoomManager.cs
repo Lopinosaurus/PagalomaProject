@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;
 using MainGame;
+using MainGame.Menus;
 using MainGame.PlayerScripts.Roles;
 using TMPro;
 using Random = System.Random;
@@ -15,32 +16,44 @@ using Random = System.Random;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
-    [SerializeField] private GameObject map;
+    public Map map;
     private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
-    public string[] roles = new []{"Villager", "Werewolf", "Seer", "Villager", "Hunter", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Villager", "Werewolf"};
-
     public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
     {
-        { "red", Color.red },
-        { "blue", Color.blue },
-        { "yellow", Color.yellow },
-        { "white", Color.white },
-        { "black", Color.black },
-        { "cyan", Color.cyan },
-        { "magenta", Color.magenta },
-        { "grey", Color.grey }
+        { "Red", Color.red },
+        { "Blue", Color.blue },
+        { "Yellow", Color.yellow },
+        { "Lime", new Color(0.26f, 1f, 0f)},
+        { "Pink", new Color(1f, 0f, 0.86f)},
+        { "Cyan", Color.cyan },
+        { "Orange", new Color(1f, 0.5f, 0f)},
+        { "White", Color.white },
+        { "Black", Color.black },
+        { "Purple", new Color(0.71f, 0f, 1f) },
+        { "Green", new Color(0f, 0.57f, 0.22f)},
+        { "Grey", Color.grey },
+        { "Brown", new Color(0.59f, 0.41f, 0.1f)},
+        { "Teal", new Color(0f, 0.5f, 0.5f)},
+        { "Maroon", new Color(0.5f, 0f, 0f)},
+        { "Peach", new Color(0.95f, 0.82f, 0.74f)}
     };
+
+    public string[] roles;
     public string[] colors;
-    
+
     public int nextPlayerRoleIndex;
     [SerializeField] private TMP_Text roleText;
     public TMP_Text actionText;
     public TMP_Text deathText;
     public TMP_Text infoText;
+    public Transform infoList;
+    [SerializeField] private InfoListItem infoListItem;    
+    
     public List<Role> players; // List of the Role of all the players
     public Role localPlayer; // Reference to the local player's role
     public List<Role> votes; 
 
+    
     private void Awake()
     {
         if (Instance) // Checks if another RoomManager exists
@@ -55,10 +68,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
         votes = new List<Role>();
         infoText.text = "";
 
-        // Shuffle colors list
+        int numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
+        colors = new []{ "Red", "Blue", "Yellow", "Lime", "Pink", "Cyan", "Orange", "White", "Black", "Purple", "Green", "Grey", "Brown", "Teal", "Maroon", "Peach" };
+        colors = colors.Take(numberOfPlayers).ToArray();
+        roles = roles.Take(numberOfPlayers).ToArray();
+        foreach (string c in colors) Debug.Log(c);
+        foreach (string c in roles) Debug.Log(c);
+        // Shuffle colors and roles lists
         Random rng = new Random();
-        colors = new[] { "red", "blue", "yellow", "white", "black", "cyan", "magenta", "grey" };
         colors = colors.OrderBy(a => rng.Next()).ToArray();
+        roles = roles.OrderBy(a => rng.Next()).ToArray();
     }
 
     public override void OnEnable()
@@ -77,9 +97,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (scene.buildIndex == 1) // MainGame scene
         {
-            // Instantiate local PlayerManager
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
-            
             // Master Client needs to generate the Map Seed
             if (PhotonNetwork.IsMasterClient)
             {
@@ -104,8 +121,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             int seed = (int) propertiesThatChanged["MapSeed"]; // Get the seed value
             Debug.Log("Game seed received: "+seed);
-            map.GetComponent<Map>().Generate(seed); // Generate the map
-            IGMenuManager.Instance.loadingScreen.SetActive(false);
+            map.Generate(seed); // Generate the map
+            // Instantiate local PlayerManager
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+            // IGMenuManager.Instance.loadingScreen.SetActive(false);
         }
     }
 
@@ -126,13 +145,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     
     public void UpdateInfoText(string message = "")
     {
-        StartCoroutine(UpdateInfoText(message, 5));
-    }
-       
-    IEnumerator UpdateInfoText (string message, float delay) {
-        infoText.text = message;
-        yield return new WaitForSeconds(delay);
-        infoText.text = "";
+        InfoListItem item = Instantiate(infoListItem, infoList);
+        item.GetComponent<InfoListItem>().SetUp(message);
+        Destroy(item.gameObject, 5);
     }
 
     // Compute who has to be eliminated at the end of the vote

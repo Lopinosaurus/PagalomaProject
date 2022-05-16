@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _werewolf: {fileID: 6221952432295534360}
   _seer: {fileID: 1848938828090813196}
+  _priest: {fileID: 1185351168579791139}
 --- !u!1 &769850814794332659
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,6 +2450,9 @@ GameObject:
   - component: {fileID: 6822367263179889421}
   - component: {fileID: 1848938828090813196}
   - component: {fileID: 6221952432295534360}
+  - component: {fileID: 2369406844203047068}
+  - component: {fileID: 9137616713227690798}
+  - component: {fileID: 1185351168579791139}
   - component: {fileID: 590110878684623782}
   - component: {fileID: 90339924765660988}
   m_Layer: 7
@@ -2801,6 +2805,7 @@ MonoBehaviour:
   roleName: Villager
   isAlive: 1
   hasCooldown: 0
+  hasShield: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -2828,6 +2833,7 @@ MonoBehaviour:
   roleName: Seer
   isAlive: 1
   hasCooldown: 0
+  hasShield: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -2856,6 +2862,7 @@ MonoBehaviour:
   roleName: Werewolf
   isAlive: 1
   hasCooldown: 0
+  hasShield: 0
   username: 
   userId: 
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -2868,6 +2875,93 @@ MonoBehaviour:
   _cameraHolder: {fileID: 1141215766398316333}
   _playerInput: {fileID: 5554154994360629918}
   _targets: []
+--- !u!114 &2369406844203047068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c8dd2a0b0c497d813c4b46d32eebdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  roleName: Lycan
+  isAlive: 1
+  hasCooldown: 0
+  hasShield: 0
+  username: 
+  userId: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  vote: {fileID: 0}
+  hasVoted: 0
+  actionText: {fileID: 0}
+  deathText: {fileID: 0}
+  selfKill: 0
+  kill: 0
+  _cameraHolder: {fileID: 1141215766398316333}
+  _playerInput: {fileID: 5554154994360629918}
+--- !u!114 &9137616713227690798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1476b4e0f94d7e8b0f5e233fb8f0e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  roleName: Spy
+  isAlive: 1
+  hasCooldown: 0
+  hasShield: 0
+  username: 
+  userId: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  vote: {fileID: 0}
+  hasVoted: 0
+  actionText: {fileID: 0}
+  deathText: {fileID: 0}
+  selfKill: 0
+  kill: 0
+  _cameraHolder: {fileID: 1141215766398316333}
+  _playerInput: {fileID: 5554154994360629918}
+  PlayerRender: {fileID: 105314748190471192}
+--- !u!114 &1185351168579791139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f605e9ea0f48b19288f6f747c4ba47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  roleName: Priest
+  isAlive: 1
+  hasCooldown: 0
+  hasShield: 0
+  username: 
+  userId: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  vote: {fileID: 0}
+  hasVoted: 0
+  actionText: {fileID: 0}
+  deathText: {fileID: 0}
+  selfKill: 0
+  kill: 0
+  _cameraHolder: {fileID: 1141215766398316333}
+  _playerInput: {fileID: 5554154994360629918}
+  _targets: []
+  lastPlayerShielded: {fileID: 0}
 --- !u!114 &590110878684623782
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace MainGame.PlayerScripts.Roles
         public string roleName;
         public bool isAlive = true;
         public bool hasCooldown = false;
+        public bool hasShield; // Shield given by the Priest
         public string username;
         public string userId;
         public Color color;

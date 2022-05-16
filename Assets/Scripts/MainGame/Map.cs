@@ -191,4 +191,10 @@ public class Map : MonoBehaviour
             return hugeTrees[Random.Range(0, hugeTrees.Count)];
         }
     }
+
+    public static GameObject FindMap()
+    {
+        return GameObject.FindWithTag("village");
+    }
+    
 }

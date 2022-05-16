@@ -52,8 +52,8 @@ namespace MainGame.PlayerScripts.Roles
         private void SpyTarget()
         {
             Debug.Log("E pressed and you are a Seer, you gonna get someone's role");
-            //if (!hasCooldown)
-            //{
+            if (!hasCooldown)
+            {
                 if (_targets.Count > 0)
                 {
                     Role target = _targets[_targets.Count - 1];
@@ -62,19 +62,21 @@ namespace MainGame.PlayerScripts.Roles
                         Debug.Log("[-] Can't spy: Target is dead");
                         return;
                     }
-                    // hasCooldown = true;
+                    hasCooldown = true;
                     Debug.Log($"[+] The Role of the target is: {target.roleName}");
-                    RoomManager.Instance.UpdateInfoText($"You revealed a {target.roleName}");
+                    string displayedRole = target.roleName;
+                    if (displayedRole == "Lycan") displayedRole = "Werewolf";
+                    RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
                 }
                 else
                 {
                     Debug.Log("[-] Can't Spy: No target to spy");
                 }
-            //}
-            //else
-            //{
-            //    Debug.Log("[-] Can't Spy: You have a Cooldown");
-            //}
+            }
+            else
+            {
+                Debug.Log("[-] Can't Spy: You have a Cooldown");
+            }
         }
     }
 }
