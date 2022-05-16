@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private PhotonView _photonView;
 
     // Sub scripts
+    private DayNightCycle _dayNightCycle;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     [SerializeField] private PlayerAnimation _playerAnimation;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
+        _dayNightCycle = FindObjectOfType<DayNightCycle>();
 
         // Ai
         _role = GetComponent<Role>();
@@ -141,8 +143,8 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("SPAWNCHECK (2/5): is alive");
 
                     // Day check
-                    if (VoteMenu.Instance.isDay) continue;
-                    Debug.Log("SPAWNCHECK (3/5): is not day", VoteMenu.Instance);
+                    if (_dayNightCycle.isDay) continue;
+                    Debug.Log("SPAWNCHECK (3/5): is not day", _dayNightCycle.gameObject);
 
                     // Village check
                     Debug.Log($"villagePos = {villageTransform.position} | pos = {transform.position}");

@@ -15,7 +15,7 @@ public class DayNightCycle : MonoBehaviour
     public float startTime = 0.4f;
     private float timeRate;
     public Vector3 noon;
-    public static bool isDay = true;
+    public bool isDay = true;
     
     [Header("Sun")]
     public Light sun;
