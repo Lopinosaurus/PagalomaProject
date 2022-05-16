@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
+using MainGame.Menus;
 using Photon.Pun;
 using UnityEngine;
 

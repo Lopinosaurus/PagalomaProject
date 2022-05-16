@@ -1,32 +1,33 @@
-using MainGame;
-using System.Collections;
-using System.Collections.Generic;
+using MainGame.Menus;
 using UnityEngine;
 
-public class SoundAmbiance : MonoBehaviour
+namespace MainGame
 {
-    [SerializeField] AudioSource dayAmbiance;
-    [SerializeField] AudioSource nightAmbiance;
+    public class SoundAmbiance : MonoBehaviour
+    {
+        [SerializeField] AudioSource dayAmbiance;
+        [SerializeField] AudioSource nightAmbiance;
    
 
    
-    void Update()
-    {
-        if (VoteMenu.Instance.isDay)
+        void Update()
         {
-            if (!(dayAmbiance.isPlaying))
+            if (VoteMenu.Instance.isDay)
             {
-                nightAmbiance.Stop();
-                dayAmbiance.Play();
+                if (!dayAmbiance.isPlaying)
+                {
+                    nightAmbiance.Stop();
+                    dayAmbiance.Play();
+                }
             }
-        }
         
-        if (!(VoteMenu.Instance.isDay))
-        {
-            if (!(nightAmbiance.isPlaying))
+            if (!VoteMenu.Instance.isDay)
             {
-                dayAmbiance.Stop();
-                nightAmbiance.Play();
+                if (!nightAmbiance.isPlaying)
+                {
+                    dayAmbiance.Stop();
+                    nightAmbiance.Play();
+                }
             }
         }
     }

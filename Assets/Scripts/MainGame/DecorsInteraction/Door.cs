@@ -1,18 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+namespace MainGame.DecorsInteraction
 {
-    public GameObject message;
-    private void OnTriggerEnter(Collider other)
+    public class Door : MonoBehaviour
     {
-        other.GetComponent<PlayerInteraction>().NearDoor(message, gameObject, true);
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        other.GetComponent<PlayerInteraction>().NearDoor(message, gameObject, false);
+        public GameObject message;
+        private void OnTriggerEnter(Collider other)
+        {
+            other.GetComponent<PlayerInteraction>().NearDoor(message, gameObject, true);
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            other.GetComponent<PlayerInteraction>().NearDoor(message, gameObject, false);
+        }
     }
 }
