@@ -117,7 +117,12 @@ namespace MainGame.PlayerScripts
             _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
         }
 
-        public IEnumerator Shake(float duration)
+        public void StartShake(float duration)
+        {
+            StartCoroutine(Shake(duration));
+        }
+        
+        private IEnumerator Shake(float duration)
         {
             float timer = 0;
             float prob = 0;

@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private float minPlayerDist = 60f;
     private bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday = false;
+    [SerializeField] private bool enableAi = true;
 
     #endregion
 
@@ -127,9 +128,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AiCreator()
     {
-        while (true)
+        while (enableAi)
         {
-            while (true)
+            while (enableAi)
             {
                 yield return new WaitForSeconds(2);
 
@@ -207,14 +208,13 @@ public class PlayerController : MonoBehaviour
                     Debug.LogWarning("No RoomManager found ! (PlayerController)");
                 }
 
-                
                 // All conditions are valid
                 break;
             }
 
             // Can spawn the Ai
             AiInstance = Instantiate(AiPrefab, 
-                transform.position + transform.TransformDirection(Vector3.back + Vector3.up), Quaternion.identity);
+                transform.position + transform.TransformDirection(Vector3.back*10 + Vector3.up*2), Quaternion.identity);
 
             AiInstance.GetComponent<AiController>().targetRole = _role;
 
