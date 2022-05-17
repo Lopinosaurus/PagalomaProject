@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3706812586307184337}
   - component: {fileID: 7347000418090648990}
   - component: {fileID: 4832651578648234179}
+  - component: {fileID: 8880412621065908807}
   m_Layer: 0
   m_Name: Tree_11
   m_TagString: Untagged
@@ -55,6 +56,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &4832651578648234179
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -89,7 +93,18 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 74018795652806586, guid: cc53ce7be5269c241a52d233a199a1bf, type: 3}
+--- !u!192 &8880412621065908807
+OcclusionArea:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822487193756690198}
+  serializedVersion: 2
+  m_Size: {x: 6.853306, y: 8.757316, z: 5.135558}
+  m_Center: {x: 0.10337049, y: 4.0940404, z: -0.061281443}
+  m_IsViewVolume: 1
