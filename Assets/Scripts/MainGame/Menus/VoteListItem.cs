@@ -19,6 +19,7 @@ namespace MainGame.Menus
         {
             _player = player;
             text.text = player.username;
+            if (RoomManager.Instance.localPlayer is Werewolf && player is Werewolf) text.color = new Color(0.72f, 0.01f, 0f);
             colorSquare.color = player.color;
             background.color = _notClicked;
         }

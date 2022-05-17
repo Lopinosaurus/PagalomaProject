@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class OptionMenu : MonoBehaviour
 {
-
-    Resolution[] screenRes;
+    private Resolution[] screenRes;
     public AudioMixer MainAudioMixer;
     public Dropdown resDropdown;
 
@@ -19,7 +18,7 @@ public class OptionMenu : MonoBehaviour
         {
             resDropdown.ClearOptions();
 
-            List<string> options = new List<string>();
+            var options = new List<string>();
 
             int currentResIndex = 0;
 

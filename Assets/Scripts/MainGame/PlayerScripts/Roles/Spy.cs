@@ -26,6 +26,7 @@ namespace MainGame.PlayerScripts.Roles
 
         private void BecomeInvisible()
         {
+            if (!VoteMenu.Instance.isNight) return;
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
             if (!hasCooldown)
             {
@@ -48,7 +49,10 @@ namespace MainGame.PlayerScripts.Roles
         [PunRPC]
         public void RPC_BecomeInvisible()
         {
-            StartCoroutine(UpdateInvisibility());
+            if (RoomManager.Instance.localPlayer is Werewolf)
+            {
+                StartCoroutine(UpdateInvisibility());
+            }
         }
     }
 }

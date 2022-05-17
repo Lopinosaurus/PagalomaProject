@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MainGame.Menus;
 using Photon.Pun;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject _attackCollider;
         [SerializeField] private PhotonView _photonView;
 
-        void Awake()
+        private void Awake()
         {
             Villager = GetComponent<Villager>();
             Seer = GetComponent<Seer>();
@@ -27,68 +28,63 @@ namespace MainGame.PlayerScripts.Roles
             roles = new[] { (Role)Villager, Seer, Werewolf, Lycan, Spy, Priest };
             _photonView = GetComponent<PhotonView>();
         }
-        void Start()
+
+        private void Start()
         {
             _attackCollider.SetActive(true);
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
-            object[] instanciationData = info.photonView.InstantiationData;
-            string roleName = (string)instanciationData[0];
-            Color color = RoomManager.Instance.colorsDict[(string)instanciationData[1]];
-            string username = (string)instanciationData[2];
-            string userId = (string)instanciationData[3];
+            object[] instantiationData = info.photonView.InstantiationData;
+            string roleName = (string)instantiationData[0];
+            Color color = RoomManager.Instance.colorsDict[(string)instantiationData[1]];
+            string username = (string)instantiationData[2];
+            string userId = (string)instantiationData[3];
 
             Role playerRole = null;
             
-            if (roleName == "Villager")
+            switch (roleName)
             {
-                playerRole = Villager;
-                Destroy(_attackCollider);
+                case "Villager":
+                    playerRole = Villager;
+                    Destroy(_attackCollider);
+                    break;
+                case "Lycan":
+                    playerRole = Lycan;
+                    Destroy(_attackCollider);
+                    break;
+                case "Spy":
+                    playerRole = Spy;
+                    Destroy(_attackCollider);
+                    break;
+                case "Seer":
+                    playerRole = Seer;
+                    break;
+                case "Werewolf":
+                    playerRole = Werewolf;
+                    break;
+                case "Priest":
+                    playerRole = Priest;
+                    break;
             }
-            
-            if (roleName == "Lycan")
-            {
-                playerRole = Lycan;
-                Destroy(_attackCollider);
-            }
-            
-            if (roleName == "Spy")
-            {
-                playerRole = Spy;
-                Destroy(_attackCollider);
-            }
-            
-            if (roleName == "Seer")
-            {
-                playerRole = Seer;
-            }
-            
-            if (roleName == "Werewolf")
-            {
-                playerRole = Werewolf;
-            }
-            
-            if (roleName == "Priest")
-            {
-                playerRole = Priest;
-            }
-            
-            if (playerRole != null)
+
+            if ((bool)playerRole) // checks if null with that
             {
                 // Disable other roles
                 foreach (Role role in roles)
                     if (playerRole != role)
                         role.enabled = false;
                 
-                playerRole.Activate();
+                playerRole!.Activate();
                 playerRole.userId = userId;
                 playerRole.username = username;
                 playerRole.SetPlayerColor(color);
                 
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
+                // Add every CharacterController to trigger footsteps effect
+                FootstepEffect.playersCC.Add(playerRole.gameObject.GetComponent<CharacterController>());
                 // Store reference to the local player
                 if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
                 // Update Voting List
@@ -100,7 +96,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Deactivate _attackCollider for non-local players
-            if (!info.Sender.IsLocal && _attackCollider != null)
+            if (!info.Sender.IsLocal && _attackCollider)
             {
                 Destroy(_attackCollider);
             }

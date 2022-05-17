@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7134617212637216669}
   - component: {fileID: 7666736488564016366}
   - component: {fileID: 7666736488564016367}
-  - component: {fileID: 3492916909234232053}
+  - component: {fileID: 1791912444548519276}
   m_Layer: 0
   m_Name: DissimulateParticles
   m_TagString: Untagged
@@ -4805,7 +4805,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &3492916909234232053
+--- !u!114 &1791912444548519276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

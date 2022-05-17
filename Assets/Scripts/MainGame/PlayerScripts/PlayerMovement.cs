@@ -326,7 +326,12 @@ namespace MainGame.PlayerScripts
 
         #endregion
 
-        public IEnumerator SlowSpeed(float duration)
+        public void StartSlowSpeed(float duration)
+        {
+            StartCoroutine(SlowSpeed(duration));
+        }
+        
+        private IEnumerator SlowSpeed(float duration)
         {
             var timer = 0f;
 

@@ -10,7 +10,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Priest : Villager
     {
         public List<Role> _targets = new List<Role>();
-        public Role lastPlayerShielded = null;
+        public Role lastPlayerShielded;
 
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
@@ -22,7 +22,7 @@ namespace MainGame.PlayerScripts.Roles
                     if (role.enabled) tempTarget = role;
                 }
                 
-                if (tempTarget != null && !(tempTarget is Priest))
+                if (tempTarget != null && tempTarget.GetType() != typeof(Priest))
                 {
                     if (add)
                     {
@@ -93,20 +93,20 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         [PunRPC]
-        public void RPC_GiveShield(string userId)
+        public void RPC_GiveShield(string _userId)
         {
             Role target = null;
-            foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId
+            foreach (Role player in RoomManager.Instance.players) // Get target with corresponding _userId
             {
-                if (player.userId == userId) target = player;
+                if (player.userId == _userId) target = player;
             }
 
             if (target != null)
             {
                 if (target.isAlive) target.hasShield = true;
-                else Debug.Log($"[-] RPC_GiveShield({userId}): Can't give a shield, Target is dead");
+                else Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, Target is dead");
             }
-            else Debug.Log($"[-] RPC_GiveShield({userId}): Can't give a shield, target = null");
+            else Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, target = null");
         }
     }
 }

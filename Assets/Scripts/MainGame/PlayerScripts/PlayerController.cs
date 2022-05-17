@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private float minVillageDist = 60f;
     private float minPlayerDist = 60f;
     private bool IaAlreadySpawned => AiInstance;
+    private bool hasAlreadySpawnedToday = false;
+    [SerializeField] private bool enableAi = true;
 
     #endregion
 
@@ -126,32 +128,65 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AiCreator()
     {
-        while (true)
+        while (enableAi)
         {
-            while (true)
+            while (enableAi)
             {
                 yield return new WaitForSeconds(2);
 
+                 // Already spawned today check
+                 try
+                 {
+                     if (!VoteMenu.Instance.isNight)
+                     {
+                         hasAlreadySpawnedToday = false;
+                     }
+                 }
+                 catch
+                 {
+                     hasAlreadySpawnedToday = false;
+                 }
+                 if (hasAlreadySpawnedToday)
+                 {
+                     Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+                     continue;
+                 };
+                 
+
+                 
                 // Already spawned check
-                if (IaAlreadySpawned) continue;
-                Debug.Log("SPAWNCHECK (1/5): No other exists");
+                if (IaAlreadySpawned)
+                {
+                    Debug.Log("SPAWNCHECK (1/5): Ai already exists");
+                    continue;
+                };
 
                 try
                 {
                     // Alive check
-                    if (!_role.isAlive) continue;
-                    Debug.Log("SPAWNCHECK (2/5): is alive");
+                    if (!_role.isAlive)
+                    {
+                        Debug.Log("SPAWNCHECK (2/5): is dead");
+                        continue;
+                    }
 
                     // Day check
-                    if (_dayNightCycle.isDay) continue;
-                    Debug.Log("SPAWNCHECK (3/5): is not day", _dayNightCycle.gameObject);
+                    if (!VoteMenu.Instance.isNight)
+                    {
+                        Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
+                        continue;
+                    }
+                    
 
                     // Village check
-                    Debug.Log($"villagePos = {villageTransform.position} | pos = {transform.position}");
                     bool villageTooClose =(villageTransform.position - transform.position).sqrMagnitude <
                                           minVillageDist * minVillageDist;
-                    if (villageTooClose) continue;
-                    Debug.Log("SPAWNCHECK (4/5): village is far enough");
+                    if (villageTooClose)
+                    {
+                        Debug.Log("SPAWNCHECK (4/5): village is too close");
+                        continue;
+                    }
+                    
 
                     // Player check
                     bool everyPlayerFarEnough = true;
@@ -161,8 +196,11 @@ public class PlayerController : MonoBehaviour
                                                minPlayerDist * minPlayerDist;
                     }
 
-                    if (!everyPlayerFarEnough) continue;
-                    Debug.Log("SPAWNCHECK (5/5): every player is far enough");
+                    if (!everyPlayerFarEnough)
+                    {
+                        Debug.Log("SPAWNCHECK (5/5): a player is too close");
+                        continue;
+                    }
 
                 }
                 catch
@@ -170,16 +208,17 @@ public class PlayerController : MonoBehaviour
                     Debug.LogWarning("No RoomManager found ! (PlayerController)");
                 }
 
-                
                 // All conditions are valid
                 break;
             }
 
             // Can spawn the Ai
             AiInstance = Instantiate(AiPrefab, 
-                transform.position + transform.TransformDirection(Vector3.back + Vector3.up), Quaternion.identity);
+                transform.position + transform.TransformDirection(Vector3.back*10 + Vector3.up*2), Quaternion.identity);
 
             AiInstance.GetComponent<AiController>().targetRole = _role;
+
+            hasAlreadySpawnedToday = true;
             
             Debug.Log("Ai created");
 
@@ -215,7 +254,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
 
     // Network synchronization
 
