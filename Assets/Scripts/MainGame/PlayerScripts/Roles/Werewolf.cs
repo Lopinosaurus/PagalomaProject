@@ -85,7 +85,7 @@ namespace MainGame.PlayerScripts.Roles
                 else actionText.text = "";
             }
         }
-
+        
         [PunRPC]
         public void RPC_KillTarget(string userId) // TODO: Add kill animation
         {
