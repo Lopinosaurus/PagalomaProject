@@ -2494,6 +2494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
   currentSpeed: 0
+  currentSpeedMult: 1
   currentMovementType: 0
   currentCrouchType: 1
   localMoveAmountNormalized: {x: 0, y: 0, z: 0}
