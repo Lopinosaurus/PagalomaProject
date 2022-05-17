@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     // First person management
     [SerializeField] private GameObject PlayerRender;
-    [Range(0, 2)] public float backShift = 1f;
+    [Range(-2, 2)] public float backShift = -0.5f;
 
 
     // Player Controls
