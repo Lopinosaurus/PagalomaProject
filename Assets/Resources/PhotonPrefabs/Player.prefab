@@ -2494,7 +2494,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 1141215766398316333}
   currentSpeed: 0
-  currentSpeedMult: 1
   currentMovementType: 0
   currentCrouchType: 1
   localMoveAmountNormalized: {x: 0, y: 0, z: 0}
@@ -2520,6 +2519,8 @@ MonoBehaviour:
   camHolder: {fileID: 6598090228381821785}
   mouseSensX: 10
   mouseSensY: 10
+  probShakeMultiplier: 0.01
+  shakeMultiplier: 4
 --- !u!114 &6099398095721299116
 MonoBehaviour:
   m_ObjectHideFlags: 0
