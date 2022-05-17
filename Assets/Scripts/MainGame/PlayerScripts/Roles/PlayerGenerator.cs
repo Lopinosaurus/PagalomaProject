@@ -84,7 +84,7 @@ namespace MainGame.PlayerScripts.Roles
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
                 // Add every CharacterController to trigger footsteps effect
-                FootstepEffect.playersCC.Add(playerRole.gameObject.GetComponent<CharacterController>());
+                FootstepEffect.PlayersCc.Add(playerRole.gameObject.GetComponent<CharacterController>());
                 // Store reference to the local player
                 if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
                 // Update Voting List

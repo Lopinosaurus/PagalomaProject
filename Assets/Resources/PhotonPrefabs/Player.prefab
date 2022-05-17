@@ -2539,6 +2539,7 @@ MonoBehaviour:
   PlayerRender: {fileID: 7117664136791764183}
   backShift: 1
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+  enableAi: 1
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2599,7 +2600,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.05
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -2687,7 +2688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f75f543c47d7024d9e04896a6097192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 838235907301293933}
   dryCrouching: {fileID: 8300000, guid: 8f54ddeaf41804e4d9ffbe89e30fd215, type: 3}
   dryWalking: {fileID: 8300000, guid: ffc55299c885e6545991d082d0e88263, type: 3}
   drySprinting: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
