@@ -2879,6 +2879,7 @@ MonoBehaviour:
   _cameraHolder: {fileID: 1141215766398316333}
   _playerInput: {fileID: 5554154994360629918}
   _targets: []
+  lgAvatar: {fileID: 9000000, guid: cad3398835a17ec43a7fee7e2a21b436, type: 3}
 --- !u!114 &2369406844203047068
 MonoBehaviour:
   m_ObjectHideFlags: 0
