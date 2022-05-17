@@ -52,7 +52,8 @@ public class AiController : MonoBehaviour
     [SerializeField] private int remainingHealth = 1;
 
     private bool _isAlive = true;
-    private const float TimeBeforeDeath = 15f;
+    private const float shakeDuration = 30;
+    private const float slowSpeedDuration = 15;
     [SerializeField] private int moveCount;
     private const int MaxMoveCount = 10;
 
@@ -64,6 +65,7 @@ public class AiController : MonoBehaviour
     private const float AttackMaxDistancePlayer = 2.5f;
     private const float RemainingMinDistance = 1;
     private const float minDistFromPlayer = 7;
+    private const float minDistFromObstacle = 7;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 30;
@@ -263,8 +265,8 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartSlowSpeed(TimeBeforeDeath);
-                    _playerLook.StartShake(TimeBeforeDeath);
+                    _playerMovement.StartSlowSpeed(slowSpeedDuration);
+                    _playerLook.StartShake(shakeDuration);
                     
                     Destroy(gameObject);
                     
@@ -355,12 +357,20 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = 9999;
                 break;
         }
-
-        _agent.speed = 8;
     }
 
     private void FindNewObstacle(bool largeSearch = false)
     {
+        // Doesn't bring a new obstacle if too far from the curernt one
+        Vector3 pos = transform.position;
+        if ((bool) currentHidingObstacle &&
+            !largeSearch &&
+            (pos - FindHidingSpot(true)).sqrMagnitude >
+            minDistFromObstacle * minDistFromObstacle)
+        {
+            return;
+        }
+        
         Vector3 position = transform.position;
         Vector3 targetPosition = _targetPlayer.transform.position;
 

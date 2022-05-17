@@ -5,11 +5,11 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
+    smallestOccluder: 1
     smallestHole: 0.25
-    backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+    backfaceThreshold: 50
+  m_SceneGUID: 0ae83a77cf9777b43ad94203bfe8b7a4
+  m_OcclusionCullingData: {fileID: 36300000, guid: 4eaf971feaa545648b3c3e4cf5ea587d, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -276,39 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &17428217
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -417,39 +384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &21064028
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -558,39 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &23749634
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -699,39 +600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &26152523
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -840,39 +708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &41430383
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -981,39 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &42719955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1122,39 +924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &44636594
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1263,39 +1032,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &48313470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1404,39 +1140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &51398333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1545,39 +1248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &68086744
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1686,39 +1356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &69437339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1827,39 +1464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &77426228
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1968,39 +1572,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &87234088
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2109,39 +1680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &90319099
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2250,39 +1788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &94315303
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2391,39 +1896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &111532239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2639,39 +2111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &137371421
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2887,39 +2326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &146631225
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3028,39 +2434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &153235686
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3169,39 +2542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &161274994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3310,39 +2650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &175023451
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3558,39 +2865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &188310652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3699,39 +2973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &190047521
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3840,39 +3081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &202941076
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3981,39 +3189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &204334785
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4122,39 +3297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &214518090
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4370,39 +3512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &237995412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4511,39 +3620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &242355849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4652,39 +3728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &247501477
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4793,39 +3836,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &250107996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5041,39 +4051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &273184021
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5289,39 +4266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &303573888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5430,39 +4374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &304784797
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5571,39 +4482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &325021368
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5712,39 +4590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &336897511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5853,39 +4698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &337158417
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5994,39 +4806,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &339417465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6135,39 +4914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &344806453
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6276,39 +5022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &348111629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6417,39 +5130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &360241391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6558,39 +5238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &377536037
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6699,39 +5346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &388303727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6840,39 +5454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &392472424
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6981,39 +5562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &394754880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7122,39 +5670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &400851683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7370,39 +5885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &408793647
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7511,39 +5993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &425479181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7652,39 +6101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &433566842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7793,39 +6209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &481358258
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7934,39 +6317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &482345154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8075,39 +6425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &513049612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8216,39 +6533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &513609298
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8464,39 +6748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &519872686
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8605,39 +6856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &521071830
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8853,39 +7071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &524796904
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8994,39 +7179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &533005601
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9135,39 +7287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &533158285
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9276,39 +7395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &538084534
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9417,39 +7503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &541932428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9558,39 +7611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &562441335
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9699,39 +7719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &566967811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9840,39 +7827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &574851247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9981,39 +7935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &581249610
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10122,39 +8043,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &589763458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10263,39 +8151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &595969357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10404,39 +8259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &612374684
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10652,39 +8474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &634205928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10793,39 +8582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &650607232
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10934,39 +8690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &655259153
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11075,39 +8798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &674363872
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11216,39 +8906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &689640553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11357,39 +9014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &693876725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11498,39 +9122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &712127890
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11639,39 +9230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &722225193
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11780,39 +9338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &724681055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11921,39 +9446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &748319026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12062,39 +9554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &758622384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12310,39 +9769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &766974110
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12451,39 +9877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &774718577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12592,39 +9985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &776227097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12733,39 +10093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &783710789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12874,39 +10201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &824139849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12986,31 +10280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c623a05fc5442fcba27a128ec2559a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags: 
-  layerMsk:
-    m_Bits: 256
-  occludeeLayer: 0
-  samples: 300
-  raysFov: 179
-  preCullCheck: 0
-  viewDistance: 1000
-  hideDelay: 10
-  realtimeShadows: 0
-  lod1Distance: 0
-  lod2Distance: 0
-  lightProbes: 0
-  probeRadius: 0
-  layerMask: 0
-  iocComp: {fileID: 0}
-  haltonIndex: 0
-  hx: []
-  hy: []
-  pixels: 0
-  cam: {fileID: 0}
-  rayCaster: {fileID: 0}
-  boundingSphereCounter: 0
-  currentSphereIndex: 0
-  sphereIndices: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &836989573
 GameObject:
   m_ObjectHideFlags: 0
@@ -13164,39 +10433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &844480351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13305,39 +10541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &871305889
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13553,39 +10756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &883813449
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13694,39 +10864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &886426204
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13835,39 +10972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &895928838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13976,39 +11080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &898553898
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14224,39 +11295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &936477381
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14472,39 +11510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &946624876
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14613,39 +11618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &961710387
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14754,39 +11726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &985914815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15002,39 +11941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &995495746
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15143,39 +12049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1001082040
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15284,39 +12157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1003571888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15518,39 +12358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1019793447
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15659,39 +12466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1021631201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15800,39 +12574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1025466073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15910,7 +12651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1038218338
 Transform:
   m_ObjectHideFlags: 0
@@ -16197,39 +12938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1048394631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16338,39 +13046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1048836480
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16479,39 +13154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1053445400
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16620,39 +13262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1055525170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16761,39 +13370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1057468654
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16902,39 +13478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1057655479
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17043,39 +13586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1064609014
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17184,39 +13694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1075118584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17325,39 +13802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1085156478
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17680,39 +14124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1093240013
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17821,39 +14232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1094822027
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17962,39 +14340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1094984517
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18103,39 +14448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1095273593
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18244,39 +14556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1096733879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18385,39 +14664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1098021354
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18526,39 +14772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1098058859
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18667,39 +14880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1101925575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18808,39 +14988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1104305734
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18949,39 +15096,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1119824874
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19090,39 +15204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1137434973
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19338,39 +15419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1148957001
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19479,39 +15527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1151047727
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19620,39 +15635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1151840041
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19761,39 +15743,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1180399637
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19902,39 +15851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1185776398
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20043,39 +15959,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1215962936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20184,39 +16067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1236316002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20325,39 +16175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1239094744
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20466,39 +16283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1241772211
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20607,39 +16391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1244683556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20717,7 +16468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1246939173
 Transform:
   m_ObjectHideFlags: 0
@@ -20814,39 +16565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1254089564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20955,39 +16673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1255320198
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21096,39 +16781,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1259067908
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21237,39 +16889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1261979397
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21378,39 +16997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1278129324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21519,39 +17105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1286631657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21660,39 +17213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1288287191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21801,39 +17321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1290678101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21942,39 +17429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1293182323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22091,7 +17545,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295906956}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -22190,39 +17644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1299192177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22331,39 +17752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1304310851
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22472,39 +17860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1310126426
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22794,39 +18149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1315129580
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22935,39 +18257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1319414694
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23109,39 +18398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1336054006
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23250,39 +18506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1336392405
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23498,39 +18721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1350648394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23639,39 +18829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1350648818
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23780,39 +18937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1356992720
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24135,39 +19259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1380066422
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24372,39 +19463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1411160148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24513,39 +19571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1413606767
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24654,39 +19679,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1415599862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24795,39 +19787,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1434029844
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24936,39 +19895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1437698939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25184,39 +20110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1445548527
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25325,39 +20218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1449740736
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25466,39 +20326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1450447048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25714,39 +20541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1468639506
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25855,39 +20649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1473770168
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25996,39 +20757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1477927094
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26137,39 +20865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1481294804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26278,39 +20973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1481911151
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26419,39 +21081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1491741055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26667,39 +21296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1505783566
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26808,39 +21404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1523928717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27056,39 +21619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1540917918
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27197,39 +21727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1542464070
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27552,39 +22049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1570729755
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27693,39 +22157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1595102971
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27834,39 +22265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1601080698
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27975,39 +22373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1614343371
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28116,39 +22481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1619864011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28257,39 +22589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1620914372
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28398,39 +22697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1628924238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28539,39 +22805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1630254302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28680,39 +22913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1632454731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28821,39 +23021,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1635033776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28962,39 +23129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1644534713
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29103,39 +23237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1650907004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29244,39 +23345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1656851107
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29385,39 +23453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1658134106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29526,39 +23561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1682051902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29667,39 +23669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1682760628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29808,39 +23777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1688502936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29949,39 +23885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1692013816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30090,39 +23993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1713069182
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30231,39 +24101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1716243533
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30479,39 +24316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1729027499
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30620,39 +24424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1748697221
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30761,39 +24532,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1757094385
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30902,39 +24640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1768128643
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31043,39 +24748,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1768604979
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31184,39 +24856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1777803766
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31325,39 +24964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1782646741
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31466,39 +25072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1794485711
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31607,39 +25180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1794949922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31748,39 +25288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1797187731
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31889,39 +25396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1813870464
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32030,39 +25504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1825017025
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32171,39 +25612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1830678465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32312,39 +25720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1835810581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32560,39 +25935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1843083670
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32808,39 +26150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1853738458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32949,39 +26258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1853965228
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33090,39 +26366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1871047712
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33231,39 +26474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1877356611
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33372,39 +26582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1894983992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33513,39 +26690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1895593091
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33654,39 +26798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1908494437
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33795,39 +26906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1916874955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34043,39 +27121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1949877940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34184,39 +27229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1950288444
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34325,39 +27337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1984827042
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34466,39 +27445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1990709566
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34607,39 +27553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1993576701
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34748,39 +27661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &1994119180
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34889,39 +27769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2002944316
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35030,39 +27877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2011117573
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35171,39 +27985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2019067498
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35312,39 +28093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2022554297
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35453,39 +28201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2023870630
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35701,39 +28416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2084985991
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35949,39 +28631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2116155623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36090,39 +28739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2120145354
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36231,39 +28847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2128356113
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36372,39 +28955,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2142671888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36513,39 +29063,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a718f140294633884839cce272667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Static: 0
-  Occludee: 0
-  Lod1: 0
-  Lod2: 0
-  LodMargin: 0
-  LodOnly: 0
-  currentLayer: 0
-  hitPoint: {x: 0, y: 0, z: 0}
-  lod_1: 0
-  lod_2: 0
-  lodMargin: 0
-  realtimeShadows: 0
-  iocCam: {fileID: 0}
-  counter: 0
-  rs0: []
-  rs1: []
-  rs2: []
-  rs: []
-  hidden: 0
-  currentLod: 0
-  prevDist: 0
-  distOffset: 0
-  lods: 0
-  dt: 0
-  hitTimeOffset: 0
-  prevHitTime: 0
-  sleeping: 0
-  originalShadowCastingMode: 
-  distanceFromCam: 0
-  shadowDistance: 0
-  frameInterval: 0
-  visible: 0
-  p: {x: 0, y: 0, z: 0}
 --- !u!65 &2146358631
 BoxCollider:
   m_ObjectHideFlags: 0
