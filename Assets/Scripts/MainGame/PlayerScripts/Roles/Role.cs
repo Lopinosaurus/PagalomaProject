@@ -94,7 +94,7 @@ namespace MainGame.PlayerScripts.Roles
         public void SetPlayerColor(Color _color)
         {
             color = _color;
-            gameObject.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
+            gameObject.transform.Find("VillagerRender").GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
         }
 
         public virtual void UseAbility()
