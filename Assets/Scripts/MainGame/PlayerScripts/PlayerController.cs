@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
                  {
                      hasAlreadySpawnedToday = false;
                  }
-                 if (IaAlreadySpawned)
+                 if (hasAlreadySpawnedToday)
                  {
                      Debug.Log("SPAWNCHECK (0/5): Already spawn today");
                      continue;

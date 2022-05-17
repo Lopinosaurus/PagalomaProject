@@ -38,8 +38,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             GameObject spawn = spawnList.GetChild(spawnIndex).gameObject;
             Vector3 spawnPoint = spawn.transform.position;
 
-            string[] instancitationData = new string[] { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
-            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instancitationData);
+            object[] instantiationData = { roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instantiationData);
             IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
             IGMenuManager.Instance.loadingScreen.SetActive(false);
         }

@@ -2538,7 +2538,7 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   PlayerRender: {fileID: 7117664136791764183}
   backShift: 1
-  AiPrefab: {fileID: 0}
+  AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0

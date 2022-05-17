@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
-using UnityEditor;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 using static System.Single;
 using Random = UnityEngine.Random;
 
@@ -190,7 +187,6 @@ public class AiController : MonoBehaviour
                 {
                     SetCurrentState(AiState.Attack);
                     EnableMovementSpeed(Speed.Attack);
-                    _agent.SetDestination(_targetPlayer.transform.position);
                 }
                 
                 // Teleports if too close
@@ -402,11 +398,16 @@ public class AiController : MonoBehaviour
     {
         if (0 == cols.Count)
         {
-            return null;
+            return currentHidingObstacle;
+        }
+
+        if (largeSearch)
+        {
+            return cols[cols.Count - 1].Item1;
         }
 
         var index = 0;
-        while (index < cols.Count - 1 && Random.Range(0f, 1f) > (largeSearch ? 0.1f : 0.7f)) index++;
+        while (index < cols.Count - 1 && Random.Range(0f, 1f) > 0.7f) index++;
 
         return cols[index].Item1;
     }
