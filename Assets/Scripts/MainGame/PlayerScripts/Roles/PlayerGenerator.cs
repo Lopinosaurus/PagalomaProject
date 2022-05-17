@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using MainGame.Menus;
 using Photon.Pun;
 using UnityEngine;
@@ -83,10 +85,17 @@ namespace MainGame.PlayerScripts.Roles
                 
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
-                // Add every CharacterController to trigger footsteps effect
-                FootstepEffect.PlayersCc.Add(playerRole.gameObject.GetComponent<CharacterController>());
+                
+                // Add player CharacterController and AudioSource to Footstep list
+                (CharacterController playerChar, AudioSource playerSource) playerData = (
+                    playerRole.gameObject.GetComponent<CharacterController>(),
+                    playerRole.gameObject.GetComponent<AudioSource>());
+                
+                FootstepEffect.PlayersCc.Add(playerData);
+                
                 // Store reference to the local player
                 if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
+                
                 // Update Voting List
                 VoteMenu.Instance.Add(playerRole);
             }

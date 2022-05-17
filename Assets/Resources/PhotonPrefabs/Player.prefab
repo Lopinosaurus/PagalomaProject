@@ -2695,7 +2695,6 @@ MonoBehaviour:
   wetCrouching: {fileID: 8300000, guid: d8165e52fa9fa254ab61715ed319f421, type: 3}
   wetWalking: {fileID: 8300000, guid: 6ab57c6b1242bf146abd79a91ac903bc, type: 3}
   wetSprinting: {fileID: 8300000, guid: 8beac96c001e9a34095208d8197cef14, type: 3}
-  footsteps: {fileID: 9182737059992604612}
 --- !u!114 &5554154994360629918
 MonoBehaviour:
   m_ObjectHideFlags: 0

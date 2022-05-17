@@ -13,9 +13,8 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] AudioClip wetCrouching;
     [SerializeField] AudioClip wetWalking;
     [SerializeField] AudioClip wetSprinting;
-    private bool _trueIsPlaying;
-    public AudioSource footsteps;
-    public static readonly List<CharacterController> PlayersCc = new List<CharacterController>();
+    private bool trueIsPlaying;
+    public static readonly List<(CharacterController, AudioSource)> PlayersCc = new List<(CharacterController, AudioSource)>();
 
 
     private enum FootstepState
@@ -26,35 +25,35 @@ public class FootstepEffect : MonoBehaviour
     }
     
     #region Play FootstepEffect Coroutine
-    private IEnumerator _PlayFootstep(AudioClip clip, FootstepState state)
+    private IEnumerator _PlayFootstep(AudioClip clip, FootstepState state, AudioSource plyFoot)
     {
-        _trueIsPlaying = true;
-        footsteps.clip = clip;
+        trueIsPlaying = true;
+        plyFoot.clip = clip;
         switch (state)
         {
             case FootstepState.Crouching:
-                footsteps.volume = Random.Range(0.1f, 0.2f);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                plyFoot.volume = Random.Range(.1f, .2f);
+                plyFoot.pitch = Random.Range(.8f, 1.1f);
+                plyFoot.Play();
                 yield return new WaitForSeconds(.8f);
                 break;
             case FootstepState.Walking:
-                footsteps.volume = Random.Range(0.25f, 0.35f);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                plyFoot.volume = Random.Range(.25f, .35f);
+                plyFoot.pitch = Random.Range(.8f, 1.1f);
+                plyFoot.Play();
                 yield return new WaitForSeconds(.5f);
                 break;
             case FootstepState.Sprinting:
-                footsteps.volume = Random.Range(0.25f, 0.35f);
-                footsteps.pitch = Random.Range(0.8f, 1.1f);
-                footsteps.Play();
+                plyFoot.volume = Random.Range(.25f, .35f);
+                plyFoot.pitch = Random.Range(.8f, 1.1f);
+                plyFoot.Play();
                 yield return null;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, "Bad FootstepState Case");
         }
 
-        _trueIsPlaying = false;
+        trueIsPlaying = false;
     }
     #endregion
 
@@ -66,82 +65,100 @@ public class FootstepEffect : MonoBehaviour
             return;
         }
         
-        foreach (var characterController in PlayersCc)
+        // Item 1 = CharacterController, Item 2 = AudioSource
+        foreach (var playerData in PlayersCc)
         {
+            CharacterController characterController = playerData.Item1;
+            AudioSource playerAS = playerData.Item2;
+            
             Debug.Log("Footsteps CharacterController : " + characterController);
             // Avoid error on CharacterController destruction
             if (characterController is null)
                 return;
 
-            #region Crouching Case
-
             Vector3 velocity;
             Vector3 velocity1;
             Vector3 velocity2;
+            
             switch (characterController.isGrounded)
             {
-                case true when !footsteps.isPlaying && (velocity2 = characterController.velocity).magnitude > 0f && velocity2.magnitude < 1.5f:
+                #region Crouching Case
+                case true when !playerAS.isPlaying 
+                               && (velocity2 = characterController.velocity).magnitude > 0f 
+                               && velocity2.magnitude < 1.5f:
                 {
                     var soundTaker = Random.Range(1, 2);
 
                     if (1 == soundTaker)
                     {
-                        if (!_trueIsPlaying)
+                        if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(dryCrouching, FootstepState.Crouching));
+                            StartCoroutine(_PlayFootstep(dryCrouching, FootstepState.Crouching, playerAS));
+                        }
+                        
+                    }
+
+                    else
+                    {
+                        if (!trueIsPlaying)
+                        {
+                            StartCoroutine(_PlayFootstep(wetCrouching, FootstepState.Crouching, playerAS));
+                        }
+                        
+                    }
+
+                    break;
+                }
+                #endregion
+                
+                #region Walking Case
+                case true when (velocity1 = characterController.velocity).magnitude > 0f 
+                               && !playerAS.isPlaying
+                               && velocity1.magnitude < 3f:
+                {
+                    var soundTaker = Random.Range(1, 2);
+
+
+                    if (1 == soundTaker)
+                    {
+                        if (!trueIsPlaying)
+                        {
+                            StartCoroutine(_PlayFootstep(dryWalking, FootstepState.Walking, playerAS));
                         }
                     }
 
                     else
                     {
-                        if (!_trueIsPlaying)
+                        if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(wetCrouching, FootstepState.Crouching));
+                            StartCoroutine(_PlayFootstep(wetWalking, FootstepState.Walking, playerAS));
                         }
                     }
 
                     break;
                 }
-                case true when (velocity1 = characterController.velocity).magnitude > 0f && velocity1.magnitude < 3f:
-                {
-                    var soundTaker = Random.Range(1, 2);
-
-
-                    if (1 == soundTaker)
-                    {
-                        if (!_trueIsPlaying)
-                        {
-                            StartCoroutine(_PlayFootstep(dryWalking, FootstepState.Walking));
-                        }
-                    }
-
-                    else
-                    {
-                        if (!_trueIsPlaying)
-                        {
-                            StartCoroutine(_PlayFootstep(wetWalking, FootstepState.Walking));
-                        }
-                    }
-
-                    break;
-                }
-                case true when !footsteps.isPlaying && (velocity = characterController.velocity).magnitude > 0f && velocity.magnitude < 6f:
+                #endregion
+                
+                #region Sprinting Case
+                case true when !playerAS.isPlaying 
+                               && (velocity = characterController.velocity).magnitude > 0f 
+                               && velocity.magnitude < 6f:
                 {
                     var soundTaker = Random.Range(1, 2);
 
                     if (1 == soundTaker)
                     {
-                        if (!_trueIsPlaying)
+                        if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(drySprinting, FootstepState.Sprinting));
+                            StartCoroutine(_PlayFootstep(drySprinting, FootstepState.Sprinting, playerAS));
                         }
                     }
 
                     else
                     {
-                        if (!_trueIsPlaying)
+                        if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.Sprinting));
+                            StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.Sprinting, playerAS));
                         }
                     }
 
