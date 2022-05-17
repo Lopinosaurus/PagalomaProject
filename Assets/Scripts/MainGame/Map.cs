@@ -38,10 +38,10 @@ public class Map : MonoBehaviour
 
     public void AddVillage()
     {
-        Vector2 v = Random.insideUnitCircle * 100;
+        Vector2 v = Random.insideUnitCircle * 60;
         float x = v.x;
         float z = v.y;
-        float y = 0;
+        float y = 16.5f;
         RaycastHit hit;
         int layerMask = 1 << 3; // define the only layer that the raycast can touch
         layerMask = ~layerMask; // inverse the bits to ignore specifically the 3; 
@@ -49,10 +49,8 @@ public class Map : MonoBehaviour
         {
             if (hit.transform.tag == "mapFloor")
             {
-                y = hit.point.y + 4.5f;
                 Vector3 direction = hit.normal;
                 Instantiate(village, new Vector3(x, y, z), RandomRotation(), villageFolder.transform);
-                
             }
 
         }
