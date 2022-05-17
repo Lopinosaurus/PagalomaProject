@@ -62,7 +62,6 @@ public class AiController : MonoBehaviour
     private const float MaxBeingCaughtDelay = 3;
 
     private const float AttackMaxDistancePlayer = 2.5f;
-    private const float SqrMinColliderPlayerDist = 27;
     private const float RemainingMinDistance = 1;
     private const float minDistFromPlayer = 7;
 
@@ -202,6 +201,7 @@ public class AiController : MonoBehaviour
                 // When the time has run out normally, moves forwards
                 else if (remainingTime < 0)
                 {
+                    remainingTime = CycleTime;
                     SetCurrentState(AiState.Moving);
                     EnableMovementSpeed(Speed.Normal);
                     _agent.SetDestination(FindHidingSpot(false));
@@ -336,8 +336,6 @@ public class AiController : MonoBehaviour
 
     private void EnableMovementSpeed(Speed selected)
     {
-        _agent.acceleration = Acceleration;
-        
         switch (selected)
         {
             case Speed.Freeze:
@@ -357,6 +355,8 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = 9999;
                 break;
         }
+
+        _agent.speed = 8;
     }
 
     private void FindNewObstacle(bool largeSearch = false)
@@ -384,7 +384,7 @@ public class AiController : MonoBehaviour
         foreach (var c in hitColliders)
         {
             float sqrDist = (c.transform.position - _targetPlayer.transform.position).sqrMagnitude;
-            bool isTooClose = sqrDist < SqrMinColliderPlayerDist;
+            bool isTooClose = sqrDist < minDistFromPlayer * minDistFromPlayer;
             InsertSorted(isTooClose ? tooCloseCol : correctCol, c, sqrDist);
         }
 
