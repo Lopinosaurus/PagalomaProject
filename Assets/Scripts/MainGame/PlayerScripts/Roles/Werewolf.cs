@@ -8,12 +8,17 @@ using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
 {
+    
     public class Werewolf : Role
     {
+        [SerializeField] private GameObject VillageRenderer;
+        [SerializeField] private GameObject WereWolfRenderer;
+        [SerializeField] private GameObject Particles;
+        
         public List<Role> _targets = new List<Role>();
         public bool isTransformed = false;
 
-         public override void UpdateActionText()
+        public override void UpdateActionText()
         {
             if (_photonView.IsMine)
             {
@@ -69,11 +74,12 @@ namespace MainGame.PlayerScripts.Roles
         private void Transformation()
         {
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
-            
-            
-            // TODO: Add Transform animation HERE
-            
-            
+            if (VillageRenderer.activeSelf)
+            {
+                Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
+                VillageRenderer.SetActive(false);
+                WereWolfRenderer.SetActive(true);
+            }
             Debug.Log("Werewolf Transformation");
             isTransformed = true;
             UpdateActionText();
@@ -91,7 +97,12 @@ namespace MainGame.PlayerScripts.Roles
              if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
              
              
-            // TODO: Add DeTransform animation HERE
+             if (WereWolfRenderer.activeSelf)
+             {
+                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
+                 WereWolfRenderer.SetActive(false);
+                 VillageRenderer.SetActive(true);
+             }
 
             
             Debug.Log("Werewolf DeTransformation");

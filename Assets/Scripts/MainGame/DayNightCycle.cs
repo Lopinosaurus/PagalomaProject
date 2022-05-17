@@ -71,7 +71,7 @@ public class DayNightCycle : MonoBehaviour
                 if (VoteMenu.Instance.isFirstDay == false) RoomManager.Instance.ResolveVote();
                 
                 int isEOG = RoomManager.Instance.CheckIfEOG();
-                if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
+                //if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
                 
                 PV.RPC("RPC_NewNight", RpcTarget.Others, time);
                 NewNight();
