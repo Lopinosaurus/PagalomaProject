@@ -14,7 +14,7 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] AudioClip wetWalking;
     [SerializeField] AudioClip wetSprinting;
     private bool trueIsPlaying;
-    public static readonly List<(CharacterController, AudioSource)> PlayersCc = new List<(CharacterController, AudioSource)>();
+    public static List<(CharacterController, AudioSource)> PlayersCc = new List<(CharacterController, AudioSource)>();
 
 
     private enum FootstepState
@@ -71,7 +71,6 @@ public class FootstepEffect : MonoBehaviour
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
             
-            Debug.Log("Footsteps CharacterController : " + characterController);
             // Avoid error on CharacterController destruction
             if (characterController is null)
                 return;
@@ -164,9 +163,10 @@ public class FootstepEffect : MonoBehaviour
 
                     break;
                 }
+                #endregion
             }
-
-            #endregion
+             
+                
         }
     }
 }
