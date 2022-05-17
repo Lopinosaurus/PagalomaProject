@@ -71,7 +71,6 @@ public class FootstepEffect : MonoBehaviour
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
             
-            Debug.Log("Footsteps CharacterController : " + characterController);
             // Avoid error on CharacterController destruction
             if (characterController is null)
                 return;
