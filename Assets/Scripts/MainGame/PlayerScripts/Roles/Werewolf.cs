@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MainGame.Menus;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -10,9 +11,28 @@ namespace MainGame.PlayerScripts.Roles
     public class Werewolf : Role
     {
         public List<Role> _targets = new List<Role>();
+        public bool isTransformed = false;
 
+         public override void UpdateActionText()
+        {
+            if (_photonView.IsMine)
+            {
+                if (isTransformed)
+                {
+                    if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Kill";
+                    else actionText.text = "";
+                }
+                else if (VoteMenu.Instance.isNight)
+                {
+                    if (hasCooldown == false) actionText.text = "Press E to Transform";
+                    else actionText.text = "";
+                }
+            }
+        }
+         
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
+            if (isTransformed == false) return;
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
@@ -39,8 +59,46 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UseAbility()
         {
-            KillTarget();
+            if (!hasCooldown)
+            {
+               if (isTransformed) KillTarget();
+                else Transformation(); 
+            }
         }
+
+        private void Transformation()
+        {
+            if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
+            
+            
+            // TODO: Add Transform animation HERE
+            
+            
+            Debug.Log("Werewolf Transformation");
+            isTransformed = true;
+            UpdateActionText();
+            if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
+        }
+        
+        private IEnumerator DeTransformationCoroutine(int delay)
+        {
+            yield return new WaitForSeconds(delay);
+            DeTransformation();
+        }
+
+        private void DeTransformation()
+        {
+             if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
+             
+             
+            // TODO: Add DeTransform animation HERE
+
+            
+            Debug.Log("Werewolf DeTransformation");
+            isTransformed = false;
+            UpdateActionText();
+        }
+        
         private void KillTarget() // TODO: Add kill animation
         {
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
@@ -77,14 +135,7 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-        public override void UpdateActionText()
-        {
-            if (_photonView.IsMine)
-            {
-                if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Kill";
-                else actionText.text = "";
-            }
-        }
+       
         
         [PunRPC]
         public void RPC_KillTarget(string userId) // TODO: Add kill animation
@@ -101,6 +152,18 @@ namespace MainGame.PlayerScripts.Roles
                 else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, Target is already dead");
             }
             else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, target = null");
+        }
+
+        [PunRPC]
+        public void RPC_Transformation()
+        {
+            Transformation();
+        }
+        
+        [PunRPC]
+        public void RPC_DeTransformation()
+        {
+            DeTransformation();
         }
     }
 }
