@@ -29,6 +29,9 @@ public class FootstepEffect : MonoBehaviour
     {
         trueIsPlaying = true;
         plyFoot.clip = clip;
+        plyFoot.spatialBlend = 1;
+        plyFoot.minDistance = 25;
+        plyFoot.maxDistance = 100;
         switch (state)
         {
             case FootstepState.Crouching:
@@ -64,6 +67,8 @@ public class FootstepEffect : MonoBehaviour
             Debug.Log("PlayersCC is null !");
             return;
         }
+
+        Debug.Log("PlayersCC Count : " + PlayersCc.Count);
         
         // Item 1 = CharacterController, Item 2 = AudioSource
         foreach (var playerData in PlayersCc)
@@ -74,6 +79,11 @@ public class FootstepEffect : MonoBehaviour
             // Avoid error on CharacterController destruction
             if (characterController is null)
                 return;
+            
+            if (playerAS is null)
+            {
+                Debug.Log("AudioSource is null !");
+            }
 
             Vector3 velocity;
             Vector3 velocity1;
