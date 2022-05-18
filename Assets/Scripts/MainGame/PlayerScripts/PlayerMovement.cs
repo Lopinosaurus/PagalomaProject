@@ -19,7 +19,7 @@ namespace MainGame.PlayerScripts
         // Movement components
         private CharacterController _characterController;
 
-        // private PlayerControls _playerControls;
+        private PlayerControls _playerControls;
         private bool WantsCrouchHold { get; set; }
         private bool _wantsCrouchToggle;
         private bool WantsSprint { get; set; }
