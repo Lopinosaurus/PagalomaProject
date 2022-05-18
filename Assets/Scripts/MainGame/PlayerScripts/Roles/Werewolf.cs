@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MainGame.Menus;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -76,16 +77,30 @@ namespace MainGame.PlayerScripts.Roles
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
             if (VillageRenderer.activeSelf)
             {
-                Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                VillageRenderer.SetActive(false);
-                WereWolfRenderer.SetActive(true);
+                GameObject p =Instantiate(Particles, this.transform.position+new Vector3(0,1.1f,0), quaternion.identity);
+                //p.transform.localRotation = quaternion.identity;
+                p.transform.rotation = Quaternion.Euler(-90,0,0);
+                StartCoroutine(TransformationAnimationCoroutine(1f));
             }
             Debug.Log("Werewolf Transformation");
             isTransformed = true;
             UpdateActionText();
             if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
         }
-        
+
+        private IEnumerator TransformationAnimationCoroutine(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            VillageRenderer.SetActive(false);
+            WereWolfRenderer.SetActive(true);
+        }
+        private IEnumerator DetransformationAnimationCoroutine(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            VillageRenderer.SetActive(true);
+            WereWolfRenderer.SetActive(false);
+        }
+
         private IEnumerator DeTransformationCoroutine(int delay)
         {
             yield return new WaitForSeconds(delay);
@@ -99,12 +114,11 @@ namespace MainGame.PlayerScripts.Roles
              
              if (WereWolfRenderer.activeSelf)
              {
-                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                 WereWolfRenderer.SetActive(false);
-                 VillageRenderer.SetActive(true);
+                 GameObject p =Instantiate(Particles, this.transform.position+new Vector3(0,1.1f,0), quaternion.identity);
+                 //p.transform.localRotation = quaternion.identity;
+                 p.transform.rotation = Quaternion.Euler(-90,0,0);
+                 StartCoroutine(DetransformationAnimationCoroutine(1f));
              }
-
-            
             Debug.Log("Werewolf DeTransformation");
             isTransformed = false;
             UpdateActionText();
