@@ -34,7 +34,7 @@ namespace MainGame.PlayerScripts.Roles
         // Controls
         [SerializeField] private GameObject _cameraHolder;
         public PlayerInput _playerInput;
-        private PlayerMovement _playerMovement;
+        protected PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
         private PlayerAnimation _playerAnimation;

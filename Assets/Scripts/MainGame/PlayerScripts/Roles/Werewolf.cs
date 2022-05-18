@@ -11,7 +11,7 @@ namespace MainGame.PlayerScripts.Roles
     
     public class Werewolf : Role
     {
-        [SerializeField] private GameObject VillageRenderer;
+        [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
         
@@ -74,16 +74,34 @@ namespace MainGame.PlayerScripts.Roles
         private void Transformation()
         {
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
-            if (VillageRenderer.activeSelf)
+            
+            // Transformation animation
+            if (VillagerRenderer.activeSelf)
             {
                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                VillageRenderer.SetActive(false);
+                VillagerRenderer.SetActive(false);
                 WereWolfRenderer.SetActive(true);
             }
-            Debug.Log("Werewolf Transformation");
-            isTransformed = true;
+
+            StartCoroutine(WerewolfTransform(true));
+        }
+        
+        private IEnumerator WerewolfTransform(bool isTransformation)
+        {
+            _playerMovement.StartSlowSpeed(5, 0, 0, 1);
+            yield return new WaitForSeconds(5);
+
+            if (isTransformation) // Transformation 
+            {
+                isTransformed = true;
+                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
+            }
+            else // DeTransformation
+            {
+                isTransformed = false;
+                hasCooldown = true;
+            }
             UpdateActionText();
-            if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
         }
         
         private IEnumerator DeTransformationCoroutine(int delay)
@@ -96,18 +114,14 @@ namespace MainGame.PlayerScripts.Roles
         {
              if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
              
-             
+             // DeTransformation animation
              if (WereWolfRenderer.activeSelf)
              {
                  Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
                  WereWolfRenderer.SetActive(false);
-                 VillageRenderer.SetActive(true);
+                 VillagerRenderer.SetActive(true);
              }
-
-            
-            Debug.Log("Werewolf DeTransformation");
-            isTransformed = false;
-            UpdateActionText();
+             StartCoroutine(WerewolfTransform(false));
         }
         
         private void KillTarget() // TODO: Add kill animation

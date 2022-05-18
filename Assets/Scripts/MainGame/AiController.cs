@@ -265,7 +265,7 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartSlowSpeed(slowSpeedDuration);
+                    _playerMovement.StartSlowSpeed(20, 0.3f, 0.3f, 0.8f);
                     _playerLook.StartShake(shakeDuration);
                     
                     Destroy(gameObject);
