@@ -27,8 +27,7 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasVoted; // Has submitted vote this day
         [SerializeField] protected TMP_Text actionText;
         [SerializeField] protected TMP_Text deathText;
-
-        [SerializeField] private bool selfKill;
+        
         [SerializeField] private bool kill;
 
         // Controls
@@ -74,7 +73,6 @@ namespace MainGame.PlayerScripts.Roles
             isActive = true;
             if (_photonView.IsMine)
             {
-                _playerInput.actions["Die"].started += ctx => selfKill = ctx.ReadValueAsButton();
                 _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
                 _playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
                 _playerInput.actions["Click"].performed += ctx => PlayerInteraction.Instance.Click();
@@ -83,7 +81,6 @@ namespace MainGame.PlayerScripts.Roles
 
         private void LateUpdate()
         {
-            if (selfKill && isAlive) Die();
             if (kill) UseAbility();
         }
 

@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject AiPrefab;
     private List<Transform> playerPositions;
     
-    private float minVillageDist = 60f;
+    private float minVillageDist = 120f;
     private float minPlayerDist = 60f;
     private bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday = false;
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
         try
         {
-            villageTransform = RoomManager.Instance.map.village.transform;
+            villageTransform = GameObject.FindWithTag("village").transform;
             
             var t = RoomManager.Instance.players;
             playerPositions = new List<Transform>();
@@ -119,18 +119,20 @@ public class PlayerController : MonoBehaviour
             Destroy(_cam);
             Destroy(_audioListener);
             playerInput.enabled = false;
+            enableAi = false;
         }
         else
         {
+            enableAi = true;
             StartCoroutine(AiCreator());
         }
     }
 
     private IEnumerator AiCreator()
     {
-        while (enableAi)
+        while (true)
         {
-            while (enableAi)
+            while (true)
             {
                 yield return new WaitForSeconds(2);
 
@@ -148,7 +150,7 @@ public class PlayerController : MonoBehaviour
                  }
                  if (hasAlreadySpawnedToday)
                  {
-                     Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+                     // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
                      continue;
                  };
                  
@@ -157,7 +159,7 @@ public class PlayerController : MonoBehaviour
                 // Already spawned check
                 if (IaAlreadySpawned)
                 {
-                    Debug.Log("SPAWNCHECK (1/5): Ai already exists");
+                    // Debug.Log("SPAWNCHECK (1/5): Ai already exists");
                     continue;
                 };
 
@@ -166,14 +168,14 @@ public class PlayerController : MonoBehaviour
                     // Alive check
                     if (!_role.isAlive)
                     {
-                        Debug.Log("SPAWNCHECK (2/5): is dead");
+                        // Debug.Log("SPAWNCHECK (2/5): is dead");
                         continue;
                     }
 
                     // Day check
                     if (!VoteMenu.Instance.isNight)
                     {
-                        Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
+                        // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
                         continue;
                     }
                     
@@ -183,7 +185,7 @@ public class PlayerController : MonoBehaviour
                                           minVillageDist * minVillageDist;
                     if (villageTooClose)
                     {
-                        Debug.Log("SPAWNCHECK (4/5): village is too close");
+                        // Debug.Log("SPAWNCHECK (4/5): village is too close");
                         continue;
                     }
                     
@@ -198,7 +200,7 @@ public class PlayerController : MonoBehaviour
 
                     if (!everyPlayerFarEnough)
                     {
-                        Debug.Log("SPAWNCHECK (5/5): a player is too close");
+                        // Debug.Log("SPAWNCHECK (5/5): a player is too close");
                         continue;
                     }
 

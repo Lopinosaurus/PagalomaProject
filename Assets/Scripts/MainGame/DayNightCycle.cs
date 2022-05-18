@@ -13,7 +13,7 @@ public class DayNightCycle : MonoBehaviour
     public float time;
     public float fullDayLength; // Day length in seconds
     public float startTime = 0.4f;
-    private float timeRate;
+    [Range(0, 0.05f)] [SerializeField] private float timeRate;
     public Vector3 noon;
     public bool isDay;
     

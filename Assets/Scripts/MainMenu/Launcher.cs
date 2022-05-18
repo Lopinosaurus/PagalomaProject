@@ -137,8 +137,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
         // Update activeRooms list
         foreach (RoomInfo room in roomList)
         {
-            if (room.RemovedFromList) activeRooms.Remove(room);
-            else activeRooms.Add(room);
+            if (room.RemovedFromList || !room.IsOpen) activeRooms.Remove(room);
+            else if (!activeRooms.Contains(room)) activeRooms.Add(room);
         }
         
         // Clear the room list
@@ -164,6 +164,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     public void StartGame()
     {
         startGameButton.SetActive(false);
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         MenuManager.Instance.OpenMenu("loading");
         PhotonNetwork.LoadLevel(1); // Switch scene for all players
     }

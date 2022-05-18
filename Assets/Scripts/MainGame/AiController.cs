@@ -35,7 +35,7 @@ public class AiController : MonoBehaviour
     {
         Freeze,
         Attack,
-        Normal,
+        Moving,
         Hiding
     }
 
@@ -59,13 +59,13 @@ public class AiController : MonoBehaviour
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 5;
+    private const float CycleTime = 2;
     private const float MaxBeingCaughtDelay = 3;
 
     private const float AttackMaxDistancePlayer = 2.5f;
     private const float RemainingMinDistance = 1;
     private const float minDistFromPlayer = 7;
-    private const float minDistFromObstacle = 7;
+    private const float minDistFromObstacle = 25;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 30;
@@ -90,26 +90,33 @@ public class AiController : MonoBehaviour
 
         _agent = GetComponent<NavMeshAgent>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
-
-        remainingTime = CycleTime;
+        currentHidingObstacle = _capsuleCollider;
+        
+        SetTime(CycleTime);
 
         _characterMaskValue = GetLayerMaskValue(characterMask);
 
         // NavMesh settings
-        _agent.speed = _normalSpeed;
-        _agent.acceleration = Acceleration;
-        _agent.angularSpeed = 9999;
-        _agent.stoppingDistance = 0;
+        try
+        {
+            _agent.speed = _normalSpeed;
+            _agent.acceleration = Acceleration;
+            _agent.angularSpeed = 9999;
+            _agent.stoppingDistance = 0;
+        }
+        catch
+        {
+            transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
+        }
     }
 
     private void Update()
     {
         _isViewed = IsInCameraView();
 
-        // Decides if the player is being observed
-        if (!_isViewed)
+        if (!_isViewed && AiState.Hidden == currentState)
         {
-            // Rotates towards the player only if is not looked at
+            // Rotates towards the player only if hiding and not seen
             RotateTowardsPlayer();
         }
         
@@ -147,23 +154,17 @@ public class AiController : MonoBehaviour
         {
             Debug.LogWarning("No RoomManager found ! (AiController)");
         }
-        
-        
+
+
+        var targetPlayerTransform = _targetPlayer.transform;
         if (!_isAlive)
         {
-            transform.position = _targetPlayer.transform.position +
-                                 _targetPlayer.transform.TransformDirection(Vector3.back * 90);
+            transform.position = targetPlayerTransform.position +
+                                 targetPlayerTransform.TransformDirection(Vector3.back * 90);
             
             return;
         }
 
-        if (!currentHidingObstacle)
-        {
-            transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
-            EnableMovementSpeed(Speed.Hiding);
-            _agent.SetDestination(FindHidingSpot(false, true));
-        }
-        
         switch (currentState)
         {
             case AiState.Hidden when _isAlive:
@@ -172,10 +173,7 @@ public class AiController : MonoBehaviour
                 
                 if (_isInCameraView)
                 {
-                    if (remainingTime < 1)
-                    {
-                        remainingTime = 1;
-                    }
+                    if (remainingTime < 1) remainingTime = 1;
                 }
                 else
                 {
@@ -190,43 +188,49 @@ public class AiController : MonoBehaviour
                     EnableMovementSpeed(Speed.Attack);
                 }
                 
-                // Teleports if too close
-                else if (DistFromTarget < minDistFromPlayer)
-                {
-                    PlayAiDamaged();
-                    transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
-                    EnableMovementSpeed(Speed.Hiding);
-                    _agent.SetDestination(FindHidingSpot(false, true));
-                    moveCount++;
-                }
-                
-                // When the time has run out normally, moves forwards
-                else if (remainingTime < 0)
-                {
-                    remainingTime = CycleTime;
-                    SetCurrentState(AiState.Moving);
-                    EnableMovementSpeed(Speed.Normal);
-                    _agent.SetDestination(FindHidingSpot(false));
-                    if (previousCollider != currentHidingObstacle) moveCount++;
-                }
+                // Teleports if too close or too far
                 else
                 {
-                    // Stays hidden
-                    _agent.SetDestination(FindHidingSpot(true));
+                    float distFromTarget = DistFromTarget;
+                    bool tooFar = distFromTarget > _maxSpawnRange;
+                    if (distFromTarget < minDistFromPlayer || tooFar)
+                    {
+                        PlayAiDamaged();
+                        transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
+                        
+                        EnableMovementSpeed(tooFar ? Speed.Hiding : Speed.Moving);
+                        _agent.SetDestination(FindHidingSpot(false, true));
+                        Debug.Log("Teleported because " + (tooFar ? "too far" : "too close"));
+                        if(!tooFar)moveCount++;
+                    }
+                
+                    // When the time has run out normally, moves forwards
+                    else if (remainingTime < 0)
+                    {
+                        SetTime(CycleTime);
+                        SetCurrentState(AiState.Moving);
+                        EnableMovementSpeed(Speed.Moving);
+                        Debug.Log("Moving normally", currentHidingObstacle);
+                        _agent.SetDestination(FindHidingSpot(false));
+                        if (previousCollider != currentHidingObstacle) moveCount++;
+                    }
+                    else
+                    {
+                        // Stays hidden
+                        _agent.SetDestination(FindHidingSpot(true));
+                    }
                 }
 
                 break;
             
             case AiState.Moving when _isAlive:
-                EnableMovementSpeed(Speed.Normal);
-                remainingTime = CycleTime;
+                EnableMovementSpeed(Speed.Moving);
+                SetTime(CycleTime);
+                
+                Debug.Log("Moving towards player...", currentHidingObstacle);
                 
                 // When the Ai has arrived, goes back to Hidden
-                if (_agent.remainingDistance > RemainingMinDistance)
-                {
-                    _agent.SetDestination(FindHidingSpot(true));
-                }
-                else
+                if (_agent.remainingDistance < RemainingMinDistance)
                 {
                     EnableMovementSpeed(Speed.Hiding);
                     SetCurrentState(AiState.Hidden);
@@ -240,7 +244,7 @@ public class AiController : MonoBehaviour
                 remainingHealth--;
                 moveCount = 0;
                 timeBeingCaught = 0;
-                remainingTime = CycleTime * 2;
+                SetTime(CycleTime * 2);
 
                 PlayAiDamaged();
 
@@ -261,11 +265,13 @@ public class AiController : MonoBehaviour
             case AiState.Attack when _isAlive:
                 EnableMovementSpeed(Speed.Attack);
 
+                _agent.SetDestination(targetPlayerTransform.position + targetPlayerTransform.TransformDirection(Vector3.forward));
+                
                 if (_agent.remainingDistance <= AttackMaxDistancePlayer)
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartSlowSpeed(20, 0.3f, 0.3f, 0.8f);
+                    _playerMovement.StartSlowSpeed(slowSpeedDuration, 0.3f, 0.3f, 0.8f);
                     _playerLook.StartShake(shakeDuration);
                     
                     Destroy(gameObject);
@@ -276,19 +282,21 @@ public class AiController : MonoBehaviour
                 }
                 else
                 {
-                    EnableMovementSpeed(Speed.Attack);
-                    _agent.SetDestination(_targetPlayer.transform.position);
+                    Debug.Log("Attacking player...", currentHidingObstacle);
                 }
                 
                 break;
         }
     }
 
+    private void SetTime(float cycleTime)
+    {
+        remainingTime = Mathf.Clamp(cycleTime - (int)(DistFromTarget / 10), 1, CycleTime);
+    }
+
     private void PlayAiDamaged()
     {
-        var position1 = transform.position;
-        var position = position1 +
-                       transform.TransformDirection((_targetPlayer.transform.position - position1).normalized);
+        var position = transform.position + _targetPlayer.transform.TransformDirection(Vector3.back);
 
         Instantiate(dissimulateParticle, position, Quaternion.Euler(-90, 0, 0));
     }
@@ -348,7 +356,7 @@ public class AiController : MonoBehaviour
                 _agent.speed = Mathf.Clamp(_normalSpeed - _agent.remainingDistance, 8, _normalSpeed);
                 _agent.acceleration = Acceleration;
                 break;
-            case Speed.Normal:
+            case Speed.Moving:
                 _agent.speed = _normalSpeed;
                 _agent.acceleration = Acceleration;
                 break;
@@ -363,8 +371,7 @@ public class AiController : MonoBehaviour
     {
         // Doesn't bring a new obstacle if too far from the curernt one
         Vector3 pos = transform.position;
-        if ((bool) currentHidingObstacle &&
-            !largeSearch &&
+        if (!largeSearch &&
             (pos - FindHidingSpot(true)).sqrMagnitude >
             minDistFromObstacle * minDistFromObstacle)
         {
@@ -388,17 +395,16 @@ public class AiController : MonoBehaviour
             Vector3.Distance(c.transform.position, _targetPlayer.transform.position) >
             DistFromTarget * DistFromTarget);
 
-        var tooCloseCol = new List<(Collider, float)>();
         var correctCol = new List<(Collider, float)>();
 
         foreach (var c in hitColliders)
         {
             float sqrDist = (c.transform.position - _targetPlayer.transform.position).sqrMagnitude;
             bool isTooClose = sqrDist < minDistFromPlayer * minDistFromPlayer;
-            InsertSorted(isTooClose ? tooCloseCol : correctCol, c, sqrDist);
+            if (!isTooClose) InsertSorted(correctCol, c, sqrDist);
         }
 
-        Collider newCollider = ChooseRandom(correctCol.Count > 0 ? correctCol : tooCloseCol, largeSearch);
+        Collider newCollider = ChooseRandom(correctCol, largeSearch);
 
         previousCollider = currentHidingObstacle;
         currentHidingObstacle = newCollider;
@@ -450,22 +456,18 @@ public class AiController : MonoBehaviour
 
     private Vector3 FindHidingSpot(bool useCurrentCollider, bool largeSearch = false)
     {
-        if (!useCurrentCollider || !currentHidingObstacle) FindNewObstacle(largeSearch);
+        if (!useCurrentCollider)
+        {
+            FindNewObstacle(largeSearch);
+        }
 
-        var bounds = currentHidingObstacle.bounds;
-        Vector3 obstaclePosition = bounds.center;
+        Vector3 obstaclePosition = currentHidingObstacle.transform.position;
         Vector3 targetPosition = _targetPlayer.transform.position;
 
         Vector3 direction = obstaclePosition - targetPosition;
 
         // Tries to find the point behind the obstacle aligned with the player
-        Vector3 hidingSpot = obstaclePosition + direction.normalized * bounds.size.magnitude;
-        Ray ray = new Ray(hidingSpot, obstaclePosition - hidingSpot);
-        
-        if (Physics.Raycast(ray, out RaycastHit hit1, PositiveInfinity, _characterMaskValue) && hit1.collider == currentHidingObstacle)
-        {
-            hidingSpot = hit1.point + direction.normalized * 0.5f;
-        }
+        Vector3 hidingSpot = obstaclePosition + direction.normalized;
 
         // Sticks it to the ground
         if (Physics.Raycast(hidingSpot, Vector3.down, out RaycastHit hit, _characterMaskValue))
