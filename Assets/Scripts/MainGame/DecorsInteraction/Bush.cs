@@ -12,32 +12,19 @@ public class Bush : MonoBehaviour
         if (other.tag == "Player")
         {
             other.GetComponent<PlayerMovement>().currentSpeedMult = 0.4f;
+            other.GetComponent<PlayerMovement>().nbBushes++;
         }
-        /*
-        if (other.tag == "Player")
-        {
-            PlayerMovement PM = other.GetComponent<PlayerMovement>();
-            Debug.Log(PM.currentSpeedMult);
-            if (PM.currentMovementType == PlayerMovement.MovementTypes.Crouch)
-            {
-                PM.currentSpeedMult = 0.8f;
-            }
-            else if (PM.currentMovementType == PlayerMovement.MovementTypes.Walk)
-            {
-                PM.currentSpeedMult = 0.6f;
-            }
-            else if (PM.currentMovementType == PlayerMovement.MovementTypes.Walk)
-            {
-                PM.currentSpeedMult = 0.7f;
-            }
-        }*/
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<PlayerMovement>().currentSpeedMult = 1f;
+            other.GetComponent<PlayerMovement>().nbBushes--;
+            if (other.GetComponent<PlayerMovement>().nbBushes == 0)
+            {
+                other.GetComponent<PlayerMovement>().currentSpeedMult = 1f;
+            }
         }
     }
 }
