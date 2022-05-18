@@ -14,23 +14,25 @@ public class SoundAmbiance : MonoBehaviour
 
     void Update()
     {
-        if (VoteMenu.Instance.isDay)
+        if (!VoteMenu.Instance.isNight)
         {
             if (!isDayPlaying)
             {
                 ambianceSource.Stop();
                 ambianceSource.clip = forestAmbiance;
+                ambianceSource.volume = .23f;
                 ambianceSource.Play();
                 isDayPlaying = true;
             }
         }
         
-        if (!VoteMenu.Instance.isDay)
+        if (VoteMenu.Instance.isNight)
         {
             if (isDayPlaying)
             {
                 ambianceSource.Stop();
                 ambianceSource.clip = horrorAmbiance;
+                ambianceSource.volume = .60f;
                 ambianceSource.Play();
                 isDayPlaying = false;
             }
