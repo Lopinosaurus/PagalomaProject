@@ -11,7 +11,7 @@ namespace MainGame.PlayerScripts.Roles
     
     public class Werewolf : Role
     {
-        [SerializeField] private GameObject VillageRenderer;
+        [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
         
@@ -74,13 +74,15 @@ namespace MainGame.PlayerScripts.Roles
         private void Transformation()
         {
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
-            if (VillageRenderer.activeSelf)
+            
+            // Transformation animation
+            if (VillagerRenderer.activeSelf)
             {
                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                VillageRenderer.SetActive(false);
+                VillagerRenderer.SetActive(false);
                 WereWolfRenderer.SetActive(true);
             }
-            Debug.Log("Werewolf Transformation");
+            
             isTransformed = true;
             UpdateActionText();
             if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
@@ -96,17 +98,16 @@ namespace MainGame.PlayerScripts.Roles
         {
              if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
              
-             
+             // DeTransformation animation
              if (WereWolfRenderer.activeSelf)
              {
                  Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
                  WereWolfRenderer.SetActive(false);
-                 VillageRenderer.SetActive(true);
+                 VillagerRenderer.SetActive(true);
              }
-
-            
-            Debug.Log("Werewolf DeTransformation");
+             
             isTransformed = false;
+            hasCooldown = true;
             UpdateActionText();
         }
         
