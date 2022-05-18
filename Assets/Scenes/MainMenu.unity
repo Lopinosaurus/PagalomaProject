@@ -2515,14 +2515,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 277934000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 123d75a2a339aab4fa2c6582846a964c, type: 3}
+  m_Script: {fileID: 11500000, guid: d9b236911fe355440a5bc47aa2295bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  refJump: {fileID: 722067374536354430, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
-  playerController: {fileID: 4656714414789940587, guid: dc0fbb472967a0745b0551b3244b48a2, type: 3}
-  bindingKeyDisplay: {fileID: 0}
-  startRebind: {fileID: 0}
-  waitingForInput: {fileID: 0}
+  asset: {fileID: -944628639613478452, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
 --- !u!1 &295660662
 GameObject:
   m_ObjectHideFlags: 0

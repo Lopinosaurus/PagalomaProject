@@ -3256,23 +3256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b236911fe355440a5bc47aa2295bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActionReference: {fileID: 722067374536354430, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
-  excludeMouseControls: 1
-  selectedBind: 1
-  displayStringOptions: 0
-  inputBinding:
-    m_Name: 
-    m_Id: be43a5ee-afdb-48d5-a2cd-0859185647dc
-    m_Path: <Keyboard>/space
-    m_Interactions: 
-    m_Processors: 
-    m_Groups: Keyboard&Mouse
-    m_Action: Jump
-    m_Flags: 0
-  rebindButton: {fileID: 1740775844}
-  resetControlButton: {fileID: 988275235}
-  bindText: {fileID: 893712229}
-  rebindText: {fileID: 259849457}
+  asset: {fileID: -944628639613478452, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
 --- !u!1001 &309529614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3723,7 +3707,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 329674533}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307012797}
+        m_TargetAssemblyTypeName: RebindSystem, Assembly-CSharp
+        m_MethodName: RebindMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &329674533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19196,7 +19192,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1740775845}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 307012797}
+        m_TargetAssemblyTypeName: RebindSystem, Assembly-CSharp
+        m_MethodName: RebindJump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1740775845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20269,6 +20277,7 @@ MonoBehaviour:
   time: 0
   fullDayLength: 200
   startTime: 0.4
+  timeRate: 0
   noon: {x: 90, y: 0, z: 0}
   isDay: 0
   sun: {fileID: 94995236}
