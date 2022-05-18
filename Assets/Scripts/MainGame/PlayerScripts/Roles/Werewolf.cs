@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using MainGame.Menus;
 using Photon.Pun;
 using Photon.Realtime;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -12,7 +11,7 @@ namespace MainGame.PlayerScripts.Roles
     
     public class Werewolf : Role
     {
-        [SerializeField] private GameObject VillageRenderer;
+        [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
         
@@ -75,32 +74,36 @@ namespace MainGame.PlayerScripts.Roles
         private void Transformation()
         {
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
-            if (VillageRenderer.activeSelf)
+            
+            // Transformation animation
+            if (VillagerRenderer.activeSelf)
             {
-                GameObject p =Instantiate(Particles, this.transform.position+new Vector3(0,1.1f,0), quaternion.identity);
-                //p.transform.localRotation = quaternion.identity;
-                p.transform.rotation = Quaternion.Euler(-90,0,0);
-                StartCoroutine(TransformationAnimationCoroutine(1f));
+                Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
+                VillagerRenderer.SetActive(false);
+                WereWolfRenderer.SetActive(true);
             }
-            Debug.Log("Werewolf Transformation");
-            isTransformed = true;
+
+            StartCoroutine(WerewolfTransform(true));
+        }
+        
+        private IEnumerator WerewolfTransform(bool isTransformation)
+        {
+            _playerMovement.StartSlowSpeed(5, 0, 0, 1);
+            yield return new WaitForSeconds(5);
+
+            if (isTransformation) // Transformation 
+            {
+                isTransformed = true;
+                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
+            }
+            else // DeTransformation
+            {
+                isTransformed = false;
+                hasCooldown = true;
+            }
             UpdateActionText();
-            if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
         }
-
-        private IEnumerator TransformationAnimationCoroutine(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            VillageRenderer.SetActive(false);
-            WereWolfRenderer.SetActive(true);
-        }
-        private IEnumerator DetransformationAnimationCoroutine(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            VillageRenderer.SetActive(true);
-            WereWolfRenderer.SetActive(false);
-        }
-
+        
         private IEnumerator DeTransformationCoroutine(int delay)
         {
             yield return new WaitForSeconds(delay);
@@ -111,17 +114,14 @@ namespace MainGame.PlayerScripts.Roles
         {
              if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
              
-             
+             // DeTransformation animation
              if (WereWolfRenderer.activeSelf)
              {
-                 GameObject p =Instantiate(Particles, this.transform.position+new Vector3(0,1.1f,0), quaternion.identity);
-                 //p.transform.localRotation = quaternion.identity;
-                 p.transform.rotation = Quaternion.Euler(-90,0,0);
-                 StartCoroutine(DetransformationAnimationCoroutine(1f));
+                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
+                 WereWolfRenderer.SetActive(false);
+                 VillagerRenderer.SetActive(true);
              }
-            Debug.Log("Werewolf DeTransformation");
-            isTransformed = false;
-            UpdateActionText();
+             StartCoroutine(WerewolfTransform(false));
         }
         
         private void KillTarget() // TODO: Add kill animation
