@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     
     private float minVillageDist = 120f;
     private float minPlayerDist = 60f;
-    private bool IaAlreadySpawned => AiInstance;
+    public bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday = false;
     [SerializeField] private bool enableAi = true;
 
