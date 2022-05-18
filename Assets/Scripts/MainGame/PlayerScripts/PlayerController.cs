@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
     public bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday;
     [SerializeField] private bool enableAi = true;
+    
+    // Sound for Ai
+    [SerializeField] private AudioClip aiSound;
+    [SerializeField] private AudioSource plyAudioSource;
 
     #endregion
 
@@ -136,7 +140,11 @@ public class PlayerController : MonoBehaviour
                 AiInstance = Instantiate(AiPrefab,
                     transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
                     Quaternion.identity);
-
+                
+                plyAudioSource.Stop();
+                plyAudioSource.clip = aiSound;
+                plyAudioSource.Play();
+                Debug.Log("Sound Played !");
                 AiInstance.GetComponent<AiController>().targetRole = _role;
 
                 hasAlreadySpawnedToday = true;

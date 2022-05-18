@@ -20504,6 +20504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0750d627b68fd488427e7d0c88b570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   playerController: {fileID: 6099398095721299116, guid: 5d492894bf90e0548a988da081434c07, type: 3}
   audioSource: {fileID: 1866194017}
 --- !u!82 &1866194017
