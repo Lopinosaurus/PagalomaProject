@@ -82,10 +82,26 @@ namespace MainGame.PlayerScripts.Roles
                 VillagerRenderer.SetActive(false);
                 WereWolfRenderer.SetActive(true);
             }
-            
-            isTransformed = true;
+
+            StartCoroutine(WerewolfTransform(true));
+        }
+        
+        private IEnumerator WerewolfTransform(bool isTransformation)
+        {
+            _playerMovement.StartSlowSpeed(5);
+            yield return new WaitForSeconds(5);
+
+            if (isTransformation) // Transformation 
+            {
+                isTransformed = true;
+                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
+            }
+            else // DeTransformation
+            {
+                isTransformed = false;
+                hasCooldown = true;
+            }
             UpdateActionText();
-            if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
         }
         
         private IEnumerator DeTransformationCoroutine(int delay)
@@ -105,10 +121,7 @@ namespace MainGame.PlayerScripts.Roles
                  WereWolfRenderer.SetActive(false);
                  VillagerRenderer.SetActive(true);
              }
-             
-            isTransformed = false;
-            hasCooldown = true;
-            UpdateActionText();
+             StartCoroutine(WerewolfTransform(false));
         }
         
         private void KillTarget() // TODO: Add kill animation
