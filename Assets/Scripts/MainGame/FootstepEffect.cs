@@ -73,19 +73,14 @@ public class FootstepEffect : MonoBehaviour
         {
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
-            
-            // Avoid error on CharacterController destruction
-            if (characterController is null)
-                return;
-            
-            if (playerAS is null)
-            {
-                Debug.Log("AudioSource is null !");
-            }
 
             Vector3 velocity;
             Vector3 velocity1;
             Vector3 velocity2;
+
+            // Avoid fatal error on destruction
+            if (characterController is null)
+                return;
             
             switch (characterController.isGrounded)
             {
