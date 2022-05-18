@@ -8,6 +8,7 @@ public class OptionMenu : MonoBehaviour
 {
     private Resolution[] screenRes;
     public AudioMixer MainAudioMixer;
+    public AudioMixer MusicMixer;
     public Dropdown resDropdown;
 
     public void Start()
@@ -52,6 +53,10 @@ public class OptionMenu : MonoBehaviour
         MainAudioMixer.SetFloat("MainVolume", volume);
     }
 
+    public void SetMusicVolume(float volume)
+    {
+        MusicMixer.SetFloat("MusicVolume", volume);
+    }
     public void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
