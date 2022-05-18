@@ -79,7 +79,7 @@ public class FootstepEffect : MonoBehaviour
             Vector3 velocity2;
 
             // Avoid fatal error on destruction
-            if (characterController is null)
+            if (characterController is null || characterController == null)
                 return;
             
             switch (characterController.isGrounded)
