@@ -68,8 +68,6 @@ public class FootstepEffect : MonoBehaviour
             return;
         }
 
-        Debug.Log("PlayersCC Count : " + PlayersCc.Count);
-        
         // Item 1 = CharacterController, Item 2 = AudioSource
         foreach (var playerData in PlayersCc)
         {
