@@ -10631,9 +10631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43479151a1714814287381028098124a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambianceSource: {fileID: 0}
-  forestAmbiance: {fileID: 0}
-  horrorAmbiance: {fileID: 0}
+  ambianceSource: {fileID: 964116868}
+  forestAmbiance: {fileID: 8300000, guid: f2e306e26fabfef46a6a73bddbef3813, type: 3}
+  horrorAmbiance: {fileID: 8300000, guid: 46c8afd8345ca6142bcdbc89949fd739, type: 3}
+  isDayPlaying: 0
 --- !u!1001 &979803825
 PrefabInstance:
   m_ObjectHideFlags: 0
