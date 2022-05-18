@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Bits: 128
   currentState: 0
   remainingTime: 0
-  remainingHealth: 1
+  remainingHealth: 5
   moveCount: 0
 --- !u!195 &933700854028002495
 NavMeshAgent:

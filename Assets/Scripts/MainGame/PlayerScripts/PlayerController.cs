@@ -59,12 +59,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerControls.Player.Enable();
+        playerInput.enabled = true;
     }
 
     private void OnDisable()
     {
-        PlayerControls.Player.Disable();
+        playerInput.enabled = false;
     }
 
     private void Awake()
