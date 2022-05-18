@@ -63,7 +63,7 @@ Lycans will be a 3D strategy game using vocal proxy. It is currently In-Dev by P
 
 Planned Features:
 
-- Fist Person View
+- First Person View
 - Several roles
 - Tasks
 - Day / Night cycle
