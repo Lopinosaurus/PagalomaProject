@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MainGame.Menus;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -74,22 +75,18 @@ namespace MainGame.PlayerScripts.Roles
         private void Transformation()
         {
             if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
-            
-            // Transformation animation
-            if (VillagerRenderer.activeSelf)
-            {
-                Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                VillagerRenderer.SetActive(false);
-                WereWolfRenderer.SetActive(true);
-            }
-
             StartCoroutine(WerewolfTransform(true));
         }
         
         private IEnumerator WerewolfTransform(bool isTransformation)
         {
+            GameObject p =Instantiate(Particles, this.transform.position+Vector3.up*1.5f, quaternion.identity);
+            p.transform.rotation = Quaternion.Euler(new float3(-90,0,0));
             _playerMovement.StartSlowSpeed(5, 0, 0, 1);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(1);
+            VillagerRenderer.SetActive(!isTransformation);
+            WereWolfRenderer.SetActive(isTransformation);
+            yield return new WaitForSeconds(4);
 
             if (isTransformation) // Transformation 
             {
@@ -112,16 +109,8 @@ namespace MainGame.PlayerScripts.Roles
 
         private void DeTransformation()
         {
-             if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
-             
-             // DeTransformation animation
-             if (WereWolfRenderer.activeSelf)
-             {
-                 Instantiate(Particles, this.transform.position, this.transform.rotation,this.transform);
-                 WereWolfRenderer.SetActive(false);
-                 VillagerRenderer.SetActive(true);
-             }
-             StartCoroutine(WerewolfTransform(false));
+            if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others); 
+            StartCoroutine(WerewolfTransform(false));
         }
         
         private void KillTarget() // TODO: Add kill animation

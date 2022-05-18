@@ -30,6 +30,7 @@ namespace MainGame.PlayerScripts
         [Header("Player speed settings")]
         [SerializeField] private float currentSpeed;
         public float currentSpeedMult = 1;
+        public int nbBushes;
         private const float baseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
@@ -89,6 +90,7 @@ namespace MainGame.PlayerScripts
 
         private void Awake()
         {
+            nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
 
             _characterController = GetComponentInChildren<CharacterController>();
