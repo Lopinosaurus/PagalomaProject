@@ -326,38 +326,52 @@ namespace MainGame.PlayerScripts
 
         #endregion
 
-        public void StartSlowSpeed(float duration)
+        public void StartSlowSpeed(float duration, float targetValue, float startTime, float endTime)
         {
-            StartCoroutine(SlowSpeed(duration));
+            startTime = Mathf.Clamp01(startTime);
+            endTime = Mathf.Clamp(endTime, startTime, 1);
+            targetValue = Mathf.Clamp01(targetValue);
+            
+            StartCoroutine(SlowSpeed(duration, targetValue, startTime, endTime));
         }
         
-        private IEnumerator SlowSpeed(float duration)
+        private IEnumerator SlowSpeed(float duration, float targetValue, float startTime, float endTime)
         {
-            var timer = 0f;
+            float timer = 0;
+            var lastCurrentMult = currentSpeedMult;
 
             // Decreases
-            while (timer < duration * 0.8f)
+            while (timer < duration * startTime)
             {
-                var progress = (duration - timer) / duration;
+                var progress = timer / (duration * startTime);
                 
                 timer += Time.deltaTime;
-                currentSpeedMult = Mathf.Lerp(baseSpeedMult, baseSpeedMult / 2, progress);
+                currentSpeedMult = Mathf.Lerp(lastCurrentMult, targetValue, progress);
+
+                yield return null;
+            }
+            
+            // Waits for endTime
+            while (timer < duration * endTime)
+            {
+                timer += Time.deltaTime;
 
                 yield return null;
             }
             
             // Increases back
+            lastCurrentMult = currentSpeedMult;
             while (timer < duration)
             {
-                var progress = (duration - timer) / duration;
+                var progress = (timer - duration * endTime) / (duration * (1 - endTime));
                 
                 timer += Time.deltaTime;
-                currentSpeedMult = Mathf.Lerp(baseSpeedMult / 2, baseSpeedMult, progress);
+                currentSpeedMult = Mathf.Lerp(lastCurrentMult, baseSpeedMult, progress);
 
                 yield return null;
             }
 
-            currentSpeedMult = 1;
+            currentSpeedMult = baseSpeedMult;
         }
     }
 }

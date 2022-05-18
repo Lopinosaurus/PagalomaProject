@@ -88,7 +88,7 @@ namespace MainGame.PlayerScripts.Roles
         
         private IEnumerator WerewolfTransform(bool isTransformation)
         {
-            _playerMovement.StartSlowSpeed(5);
+            _playerMovement.StartSlowSpeed(5, 0, 0, 1);
             yield return new WaitForSeconds(5);
 
             if (isTransformation) // Transformation 
