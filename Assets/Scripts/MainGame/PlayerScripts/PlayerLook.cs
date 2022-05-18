@@ -163,9 +163,12 @@ namespace MainGame.PlayerScripts
             }
 
             // Restore normal angle
-            while (Quaternion.Angle(camHolder.localRotation, finalRot) > 0.5f)
+            timer = 10;
+            while (Quaternion.Angle(camHolder.localRotation, finalRot) > 0.5f && timer > 0)
             {
                 camHolder.localRotation = Quaternion.Slerp(camHolder.localRotation, finalRot, Time.deltaTime);
+
+                timer -= Time.deltaTime;
                 yield return null;
             }
         

@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private PhotonView _photonView;
 
     // Sub scripts
-    private DayNightCycle _dayNightCycle;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     [SerializeField] private PlayerAnimation _playerAnimation;
@@ -43,11 +42,11 @@ public class PlayerController : MonoBehaviour
     private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
     private List<Transform> playerPositions;
-    
+
     private float minVillageDist = 120f;
     private float minPlayerDist = 60f;
     public bool IaAlreadySpawned => AiInstance;
-    private bool hasAlreadySpawnedToday = false;
+    private bool hasAlreadySpawnedToday;
     [SerializeField] private bool enableAi = true;
 
     #endregion
@@ -84,7 +83,6 @@ public class PlayerController : MonoBehaviour
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
-        _dayNightCycle = FindObjectOfType<DayNightCycle>();
 
         // Ai
         _role = GetComponent<Role>();
@@ -92,7 +90,7 @@ public class PlayerController : MonoBehaviour
         try
         {
             villageTransform = GameObject.FindWithTag("village").transform;
-            
+
             var t = RoomManager.Instance.players;
             playerPositions = new List<Transform>();
             foreach (var role in t)
@@ -132,141 +130,126 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            while (true)
+            if (CanAiSpawn())
             {
-                yield return new WaitForSeconds(2);
+                // Can spawn the Ai
+                AiInstance = Instantiate(AiPrefab,
+                    transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
+                    Quaternion.identity);
 
-                 // Already spawned today check
-                 try
-                 {
-                     if (!VoteMenu.Instance.isNight)
-                     {
-                         hasAlreadySpawnedToday = false;
-                     }
-                 }
-                 catch
-                 {
-                     hasAlreadySpawnedToday = false;
-                 }
-                 if (hasAlreadySpawnedToday)
-                 {
-                     // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
-                     continue;
-                 };
-                 
+                AiInstance.GetComponent<AiController>().targetRole = _role;
 
-                 
-                // Already spawned check
-                if (IaAlreadySpawned)
-                {
-                    // Debug.Log("SPAWNCHECK (1/5): Ai already exists");
-                    continue;
-                };
+                hasAlreadySpawnedToday = true;
 
-                try
-                {
-                    // Alive check
-                    if (!_role.isAlive)
-                    {
-                        // Debug.Log("SPAWNCHECK (2/5): is dead");
-                        continue;
-                    }
-
-                    // Day check
-                    if (!VoteMenu.Instance.isNight)
-                    {
-                        // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
-                        continue;
-                    }
-                    
-
-                    // Village check
-                    bool villageTooClose =(villageTransform.position - transform.position).sqrMagnitude <
-                                          minVillageDist * minVillageDist;
-                    if (villageTooClose)
-                    {
-                        // Debug.Log("SPAWNCHECK (4/5): village is too close");
-                        continue;
-                    }
-                    
-
-                    // Player check
-                    bool everyPlayerFarEnough = true;
-                    for (int i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
-                    {
-                        everyPlayerFarEnough &= (playerPositions[i].position - transform.position).sqrMagnitude >
-                                               minPlayerDist * minPlayerDist;
-                    }
-
-                    if (!everyPlayerFarEnough)
-                    {
-                        // Debug.Log("SPAWNCHECK (5/5): a player is too close");
-                        continue;
-                    }
-
-                }
-                catch
-                {
-                    Debug.LogWarning("No RoomManager found ! (PlayerController)");
-                }
-
-                // All conditions are valid
-                break;
+                Debug.Log("Ai created");
             }
 
-            // Can spawn the Ai
-            AiInstance = Instantiate(AiPrefab, 
-                transform.position + transform.TransformDirection(Vector3.back*10 + Vector3.up*2), Quaternion.identity);
-
-            AiInstance.GetComponent<AiController>().targetRole = _role;
-
-            hasAlreadySpawnedToday = true;
-            
-            Debug.Log("Ai created");
-
-            yield return null;
+            yield return new WaitForSeconds(2);
         }
+    }
+
+    private bool CanAiSpawn()
+    {
+        // Already spawned today check
+        try
+        {
+            if (!VoteMenu.Instance.isNight)
+            {
+                hasAlreadySpawnedToday = false;
+            }
+        }
+        catch
+        {
+            hasAlreadySpawnedToday = false;
+        }
+
+        if (hasAlreadySpawnedToday)
+        {
+            // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+            return false;
+        }
+
+        // Already spawned check
+        if (IaAlreadySpawned)
+        {
+            // Debug.Log("SPAWNCHECK (1/5): Ai already exists");
+            return false;
+        }
+
+        try
+        {
+            // Alive check
+            if (!_role.isAlive)
+            {
+                // Debug.Log("SPAWNCHECK (2/5): is dead");
+                return false;
+            }
+
+            // Day check
+            if (!VoteMenu.Instance.isNight)
+            {
+                // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
+                return false;
+            }
+
+
+            // Village check
+            bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
+                                   minVillageDist * minVillageDist;
+            if (villageTooClose)
+            {
+                // Debug.Log("SPAWNCHECK (4/5): village is too close");
+                return false;
+            }
+
+            // Player check
+            bool everyPlayerFarEnough = true;
+            for (int i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
+            {
+                everyPlayerFarEnough &= (playerPositions[i].position - transform.position).sqrMagnitude >
+                                        minPlayerDist * minPlayerDist;
+            }
+
+            if (!everyPlayerFarEnough)
+            {
+                // Debug.Log("SPAWNCHECK (5/5): a player is too close");
+                return false;
+            }
+        }
+        catch
+        {
+            return true;
+        }
+
+        return true;
     }
 
     private void Update()
-    {
-        if (_photonView.IsMine)
         {
-            _playerLook.Look();
+            if (_photonView.IsMine)
+            {
+                _playerLook.Look();
 
-            // Updates the jump feature
-            _playerMovement.UpdateJump();
+                // Updates the jump feature
+                _playerMovement.UpdateJump();
 
-            // Moves the player
-            _playerMovement.Move(Time.deltaTime);
+                // Moves the player
+                _playerMovement.Move(Time.deltaTime);
 
-            // Updates the appearance based on the MovementType
-            _playerAnimation.UpdateAnimationsBasic();
+                // Updates the appearance based on the MovementType
+                _playerAnimation.UpdateAnimationsBasic();
+            }
         }
-    }
 
-    private void FixedUpdate()
-    {
-        if (_photonView.IsMine)
+        private void FixedUpdate()
         {
-            // Adjusts the player's hitbox when crouching
-            // TODO fix the tiny gap between the ground and the CharacterController
-            _playerMovement.UpdateHitbox();
+            if (_photonView.IsMine)
+            {
+                // Adjusts the player's hitbox when crouching
+                // TODO fix the tiny gap between the ground and the CharacterController
+                _playerMovement.UpdateHitbox();
+            }
         }
+
+        #endregion
     }
-
-    #endregion
-
-    // Network synchronization
-
-    #region RPCs
-
-    [PunRPC]
-    // Synchronizes the appearance
-    void RPC_UpdateAppearance(PlayerMovement.MovementTypes movementType)
-    {
-        _playerAnimation.UpdateAnimationsBasic();
-    }
-
-    #endregion
-}

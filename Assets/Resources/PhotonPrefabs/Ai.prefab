@@ -50,12 +50,12 @@ MonoBehaviour:
   dissimulateParticle: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
   previousCollider: {fileID: 0}
   currentHidingObstacle: {fileID: 0}
+  isDanger: 0
   characterMask:
     serializedVersion: 2
     m_Bits: 128
-  currentState: 1
+  currentState: 0
   remainingTime: 0
-  timeBeingCaught: 0
   remainingHealth: 1
   moveCount: 0
 --- !u!195 &933700854028002495
