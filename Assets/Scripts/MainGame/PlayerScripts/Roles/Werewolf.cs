@@ -64,7 +64,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UseAbility()
         {
-            if (!hasCooldown)
+            if (!hasCooldown && VoteMenu.Instance.isNight)
             {
                if (isTransformed) KillTarget();
                 else Transformation(); 
