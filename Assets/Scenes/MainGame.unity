@@ -3042,6 +3042,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   asset: {fileID: -944628639613478452, guid: 1f8df854b0f5b2343986814a5d6ac47d, type: 3}
+  jumpText: {fileID: 1673270850}
+  crouchText: {fileID: 1774059130}
+  sprintText: {fileID: 538037059}
+  killText: {fileID: 2008421663}
+  clickText: {fileID: 815239102}
 --- !u!1001 &309529614
 PrefabInstance:
   m_ObjectHideFlags: 0
