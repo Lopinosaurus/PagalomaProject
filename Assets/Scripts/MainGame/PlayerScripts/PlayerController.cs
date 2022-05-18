@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
                  }
                  if (hasAlreadySpawnedToday)
                  {
-                     Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+                     // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
                      continue;
                  };
                  
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
                 // Already spawned check
                 if (IaAlreadySpawned)
                 {
-                    Debug.Log("SPAWNCHECK (1/5): Ai already exists");
+                    // Debug.Log("SPAWNCHECK (1/5): Ai already exists");
                     continue;
                 };
 
@@ -168,14 +168,14 @@ public class PlayerController : MonoBehaviour
                     // Alive check
                     if (!_role.isAlive)
                     {
-                        Debug.Log("SPAWNCHECK (2/5): is dead");
+                        // Debug.Log("SPAWNCHECK (2/5): is dead");
                         continue;
                     }
 
                     // Day check
                     if (!VoteMenu.Instance.isNight)
                     {
-                        Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
+                        // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
                         continue;
                     }
                     
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
                                           minVillageDist * minVillageDist;
                     if (villageTooClose)
                     {
-                        Debug.Log("SPAWNCHECK (4/5): village is too close");
+                        // Debug.Log("SPAWNCHECK (4/5): village is too close");
                         continue;
                     }
                     
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
 
                     if (!everyPlayerFarEnough)
                     {
-                        Debug.Log("SPAWNCHECK (5/5): a player is too close");
+                        // Debug.Log("SPAWNCHECK (5/5): a player is too close");
                         continue;
                     }
 
