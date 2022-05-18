@@ -76,17 +76,4 @@ public class RebindSystem : MonoBehaviour
             })
             .Start();
     }
-    
-    public void RebindMove()
-    {
-        rebindingOperation = asset.actionMaps[0].FindAction("Move").PerformInteractiveRebinding()
-            .WithControlsExcluding("Escape")
-            .WithControlsExcluding("Mouse")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
-            {
-                rebindingOperation.Dispose();
-            })
-            .Start();
-    }
 }
