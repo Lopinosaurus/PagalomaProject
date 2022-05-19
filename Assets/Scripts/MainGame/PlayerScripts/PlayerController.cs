@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     // First person management
     [SerializeField] private GameObject PlayerRender;
-    [Range(-2, 2)] public float backShift = -0.5f;
+    [Range(-2, 2)] public float backShift = -0.23f;
 
 
     // Player Controls
@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         // Moves the player render backwards so that it doesn't clip with the camera
         PlayerRender.transform.localPosition -= Vector3.back * backShift;
+        StartCoroutine(AdjustRenderLocal());
 
         if (!_photonView.IsMine)
         {
@@ -129,6 +130,15 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(AiCreator());
             }
+        }
+    }
+
+    private IEnumerator AdjustRenderLocal()
+    {
+        while (PlayerRender.transform.localPosition != Vector3.back * backShift)
+        {
+            PlayerRender.transform.localPosition = Vector3.back * backShift;
+            yield return new WaitForSeconds(2);
         }
     }
 
