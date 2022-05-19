@@ -32,7 +32,7 @@ public class SoundAmbiance : MonoBehaviour
             {
                 ambianceSource.Stop();
                 ambianceSource.clip = horrorAmbiance;
-                ambianceSource.volume = .60f;
+                ambianceSource.volume = .8f;
                 ambianceSource.Play();
                 isDayPlaying = false;
             }
