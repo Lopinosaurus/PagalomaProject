@@ -55,7 +55,7 @@ public class AiController : MonoBehaviour
     private AiState currentState = AiState.Relocate;
 
     [SerializeField] private float remainingTime;
-    [SerializeField] private int remainingHealth = 5;
+    [SerializeField] private int remainingHealth = 3;
 
     private bool _isAlive = true;
     private const float shakeDuration = 30;
