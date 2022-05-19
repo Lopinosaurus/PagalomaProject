@@ -48,16 +48,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRole: {fileID: 0}
   dissimulateParticle: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
+  _camHolder: {fileID: 0}
   previousCollider: {fileID: 0}
   currentHidingObstacle: {fileID: 0}
   isDanger: 0
   characterMask:
     serializedVersion: 2
     m_Bits: 128
-  currentState: 4
-  remainingTime: 0
-  remainingHealth: 5
-  moveCount: 0
+  currentState: 0
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0

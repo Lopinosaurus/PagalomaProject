@@ -23,10 +23,10 @@ public class AiController : MonoBehaviour
     private CapsuleCollider _capsuleCollider;
     [SerializeField] private Collider previousCollider;
     [SerializeField] private Collider currentHidingObstacle;
-    private Coroutine coroutineShake;
     private bool _isViewed;
     public bool isDanger;
     private bool _isInCameraView;
+    private bool canShake;
 
     private enum AiState
     {
@@ -61,7 +61,7 @@ public class AiController : MonoBehaviour
     private const float shakeDuration = 30;
     private const float slowSpeedDuration = 15;
     private int moveCount;
-    private const int MaxMoveCount = 30;
+    private const int MaxMoveCount = 15;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
@@ -70,7 +70,9 @@ public class AiController : MonoBehaviour
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
     private const float minCriticalDistFromPlayer = 7;
-    private const float minDangerDistFromPlayer = 20;
+    private const float minDangerDistFromPlayer = 30;
+    private const float minFlee = 20;
+    
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 40;
@@ -103,7 +105,7 @@ public class AiController : MonoBehaviour
         transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
         StartCoroutine(NullToObstacle());
         
-        SetTime(10);
+        SetTime(3);
 
         _characterMaskValue = GetLayerMaskValue(characterMask);
 
@@ -175,14 +177,18 @@ public class AiController : MonoBehaviour
                 if (!_isInCameraView)
                 {
                     remainingTime -= Time.fixedDeltaTime;
-                    
-                    coroutineShake = null;
-                    _playerLook.ResetYZCam();
+
+                    canShake = true;
                 }
                 else
                 {
-                    remainingTime -= Time.fixedDeltaTime * 0.075f;
-                    coroutineShake ??= _playerLook.StartShake(0.1f);
+                    remainingTime -= Time.fixedDeltaTime * 0.2f;
+                    if (canShake)
+                    {
+                        canShake = false;
+                        Debug.Log("should shake");
+                        _playerLook.StartShake(0.1f, 2);
+                    }
                 }
 
                 // Decides when to attack
@@ -197,7 +203,7 @@ public class AiController : MonoBehaviour
                     float distFromTarget = DistFromTarget;
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
                     bool tooClose = distFromTarget < minCriticalDistFromPlayer;
-                    isDanger = distFromTarget < minDangerDistFromPlayer;
+                    isDanger = distFromTarget < minFlee;
 
                     if (tooClose || tooFar)
                     {
@@ -221,7 +227,6 @@ public class AiController : MonoBehaviour
                         SetCurrentState(AiState.Moving);
 
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
-                        Debug.Log("Should move", currentHidingObstacle);
                         if (previousCollider != currentHidingObstacle) moveCount++;
 
                         Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.green, 1f, false);
@@ -254,7 +259,7 @@ public class AiController : MonoBehaviour
                 SetCurrentState(AiState.Hidden);
 
                 remainingHealth--;
-                SetTime(10);
+                SetTime(CycleTime * 2);
 
                 PlayAiDamaged();
 
@@ -395,18 +400,17 @@ public class AiController : MonoBehaviour
 
         // Potential colliders to go to
         Vector3 center = targetPosition;
-        var hitCollidersArray = new Collider[60];
-        Physics.OverlapSphereNonAlloc(center, radius, hitCollidersArray);
-        var hitColliders = hitCollidersArray.ToList();
+        Debug.DrawRay(center, Vector3.up * 20, Color.blue, 1, false);
+        var hitColliders = Physics.OverlapSphere(center, radius).ToList();
 
         // Filter out invalid colliders
         hitColliders.RemoveAll(IsInvalidCollider);
         hitColliders.Remove(previousCollider);
         hitColliders.Remove(currentHidingObstacle);
+        hitColliders.Remove(_capsuleCollider);
         // Filters out colliders that are too close
         hitColliders.RemoveAll(c =>
         {
-            if (IsInvalidCollider(c)) return true;
             if (c == previousCollider || c == currentHidingObstacle) return true;
             if ((c.transform.position - targetPosition).sqrMagnitude <
                 minDangerDistFromPlayer * minDangerDistFromPlayer) return true;
@@ -444,7 +448,7 @@ public class AiController : MonoBehaviour
         }
 
         var index = 0;
-        var prob = largeSearch ? 0.01f : 0.99f;
+        var prob = largeSearch ? 0.7f : 0.9f;
         while (index < cols.Count - 1 && Random.Range(0f, 1f) > prob) index++;
 
         return cols[index].Item1;
@@ -464,6 +468,7 @@ public class AiController : MonoBehaviour
     private bool IsInvalidCollider(Collider c)
     {
         Type type = c.GetType();
+        
         return !c.CompareTag("tree")
                && !c.CompareTag("stone")
                || typeof(CharacterController) == type
@@ -483,7 +488,15 @@ public class AiController : MonoBehaviour
             FindNewObstacle(largeSearch);
         }
 
-        Vector3 obstaclePosition = currentHidingObstacle.transform.position;
+        Vector3 obstaclePosition = transform.position;
+        try
+        {
+            obstaclePosition = currentHidingObstacle.transform.position;
+        }
+        catch
+        {
+            StartCoroutine(NullToObstacle());
+        }
         Vector3 targetPosition = _targetPlayer.transform.position;
 
         Vector3 direction = obstaclePosition - targetPosition;

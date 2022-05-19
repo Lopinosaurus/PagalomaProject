@@ -26,7 +26,6 @@ namespace MainGame.PlayerScripts
         public void UpdateJump()
         {
             bool canJump = CanJump();
-            Debug.Log("Can jump = " + canJump);
             if (WantsJump && !isJumping && canJump)
             {
                 _jumpTimer = 0;

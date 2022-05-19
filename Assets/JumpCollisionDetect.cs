@@ -33,8 +33,6 @@ public class JumpCollisionDetect : MonoBehaviour
         {
             ignoredJumpedColliders.Add(collision.collider);
         }
-
-        Debug.Log("OnCollisionStay !");
     }
 
     private void OnCollisionExit(Collision other)

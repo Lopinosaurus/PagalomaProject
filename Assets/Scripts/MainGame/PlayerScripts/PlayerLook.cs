@@ -115,12 +115,12 @@ namespace MainGame.PlayerScripts
             _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
         }
 
-        public Coroutine StartShake(float duration)
+        public Coroutine StartShake(float duration, float resetSpeed = 1)
         {
-            return StartCoroutine(Shake(duration));
+            return StartCoroutine(Shake(duration, resetSpeed));
         }
         
-        private IEnumerator Shake(float duration)
+        private IEnumerator Shake(float duration, float resetSpeed)
         {
             float timer = 0;
             float prob = 0;
@@ -131,7 +131,8 @@ namespace MainGame.PlayerScripts
             finalRotEulerAngles.z = 0;
             finalRotEulerAngles.y = 0;
             var finalRot = Quaternion.Euler(finalRotEulerAngles);
-        
+            resetSpeed = resetSpeed < 1 ? 1 : resetSpeed; 
+            
             // Twist angle
             while (timer < duration)
             {
@@ -155,7 +156,7 @@ namespace MainGame.PlayerScripts
                 camHolder.localRotation = Quaternion.RotateTowards(
                     camHolderLocalRotation,
                     newRot,
-                    strength);
+                    strength * Time.deltaTime * 100);
             
                 yield return null;
             }
@@ -164,19 +165,20 @@ namespace MainGame.PlayerScripts
             timer = 10;
             while (Quaternion.Angle(camHolder.localRotation, finalRot) > 0.5f && timer > 0)
             {
-                camHolder.localRotation = Quaternion.Slerp(camHolder.localRotation, finalRot, Time.deltaTime);
+                float strength = Mathf.Clamp01(Time.deltaTime * resetSpeed);
+                camHolder.localRotation =
+                    Quaternion.Slerp(camHolder.localRotation, finalRot, strength);
 
                 timer -= Time.deltaTime;
                 yield return null;
             }
         
-            ResetYZCam();
+            ResetZCam();
         }
 
-        public void ResetYZCam()
+        public void ResetZCam()
         {
             Vector3 rot = camHolder.localRotation.eulerAngles;
-            rot.y = 0;
             rot.z = 0;
             camHolder.localRotation = Quaternion.Euler(rot);
         }
