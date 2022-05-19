@@ -279,7 +279,7 @@ namespace MainGame.PlayerScripts
             
             if (isJumping)
             {
-                if (jumpTimer > 0.5f)
+                if (jumpTimer > 0.75f)
                 {
                     isJumping = false;
                     _playerAnimation.JumpAnimation(false);
