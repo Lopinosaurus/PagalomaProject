@@ -14,7 +14,7 @@ public class DiscordController : MonoBehaviour
         var activity = new Discord.Activity
         {
             Details = "DEBATE - HIDE - SURIVE",
-            State = "Play Free at www.lycans.games",
+            State = "Play for free at www.lycans.games",
             Assets = 
             {
                 LargeImage = "v7"
