@@ -884,6 +884,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6099398095721299116, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: enableAi
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6099398095721299116, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: backShift
       value: -0.23
       objectReference: {fileID: 0}
@@ -902,6 +906,10 @@ PrefabInstance:
     - target: {fileID: 8499297442018757553, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837896590230001366, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9118603271664355303, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: sceneViewId
