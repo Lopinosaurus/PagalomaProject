@@ -161,8 +161,16 @@ namespace MainGame.PlayerScripts
             localMoveAmountNormalized = SmoothMoveAmount(localMoveAmountNormalized ,inputMoveNormalized3D);
             localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, _inputMoveRaw3D);
 
+            
             // Applies direction
             Vector3 currentMotion = transform.TransformDirection(localMoveAmountNormalized);
+            
+            // Removes moves from inputs if needed
+            if (isJumping)
+            {
+                currentMotion *= 0;
+            }
+            
             currentMotion += upwardVelocity;
         
             currentMotion *= chosenDeltaTime;
@@ -277,7 +285,7 @@ namespace MainGame.PlayerScripts
                 /*
                 upwardVelocity.y = Mathf.Sqrt(JumpForce * GravityForce * JumpCompensation * -2f);
                 */
-                isJumping = false;
+                isJumping = true;
                 
                 _playerAnimation.JumpAnimation(true);
             }
