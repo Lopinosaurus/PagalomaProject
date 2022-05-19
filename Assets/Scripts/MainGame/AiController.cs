@@ -65,7 +65,7 @@ public class AiController : MonoBehaviour
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 1;
+    private const float CycleTime = 0.3f;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
@@ -181,6 +181,7 @@ public class AiController : MonoBehaviour
                 }
                 else
                 {
+                    remainingTime -= Time.fixedDeltaTime * 0.05f;
                     coroutineShake ??= _playerLook.StartShake(0.1f);
                 }
 

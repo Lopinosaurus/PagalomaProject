@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MainGame.PlayerScripts;
+using Photon.Pun;
 using UnityEngine;
 
 public class JumpCollisionDetect : MonoBehaviour
@@ -14,8 +15,15 @@ public class JumpCollisionDetect : MonoBehaviour
 
     private void Start()
     {
-        _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
-        ignoredJumpedColliders = GetComponentInParent<PlayerMovement>().ignoredJumpedColliders;
+        if (!GetComponentInParent<PhotonView>().IsMine)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
+            ignoredJumpedColliders = GetComponentInParent<PlayerMovement>().ignoredJumpedColliders;
+        }
     }
 
     private void OnCollisionStay(Collision collision)

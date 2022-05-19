@@ -22,7 +22,6 @@ namespace MainGame.PlayerScripts
         private int _characterLayerValue;
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private List<Collider> collidersStopIgnoring = new List<Collider>();
-        [SerializeField] private JumpCollisionDetect[] jumpCollidersDetect;
 
         public void UpdateJump()
         {

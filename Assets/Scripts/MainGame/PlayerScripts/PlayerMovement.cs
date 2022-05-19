@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ namespace MainGame.PlayerScripts
     
         // Player Controller & Controls
         private PlayerInput _playerInput;
+        private PhotonView _photonView;
 
         // Movement components
         private CharacterController _characterController;
@@ -82,6 +84,7 @@ namespace MainGame.PlayerScripts
         {
             nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
+            _photonView = GetComponent<PhotonView>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
 

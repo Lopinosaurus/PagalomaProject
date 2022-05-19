@@ -4919,7 +4919,6 @@ MonoBehaviour:
     m_Bits: 128
   ignoredJumpedColliders:
   - {fileID: 0}
-  jumpCollidersDetect: []
   cameraHolder: {fileID: 1141215766398316333}
   currentSpeed: 0
   currentSpeedMult: 1
