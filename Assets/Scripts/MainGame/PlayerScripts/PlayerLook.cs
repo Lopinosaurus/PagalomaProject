@@ -37,6 +37,7 @@ namespace MainGame.PlayerScripts
         [Space][Header("Shake settings")]
         [SerializeField] [Range(0.0001f, 0.01f)] private float probShakeMultiplier = 0.01f;
         [SerializeField] [Range(0.1f, 10f)] private float shakeMultiplier = 4;
+        public bool canTurnSides = true;
 
         #endregion
 
@@ -90,7 +91,7 @@ namespace MainGame.PlayerScripts
 
         public void Look() // Modifies camera and player rotation
         {
-            _rotationY += _mouseDeltaX * mouseSensX;
+            _rotationY += _mouseDeltaX * mouseSensX * (!canTurnSides ? 0.1f : 1);
             _rotationX -= _mouseDeltaY * mouseSensY;
 
             _rotationX = Mathf.Clamp(_rotationX, -90f, 90f);
@@ -104,9 +105,6 @@ namespace MainGame.PlayerScripts
             {
                 _rotationX = Mathf.SmoothDampAngle(_rotationX, 80f, ref _, SmoothTimeX);
             }
-
-            /*_rotationX = Mathf.SmoothDampAngle(_rotationX, rotation.eulerAngles.x, ref _smoothValueX, SmoothTimeX);
-        _rotationY = Mathf.SmoothDampAngle(_rotationY, rotation.eulerAngles.y, ref _smoothValueY, SmoothTimeY);*/
 
             var localRotationEuler = camHolder.transform.localRotation.eulerAngles;
             localRotationEuler.x = _rotationX;

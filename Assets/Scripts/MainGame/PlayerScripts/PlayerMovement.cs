@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace MainGame.PlayerScripts
 {
-    public class PlayerMovement : MonoBehaviour
+    public partial class PlayerMovement : MonoBehaviour
     {
         #region Attributes
     
@@ -21,7 +21,6 @@ namespace MainGame.PlayerScripts
 
         private bool WantsCrouchHold { get; set; }
         private bool WantsSprint { get; set; }
-        private bool WantsJump { get; set; }
 
         // Movement speeds
         [Space]
@@ -37,6 +36,7 @@ namespace MainGame.PlayerScripts
     
         [Space]
         [Header("Movement settings")]
+        [HideInInspector]
         [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
         [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
         public Vector3 localMoveAmountNormalized;
@@ -61,15 +61,6 @@ namespace MainGame.PlayerScripts
         private float _crouchedHitboxHeight = 1.404f;
         private float _standingCameraHeight = 1.68f;
         private float _crouchedCameraHeight = 1.176f;
-    
-        // Jump values
-        [Space]
-        [Header("Player jump settings")]
-        private const float JumpForce = 1f;
-        private const float JumpCompensation = 1;
-        public bool isJumping;
-        private PlayerAnimation _playerAnimation;
-        private float jumpTimer = 0;
 
         public enum MovementTypes
         {
@@ -80,7 +71,6 @@ namespace MainGame.PlayerScripts
         };
         public enum CrouchModes
         {
-            Toggle,
             Hold
         };
     
@@ -93,9 +83,11 @@ namespace MainGame.PlayerScripts
             nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
+            _playerLook = GetComponent<PlayerLook>();
 
             _characterController = GetComponentInChildren<CharacterController>();
-
+            _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
+            
             raySize = _characterController.radius * 1.1f;
         
             float hitboxHeight = _characterController.height;
@@ -166,16 +158,15 @@ namespace MainGame.PlayerScripts
             // Applies direction
             Vector3 currentMotion = transform.TransformDirection(localMoveAmountNormalized);
             
-            // Removes moves from inputs if needed
+            currentMotion += upwardVelocity;
+            currentMotion *= chosenDeltaTime;
+            
+            // Removes moves if needed
             if (isJumping)
             {
                 currentMotion *= 0;
             }
             
-            currentMotion += upwardVelocity;
-        
-            currentMotion *= chosenDeltaTime;
-
             // Move
             _characterController.Move(currentMotion);
         }
@@ -272,26 +263,6 @@ namespace MainGame.PlayerScripts
             
             return speed;
         }
-    
-        public void UpdateJump()
-        {
-            if (WantsJump && !isJumping)
-            {
-                jumpTimer = 0;
-                isJumping = true;
-                _playerAnimation.JumpAnimation(true);
-            }
-
-            if (jumpTimer > 1)
-            {
-                isJumping = false;
-                _playerAnimation.JumpAnimation(false);
-            }
-            else
-            {
-                jumpTimer += Time.deltaTime;
-            }
-        }
 
         public void UpdateHitbox()
         {
@@ -301,7 +272,7 @@ namespace MainGame.PlayerScripts
                 MovementTypes.Crouch => _crouchedHitboxHeight,
                 _ => _standingHitboxHeight
             };
-
+            
             AdjustPlayerHeight(desiredHitboxHeight);
 
             Vector3 camPosition = cameraHolder.transform.localPosition;
