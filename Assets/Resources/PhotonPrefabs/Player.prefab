@@ -1652,7 +1652,7 @@ RectTransform:
   m_GameObject: {fileID: 2465669397903921438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6598090228381821785}
   m_RootOrder: 0
@@ -3009,7 +3009,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4950680158300606666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.271}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6698095905897247544}
@@ -4798,7 +4798,7 @@ MonoBehaviour:
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
   PlayerRender: {fileID: 1265258987999666786}
-  backShift: -0.23
+  backShift: -2
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
