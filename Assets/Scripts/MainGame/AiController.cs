@@ -54,18 +54,18 @@ public class AiController : MonoBehaviour
     [Space] [Header("Gameplay statistics")] [SerializeField]
     private AiState currentState = AiState.Relocate;
 
-    [SerializeField] private float remainingTime;
-    [SerializeField] private int remainingHealth = 3;
+    private float remainingTime;
+    private int remainingHealth = 3;
 
     private bool _isAlive = true;
     private const float shakeDuration = 30;
     private const float slowSpeedDuration = 15;
-    [SerializeField] private int moveCount;
+    private int moveCount;
     private const int MaxMoveCount = 30;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 0.3f;
+    private const float CycleTime = 1;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
@@ -175,13 +175,13 @@ public class AiController : MonoBehaviour
                 if (!_isInCameraView)
                 {
                     remainingTime -= Time.fixedDeltaTime;
-                    StopCoroutine(coroutineShake);
+                    
                     coroutineShake = null;
                     _playerLook.ResetYZCam();
                 }
                 else
                 {
-                    remainingTime -= Time.fixedDeltaTime * 0.05f;
+                    remainingTime -= Time.fixedDeltaTime * 0.075f;
                     coroutineShake ??= _playerLook.StartShake(0.1f);
                 }
 
@@ -280,7 +280,7 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartSlowSpeed(slowSpeedDuration, 0.3f, 0.3f, 0.8f);
+                    _playerMovement.StartModifySpeed(slowSpeedDuration, 0.3f, 0.3f, 0.8f);
                     _playerLook.StartShake(shakeDuration);
 
                     Destroy(gameObject);

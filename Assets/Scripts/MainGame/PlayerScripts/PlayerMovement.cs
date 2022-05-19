@@ -315,21 +315,21 @@ namespace MainGame.PlayerScripts
 
         #endregion
 
-        public void StartSlowSpeed(float duration, float targetValue, float startTime, float endTime)
+        public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)
         {
             startTime = Mathf.Clamp01(startTime);
             endTime = Mathf.Clamp(endTime, startTime, 1);
-            targetValue = Mathf.Clamp01(targetValue);
+            targetMultiplier = targetMultiplier < 0 ? 0 : targetMultiplier;
             
-            StartCoroutine(SlowSpeed(duration, targetValue, startTime, endTime));
+            StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
         }
         
-        private IEnumerator SlowSpeed(float duration, float targetValue, float startTime, float endTime)
+        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
         {
             float timer = 0;
             var lastCurrentMult = currentSpeedMult;
 
-            // Decreases
+            // First value
             while (timer < duration * startTime)
             {
                 var progress = timer / (duration * startTime);
@@ -348,7 +348,7 @@ namespace MainGame.PlayerScripts
                 yield return null;
             }
             
-            // Increases back
+            // Second value
             lastCurrentMult = currentSpeedMult;
             while (timer < duration)
             {
