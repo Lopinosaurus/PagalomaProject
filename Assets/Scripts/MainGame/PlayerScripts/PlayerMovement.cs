@@ -275,30 +275,21 @@ namespace MainGame.PlayerScripts
     
         public void UpdateJump()
         {
-            
-            
-            if (isJumping)
+            if (WantsJump && !isJumping)
             {
-                if (jumpTimer > 0.75f)
-                {
-                    isJumping = false;
-                    _playerAnimation.JumpAnimation(false);
-                }
-                else
-                {
-                    jumpTimer += Time.deltaTime;
-                }
-            }
-        
-            if (WantsJump && grounded)
-            {
-                /*
-                upwardVelocity.y = Mathf.Sqrt(JumpForce * GravityForce * JumpCompensation * -2f);
-                */
-                isJumping = true;
                 jumpTimer = 0;
-                
+                isJumping = true;
                 _playerAnimation.JumpAnimation(true);
+            }
+
+            if (jumpTimer > 1)
+            {
+                isJumping = false;
+                _playerAnimation.JumpAnimation(false);
+            }
+            else
+            {
+                jumpTimer += Time.deltaTime;
             }
         }
 

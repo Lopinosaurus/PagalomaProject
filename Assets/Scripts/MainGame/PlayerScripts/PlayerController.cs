@@ -114,8 +114,7 @@ public class PlayerController : MonoBehaviour
     internal void Start()
     {
         // Moves the player render backwards so that it doesn't clip with the camera
-        PlayerRender.transform.localPosition -= Vector3.back * backShift;
-        StartCoroutine(AdjustRenderLocal());
+        PlayerRender.transform.localPosition = Vector3.back * backShift;
 
         if (!_photonView.IsMine)
         {
@@ -132,16 +131,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    private IEnumerator AdjustRenderLocal()
-    {
-        while (PlayerRender.transform.localPosition != Vector3.back * backShift)
-        {
-            PlayerRender.transform.localPosition = Vector3.back * backShift;
-            yield return new WaitForSeconds(2);
-        }
-    }
-
+    
     private IEnumerator AiCreator()
     {
         while (true)

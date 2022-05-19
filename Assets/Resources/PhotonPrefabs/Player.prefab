@@ -4798,7 +4798,7 @@ MonoBehaviour:
   _playerAnimation: {fileID: 7430318575100400553}
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
-  PlayerRender: {fileID: 1265258987999666786}
+  PlayerRender: {fileID: 4950680158300606666}
   backShift: -2
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
@@ -5356,7 +5356,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Death
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   m_SynchronizeLayers:
   - SynchronizeType: 0
