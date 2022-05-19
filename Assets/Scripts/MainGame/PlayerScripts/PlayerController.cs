@@ -125,8 +125,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            enableAi = true;
-            StartCoroutine(AiCreator());
+            if (enableAi)
+            {
+                StartCoroutine(AiCreator());
+            }
         }
     }
 
