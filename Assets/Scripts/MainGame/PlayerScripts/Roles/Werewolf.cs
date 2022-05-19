@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MainGame.PlayerScripts.Roles
 {
@@ -15,6 +16,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
+        [SerializeField] private PlayerInput playerInput;
         
         public List<Role> _targets = new List<Role>();
         public bool isTransformed = false;
@@ -82,7 +84,8 @@ namespace MainGame.PlayerScripts.Roles
         {
             GameObject p =Instantiate(Particles, this.transform.position+Vector3.up*1.5f, quaternion.identity);
             p.transform.rotation = Quaternion.Euler(new float3(-90,0,0));
-            _playerMovement.StartSlowSpeed(5, 0, 0, 1);
+            //_playerMovement.StartSlowSpeed(5, 0, 0, 1);
+            playerInput.SwitchCurrentActionMap("UI"); // Deativate controls
             yield return new WaitForSeconds(1);
             VillagerRenderer.SetActive(!isTransformation);
             WereWolfRenderer.SetActive(isTransformation);
@@ -99,6 +102,7 @@ namespace MainGame.PlayerScripts.Roles
                 hasCooldown = true;
             }
             UpdateActionText();
+            playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
         }
         
         private IEnumerator DeTransformationCoroutine(int delay)
