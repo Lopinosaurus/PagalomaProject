@@ -107,6 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706752391588873067}
   - component: {fileID: 7706752391588873044}
+  - component: {fileID: 3184576823991334360}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -190,3 +191,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &3184576823991334360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7706752391588873066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780c264b7d2dd0244aeb41d3683a9923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 0}
+  DNC: {fileID: 0}
