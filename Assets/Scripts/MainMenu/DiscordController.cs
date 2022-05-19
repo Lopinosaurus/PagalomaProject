@@ -13,7 +13,7 @@ public class DiscordController : MonoBehaviour
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
         {
-            Details = "DEBATE - HIDE - SURIVE",
+            Details = "DEBATE - HIDE - SURVIVE",
             State = "Play for free at www.lycans.games",
             Assets = 
             {
