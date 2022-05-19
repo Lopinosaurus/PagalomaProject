@@ -69,6 +69,7 @@ namespace MainGame.PlayerScripts
         private const float JumpCompensation = 1;
         public bool isJumping;
         private PlayerAnimation _playerAnimation;
+        private float jumpTimer = 0;
 
         public enum MovementTypes
         {
@@ -274,10 +275,19 @@ namespace MainGame.PlayerScripts
     
         public void UpdateJump()
         {
-            if (isJumping && grounded)
+            
+            
+            if (isJumping)
             {
-                isJumping = false;
-                _playerAnimation.JumpAnimation(false);
+                if (jumpTimer > 0.5f)
+                {
+                    isJumping = false;
+                    _playerAnimation.JumpAnimation(false);
+                }
+                else
+                {
+                    jumpTimer += Time.deltaTime;
+                }
             }
         
             if (WantsJump && grounded)
@@ -286,6 +296,7 @@ namespace MainGame.PlayerScripts
                 upwardVelocity.y = Mathf.Sqrt(JumpForce * GravityForce * JumpCompensation * -2f);
                 */
                 isJumping = true;
+                jumpTimer = 0;
                 
                 _playerAnimation.JumpAnimation(true);
             }
