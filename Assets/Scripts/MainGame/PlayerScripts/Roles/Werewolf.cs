@@ -137,6 +137,10 @@ namespace MainGame.PlayerScripts.Roles
                     target.Die();
                     _targets.Remove(target);
                     _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
+                    
+                    //
+                    // PLAY KILL ANIMATION HERE
+                    //
                 }
                 else
                 {
