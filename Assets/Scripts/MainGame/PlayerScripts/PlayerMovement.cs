@@ -19,9 +19,7 @@ namespace MainGame.PlayerScripts
         // Movement components
         private CharacterController _characterController;
 
-        private PlayerControls _playerControls;
         private bool WantsCrouchHold { get; set; }
-        private bool _wantsCrouchToggle;
         private bool WantsSprint { get; set; }
         private bool WantsJump { get; set; }
 
@@ -31,11 +29,11 @@ namespace MainGame.PlayerScripts
         [SerializeField] private float currentSpeed;
         public float currentSpeedMult = 1;
         public int nbBushes;
-        private const float baseSpeedMult = 1;
+        private const float BaseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
-        private const float smoothMoveValue = 10f;
+        private const float SmoothMoveValue = 10f;
     
         [Space]
         [Header("Movement settings")]
@@ -43,15 +41,15 @@ namespace MainGame.PlayerScripts
         [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
         public Vector3 localMoveAmountNormalized;
         public Vector3 localMoveAmountRaw;
-        private Vector3 inputMoveRaw3D;
+        private Vector3 _inputMoveRaw3D;
 
         // Gravity
         [Space] [Header("Gravity settings")]
-        private const float gravityForce = -9.81f;
+        private const float GravityForce = -9.81f;
         public Vector3 upwardVelocity = Vector3.zero;
     
         // Ground check
-        [SerializeField] public float RaySize;
+        [SerializeField] public float raySize;
         public bool grounded;
         public float slopeCompensationForce = 5f;
 
@@ -68,8 +66,9 @@ namespace MainGame.PlayerScripts
         [Space]
         [Header("Player jump settings")]
         private const float JumpForce = 1f;
-        private const float jumpCompensation = 1;
+        private const float JumpCompensation = 1;
         public bool isJumping;
+        private PlayerAnimation _playerAnimation;
 
         public enum MovementTypes
         {
@@ -92,10 +91,11 @@ namespace MainGame.PlayerScripts
         {
             nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
+            _playerAnimation = GetComponent<PlayerAnimation>();
 
             _characterController = GetComponentInChildren<CharacterController>();
 
-            RaySize = _characterController.radius * 1.1f;
+            raySize = _characterController.radius * 1.1f;
         
             float hitboxHeight = _characterController.height;
             _crouchedHitboxHeight = hitboxHeight * 0.78f;
@@ -110,13 +110,11 @@ namespace MainGame.PlayerScripts
         {
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
-            _playerInput.actions["Move"].canceled += _ => inputMoveRaw3D = Vector3.zero;
+            _playerInput.actions["Move"].canceled += _ => _inputMoveRaw3D = Vector3.zero;
             // for the Crouch button
             _playerInput.actions["Crouch"].performed += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
             _playerInput.actions["Crouch"].canceled += ctx => WantsCrouchHold = ctx.ReadValueAsButton();
         
-            //TODO fix toggle
-            _playerInput.actions["Crouch"].started += ctx => _wantsCrouchToggle = ctx.ReadValueAsButton();
             // for the Sprint button
             _playerInput.actions["Sprint"].performed += ctx => WantsSprint = ctx.ReadValueAsButton();
             _playerInput.actions["Sprint"].canceled += ctx => WantsSprint = ctx.ReadValueAsButton();
@@ -127,7 +125,7 @@ namespace MainGame.PlayerScripts
 
         private void OnPerformedMove(InputAction.CallbackContext ctx)
         {
-            inputMoveRaw3D = new Vector3
+            _inputMoveRaw3D = new Vector3
             {
                 x = ctx.ReadValue<Vector2>().x,
                 z = ctx.ReadValue<Vector2>().y
@@ -142,9 +140,9 @@ namespace MainGame.PlayerScripts
         {
             Vector3 inputMoveNormalized3D = new Vector3
             {
-                x = inputMoveRaw3D.x,
+                x = _inputMoveRaw3D.x,
                 y = 0.0f,
-                z = inputMoveRaw3D.z
+                z = _inputMoveRaw3D.z
             }.normalized;
 
             // Updates the grounded boolean state
@@ -161,7 +159,7 @@ namespace MainGame.PlayerScripts
 
             // Sets the new movement vector based on the inputs
             localMoveAmountNormalized = SmoothMoveAmount(localMoveAmountNormalized ,inputMoveNormalized3D);
-            localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, inputMoveRaw3D);
+            localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, _inputMoveRaw3D);
 
             // Applies direction
             Vector3 currentMotion = transform.TransformDirection(localMoveAmountNormalized);
@@ -186,7 +184,7 @@ namespace MainGame.PlayerScripts
             {
                 currentMovementType = MovementTypes.Crouch;
             }
-            else if (Vector3.zero == inputMoveRaw3D)
+            else if (Vector3.zero == _inputMoveRaw3D)
             {
                 currentMovementType = MovementTypes.Stand;
             }
@@ -202,7 +200,7 @@ namespace MainGame.PlayerScripts
 
         private void UpdateGravity()
         {
-            upwardVelocity.y += gravityForce * Time.deltaTime;
+            upwardVelocity.y += GravityForce * Time.deltaTime;
 
             if (grounded && !isJumping)
             {
@@ -225,7 +223,7 @@ namespace MainGame.PlayerScripts
             if (!grounded) return false;
 
             bool onSlope = false;
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, RaySize))
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raySize))
             {
                 if (hit.normal != Vector3.up)
                 {
@@ -239,7 +237,7 @@ namespace MainGame.PlayerScripts
         private float GetAngleFromFloor()
         {
             Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
-                _characterController.height / 2 * RaySize);
+                _characterController.height / 2 * raySize);
             float angle = Vector3.Angle(Vector3.up, hit.normal);
 
             return angle;
@@ -271,12 +269,17 @@ namespace MainGame.PlayerScripts
             if (isJumping && grounded)
             {
                 isJumping = false;
+                _playerAnimation.JumpAnimation(false);
             }
         
             if (WantsJump && grounded)
             {
-                upwardVelocity.y = Mathf.Sqrt(JumpForce * gravityForce * jumpCompensation * -2f);
-                isJumping = true;
+                /*
+                upwardVelocity.y = Mathf.Sqrt(JumpForce * GravityForce * JumpCompensation * -2f);
+                */
+                isJumping = false;
+                
+                _playerAnimation.JumpAnimation(true);
             }
         }
 
@@ -317,13 +320,13 @@ namespace MainGame.PlayerScripts
 
         private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
         {
-            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, Time.deltaTime * smoothMoveValue);
+            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, Time.deltaTime * SmoothMoveValue);
             // return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _, smoothTime);
         }
     
         public void SetGroundedState(bool _grounded)
         {
-            grounded = _grounded;
+            this.grounded = _grounded;
         }
 
         #endregion
@@ -368,12 +371,12 @@ namespace MainGame.PlayerScripts
                 var progress = (timer - duration * endTime) / (duration * (1 - endTime));
                 
                 timer += Time.deltaTime;
-                currentSpeedMult = Mathf.Lerp(lastCurrentMult, baseSpeedMult, progress);
+                currentSpeedMult = Mathf.Lerp(lastCurrentMult, BaseSpeedMult, progress);
 
                 yield return null;
             }
 
-            currentSpeedMult = baseSpeedMult;
+            currentSpeedMult = BaseSpeedMult;
         }
     }
 }

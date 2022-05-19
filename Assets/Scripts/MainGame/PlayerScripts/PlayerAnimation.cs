@@ -17,6 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     // Boolean States hashes
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
     private readonly int _deathHash = Animator.StringToHash("Death");
+    private readonly int _jumpHash = Animator.StringToHash("Jump");
 
     // Float States hashes
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
@@ -44,5 +45,18 @@ public class PlayerAnimation : MonoBehaviour
     {
         // Toggles "Dying" animation
         _animator.SetTrigger(_deathHash);
+    }
+    
+    public void JumpAnimation(bool active)
+    {
+        // Toggles "Dying" animation
+        if (active)
+        {
+            _animator.SetTrigger(_jumpHash);
+        }
+        else
+        {
+            _animator.ResetTrigger(_jumpHash);
+        }
     }
 }
