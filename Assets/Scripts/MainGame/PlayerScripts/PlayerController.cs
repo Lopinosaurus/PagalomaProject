@@ -145,7 +145,9 @@ public class PlayerController : MonoBehaviour
                 plyAudioSource.clip = aiSound;
                 plyAudioSource.Play();
                 Debug.Log("Sound Played !");
-                AiInstance.GetComponent<AiController>().targetRole = _role;
+                var a = AiInstance.GetComponent<AiController>();
+                a.targetRole = _role;
+                a._camHolder = cameraHolder;
 
                 hasAlreadySpawnedToday = true;
 

@@ -117,9 +117,9 @@ namespace MainGame.PlayerScripts
             _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
         }
 
-        public void StartShake(float duration)
+        public Coroutine StartShake(float duration)
         {
-            StartCoroutine(Shake(duration));
+            return StartCoroutine(Shake(duration));
         }
         
         private IEnumerator Shake(float duration)
@@ -175,7 +175,7 @@ namespace MainGame.PlayerScripts
             ResetYZCam();
         }
 
-        private void ResetYZCam()
+        public void ResetYZCam()
         {
             Vector3 rot = camHolder.localRotation.eulerAngles;
             rot.y = 0;

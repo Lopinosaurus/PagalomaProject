@@ -4798,7 +4798,7 @@ MonoBehaviour:
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
   PlayerRender: {fileID: 1265258987999666786}
-  backShift: -2
+  backShift: -0.23
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
