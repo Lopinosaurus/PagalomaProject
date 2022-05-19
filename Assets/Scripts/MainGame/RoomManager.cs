@@ -192,6 +192,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (localPlayer is Werewolf)
         {
             ((Werewolf)localPlayer)._targets = new List<Role>();
+            ((Werewolf)localPlayer).DeTransformation();
         }
         localPlayer.UpdateActionText();
     }

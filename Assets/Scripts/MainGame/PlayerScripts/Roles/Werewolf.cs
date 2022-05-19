@@ -111,10 +111,13 @@ namespace MainGame.PlayerScripts.Roles
             DeTransformation();
         }
 
-        private void DeTransformation()
+        public void DeTransformation()
         {
-            if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others); 
-            StartCoroutine(WerewolfTransform(false));
+            if (isTransformed)
+            {
+                if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others); 
+                StartCoroutine(WerewolfTransform(false));
+            }
         }
         
         private void KillTarget() // TODO: Add kill animation
