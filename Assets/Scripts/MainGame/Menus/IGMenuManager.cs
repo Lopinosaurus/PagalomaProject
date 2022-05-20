@@ -85,6 +85,7 @@ public class IGMenuManager : MonoBehaviour
         endScreen.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        playerInput.enabled = true;
         if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
         
         victoryText.enabled = victory;

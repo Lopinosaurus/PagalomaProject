@@ -5309,7 +5309,6 @@ MonoBehaviour:
   VillagerRenderer: {fileID: 4950680158300606666}
   WereWolfRenderer: {fileID: 8499297442018757553}
   Particles: {fileID: 4280448778261451547, guid: 05d4513cea190b84f8a46b69e521b16c, type: 3}
-  playerInput: {fileID: 5554154994360629918}
   _targets: []
   isTransformed: 0
 --- !u!114 &2369406844203047068

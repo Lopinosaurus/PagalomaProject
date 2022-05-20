@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         playerInput.enabled = true;
     }
 
-    private void OnDisable()
+    internal void OnDisable()
     {
         playerInput.enabled = false;
     }

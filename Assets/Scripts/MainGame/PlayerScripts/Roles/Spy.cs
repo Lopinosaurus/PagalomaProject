@@ -14,14 +14,14 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (_photonView.IsMine)
             {
-                if (hasCooldown == false) actionText.text = "Press E to Activate Invisibility";
+                if (hasCooldown == false && isAlive) actionText.text = "Press E to Activate Invisibility";
                 else actionText.text = "";
             }
         }
 
          public override void UseAbility()
         {
-            BecomeInvisible();
+            if (isAlive && VoteMenu.Instance.isNight) BecomeInvisible();
         }
 
         private void BecomeInvisible()

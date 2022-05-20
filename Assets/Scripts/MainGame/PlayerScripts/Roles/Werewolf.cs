@@ -15,8 +15,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
-        [SerializeField] private PlayerInput playerInput;
-        
+
         public List<Role> _targets = new List<Role>();
         public bool isTransformed = false;
 
@@ -28,7 +27,7 @@ namespace MainGame.PlayerScripts.Roles
                 { 
                     actionText.text = "Press E to Kill";
                 }
-                else if (VoteMenu.Instance.isNight && hasCooldown == false)
+                else if (VoteMenu.Instance.isNight && hasCooldown == false && isTransformed == false)
                 {
                     actionText.text = "Press E to Transform";
                 }
@@ -86,7 +85,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             GameObject p = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             p.transform.rotation = Quaternion.Euler(new float3(-90, 0, 0));
-            playerInput.SwitchCurrentActionMap("UI"); // Deactivate controls
+            _playerInput.SwitchCurrentActionMap("UI"); // Deactivate controls
             yield return new WaitForSeconds(1);
             VillagerRenderer.SetActive(!isTransformation);
             WereWolfRenderer.SetActive(isTransformation);
@@ -108,7 +107,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             UpdateActionText();
-            playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
+           _playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
         }
 
         private IEnumerator DeTransformationCoroutine(int delay)
