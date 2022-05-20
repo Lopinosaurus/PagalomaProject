@@ -85,7 +85,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             GameObject p = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             p.transform.rotation = Quaternion.Euler(new float3(-90, 0, 0));
-            _playerInput.SwitchCurrentActionMap("UI"); // Deactivate controls
+            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI"); // Deactivate controls
             yield return new WaitForSeconds(1);
             VillagerRenderer.SetActive(!isTransformation);
             WereWolfRenderer.SetActive(isTransformation);
@@ -107,7 +107,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             UpdateActionText();
-           _playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
+           if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
         }
 
         private IEnumerator DeTransformationCoroutine(int delay)
