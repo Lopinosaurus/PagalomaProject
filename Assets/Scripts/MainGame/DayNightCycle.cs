@@ -32,7 +32,7 @@ public class DayNightCycle : MonoBehaviour
     public AnimationCurve reflectionsIntensityMultiplier;
     public AnimationCurve fogIntensityMultiplier;
     
-    [SerializeField] private PhotonView PV;
+    private PhotonView PV;
 
     private void Awake()
     {

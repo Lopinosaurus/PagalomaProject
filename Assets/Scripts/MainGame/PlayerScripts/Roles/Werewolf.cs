@@ -24,16 +24,15 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (_photonView.IsMine)
             {
-                if (isTransformed)
-                {
-                    if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Kill";
-                    else actionText.text = "";
+                if (isTransformed && _targets.Count > 0 && hasCooldown == false)
+                { 
+                    actionText.text = "Press E to Kill";
                 }
-                else if (VoteMenu.Instance.isNight)
+                else if (VoteMenu.Instance.isNight && hasCooldown == false)
                 {
-                    if (hasCooldown == false) actionText.text = "Press E to Transform";
-                    else actionText.text = "";
+                    actionText.text = "Press E to Transform";
                 }
+                else actionText.text = "";
             }
         }
 
