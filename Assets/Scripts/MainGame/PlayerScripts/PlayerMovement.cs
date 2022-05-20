@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,10 +15,9 @@ namespace MainGame.PlayerScripts
     
         // Player Controller & Controls
         private PlayerInput _playerInput;
-        private PhotonView _photonView;
 
         // Movement components
-        private CharacterController _characterController;
+        public CharacterController _characterController;
 
         private bool WantsCrouchHold { get; set; }
         private bool WantsSprint { get; set; }
@@ -32,6 +30,7 @@ namespace MainGame.PlayerScripts
         public int nbBushes;
         private const float BaseSpeedMult = 1;
         private const float SprintSpeed = 5f;
+        private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
         private const float SmoothMoveValue = 10f;
@@ -40,9 +39,8 @@ namespace MainGame.PlayerScripts
         [Header("Movement settings")]
         [HideInInspector]
         [SerializeField] public MovementTypes currentMovementType = MovementTypes.Stand;
-        [SerializeField] public CrouchModes currentCrouchType = CrouchModes.Hold;
+
         public Vector3 localMoveAmountNormalized;
-        public Vector3 localMoveAmountRaw;
         private Vector3 _inputMoveRaw3D;
 
         // Gravity
@@ -58,11 +56,11 @@ namespace MainGame.PlayerScripts
         // Crouch & Hitboxes 
         [Space]
         [Header("Player height settings")]
-        [SerializeField] private float crouchSmoothTime = 0f;
-        private float _standingHitboxHeight = 1.8f;
-        private float _crouchedHitboxHeight = 1.404f;
-        private float _standingCameraHeight = 1.68f;
-        private float _crouchedCameraHeight = 1.176f;
+        [SerializeField] private float crouchSmoothTime = 10;
+        private float _standingHitboxHeight;
+        private float _crouchedHitboxHeight;
+        private float _standingCameraHeight;
+        private float _crouchedCameraHeight;
 
         public enum MovementTypes
         {
@@ -70,12 +68,8 @@ namespace MainGame.PlayerScripts
             Crouch,
             Walk,
             Sprint
-        };
-        public enum CrouchModes
-        {
-            Hold
-        };
-    
+        }
+
         #endregion
 
         #region Unity methods
@@ -84,17 +78,17 @@ namespace MainGame.PlayerScripts
         {
             nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
-            _photonView = GetComponent<PhotonView>();
+            GetComponent<PhotonView>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
 
             _characterController = GetComponentInChildren<CharacterController>();
-            _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
+            _characterLayerValue = Mathf.ClosestPowerOfTwo(characterLayer.value);
             
             raySize = _characterController.radius * 1.1f;
         
             float hitboxHeight = _characterController.height;
-            _crouchedHitboxHeight = hitboxHeight * 0.78f;
+            _crouchedHitboxHeight = hitboxHeight * 0.7f;
             _standingHitboxHeight = hitboxHeight;
 
             float camHeight = cameraHolder.transform.localPosition.y;
@@ -140,7 +134,7 @@ namespace MainGame.PlayerScripts
                 y = 0.0f,
                 z = _inputMoveRaw3D.z
             }.normalized;
-
+            
             // Updates the grounded boolean state
             UpdateGrounded();
 
@@ -154,18 +148,16 @@ namespace MainGame.PlayerScripts
             UpdateSpeed();
 
             // Sets the new movement vector based on the inputs
-            localMoveAmountNormalized = SmoothMoveAmount(localMoveAmountNormalized ,inputMoveNormalized3D);
-            localMoveAmountRaw = SmoothMoveAmount(localMoveAmountRaw, _inputMoveRaw3D);
-
+            SmoothMoveAmount(inputMoveNormalized3D);
             
             // Applies direction
             Vector3 currentMotion = transform.TransformDirection(localMoveAmountNormalized);
-            
+
             currentMotion += upwardVelocity;
             currentMotion *= chosenDeltaTime;
             
             // Removes moves if needed
-            if (isJumping)
+            if (IsJumping)
             {
                 currentMotion *= 0;
             }
@@ -205,7 +197,7 @@ namespace MainGame.PlayerScripts
         {
             upwardVelocity.y += GravityForce * Time.deltaTime;
 
-            if (grounded && !isJumping)
+            if (grounded && !IsJumping)
             {
                 if (OnSlope())
                 {
@@ -216,24 +208,27 @@ namespace MainGame.PlayerScripts
                 }
                 else
                 {
-                    upwardVelocity.y = -2.0f;
+                    upwardVelocity.y = -2;
                 }
             }
         }
 
         private bool OnSlope()
         {
-            if (!grounded) return false;
-
             bool onSlope = false;
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raySize))
+
+            if (grounded)
             {
-                if (hit.normal != Vector3.up)
+                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raySize,
+                        _characterLayerValue))
                 {
-                    onSlope = true;
+                    if (hit.normal != Vector3.up)
+                    {
+                        onSlope = true;
+                    }
                 }
             }
-        
+
             return onSlope;
         }
 
@@ -248,12 +243,7 @@ namespace MainGame.PlayerScripts
     
         private void UpdateSpeed()
         {
-            currentSpeed = GetSpeed();
-        }
-
-        private float GetSpeed()
-        {
-            var speed = currentMovementType switch
+            currentSpeed = currentMovementType switch
             {
                 MovementTypes.Stand => 0f,
                 MovementTypes.Crouch => CrouchSpeed,
@@ -262,55 +252,60 @@ namespace MainGame.PlayerScripts
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            speed *= currentSpeedMult;
-            
-            return speed;
+            currentSpeed *= currentSpeedMult;
         }
-
+     
         public void UpdateHitbox()
         {
-            // Chooses the new height
-            float desiredHitboxHeight = currentMovementType switch
+            // Chooses the new character controller height
+            float desiredHitboxHeight;
+            float desiredCameraHeight;
+            
+            switch (currentMovementType)
             {
-                MovementTypes.Crouch => _crouchedHitboxHeight,
-                _ => _standingHitboxHeight
-            };
+                case MovementTypes.Crouch:
+                    desiredHitboxHeight = _crouchedHitboxHeight;
+                    desiredCameraHeight = _crouchedCameraHeight;
+                    break;
+                default:
+                    desiredHitboxHeight = _standingHitboxHeight;
+                    desiredCameraHeight = _standingCameraHeight;
+                    break;
+            }
+
+            // Character controller modifier
+            float smoothTime = Time.deltaTime * crouchSmoothTime;
             
-            AdjustPlayerHeight(desiredHitboxHeight);
-
-            Vector3 camPosition = cameraHolder.transform.localPosition;
-
-            camPosition.y = _crouchedCameraHeight + (_standingCameraHeight - _crouchedCameraHeight) *
-                ((_characterController.height - _crouchedHitboxHeight) / (_standingHitboxHeight - _crouchedHitboxHeight));
-
-            cameraHolder.transform.localPosition = camPosition;
-        }
-    
-        // Sets the hitbox height to the input value progressively
-        private void AdjustPlayerHeight(float desiredHeight)
-        {
-            _characterController.height = Mathf.Lerp(_characterController.height, desiredHeight, crouchSmoothTime);
-            
+            _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
             Vector3 characterControllerCenter = _characterController.center;
-            characterControllerCenter.y = _characterController.height / 2f;
-            
+            characterControllerCenter.y = _characterController.height * 0.5f;
             _characterController.center = characterControllerCenter;
+            
+            // Camera height modifier
+            var localPosition = cameraHolder.transform.localPosition;
+            localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
+            cameraHolder.transform.localPosition = localPosition;
         }
-
     
         #endregion
     
         #region Setters
 
-        private Vector3 SmoothMoveAmount(Vector3 localMoveAmount, Vector3 moveDir)
+        private void SmoothMoveAmount(Vector3 moveDir)
         {
-            return Vector3.Lerp(localMoveAmount, moveDir * currentSpeed, Time.deltaTime * SmoothMoveValue);
-            // return Vector3.SmoothDamp(localMoveAmount, moveDir * currentSpeed, ref _, smoothTime);
+            Vector3 raw = moveDir * currentSpeed;
+            
+            // Caps the speed to not run backwards too fast
+            if (raw.z < -SprintBackSpeed) raw.z = -SprintBackSpeed;
+            
+            Vector3 amount = Vector3.Lerp(localMoveAmountNormalized, raw, Time.deltaTime * SmoothMoveValue);
+
+            localMoveAmountNormalized = amount;
         }
     
         public void SetGroundedState(bool _grounded)
         {
-            this.grounded = _grounded;
+            grounded = _grounded;
         }
 
         #endregion

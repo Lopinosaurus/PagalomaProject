@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using MainGame.PlayerScripts;
 using Photon.Pun;
@@ -7,11 +5,9 @@ using UnityEngine;
 
 public class JumpCollisionDetect : MonoBehaviour
 {
-    private bool _isColliding;
-    [SerializeField] private LayerMask characterLayer;
-    private int _characterLayerValue;
-    public bool IsColliding => _isColliding;
+    public bool IsColliding => collisions > 0;
     public List<Collider> ignoredJumpedColliders;
+    private int collisions;
 
     private void Start()    
     {
@@ -21,26 +17,29 @@ public class JumpCollisionDetect : MonoBehaviour
         }
         else
         {
-            _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
-
             ignoredJumpedColliders = GetComponentInParent<PlayerMovement>().ignoredJumpedColliders;
+            GetComponent<Collider>();
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider != null &&
-            collision.collider.gameObject.layer != _characterLayerValue &&
-            !ignoredJumpedColliders.Contains(collision.collider))
-        {
-            _isColliding = true;
-            ignoredJumpedColliders.Add(collision.collider);
-        }
+            if (!collision.collider.gameObject.CompareTag("Player"))
+            {
+                collisions++;
+                if (!ignoredJumpedColliders.Contains(collision.collider))
+                {
+                    ignoredJumpedColliders.Add(collision.collider);
+                }
+            }
     }
 
     private void OnCollisionExit(Collision other)
     {
-        _isColliding = false;
-        ignoredJumpedColliders.Remove(other.collider);
+        if (!other.collider.gameObject.CompareTag("Player"))
+        {
+            collisions -= collisions == 0 ? 0 : 1;
+            ignoredJumpedColliders.Remove(other.collider);
+        }
     }
 }

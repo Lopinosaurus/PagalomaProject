@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 using MainGame.PlayerScripts;
-using MainGame.PlayerScripts.Roles;
-using Photon.Pun;
+using Vector2 = UnityEngine.Vector2;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -23,27 +19,49 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
     private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
 
-    private void Start()
+    // Movement settings
+    const float halfPi = Mathf.PI * 0.5f;
+    private Vector2 velocity2D;
+    private Vector2 velocity2Draw;
+
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
 
     public void UpdateAnimationsBasic()
     {
-        Vector3 movementVector = new Vector3
+        var velocity3D = transform.InverseTransformDirection(_playerMovement._characterController.velocity);
+        velocity2Draw = new Vector2
         {
-            x = _playerMovement.localMoveAmountRaw.x,
-            z = _playerMovement.localMoveAmountRaw.z
+            x = velocity3D.x,
+            y = velocity3D.z
         };
-        
+
+        Vector2 unused = Vector2.zero;
+        velocity2D = Vector2.SmoothDamp(velocity2D, velocity2Draw, ref unused, Time.deltaTime);
+
+        CorrectDiagonalMovement(true);
+
         // Toggles "Crouch" animation
         _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
         
         // Sets the velocity in X to the CharacterController X velocity
-        _animator.SetFloat(_velocityXHash, movementVector.x);
+        _animator.SetFloat(_velocityXHash, velocity2D.x);
         
         // Sets the velocity in Z to the CharacterController Z velocity
-        _animator.SetFloat(_velocityZHash, movementVector.z);
+        _animator.SetFloat(_velocityZHash, velocity2D.y);
+    }
+
+    private void CorrectDiagonalMovement(bool perform)
+    {
+        if (!perform) return;
+
+        float angle = Vector2.SignedAngle(velocity2D, Vector2.right) * Mathf.Deg2Rad;
+        var magnitude = velocity2D.magnitude;
+        
+        velocity2D.x = Mathf.Tan(angle) * magnitude;
+        velocity2D.y = - Mathf.Tan(angle + halfPi) * magnitude;
     }
 
     public void EnableDeathAppearance()
@@ -52,7 +70,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger(_deathHash);
     }
     
-    public void JumpAnimation(bool active)
+    public void StartJumpAnimation(bool active)
     {
         // Toggles "Dying" animation
         if (active)

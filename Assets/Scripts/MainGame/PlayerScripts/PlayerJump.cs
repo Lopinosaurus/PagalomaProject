@@ -12,7 +12,7 @@ namespace MainGame.PlayerScripts
         [Header("Player jump settings")]
         private const float JumpForce = 1f;
         private const float JumpCompensation = 1;
-        public bool isJumping;
+        public bool IsJumping { get; set; }
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
         private float _jumpTimer = 0;
@@ -23,14 +23,14 @@ namespace MainGame.PlayerScripts
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private List<Collider> collidersStopIgnoring = new List<Collider>();
 
+        public void TriggerJump() => IsJumping = true;
+        
         public void UpdateJump()
         {
+            // Start jumping
             bool canJump = CanJump();
-            if (WantsJump && !isJumping && canJump)
+            if (WantsJump && !IsJumping && canJump)
             {
-                _jumpTimer = 0;
-                isJumping = true;
-                
                 // Ignore colliders
                 collidersStopIgnoring.Clear();
                 foreach (Collider jumpedCollider in ignoredJumpedColliders.Where(jumpedCollider => jumpedCollider != null))
@@ -40,27 +40,20 @@ namespace MainGame.PlayerScripts
                     collidersStopIgnoring.Add(jumpedCollider);
                 }
                 
-                _playerAnimation.JumpAnimation(true);
+                _playerAnimation.StartJumpAnimation(true);
                 _playerLook.canTurnSides = false;
             }
 
-            if (isJumping)
+            // End jumping
+            if (!IsJumping)
             {
-                if (_jumpTimer > 1)
+                _playerAnimation.StartJumpAnimation(false);
+                _playerLook.canTurnSides = true;
+                
+                // Stops ignoring them
+                foreach (var jumpedCollider in collidersStopIgnoring)
                 {
-                    isJumping = false;
-                    _playerAnimation.JumpAnimation(false);
-                    _playerLook.canTurnSides = true;
-                    
-                    // Stops ignoring them
-                    foreach (var jumpedCollider in collidersStopIgnoring)
-                    {
-                        Physics.IgnoreCollision(_characterController, jumpedCollider, false);
-                    }
-                }
-                else
-                {
-                    _jumpTimer += Time.deltaTime;
+                    Physics.IgnoreCollision(_characterController, jumpedCollider, false);
                 }
             }
         }
