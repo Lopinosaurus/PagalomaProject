@@ -16,7 +16,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
         [SerializeField] private PlayerInput playerInput;
-
+        
         public List<Role> _targets = new List<Role>();
         public bool isTransformed = false;
 
@@ -93,6 +93,9 @@ namespace MainGame.PlayerScripts.Roles
             WereWolfRenderer.SetActive(isTransformation);
             yield return new WaitForSeconds(4);
 
+            // Changes the animator
+            _playerAnimation.EnableWerewolfAnimations(isTransformation);
+            
             if (isTransformation) // Transformation 
             {
                 isTransformed = true;

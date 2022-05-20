@@ -10,9 +10,9 @@ public class PlayerAnimation : MonoBehaviour
 {
     // Scripts components
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private Animator _animator;
-
-    public Animator Animator => _animator;
+    private Animator _animator;
+    [SerializeField] private Avatar _villager;
+    [SerializeField] private Avatar _werewolf;
 
     // Boolean States hashes
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
@@ -22,6 +22,11 @@ public class PlayerAnimation : MonoBehaviour
     // Float States hashes
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
     private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     public void UpdateAnimationsBasic()
     {
@@ -58,5 +63,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             _animator.ResetTrigger(_jumpHash);
         }
+    }
+
+    public void EnableWerewolfAnimations(bool toWerewolf)
+    {
+        _animator.avatar = toWerewolf ? _werewolf : _villager;
     }
 }

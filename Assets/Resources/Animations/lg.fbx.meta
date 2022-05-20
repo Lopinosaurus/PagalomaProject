@@ -22,7 +22,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
+    importConstraints: 1
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -73,7 +73,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human:
@@ -715,7 +715,7 @@ ModelImporter:
     - name: hand.R
       parentName: forearm.R
       position: {x: 0.000000066589564, y: 0.354638, z: -0.000000018626451}
-      rotation: {x: 0.022330068, y: -0.0029682848, z: -0.010774711, w: 0.99968815}
+      rotation: {x: 0.022330074, y: -0.0029682848, z: -0.010774714, w: 0.99968815}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
     - name: palm.01.R
       parentName: hand.R
@@ -745,7 +745,7 @@ ModelImporter:
     - name: thumb.01.R
       parentName: palm.01.R
       position: {x: -0.007780686, y: -0.024679199, z: 0.011320509}
-      rotation: {x: -0.103401884, y: 0.6683466, z: 0.2887547, w: 0.67767364}
+      rotation: {x: -0.10340189, y: 0.66834664, z: 0.28875473, w: 0.6776737}
       scale: {x: 1.0000002, y: 1, z: 1.0000005}
     - name: thumb.02.R
       parentName: thumb.01.R
@@ -775,7 +775,7 @@ ModelImporter:
     - name: f_middle.02.R
       parentName: f_middle.01.R
       position: {x: -0.000000007450581, y: 0.07481251, z: -0.00000013853423}
-      rotation: {x: 0.009227471, y: -0.04347717, z: -0.0142847095, w: 0.99890965}
+      rotation: {x: 0.009227474, y: -0.04347717, z: -0.014284712, w: 0.99890965}
       scale: {x: 1.0000001, y: 0.9999998, z: 0.99999994}
     - name: f_middle.03.R
       parentName: f_middle.02.R
@@ -840,12 +840,12 @@ ModelImporter:
     - name: spine.004
       parentName: spine.003
       position: {x: 4.656613e-10, y: 0.31283674, z: 0.0000002028246}
-      rotation: {x: -0.24513766, y: 0.012594705, z: -0.026432134, w: 0.96904606}
+      rotation: {x: -0.061689723, y: 0.014350452, z: -0.026014948, w: 0.9976531}
       scale: {x: 0.99999964, y: 0.9999999, z: 0.9999999}
     - name: spine.005
       parentName: spine.004
       position: {x: 9.313226e-10, y: 0.10206887, z: 0.0000000379805}
-      rotation: {x: 0.01421775, y: -0.03761404, z: 0.058475923, w: 0.99747866}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1.0000001, y: 0.9999998, z: 1.0000002}
     - name: spine.006
       parentName: spine.005

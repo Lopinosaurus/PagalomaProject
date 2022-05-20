@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     // Sound for Ai
     [SerializeField] private AudioClip aiSound;
     [SerializeField] private AudioSource plyAudioSource;
+    // [SerializeField] [Range(0f, 1f)] private float slider;
 
     #endregion
 
@@ -116,6 +117,18 @@ public class PlayerController : MonoBehaviour
         // Moves the player render backwards so that it doesn't clip with the camera
         PlayerRender.transform.localPosition = Vector3.back * backShift;
 
+        /*// DEBUG: sets the timescale
+        IEnumerator TimeScaler()
+        {
+            while (true)
+            {
+                Time.timeScale = slider;
+                yield return null;
+            }
+        }
+        StartCoroutine(TimeScaler());*/
+        
+        // Starts the Ai
         if (!_photonView.IsMine)
         {
             Destroy(_cam);

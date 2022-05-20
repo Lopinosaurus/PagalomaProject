@@ -13,7 +13,7 @@ public class JumpCollisionDetect : MonoBehaviour
     public bool IsColliding => _isColliding;
     public List<Collider> ignoredJumpedColliders;
 
-    private void Start()
+    private void Start()    
     {
         if (!GetComponentInParent<PhotonView>().IsMine)
         {
@@ -22,22 +22,25 @@ public class JumpCollisionDetect : MonoBehaviour
         else
         {
             _characterLayerValue = (int) (Mathf.Log(characterLayer.value) / Mathf.Log(2));
+
             ignoredJumpedColliders = GetComponentInParent<PlayerMovement>().ignoredJumpedColliders;
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.layer != _characterLayerValue) _isColliding = true;
-        if (_isColliding && !ignoredJumpedColliders.Contains(collision.collider))
+        if (collision.collider != null &&
+            collision.collider.gameObject.layer != _characterLayerValue &&
+            !ignoredJumpedColliders.Contains(collision.collider))
         {
+            _isColliding = true;
             ignoredJumpedColliders.Add(collision.collider);
         }
     }
 
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.layer != _characterLayerValue) _isColliding = false;
+        _isColliding = false;
         ignoredJumpedColliders.Remove(other.collider);
     }
 }

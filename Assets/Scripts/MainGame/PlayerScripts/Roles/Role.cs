@@ -36,7 +36,7 @@ namespace MainGame.PlayerScripts.Roles
         protected PlayerMovement _playerMovement;
         private PlayerController _playerController;
         private PlayerLook _playerLook;
-        private PlayerAnimation _playerAnimation;
+        protected PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
         private Camera cam;
 

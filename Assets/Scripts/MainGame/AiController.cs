@@ -401,36 +401,32 @@ public class AiController : MonoBehaviour
         // Potential colliders to go to
         Vector3 center = targetPosition;
         Debug.DrawRay(center, Vector3.up * 20, Color.blue, 1, false);
-        var hitColliders = Physics.OverlapSphere(center, radius).ToList();
-
-        // Filter out invalid colliders
-        hitColliders.RemoveAll(IsInvalidCollider);
-        hitColliders.Remove(previousCollider);
-        hitColliders.Remove(currentHidingObstacle);
-        hitColliders.Remove(_capsuleCollider);
-        // Filters out colliders that are too close
-        hitColliders.RemoveAll(c =>
-        {
-            if (c == previousCollider || c == currentHidingObstacle) return true;
-            if ((c.transform.position - targetPosition).sqrMagnitude <
-                minDangerDistFromPlayer * minDangerDistFromPlayer) return true;
-            return false;
-        });
+        var hitColliders = new Collider[400];
+        Physics.OverlapSphereNonAlloc(center, radius, hitColliders);
 
         var correctCol = new List<(Collider, float)>();
 
         foreach (Collider c in hitColliders)
         {
+            // Skip invalids
+            if (IsInvalidCollider(c) ||
+                (c.transform.position - targetPosition).sqrMagnitude <
+                minDangerDistFromPlayer * minDangerDistFromPlayer ||
+                c == previousCollider ||
+                c == currentHidingObstacle ||
+                c == _capsuleCollider)
+                continue;
+            
             float sqrDist = (c.transform.position - _targetPlayer.transform.position).sqrMagnitude;
 
             InsertSorted(correctCol, c, sqrDist);
         }
 
         // Debug
-        for (int i = 0; i < hitColliders.Count; i++)
+        for (int i = 0; i < hitColliders.Length; i++)
         {
             Debug.DrawRay(hitColliders[i].transform.position, Vector3.up * 10 + Vector3.back,
-                Color.Lerp(Color.red, Color.yellow, i / (float) hitColliders.Count),
+                Color.Lerp(Color.red, Color.yellow, i / (float) hitColliders.Length),
                 2, false);
         }
 
