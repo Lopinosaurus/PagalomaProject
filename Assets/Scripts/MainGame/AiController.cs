@@ -27,6 +27,9 @@ public class AiController : MonoBehaviour
     public bool isDanger;
     private bool _isInCameraView;
     private bool canShake;
+    
+    // Sound "State of Shock"
+    [SerializeField] private AudioSource stateOfShock;
 
     private enum AiState
     {
@@ -297,6 +300,7 @@ public class AiController : MonoBehaviour
                 else
                 {
                     Debug.Log("Attacking player...", currentHidingObstacle);
+                    stateOfShock.Play();
                 }
 
                 break;
