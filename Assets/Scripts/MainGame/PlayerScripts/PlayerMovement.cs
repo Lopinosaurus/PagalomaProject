@@ -49,12 +49,12 @@ namespace MainGame.PlayerScripts
         public Vector3 upwardVelocity = Vector3.zero;
     
         // Ground check
-        [SerializeField] public float raySize;
+        private float raySize = 0.1f;
         public bool grounded;
         public float slopeCompensationForce = 5f;
         private const float checkGroundRadius = 0.3f;
         public bool isSphereGrounded { get; set; }
-        public bool isCCgrounded { get; set; }
+        private bool isCCgrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space]
@@ -205,8 +205,8 @@ namespace MainGame.PlayerScripts
             {
                 if (OnSlope())
                 {
-                    float downwardForce = -GetAngleFromFloor() * slopeCompensationForce;
-                    downwardForce = Mathf.Clamp(downwardForce, -2f, -500f);
+                    float downwardForce = -slopeCompensationForce;
+                    downwardForce = Mathf.Clamp(downwardForce, -500, -2);
                     
                     upwardVelocity.y = downwardForce;
                 }
@@ -214,6 +214,7 @@ namespace MainGame.PlayerScripts
                 {
                     upwardVelocity.y = -2;
                 }
+                
             }
         }
 
@@ -223,7 +224,10 @@ namespace MainGame.PlayerScripts
 
             if (isSphereGrounded)
             {
-                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raySize,
+                float maxDistance = _characterController.height + _characterController.radius + raySize;
+                Debug.DrawRay(transform.position, Vector3.down, Color.red, 0.05f, false);
+                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+                        maxDistance,
                         _characterLayerValue))
                 {
                     if (hit.normal != Vector3.up) onSlope = true;
@@ -233,15 +237,6 @@ namespace MainGame.PlayerScripts
             return onSlope;
         }
 
-        private float GetAngleFromFloor()
-        {
-            Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
-                _characterController.height / 2 * raySize);
-            float angle = Vector3.Angle(Vector3.up, hit.normal);
-
-            return angle;
-        }
-    
         private void UpdateSpeed()
         {
             currentSpeed = currentMovementType switch

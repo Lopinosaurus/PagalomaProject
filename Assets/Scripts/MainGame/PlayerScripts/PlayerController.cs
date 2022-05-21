@@ -115,7 +115,9 @@ public class PlayerController : MonoBehaviour
     internal void Start()
     {
         // Moves the player render backwards so that it doesn't clip with the camera
-        PlayerRender.transform.localPosition = Vector3.back * backShift;
+        var transformLocalPosition = PlayerRender.transform.localPosition;
+        transformLocalPosition.z = -backShift;
+        PlayerRender.transform.localPosition = transformLocalPosition;
 
         /*// DEBUG: sets the timescale
         IEnumerator TimeScaler()

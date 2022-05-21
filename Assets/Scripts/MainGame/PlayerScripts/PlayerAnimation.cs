@@ -7,7 +7,7 @@ using Vector2 = UnityEngine.Vector2;
 public class PlayerAnimation : MonoBehaviour
 {
     // Scripts components
-    [SerializeField] private PlayerMovement _playerMovement;
+    private PlayerMovement _playerMovement;
     [SerializeField] private Avatar _villagerAvatar;
     [SerializeField] private Avatar _werewolfAvatar;
     private Animator _currentAnimator;
@@ -34,6 +34,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Awake()
     {
+        _playerMovement = GetComponent<PlayerMovement>();
         _currentAnimator = GetComponent<Animator>();
         _WerewolfLayerIndex = _currentAnimator.GetLayerIndex("WerewolfLayer");
     }
@@ -49,8 +50,6 @@ public class PlayerAnimation : MonoBehaviour
 
         velocity2D = Vector2.Lerp(velocity2D, velocity2Draw, 10f * Time.deltaTime);
 
-        Debug.Log($"velocity2D = {velocity2D}");
-        
         CorrectDiagonalMovement(true);
 
         // Toggles "Crouch" animation

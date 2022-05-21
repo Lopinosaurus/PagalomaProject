@@ -12,7 +12,7 @@ public class PlayerGroundCheck : MonoBehaviour
         characterMaskValue = _playerMovement._characterLayerValue;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (null != collision && collision.gameObject.layer != characterMaskValue)
         {

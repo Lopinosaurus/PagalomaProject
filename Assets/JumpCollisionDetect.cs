@@ -22,9 +22,9 @@ public class JumpCollisionDetect : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-            if (!collision.collider.gameObject.CompareTag("Player"))
+            if (!collision.gameObject.CompareTag("Player"))
             {
                 collisions++;
                 if (!ignoredJumpedColliders.Contains(collision.collider))
@@ -36,7 +36,7 @@ public class JumpCollisionDetect : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        if (!other.collider.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Player"))
         {
             collisions -= collisions == 0 ? 0 : 1;
             ignoredJumpedColliders.Remove(other.collider);
