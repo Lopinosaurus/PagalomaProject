@@ -1452,6 +1452,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9115280105432258644}
+  - component: {fileID: 8734594690298590437}
+  - component: {fileID: 497187226726702910}
   m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Player
@@ -1473,6 +1475,32 @@ Transform:
   m_Father: {fileID: 2731699858036258818}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8734594690298590437
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037585882933721814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.23
+  m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &497187226726702910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037585882933721814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cd599bd4c2c034590263560dad19fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovement: {fileID: 660215560512379707}
 --- !u!1 &2059036084018139296
 GameObject:
   m_ObjectHideFlags: 0

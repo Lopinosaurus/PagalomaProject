@@ -52,6 +52,9 @@ namespace MainGame.PlayerScripts
         [SerializeField] public float raySize;
         public bool grounded;
         public float slopeCompensationForce = 5f;
+        private const float checkGroundRadius = 0.3f;
+        public bool isSphereGrounded { get; set; }
+        public bool isCCgrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space]
@@ -169,9 +172,9 @@ namespace MainGame.PlayerScripts
 
         private void UpdateGrounded()
         {
-            SetGroundedState(_characterController.isGrounded);
-            // grounded = Physics.CheckBox(groundCheck.position, new Vector3(radius, 0.01f, radius / 2), Quaternion.identity);
-            // grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            isCCgrounded = _characterController.isGrounded;
+
+            SetGroundedState(isCCgrounded || isSphereGrounded);
         }
 
         private void UpdateMovementState()
@@ -218,15 +221,12 @@ namespace MainGame.PlayerScripts
         {
             bool onSlope = false;
 
-            if (grounded)
+            if (isSphereGrounded)
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, raySize,
                         _characterLayerValue))
                 {
-                    if (hit.normal != Vector3.up)
-                    {
-                        onSlope = true;
-                    }
+                    if (hit.normal != Vector3.up) onSlope = true;
                 }
             }
 

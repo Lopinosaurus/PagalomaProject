@@ -1,64 +1,30 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using MainGame.PlayerScripts;
 using UnityEngine;
 
-
 public class PlayerGroundCheck : MonoBehaviour
 {
-    private PlayerMovement _playerMovement;
-    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerMovement _playerMovement;
+    private int characterMaskValue = 7;
 
-    private void Awake() => _playerMovement = player.GetComponent<PlayerMovement>();
-
-    #region ONLY WORKS WITH RIGIDBODY - NO RIGIDBODY ATM
-    
-    private void OnTriggerEnter(Collider other)
+    private void Awake()
     {
-        if (other.gameObject == _playerMovement.gameObject)
-            return;
-        _playerMovement.SetGroundedState(true);
+        characterMaskValue = _playerMovement._characterLayerValue;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == _playerMovement.gameObject)
-            return;
-        _playerMovement.SetGroundedState(false);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject == _playerMovement.gameObject)
-            return;
-        _playerMovement.SetGroundedState(true);
-    }
-    
-    #endregion
-
-    #region not needed ATM
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == _playerMovement.gameObject)
-            return;
-        Debug.Log("Collision detected !");
-        _playerMovement.SetGroundedState(true);
+        if (null != collision && collision.gameObject.layer != characterMaskValue)
+        {
+            _playerMovement.isSphereGrounded = true;
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject == _playerMovement.gameObject)
-            return;
-        _playerMovement.SetGroundedState(false);
+        if (null != collision && collision.gameObject.layer != characterMaskValue)
+        {
+            _playerMovement.isSphereGrounded = false;
+        }
     }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject == _playerMovement.gameObject)
-            return;
-        _playerMovement.SetGroundedState(true);
-    }
- 
-    #endregion
 }

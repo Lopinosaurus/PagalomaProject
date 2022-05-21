@@ -19,7 +19,7 @@ namespace MainGame.PlayerScripts
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
         [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
         [SerializeField] private LayerMask characterLayer;
-        private int _characterLayerValue;
+        internal int _characterLayerValue;
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private List<Collider> collidersStopIgnoring = new List<Collider>();
 
