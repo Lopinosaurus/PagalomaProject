@@ -84,17 +84,17 @@ namespace MainGame.PlayerScripts
             _playerLook = GetComponent<PlayerLook>();
 
             _characterController = GetComponentInChildren<CharacterController>();
-            _characterLayerValue = Mathf.ClosestPowerOfTwo(characterLayer.value);
+            _characterLayerValue = (int)Mathf.Log(characterLayer.value, 2);
             
             raySize = _characterController.radius * 1.1f;
         
             float hitboxHeight = _characterController.height;
-            _crouchedHitboxHeight = hitboxHeight * 0.7f;
             _standingHitboxHeight = hitboxHeight;
+            _crouchedHitboxHeight = hitboxHeight * 0.7f;
 
             float camHeight = cameraHolder.transform.localPosition.y;
-            _crouchedCameraHeight = camHeight * 0.7f;
             _standingCameraHeight = camHeight;
+            _crouchedCameraHeight = camHeight * 0.7f;
         }
 
         private void Start()
@@ -278,6 +278,7 @@ namespace MainGame.PlayerScripts
             float smoothTime = Time.deltaTime * crouchSmoothTime;
             
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
+            _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = _characterController.center;
             characterControllerCenter.y = _characterController.height * 0.5f;
             _characterController.center = characterControllerCenter;

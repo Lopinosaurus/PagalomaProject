@@ -1,4 +1,5 @@
 using System;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using MainGame.PlayerScripts;
 using Vector2 = UnityEngine.Vector2;
@@ -46,10 +47,11 @@ public class PlayerAnimation : MonoBehaviour
             y = velocity3D.z
         };
 
-        Vector2 unused = Vector2.zero;
-        velocity2D = Vector2.SmoothDamp(velocity2D, velocity2Draw, ref unused, Time.deltaTime);
+        velocity2D = Vector2.Lerp(velocity2D, velocity2Draw, 10f * Time.deltaTime);
 
-        CorrectDiagonalMovement(false);
+        Debug.Log($"velocity2D = {velocity2D}");
+        
+        CorrectDiagonalMovement(true);
 
         // Toggles "Crouch" animation
         _currentAnimator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
@@ -65,11 +67,18 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (!perform) return;
 
-        float angle = Vector2.SignedAngle(velocity2D, Vector2.right) * Mathf.Deg2Rad;
-        var magnitude = velocity2D.magnitude;
+        float angleX = -Vector2.SignedAngle(velocity2D, Vector2.right) * Mathf.Deg2Rad;
+        float angleY = -Vector2.SignedAngle(velocity2D, Vector2.up) * Mathf.Deg2Rad;
         
-        velocity2D.x = Mathf.Tan(angle) * magnitude;
-        velocity2D.y = - Mathf.Tan(angle + halfPi) * magnitude;
+        var magnitude = velocity2Draw.magnitude;
+        
+        float velocityX = Mathf.Clamp(Mathf.Abs(Mathf.Tan(angleX) * magnitude), 0, magnitude)
+                          * (velocity2Draw.y > 0 ? 1 : -1);
+        float velocityY = Mathf.Clamp(Mathf.Abs(Mathf.Tan(angleY) * magnitude), 0, magnitude)
+                          * (velocity2Draw.x > 0 ? 1 : -1);
+
+        velocity2D = new Vector2(velocityY, velocityX);
+        // Debug.Log($"{velocity2D}");
     }
 
     public void EnableDeathAppearance()
