@@ -83,31 +83,43 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator WerewolfTransform(bool isTransformation)
         {
+            // Particles to dissimulate werewolf transition
             GameObject p = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             p.transform.rotation = Quaternion.Euler(new float3(-90, 0, 0));
-            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI"); // Deactivate controls
+            
+            // Deactivate controls
+            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
+            
+            // Wait
             yield return new WaitForSeconds(1);
+            
             VillagerRenderer.SetActive(!isTransformation);
             WereWolfRenderer.SetActive(isTransformation);
+            
+            // Wait for 4 seconds
             yield return new WaitForSeconds(4);
 
             // Changes the animator
             _playerAnimation.EnableWerewolfAnimations(isTransformation);
             
-            if (isTransformation) // Transformation 
+            // Transformation 
+            if (isTransformation)
             {
                 isTransformed = true;
                 _playerMovement.StartModifySpeed(60, 1.7f, 0, 1);
                 if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
             }
-            else // DeTransformation
+            // DeTransformation
+            else
             {
                 isTransformed = false;
                 hasCooldown = true;
             }
 
             UpdateActionText();
-           if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player"); // Reactivate controls
+            
+            // Reactivate controls
+            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player"); 
         }
 
         private IEnumerator DeTransformationCoroutine(int delay)

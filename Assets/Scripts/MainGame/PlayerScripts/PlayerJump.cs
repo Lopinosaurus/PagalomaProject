@@ -23,8 +23,11 @@ namespace MainGame.PlayerScripts
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private List<Collider> collidersStopIgnoring = new List<Collider>();
 
-        public void DeactivateJumpBool() => IsJumping = false; 
-        
+        public void DeactivateJumpBool()
+        {
+            IsJumping = false;
+        }
+
         public void UpdateJump()
         {
             // Start jumping

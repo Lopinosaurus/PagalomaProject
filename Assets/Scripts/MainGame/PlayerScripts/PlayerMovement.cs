@@ -61,6 +61,7 @@ namespace MainGame.PlayerScripts
         private float _crouchedHitboxHeight;
         private float _standingCameraHeight;
         private float _crouchedCameraHeight;
+        [SerializeField] [Range(0f, 5f)] private float target;
 
         public enum MovementTypes
         {
@@ -356,6 +357,11 @@ namespace MainGame.PlayerScripts
             }
 
             currentSpeedMult = BaseSpeedMult;
+        }
+
+        private void Update()
+        {
+             if (Input.GetKeyDown(KeyCode.T)) StartModifySpeed(5, target, 0, 1);
         }
     }
 }

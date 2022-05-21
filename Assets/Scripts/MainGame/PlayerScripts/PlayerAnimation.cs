@@ -7,18 +7,24 @@ public class PlayerAnimation : MonoBehaviour
 {
     // Scripts components
     [SerializeField] private PlayerMovement _playerMovement;
-    private Animator _animator;
-    [SerializeField] private Avatar _villager;
-    [SerializeField] private Avatar _werewolf;
+    [SerializeField] private Avatar _villagerAvatar;
+    [SerializeField] private Avatar _werewolfAvatar;
+    private Animator _currentAnimator;
 
     // Boolean States hashes
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
-    private readonly int _deathHash = Animator.StringToHash("Death");
+    
+    // Trigger States hashes
     private readonly int _jumpHash = Animator.StringToHash("Jump");
+    private readonly int _deathHash = Animator.StringToHash("Death");
+    private readonly int _attackHash = Animator.StringToHash("Attack");
 
     // Float States hashes
     private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
     private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+    
+    // Layer hashes
+    private int _WerewolfLayerIndex;
 
     // Movement settings
     const float halfPi = Mathf.PI * 0.5f;
@@ -27,7 +33,8 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _currentAnimator = GetComponent<Animator>();
+        _WerewolfLayerIndex = _currentAnimator.GetLayerIndex("WerewolfLayer");
     }
 
     public void UpdateAnimationsBasic()
@@ -45,13 +52,13 @@ public class PlayerAnimation : MonoBehaviour
         CorrectDiagonalMovement(false);
 
         // Toggles "Crouch" animation
-        _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
+        _currentAnimator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
         
         // Sets the velocity in X to the CharacterController X velocity
-        _animator.SetFloat(_velocityXHash, velocity2D.x);
+        _currentAnimator.SetFloat(_velocityXHash, velocity2D.x);
         
         // Sets the velocity in Z to the CharacterController Z velocity
-        _animator.SetFloat(_velocityZHash, velocity2D.y);
+        _currentAnimator.SetFloat(_velocityZHash, velocity2D.y);
     }
 
     private void CorrectDiagonalMovement(bool perform)
@@ -68,7 +75,7 @@ public class PlayerAnimation : MonoBehaviour
     public void EnableDeathAppearance()
     {
         // Toggles "Dying" animation
-        _animator.SetTrigger(_deathHash);
+        _currentAnimator.SetTrigger(_deathHash);
     }
     
     public void StartJumpAnimation(bool active)
@@ -76,16 +83,40 @@ public class PlayerAnimation : MonoBehaviour
         // Toggles "Dying" animation
         if (active)
         {
-            _animator.SetTrigger(_jumpHash);
+            _currentAnimator.SetTrigger(_jumpHash);
         }
         else
         {
-            _animator.ResetTrigger(_jumpHash);
+            _currentAnimator.ResetTrigger(_jumpHash);
         }
     }
 
     public void EnableWerewolfAnimations(bool toWerewolf)
     {
-        _animator.avatar = toWerewolf ? _werewolf : _villager;
+        if (toWerewolf)
+        {
+            _currentAnimator.avatar = _werewolfAvatar;
+            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 0);
+        }
+        else
+        {
+            _currentAnimator.avatar = _villagerAvatar;
+            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 1);
+        }        
+    }
+    
+    public void StartAttackAnimation(bool active)
+    {
+        // Toggles "Attack" animation
+        if (active)
+        {
+            _currentAnimator.SetTrigger(_attackHash);
+        }
+        else
+        {
+            _currentAnimator.ResetTrigger(_attackHash);
+        }
     }
 }
+
+

@@ -8901,6 +8901,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2296100508060758552, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[5].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296100508060758552, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[6].SynchronizeType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2528212193821533079, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_UpdateWhenOffscreen
       value: 1
@@ -8993,13 +9001,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -16.17
       objectReference: {fileID: 0}
-    - target: {fileID: 6984006320722283230, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
-      value: 1
+    - target: {fileID: 7430318575100400553, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: _villagerAnimator
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430318575100400553, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: _werewolfAnimator
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7578259937013170486, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: sceneViewId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578259937013170486, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7608168957379526285, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_Name
