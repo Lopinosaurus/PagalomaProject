@@ -4106,11 +4106,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4580034762982728269, guid: b444959930879364bbdd004713f45217, type: 3}
   m_PrefabInstance: {fileID: 309031039}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &332494948 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-  m_PrefabInstance: {fileID: 825554365}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &333759981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8987,24 +8982,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -15829,30 +15808,6 @@ OcclusionArea:
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
   m_IsViewVolume: 1
---- !u!1 &1343729471 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3041682712798498402, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-  m_PrefabInstance: {fileID: 825554365}
-  m_PrefabAsset: {fileID: 0}
---- !u!1818360609 &1343729473
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1343729471}
-  m_Enabled: 1
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 16.170015, z: -0.00006496465}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 1
-  m_IsLocked: 0
-  m_Sources:
-  - sourceTransform: {fileID: 332494948}
-    weight: 1
 --- !u!1001 &1344916282
 PrefabInstance:
   m_ObjectHideFlags: 0

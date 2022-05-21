@@ -8,14 +8,9 @@ namespace MainGame.PlayerScripts
     {
         // Jump values
         private bool WantsJump { get; set; }
-        [Space]
-        [Header("Player jump settings")]
-        private const float JumpForce = 1f;
-        private const float JumpCompensation = 1;
         public bool IsJumping { get; set; }
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
-        private float _jumpTimer = 0;
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
         [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
         [SerializeField] private LayerMask characterLayer;
@@ -32,6 +27,7 @@ namespace MainGame.PlayerScripts
         {
             // Start jumping
             bool canJump = CanJump();
+            Debug.Log($"WantsJump {WantsJump} | IsJumping {IsJumping} | canJump {canJump}");
             if (WantsJump && !IsJumping && canJump)
             {
                 // Ignore colliders
