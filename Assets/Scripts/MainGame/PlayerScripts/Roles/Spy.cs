@@ -42,7 +42,7 @@ namespace MainGame.PlayerScripts.Roles
         }
         IEnumerator UpdateInvisibility () {
             PlayerRender.enabled = false;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(25);
             PlayerRender.enabled = true;
         }
 

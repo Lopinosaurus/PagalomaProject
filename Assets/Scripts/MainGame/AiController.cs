@@ -167,6 +167,7 @@ public class AiController : MonoBehaviour
                 
                 Debug.Log("IA Killed !");
                 iaSound.clip = iaKilled;
+                iaSound.Stop();
                 iaSound.Play();
                 return;
             }
@@ -305,6 +306,7 @@ public class AiController : MonoBehaviour
                 else
                 {
                     Debug.Log("Attacking player...", currentHidingObstacle);
+                    iaSound.Stop();
                     iaSound.clip = stateOfShock;
                     iaSound.Play();
                 }
