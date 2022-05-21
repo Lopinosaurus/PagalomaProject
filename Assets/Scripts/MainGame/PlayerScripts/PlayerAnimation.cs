@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using MainGame.PlayerScripts;
 using Vector2 = UnityEngine.Vector2;
@@ -41,7 +42,7 @@ public class PlayerAnimation : MonoBehaviour
         Vector2 unused = Vector2.zero;
         velocity2D = Vector2.SmoothDamp(velocity2D, velocity2Draw, ref unused, Time.deltaTime);
 
-        CorrectDiagonalMovement(true);
+        CorrectDiagonalMovement(false);
 
         // Toggles "Crouch" animation
         _animator.SetBool(_isCrouchingHash, _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);

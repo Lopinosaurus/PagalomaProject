@@ -8965,6 +8965,34 @@ PrefabInstance:
       propertyPath: m_UpdateWhenOffscreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99006057
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.1406421
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598090228381821785, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -16.17
+      objectReference: {fileID: 0}
     - target: {fileID: 6984006320722283230, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
       value: 1

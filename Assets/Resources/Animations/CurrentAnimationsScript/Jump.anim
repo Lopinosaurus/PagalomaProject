@@ -71529,10 +71529,10 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: TriggerJump
+  - time: 0.76666665
+    functionName: DeactivateJumpBool
     data: 
-    objectReferenceParameter: {fileID: 7608168957379526285, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

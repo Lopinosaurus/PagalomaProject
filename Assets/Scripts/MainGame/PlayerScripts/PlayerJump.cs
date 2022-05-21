@@ -23,7 +23,7 @@ namespace MainGame.PlayerScripts
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private List<Collider> collidersStopIgnoring = new List<Collider>();
 
-        public void TriggerJump() => IsJumping = true;
+        public void DeactivateJumpBool() => IsJumping = false; 
         
         public void UpdateJump()
         {
@@ -41,6 +41,7 @@ namespace MainGame.PlayerScripts
                 }
                 
                 _playerAnimation.StartJumpAnimation(true);
+                IsJumping = true;
                 _playerLook.canTurnSides = false;
             }
 
