@@ -16,12 +16,14 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     [SerializeField] private TMP_InputField roomNameInputField;
     [SerializeField] private TMP_Text errorText;
     [SerializeField] private TMP_Text roomNameText;
+    [SerializeField] private TMP_Text numberOfPlayersText;
     [SerializeField] private Transform roomListContent;
     [SerializeField] private Transform playerListContent;
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private GameObject playerListItemPrefab;
     [SerializeField] private GameObject startGameButton;
     private List<RoomInfo> activeRooms = new List<RoomInfo>();
+    private int numberOfPlayers = 0;
 
     private void Awake()
     {
@@ -105,7 +107,9 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
             // Instantiate a playerListItemPrefab in playerListContent
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
-        
+
+        numberOfPlayers = players.Count();
+        numberOfPlayersText.text = numberOfPlayers + "/16";
         startGameButton.SetActive(PhotonNetwork.IsMasterClient); // startGameButton only active for host
     }
 
@@ -158,6 +162,14 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
+        numberOfPlayers++;
+        numberOfPlayersText.text = numberOfPlayers + "/16";
+    }
+
+    public override void OnPlayerLeftRoom(Player oldPlayer)
+    {
+        numberOfPlayers--;
+        numberOfPlayersText.text = numberOfPlayers + "/16";  
     }
     
     // GAME

@@ -29,8 +29,9 @@ public class AiController : MonoBehaviour
     private bool canShake;
     
     // Sound "State of Shock"
-    [SerializeField] private AudioSource stateOfShock;
-
+    [SerializeField] private AudioSource iaSound;
+    [SerializeField] private AudioClip stateOfShock;
+    [SerializeField] private AudioClip iaKilled;
     private enum AiState
     {
         Hidden,
@@ -157,12 +158,16 @@ public class AiController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Destroys if it's night
+        // Destroys if it's day
         try
         {
             if (RoomManager.Instance && !VoteMenu.Instance.isNight)
             {
                 Destroy(gameObject);
+                
+                Debug.Log("IA Killed !");
+                iaSound.clip = iaKilled;
+                iaSound.Play();
                 return;
             }
         }
@@ -300,7 +305,8 @@ public class AiController : MonoBehaviour
                 else
                 {
                     Debug.Log("Attacking player...", currentHidingObstacle);
-                    stateOfShock.Play();
+                    iaSound.clip = stateOfShock;
+                    iaSound.Play();
                 }
 
                 break;
