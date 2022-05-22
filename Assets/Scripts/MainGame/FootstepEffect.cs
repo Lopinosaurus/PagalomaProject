@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MainGame.PlayerScripts;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -74,50 +75,50 @@ public class FootstepEffect : MonoBehaviour
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
             Debug.Log("Character Controller : " + characterController);
-            Vector3 velocity;
-            Vector3 velocity1;
-            Vector3 velocity2;
-
             // Avoid fatal error on destruction
             if (characterController is null || characterController == null)
                 return;
             
-            switch (characterController.isGrounded)
+            switch (characterController.gameObject.GetComponent<PlayerMovement>().grounded)
             {
-                #region Crouching Case
+                #region Sprinting Case
                 case true when !playerAS.isPlaying 
-                               && (velocity2 = characterController.velocity).magnitude > 0f 
-                               && velocity2.magnitude < 1.5f:
+                               && characterController.velocity.magnitude > 0f 
+                               && characterController.velocity.magnitude < 6f:
                 {
+                    Debug.Log("Velocity : " + characterController.velocity.magnitude);
+                    Debug.Log("Sprinting case !");
                     var soundTaker = Random.Range(1, 2);
 
                     if (1 == soundTaker)
                     {
                         if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(dryCrouching, FootstepState.Crouching, playerAS));
+                            StartCoroutine(_PlayFootstep(drySprinting, FootstepState.Sprinting, playerAS));
                         }
-                        
                     }
 
                     else
                     {
                         if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(wetCrouching, FootstepState.Crouching, playerAS));
+                            StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.Sprinting, playerAS));
                         }
-                        
                     }
 
                     break;
+                    
                 }
                 #endregion
                 
                 #region Walking Case
-                case true when (velocity1 = characterController.velocity).magnitude > 0f 
+                case true when characterController.velocity.magnitude > 1f 
                                && !playerAS.isPlaying
-                               && velocity1.magnitude < 3f:
+                               && characterController.velocity.magnitude < 3f:
                 {
+                    
+                    Debug.Log("Walking case !");
+                    Debug.Log("Velocity : " + characterController.velocity.magnitude);
                     var soundTaker = Random.Range(1, 2);
 
 
@@ -141,33 +142,37 @@ public class FootstepEffect : MonoBehaviour
                 }
                 #endregion
                 
-                #region Sprinting Case
+                #region Crouching Case
                 case true when !playerAS.isPlaying 
-                               && (velocity = characterController.velocity).magnitude > 0f 
-                               && velocity.magnitude < 6f:
+                               && characterController.velocity.magnitude > 0f 
+                               && characterController.velocity.magnitude < 1.5f:
                 {
                     var soundTaker = Random.Range(1, 2);
-
+                
+                    Debug.Log("Crouching case !");
+                
                     if (1 == soundTaker)
                     {
                         if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(drySprinting, FootstepState.Sprinting, playerAS));
+                            StartCoroutine(_PlayFootstep(dryCrouching, FootstepState.Crouching, playerAS));
                         }
+                        
                     }
-
+                
                     else
                     {
                         if (!trueIsPlaying)
                         {
-                            StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.Sprinting, playerAS));
+                            StartCoroutine(_PlayFootstep(wetCrouching, FootstepState.Crouching, playerAS));
                         }
+                        
                     }
-
+                
                     break;
-                    
                 }
                 #endregion
+                
             }
 
                 
