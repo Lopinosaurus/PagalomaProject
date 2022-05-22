@@ -59,15 +59,13 @@ namespace MainGame.PlayerScripts
 
         private bool CanJump()
         {
-            // Check if it is a false detection
-            if (ignoredJumpedColliders.Count == 0) return false;
             // Check if there room to jump
             if (obstaclesAbsent.Any(j => j.IsColliding))
                 return false;
             // Check if there is an obstacle to vault over
             if (obstaclesPresent.Any(j => !j.IsColliding))
                 return false;
-            
+
             return true;
         }
     }

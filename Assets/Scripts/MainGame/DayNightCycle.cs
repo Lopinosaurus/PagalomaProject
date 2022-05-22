@@ -79,8 +79,8 @@ public class DayNightCycle : MonoBehaviour
         }
         
         // light rotation
-        sun.transform.eulerAngles = noon * ((time - 0.25f) * 4.0f);
-        moon.transform.eulerAngles = noon * ((time - 0.75f) * 4.0f);
+        sun.transform.eulerAngles = (time - 0.25f) * noon * 4.0f;
+        moon.transform.eulerAngles = (time - 0.75f) * noon * 4.0f;
         
         // light intensity
         sun.intensity = sunIntensity.Evaluate(time);
