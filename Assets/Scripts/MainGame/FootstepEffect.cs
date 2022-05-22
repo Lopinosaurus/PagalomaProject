@@ -13,6 +13,7 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] AudioClip wetCrouching;
     [SerializeField] AudioClip wetWalking;
     [SerializeField] AudioClip wetSprinting;
+    private int counter = 0;
     private bool trueIsPlaying;
     public static List<(CharacterController, AudioSource)> PlayersCc = new List<(CharacterController, AudioSource)>();
 
@@ -60,7 +61,7 @@ public class FootstepEffect : MonoBehaviour
     }
     #endregion
 
-    void Update()
+    void FixedUpdate()
     {
         if (PlayersCc is null)
         {
@@ -73,7 +74,9 @@ public class FootstepEffect : MonoBehaviour
         {
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
-
+            Debug.Log("Counter : " + counter);
+            counter++;
+            Debug.Log("Character Controller : " + characterController);
             Vector3 velocity;
             Vector3 velocity1;
             Vector3 velocity2;
