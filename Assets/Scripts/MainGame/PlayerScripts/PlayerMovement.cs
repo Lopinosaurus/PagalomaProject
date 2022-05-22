@@ -17,7 +17,7 @@ namespace MainGame.PlayerScripts
         private PlayerInput _playerInput;
 
         // Movement components
-        public CharacterController _characterController;
+        [HideInInspector] public CharacterController _characterController;
 
         private bool WantsCrouchHold { get; set; }
         private bool WantsSprint { get; set; }

@@ -27,7 +27,6 @@ namespace MainGame.PlayerScripts
         {
             // Start jumping
             bool canJump = CanJump();
-            Debug.Log($"WantsJump {WantsJump} | IsJumping {IsJumping} | canJump {canJump}");
             if (WantsJump && !IsJumping && canJump)
             {
                 // Ignore colliders

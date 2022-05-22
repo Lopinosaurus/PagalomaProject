@@ -58,7 +58,7 @@ public class AiController : MonoBehaviour
     [Space] [Header("Gameplay statistics")] [SerializeField]
     private AiState currentState = AiState.Relocate;
 
-    private float remainingTime;
+    private float remainingTime = 4;
     private int remainingHealth = 3;
 
     private bool _isAlive = true;
@@ -69,7 +69,7 @@ public class AiController : MonoBehaviour
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 1;
+    private const float CycleTime = 2;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
@@ -165,7 +165,6 @@ public class AiController : MonoBehaviour
             {
                 Destroy(gameObject);
                 
-                Debug.Log("IA Killed !");
                 iaSound.clip = iaKilled;
                 iaSound.Stop();
                 iaSound.Play();
@@ -182,6 +181,7 @@ public class AiController : MonoBehaviour
             case AiState.Hidden when _isAlive:
                 EnableMovementSpeed(Speed.Hiding);
 
+                float distFromTarget = DistFromTarget;
                 // Reduces the timer
                 if (!_isInCameraView)
                 {
@@ -191,12 +191,13 @@ public class AiController : MonoBehaviour
                 }
                 else
                 {
-                    remainingTime -= Time.fixedDeltaTime * 0.2f;
+
+                    remainingTime -= Time.deltaTime * 0.5f;
                     if (canShake)
                     {
                         canShake = false;
                         Debug.Log("should shake");
-                        _playerLook.StartShake(0.1f, 2);
+                        _playerLook.StartShake(0.1f, 5);
                     }
                 }
 
@@ -209,12 +210,11 @@ public class AiController : MonoBehaviour
                 // Teleports if too close or too far
                 else
                 {
-                    float distFromTarget = DistFromTarget;
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
                     bool tooClose = distFromTarget < minCriticalDistFromPlayer;
                     isDanger = distFromTarget < minFlee;
 
-                    if (tooClose || tooFar)
+                    if (remainingTime <= CycleTime && (tooClose || tooFar))
                     {
                         if (tooClose)
                         {
@@ -254,6 +254,9 @@ public class AiController : MonoBehaviour
                 SetTime(CycleTime);
 
                 _agent.SetDestination(FindHidingSpot(true));
+                SetCurrentState(AiState.Moving);
+                
+                Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.green, 1f, false);
 
                 // When the Ai has arrived, goes back to Hidden
                 if (_agent.remainingDistance < RemainingMinDistance)
@@ -305,7 +308,6 @@ public class AiController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Attacking player...", currentHidingObstacle);
                     iaSound.Stop();
                     iaSound.clip = stateOfShock;
                     iaSound.Play();
@@ -418,8 +420,9 @@ public class AiController : MonoBehaviour
 
         var correctCol = new List<(Collider, float)>();
 
-        foreach (Collider c in hitColliders)
+        for (var index = 0; index < hitColliders.Length && hitColliders[index] != null; index++)
         {
+            Collider c = hitColliders[index];
             // Skip invalids
             if (IsInvalidCollider(c) ||
                 (c.transform.position - targetPosition).sqrMagnitude <
@@ -428,14 +431,14 @@ public class AiController : MonoBehaviour
                 c == currentHidingObstacle ||
                 c == _capsuleCollider)
                 continue;
-            
+
             float sqrDist = (c.transform.position - _targetPlayer.transform.position).sqrMagnitude;
 
             InsertSorted(correctCol, c, sqrDist);
         }
 
         // Debug
-        for (int i = 0; i < hitColliders.Length; i++)
+        for (int i = 0; i < hitColliders.Length && hitColliders[i] != null; i++)
         {
             Debug.DrawRay(hitColliders[i].transform.position, Vector3.up * 10 + Vector3.back,
                 Color.Lerp(Color.red, Color.yellow, i / (float) hitColliders.Length),
@@ -475,6 +478,12 @@ public class AiController : MonoBehaviour
 
     private bool IsInvalidCollider(Collider c)
     {
+        var transformPosition = c.gameObject.transform.position;
+        
+        // Refreshes the camera planes
+        _targetPlanes = GeometryUtility.CalculateFrustumPlanes(_targetCam);
+        if (GeometryUtility.TestPlanesAABB(_targetPlanes, _capsuleCollider.bounds)) return true;
+        
         Type type = c.GetType();
         
         return !c.CompareTag("tree")
@@ -496,7 +505,7 @@ public class AiController : MonoBehaviour
             FindNewObstacle(largeSearch);
         }
 
-        Vector3 obstaclePosition = transform.position;
+        Vector3 obstaclePosition = _targetPlayer.transform.TransformDirection(Vector3.back * 10);
         try
         {
             obstaclePosition = currentHidingObstacle.transform.position;
