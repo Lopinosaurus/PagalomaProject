@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: b6979f866db8f524687256332279855e, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 99f42c1d5b1cbf441b95542f9519075f, type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -867,7 +867,7 @@ Light:
       e33: 1
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 1
+  m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -19610,8 +19610,8 @@ MonoBehaviour:
   moon: {fileID: 1521723916}
   moonColor:
     serializedVersion: 2
-    key0: {r: 0, g: 0.23899348, b: 0.8962264, a: 1}
-    key1: {r: 0, g: 0.26845646, b: 1, a: 1}
+    key0: {r: 0, g: 0.21273908, b: 0.7924528, a: 1}
+    key1: {r: 0, g: 0.15686275, b: 0.58431375, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -19634,7 +19634,7 @@ MonoBehaviour:
     atime5: 0
     atime6: 0
     atime7: 0
-    m_Mode: 1
+    m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   moonIntensity:

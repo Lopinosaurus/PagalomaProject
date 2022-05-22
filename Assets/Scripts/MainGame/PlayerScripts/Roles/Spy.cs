@@ -10,12 +10,6 @@ namespace MainGame.PlayerScripts.Roles
     public class Spy : Villager
     {
         [SerializeField] private SkinnedMeshRenderer PlayerRender;
-        [SerializeField] private Light _light;
-        
-        private readonly float lightIntensityDefault = 2;
-        private readonly float invisibilityDuration = 25;
-        
-        
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -47,15 +41,9 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
         IEnumerator UpdateInvisibility () {
-            
             PlayerRender.enabled = false;
-            _light.intensity = 0;
-            _playerMovement.StartModifySpeed(invisibilityDuration, 1.2f, 0.1f, 0.9f);
-            
-            yield return new WaitForSeconds(invisibilityDuration);
-            
+            yield return new WaitForSeconds(25);
             PlayerRender.enabled = true;
-            _light.intensity = lightIntensityDefault;
         }
 
         [PunRPC]

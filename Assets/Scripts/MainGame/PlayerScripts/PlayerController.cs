@@ -6,7 +6,6 @@ using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMovement)),
@@ -33,9 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject PlayerRender;
     [Range(-2, 2)] public float backShift = -0.23f;
 
-    // Light
-    [SerializeField] private GameObject Lamp;
-    
+
     // Player Controls
     public PlayerControls PlayerControls;
 
@@ -55,8 +52,6 @@ public class PlayerController : MonoBehaviour
     // Sound for Ai
     [SerializeField] private AudioClip aiSound;
     [SerializeField] private AudioSource plyAudioSource;
-
-    private Light _lampLight;
     // [SerializeField] [Range(0f, 1f)] private float slider;
 
     #endregion
@@ -93,6 +88,28 @@ public class PlayerController : MonoBehaviour
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
+
+        // Ai
+        _role = GetComponent<Role>();
+
+        try
+        {
+            villageTransform = GameObject.FindWithTag("village").transform;
+
+            var t = RoomManager.Instance.players;
+            playerPositions = new List<Transform>();
+            foreach (var role in t)
+            {
+                if (role.userId != _role.userId)
+                {
+                    playerPositions.Add(role.gameObject.transform);
+                }
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("No RoomManager found ! (PlayerController)");
+        }
     }
 
     internal void Start()
@@ -113,34 +130,6 @@ public class PlayerController : MonoBehaviour
         }
         StartCoroutine(TimeScaler());*/
         
-        _role = GetComponent<Role>();
-        
-        // Starts the light management
-        _lampLight = Lamp.GetComponent<Light>();
-        StartCoroutine(LightManager());
-        
-        // Pre-start Ai
-        {
-            try
-            {
-                villageTransform = GameObject.FindWithTag("village").transform;
-
-                var t = RoomManager.Instance.players;
-                playerPositions = new List<Transform>();
-                foreach (var role in t)
-                {
-                    if (role.userId != _role.userId)
-                    {
-                        playerPositions.Add(role.gameObject.transform);
-                    }
-                }
-            }
-            catch
-            {
-                Debug.LogWarning("No RoomManager found ! (PlayerController)");
-            }
-        }
-        
         // Starts the Ai
         if (!_photonView.IsMine)
         {
@@ -157,38 +146,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    private IEnumerator LightManager()
-    {
-        // Non-werewolves don't see lights
-        if (RoomManager.Instance.localPlayer.GetType() != typeof(Werewolf))
-        {
-            _lampLight.intensity = 0;
-            yield break;
-        }
-
-        // Werewolves have a red light, others have a white one
-        _lampLight.color = _role.GetType() == typeof(Werewolf) ? Color.red : Color.white;
-
-        while (true)
-        {
-            // It's day, turn off light
-            _lampLight.intensity = 0;
-            
-            yield return new WaitUntil(() => VoteMenu.Instance.isNight);
-            
-            // It's night, turn on light
-            _lampLight.intensity = 2;
-            
-            yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
-        }
-    }
-
+    
     private IEnumerator AiCreator()
     {
-        // Werewolves are not affected
-        if (_role.GetType() == typeof(Werewolf)) yield break;
-        
         while (true)
         {
             if (CanAiSpawn())
