@@ -104,12 +104,12 @@ public class PlayerAnimation : MonoBehaviour
         if (toWerewolf)
         {
             _currentAnimator.avatar = _werewolfAvatar;
-            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 0);
+            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 1);
         }
         else
         {
             _currentAnimator.avatar = _villagerAvatar;
-            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 1);
+            _currentAnimator.SetLayerWeight(_WerewolfLayerIndex, 0);
         }        
     }
     

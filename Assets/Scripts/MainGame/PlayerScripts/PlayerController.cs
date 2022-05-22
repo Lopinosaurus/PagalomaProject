@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
         _lampLight.intensity = 0;
         
         // Non-werewolves don't see lights
-        if (RoomManager.Instance.localPlayer.GetType() == typeof(Werewolf))
+        if (RoomManager.Instance.localPlayer.GetType() == typeof(Werewolf) && _photonView.IsMine)
         {
             while (true)
             {
