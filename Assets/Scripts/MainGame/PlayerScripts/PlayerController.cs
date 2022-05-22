@@ -8,6 +8,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 
 [RequireComponent(typeof(PlayerMovement)),
  RequireComponent(typeof(PlayerLook))]
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
     private Camera _cam;
+    private PostProcessLayer _postPross;
     private AudioListener _audioListener;
 
     // First person management
@@ -86,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
         // Camera component
         _cam = cameraHolder.GetComponentInChildren<Camera>();
+        _postPross = cameraHolder.GetComponentInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
         if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
@@ -143,6 +146,7 @@ public class PlayerController : MonoBehaviour
         // Starts the Ai
         if (!_photonView.IsMine)
         {
+            Destroy(_postPross);
             Destroy(_cam);
             Destroy(_audioListener);
             playerInput.enabled = false;
