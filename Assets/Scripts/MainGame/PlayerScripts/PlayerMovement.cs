@@ -287,15 +287,15 @@ namespace MainGame.PlayerScripts
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeight;
-                    desiredCameraProf = 0.2f;
                 }
                 else
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
-                    desiredCameraHeight = 2;
-                    desiredCameraProf = 1;
+                    desiredCameraHeight = 3;
                 }
             }
+
+            desiredCameraProf = isWerewolf ? 1 : 0.2f;
 
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;

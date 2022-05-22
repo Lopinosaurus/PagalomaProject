@@ -10,6 +10,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Spy : Villager
     {
         [SerializeField] private SkinnedMeshRenderer PlayerRender;
+        [SerializeField] private Light _light;
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -42,7 +43,9 @@ namespace MainGame.PlayerScripts.Roles
         }
         IEnumerator UpdateInvisibility () {
             PlayerRender.enabled = false;
+            _light.intensity = 0;
             yield return new WaitForSeconds(25);
+            if (VoteMenu.Instance.isNight) _light.intensity = 2;
             PlayerRender.enabled = true;
         }
 
