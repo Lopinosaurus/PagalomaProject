@@ -15,6 +15,8 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
+        
+        private const float werewolfDuration = 60;
 
         public List<Role> _targets = new List<Role>();
         public bool isTransformed = false;
@@ -106,12 +108,22 @@ namespace MainGame.PlayerScripts.Roles
             if (isTransformation)
             {
                 isTransformed = true;
-                _playerMovement.StartModifySpeed(60, 1.7f, 0, 1);
-                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(60));
+                _playerMovement.StartModifySpeed(werewolfDuration, 1.15f, 0, 1);
+                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(werewolfDuration));
             }
             // DeTransformation
             else
             {
+                // Removes speed boost
+                try
+                {
+                    StopCoroutine(nameof(_playerMovement.ModifySpeed));
+                }
+                catch
+                {
+                    _playerMovement.StartModifySpeed(0.1f, _playerMovement.BaseSpeedMult, 1, 1);
+                }
+                
                 isTransformed = false;
                 hasCooldown = true;
             }
@@ -122,7 +134,7 @@ namespace MainGame.PlayerScripts.Roles
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player"); 
         }
 
-        private IEnumerator DeTransformationCoroutine(int delay)
+        private IEnumerator DeTransformationCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
             DeTransformation();

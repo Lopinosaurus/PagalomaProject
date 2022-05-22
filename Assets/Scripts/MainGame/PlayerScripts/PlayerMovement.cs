@@ -28,7 +28,7 @@ namespace MainGame.PlayerScripts
         [SerializeField] private float currentSpeed;
         public float currentSpeedMult = 1;
         public int nbBushes;
-        private const float BaseSpeedMult = 1;
+        public readonly float BaseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
@@ -315,8 +315,8 @@ namespace MainGame.PlayerScripts
             
             StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
         }
-        
-        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
+
+        internal IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
         {
             float timer = 0;
             var lastCurrentMult = currentSpeedMult;
