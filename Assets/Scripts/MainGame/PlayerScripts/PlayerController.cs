@@ -164,14 +164,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator LightManager()
     {
         _lampLight.intensity = 0;
-
         
         // Non-werewolves don't see lights
         if (RoomManager.Instance.localPlayer.GetType() == typeof(Werewolf))
         {
-            // Werewolves have a red light, others have a white one
-            _lampLight.color = _role.GetType() == typeof(Werewolf) ? Color.red : Color.white;
-
             while (true)
             {
                 // It's day, turn off light
@@ -180,10 +176,10 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitUntil(() => VoteMenu.Instance.isNight);
             
                 // It's night, turn on light
-                _lampLight.intensity = 2;
+                _lampLight.intensity = 1;
             
-                yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
-            }
+                yield return new WaitUntil(() => !VoteMenu.Instance.isNight);   
+            }    
         }
     }
 
