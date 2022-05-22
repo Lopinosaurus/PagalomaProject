@@ -322,10 +322,10 @@ namespace MainGame.PlayerScripts
             var lastCurrentMult = currentSpeedMult;
 
             // First value
-            while (timer < duration * startTime)
+            while (timer <= duration * startTime)
             {
-                var progress = timer / (duration * startTime);
-                
+                float progress = startTime > 0 ? timer / (duration * startTime) : 1;
+
                 timer += Time.deltaTime;
                 currentSpeedMult = Mathf.Lerp(lastCurrentMult, targetValue, progress);
 
@@ -333,7 +333,7 @@ namespace MainGame.PlayerScripts
             }
             
             // Waits for endTime
-            while (timer < duration * endTime)
+            while (timer <= duration * endTime)
             {
                 timer += Time.deltaTime;
 
@@ -342,7 +342,7 @@ namespace MainGame.PlayerScripts
             
             // Second value
             lastCurrentMult = currentSpeedMult;
-            while (timer < duration)
+            while (timer <= duration)
             {
                 var progress = (timer - duration * endTime) / (duration * (1 - endTime));
                 
@@ -357,7 +357,13 @@ namespace MainGame.PlayerScripts
 
         private void Update()
         {
-             if (Input.GetKeyDown(KeyCode.T)) StartModifySpeed(5, target, 0, 1);
+             if (Input.GetKeyDown(KeyCode.A))
+             {
+                 Debug.Log("ok");
+                 StartModifySpeed(5, target, 0, 1);
+             }
+             
+             Debug.Log($"mult = {currentSpeedMult}");
         }
     }
 }
