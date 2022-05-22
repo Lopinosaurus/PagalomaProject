@@ -91,18 +91,7 @@ namespace MainGame.PlayerScripts.Roles
             
             // Deactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
-            
-            // Wait
-            yield return new WaitForSeconds(1);
-            
-            VillagerRenderer.SetActive(!isTransformation);
-            WereWolfRenderer.SetActive(isTransformation);
-            
-            // Wait for 4 seconds
-            yield return new WaitForSeconds(4);
-
-            // Changes the animator
-            _playerAnimation.EnableWerewolfAnimations(isTransformation);
+            Debug.Log(_playerInput.currentActionMap);
             
             // Transformation 
             if (isTransformation)
@@ -127,11 +116,24 @@ namespace MainGame.PlayerScripts.Roles
                 isTransformed = false;
                 hasCooldown = true;
             }
-
+            
             UpdateActionText();
             
+            // Wait
+            yield return new WaitForSeconds(1);
+            
+            VillagerRenderer.SetActive(!isTransformation);
+            WereWolfRenderer.SetActive(isTransformation);
+            
+            // Wait for 4 seconds
+            yield return new WaitForSeconds(4);
+
+            // Changes the animator
+            _playerAnimation.EnableWerewolfAnimations(isTransformation);
+
             // Reactivate controls
-            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player"); 
+            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player");
+            Debug.Log(_playerInput.currentActionMap);
         }
 
         private IEnumerator DeTransformationCoroutine(float delay)
