@@ -74,22 +74,22 @@ public class FootstepEffect : MonoBehaviour
         {
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
-            Debug.Log("Character Controller : " + characterController);
+            var playerMovement = characterController.gameObject.GetComponent<PlayerMovement>();
+            var playerState = playerMovement.gameObject.GetComponent<PlayerMovement.MovementTypes>();
             // Avoid fatal error on destruction
+            // Do not listen to Rider, both conditions are mandatory.
             if (characterController is null || characterController == null)
                 return;
             
-            switch (characterController.gameObject.GetComponent<PlayerMovement>().grounded)
+            switch (playerMovement.grounded)
             {
                 #region Sprinting Case
                 case true when !playerAS.isPlaying 
-                               && characterController.velocity.magnitude > 0f 
-                               && characterController.velocity.magnitude < 6f:
+                               && playerState == PlayerMovement.MovementTypes.Sprint:
                 {
-                    Debug.Log("Velocity : " + characterController.velocity.magnitude);
                     Debug.Log("Sprinting case !");
                     var soundTaker = Random.Range(1, 2);
-
+            
                     if (1 == soundTaker)
                     {
                         if (!trueIsPlaying)
@@ -97,7 +97,7 @@ public class FootstepEffect : MonoBehaviour
                             StartCoroutine(_PlayFootstep(drySprinting, FootstepState.Sprinting, playerAS));
                         }
                     }
-
+            
                     else
                     {
                         if (!trueIsPlaying)
@@ -105,23 +105,23 @@ public class FootstepEffect : MonoBehaviour
                             StartCoroutine(_PlayFootstep(wetSprinting, FootstepState.Sprinting, playerAS));
                         }
                     }
-
+            
                     break;
                     
                 }
                 #endregion
                 
                 #region Walking Case
-                case true when characterController.velocity.magnitude > 1f 
-                               && !playerAS.isPlaying
-                               && characterController.velocity.magnitude < 3f:
+                case true when !playerAS.isPlaying
+                               && playerState == PlayerMovement.MovementTypes.Walk:
+                               
                 {
                     
                     Debug.Log("Walking case !");
                     Debug.Log("Velocity : " + characterController.velocity.magnitude);
                     var soundTaker = Random.Range(1, 2);
-
-
+            
+            
                     if (1 == soundTaker)
                     {
                         if (!trueIsPlaying)
@@ -129,7 +129,7 @@ public class FootstepEffect : MonoBehaviour
                             StartCoroutine(_PlayFootstep(dryWalking, FootstepState.Walking, playerAS));
                         }
                     }
-
+            
                     else
                     {
                         if (!trueIsPlaying)
@@ -137,15 +137,14 @@ public class FootstepEffect : MonoBehaviour
                             StartCoroutine(_PlayFootstep(wetWalking, FootstepState.Walking, playerAS));
                         }
                     }
-
+            
                     break;
                 }
                 #endregion
                 
                 #region Crouching Case
                 case true when !playerAS.isPlaying 
-                               && characterController.velocity.magnitude > 0f 
-                               && characterController.velocity.magnitude < 1.5f:
+                               && playerState == PlayerMovement.MovementTypes.Crouch:
                 {
                     var soundTaker = Random.Range(1, 2);
                 
