@@ -35,19 +35,19 @@ public class FootstepEffect : MonoBehaviour
         switch (state)
         {
             case FootstepState.Crouching:
-                plyFoot.volume = Random.Range(.05f, .1f);
+                plyFoot.volume = Random.Range(.03f, .08f);
                 plyFoot.pitch = Random.Range(.8f, 1.1f);
                 plyFoot.Play();
                 yield return new WaitForSeconds(.8f);
                 break;
             case FootstepState.Walking:
-                plyFoot.volume = Random.Range(.08f, .12f);
+                plyFoot.volume = Random.Range(.06f, .08f);
                 plyFoot.pitch = Random.Range(.8f, 1.1f);
                 plyFoot.Play();
                 yield return new WaitForSeconds(.5f);
                 break;
             case FootstepState.Sprinting:
-                plyFoot.volume = Random.Range(.08f, .15f);
+                plyFoot.volume = Random.Range(.06f, .08f);
                 plyFoot.pitch = Random.Range(.8f, 1.1f);
                 plyFoot.Play();
                 yield return null;
