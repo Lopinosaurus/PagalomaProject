@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -65,6 +66,7 @@ namespace MainGame.PlayerScripts
         private float _standingCameraHeight;
         private float _crouchedCameraHeight;
         [SerializeField] [Range(0f, 5f)] private float target;
+        private Role _role;
 
         public enum MovementTypes
         {
@@ -102,6 +104,8 @@ namespace MainGame.PlayerScripts
 
         private void Start()
         {
+            _role = GetComponent<Role>();
+            
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw3D = Vector3.zero;
@@ -179,7 +183,14 @@ namespace MainGame.PlayerScripts
 
         private void UpdateMovementState()
         {
-            if (WantsCrouchHold)
+            bool isWerewolf = false;
+            try
+            {
+                isWerewolf = ((Werewolf) _role).isTransformed;
+            }
+            catch  { }
+            
+            if (WantsCrouchHold && !isWerewolf)
             {
                 currentMovementType = MovementTypes.Crouch;
             }
@@ -257,16 +268,33 @@ namespace MainGame.PlayerScripts
             float desiredHitboxHeight;
             float desiredCameraHeight;
             
-            switch (currentMovementType)
+            bool isWerewolf = false;
+            try
             {
-                case MovementTypes.Crouch:
-                    desiredHitboxHeight = _crouchedHitboxHeight;
-                    desiredCameraHeight = _crouchedCameraHeight;
-                    break;
-                default:
+                isWerewolf = ((Werewolf) _role).isTransformed;
+            }
+            catch  { }
+
+            float desiredCameraProf = 0.2f;
+            if (currentMovementType == MovementTypes.Crouch)
+            {
+                desiredHitboxHeight = _crouchedHitboxHeight;
+                desiredCameraHeight = _crouchedCameraHeight;
+            }
+            else
+            {
+                if (!isWerewolf)
+                {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeight;
-                    break;
+                    desiredCameraProf = 0.2f;
+                }
+                else
+                {
+                    desiredHitboxHeight = _standingHitboxHeight;
+                    desiredCameraHeight = 2;
+                    desiredCameraProf = 1;
+                }
             }
 
             // Character controller modifier
@@ -281,7 +309,10 @@ namespace MainGame.PlayerScripts
             // Camera height modifier
             var localPosition = cameraHolder.transform.localPosition;
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
+            localPosition.z =  Mathf.Lerp(localPosition.z, desiredCameraProf, smoothTime);
             cameraHolder.transform.localPosition = localPosition;
+            
+            
         }
     
         #endregion
