@@ -60,7 +60,7 @@ public class FootstepEffect : MonoBehaviour
     }
     #endregion
 
-    void Update()
+    void FixedUpdate()
     {
         if (PlayersCc is null)
         {
@@ -73,7 +73,7 @@ public class FootstepEffect : MonoBehaviour
         {
             CharacterController characterController = playerData.Item1;
             AudioSource playerAS = playerData.Item2;
-
+            Debug.Log("Character Controller : " + characterController);
             Vector3 velocity;
             Vector3 velocity1;
             Vector3 velocity2;
@@ -165,10 +165,12 @@ public class FootstepEffect : MonoBehaviour
                     }
 
                     break;
+                    
                 }
+                #endregion
             }
 
-                #endregion
+                
         }
     }
 }
