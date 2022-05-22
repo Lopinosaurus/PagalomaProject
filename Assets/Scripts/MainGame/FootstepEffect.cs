@@ -165,10 +165,12 @@ public class FootstepEffect : MonoBehaviour
                     }
 
                     break;
+                    
                 }
+                #endregion
             }
 
-                #endregion
+                
         }
     }
 }
