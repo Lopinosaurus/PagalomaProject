@@ -150,7 +150,7 @@ public class FootstepEffect : MonoBehaviour
                     var soundTaker = Random.Range(1, 2);
                 
                     Debug.Log("Crouching case !");
-                
+                    Debug.Log("Velocity : " + characterController.velocity.magnitude);
                     if (1 == soundTaker)
                     {
                         if (!trueIsPlaying)
