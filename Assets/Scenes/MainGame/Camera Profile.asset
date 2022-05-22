@@ -18,9 +18,9 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 270
+    value: 20
   sampleCount:
-    overrideState: 1
+    overrideState: 0
     value: 10
 --- !u!114 &-3788641622090560079
 MonoBehaviour:
@@ -90,7 +90,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0.86
+    value: 0
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -138,8 +138,6 @@ MonoBehaviour:
   - {fileID: 2374505246846069149}
   - {fileID: 2555036199009427512}
   - {fileID: 717647104663789074}
-  - {fileID: 2646053121702628966}
-  - {fileID: 6565735050976765959}
 --- !u!114 &717647104663789074
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1532,34 +1530,6 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &2646053121702628966
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 0
-    value: 10
-  aperture:
-    overrideState: 0
-    value: 5.6
-  focalLength:
-    overrideState: 0
-    value: 50
-  kernelSize:
-    overrideState: 0
-    value: 1
 --- !u!114 &3403306440382189986
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1584,39 +1554,5 @@ MonoBehaviour:
     overrideState: 1
     value: 0.05
   fastMode:
-    overrideState: 0
-    value: 1
---- !u!114 &6565735050976765959
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
-  m_Name: LensDistortion
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
     overrideState: 1
-    value: 1
-  intensity:
-    overrideState: 1
-    value: 42
-  intensityX:
-    overrideState: 1
-    value: 0
-  intensityY:
-    overrideState: 0
-    value: 1
-  centerX:
-    overrideState: 0
-    value: 0
-  centerY:
-    overrideState: 0
-    value: 0
-  scale:
-    overrideState: 0
     value: 1
