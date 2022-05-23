@@ -4,23 +4,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Lopinosaurus/PagalomaProject">
-    <img src="images/logo.png" alt="Future Logo" width="80" height="80">
+  <a href="https://github.com/Pagaloma-Studio/Open-Beta-Lycans">
+    <img src="https://github.com/Pagaloma-Studio/Open-Beta-Lycans/blob/main/images/V7.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">Lycans</h3>
 
   <p align="center">
-    By Pagaloma Studio
+    DEBATE - HIDE - SURVIVE
     <br />
-    <a href="https://github.com/Lopinosaurus/PagalomaProject"><strong>Explore the docs »</strong></a>
+    <a href="https://lycans.games"><strong>Explore the official site »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Lopinosaurus/PagalomaProject">View Demo (Currently not active)</a>
+    <a href="https://github.com/Pagaloma-Studio/Open-Beta-Lycans/blob/main/Lycans-beta-1-0-setup.exe?raw=true">Download Open Beta Test</a>
     ·
-    <a href="https://github.com/Lopinosaurus/PagalomaProject/issues">Report Bug (Currently not active)</a>
+    <a href="https://github.com/Pagaloma-Studio/Open-Beta-Lycans/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Lopinosaurus/PagalomaProject/issues">Request Feature</a>
+    <a href="https://github.com/Pagaloma-Studio/Open-Beta-Lycans/issues">Request Feature</a>
   </p>
 </div>
 
@@ -31,7 +31,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About Our Game</a>
+      <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
@@ -43,10 +43,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -57,19 +54,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Future Screen Shot][product-screenshot]](https://example.com)
+**Lycans** is a school project created by our team, Pagaloma Studio. It is a 3D First-Person Strategy Game, inspired by among us, the werewolves game, and multiple Minecraft "Mumble" UHC gamemodes. 
+The players are dispatched into two teams : Villagers and Werewolves. The main goal of villagers is to eliminate all the werewolves before getting killed. The werewolves have to kill everybody, without acting suspicious.
+On the day, all the players can vote against the person they find the most suspect. On the night, werewolves can take their actual form, and devour villagers.
 
-Lycans will be a 3D strategy game using vocal proxy. It is currently In-Dev by Pagaloma Studio.
+A game is over when an entire team has been eliminated.
 
-Planned Features:
-
-- First Person View
-- Several roles
-- Tasks
-- Day / Night cycle
-
-[coming soon]
-
+To balance the game, some villagers have special powers : 
+- The Priest, who can give immortality to a player during a night
+- The Seer, who can reveal the role of the player of her choice
+- The Spy, who can turn invisible during 25seconds
+- The Lycan, who is marked as werewolf if observed by the seer
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -77,64 +72,60 @@ Planned Features:
 
 ### Built With
 
+Here are all the software or languages used to build Lycans.
 
-
-* [Unity](https://unity.com/fr)
-* [C#](https://docs.microsoft.com/fr-fr/dotnet/csharp/)
-* [VSCODE](https://code.visualstudio.com/)
-
+* [Unity](https://unity.com/) - The engine of our game
+* [C#](https://dotnet.microsoft.com/en-us/languages/csharp) - Programming language used by Unity to build scripts
+* [Blender](https://www.blender.org/) - How we made 3D models
+* [Mixamo](https://www.mixamo.com/) - What we used to animate our characters
+* [PhotonNetwork](https://doc-api.photonengine.com/en/pun/v1/class_photon_network.html) - How we made our game multiplayer
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-[coming soon]
+
+This part is a guide to install Lycans on your computer.
 
 ### Prerequisites
 
-[coming soon]
+Currently, Lycans is not built for Linux or MacOS system. You will need a computer using Windows 7 or above. However, an installer for debian is currently in development. 
 
-## Installation
+### Installation
 
-[not coming soon]
+Here are the steps to follow if you want to install Lycans :
+
+1. [Download](https://github.com/Pagaloma-Studio/Open-Beta-Lycans/blob/main/Lycans-beta-1-0-setup.exe?raw=true) the installer
+2. Execute the installer. If Windows tries to warn you, this is actually normal, as our application is not signed yet. However, the installation is completely safe, as you can see on our [VirusTotal test](https://www.virustotal.com/gui/file/b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd?nocache=1). If you want to test yourself, make sure the checksum of the binary is :
+```
+b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd
+```
+3. Follow the steps on the installer.
+4. That's it ! If you want to uninstall Lycans, simply go where you installed it, and run `unins000.exe`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
-## Screenshots
-
-[coming soon]
-
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-[coming soon]
-
+As Lycans' code is not open-source, you will not be able to fork the project to propose a code modification (the source code repository is private). However, feel free to [open an issue](https://github.com/Pagaloma-Studio/Open-Beta-Lycans/issues) if you want to propose a feature or report a bug.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-<!-- LICENSE -->
-## License
-
-Currently no License
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- CONTACT -->
 ## Contact
 
-[coming soon]
+Join our [Discord Server](https://discord.gg/Ee4h6wZ3H3) !
+
+Project Official Site: https://lycans.games
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -142,30 +133,11 @@ Currently no License
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-[coming soon]
 
-<!--* [Choose an Open Source License](https://choosealicense.com)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)-->
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+
+* [Brackeys](https://www.youtube.com/c/Brackeys) <3
+* [README template](https://github.com/othneildrew/Best-README-Template) <3
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
