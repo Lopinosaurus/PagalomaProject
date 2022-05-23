@@ -107,9 +107,6 @@ b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
