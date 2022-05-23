@@ -101,6 +101,10 @@ Here are the steps to follow if you want to install Lycans :
 ```
 b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd
 ```
+or MD5 :
+```
+0fb5a24cd19260c053bd38a2e50601a0
+```
 3. Follow the steps on the installer.
 4. That's it ! If you want to uninstall Lycans, simply go where you installed it, and run `unins000.exe`
 
