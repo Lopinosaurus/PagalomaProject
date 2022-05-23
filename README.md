@@ -131,7 +131,7 @@ Project Official Site: https://lycans.games
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+Helpful ressources :
 
 * [Brackeys](https://www.youtube.com/c/Brackeys) <3
 * [README template](https://github.com/othneildrew/Best-README-Template) <3
