@@ -5513,7 +5513,6 @@ MonoBehaviour:
   _cameraHolder: {fileID: 1141215766398316333}
   _playerInput: {fileID: 5554154994360629918}
   PlayerRender: {fileID: 6153505616566498493}
-  _light: {fileID: 6658514047362406684}
 --- !u!114 &1185351168579791139
 MonoBehaviour:
   m_ObjectHideFlags: 0

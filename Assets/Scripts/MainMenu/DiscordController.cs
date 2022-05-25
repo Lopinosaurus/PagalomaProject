@@ -9,28 +9,43 @@ public class DiscordController : MonoBehaviour
     public Discord.Discord discord;
     void Start()
     {
-        discord = new Discord.Discord(976739443060932638, (System.UInt64) Discord.CreateFlags.Default);
-        var activityManager = discord.GetActivityManager();
-        var activity = new Discord.Activity
+        try
         {
-            Details = "DEBATE - HIDE - SURVIVE",
-            State = "Play for free at www.lycans.games",
-            Assets = 
+            discord = new Discord.Discord(976739443060932638, (System.UInt64) Discord.CreateFlags.Default);
+            var activityManager = discord.GetActivityManager();
+            var activity = new Discord.Activity
             {
-                LargeImage = "v7"
-            }
-        };
-        activityManager.UpdateActivity(activity, (res) =>
+                Details = "DEBATE - HIDE - SURVIVE",
+                State = "Play for free at www.lycans.games",
+                Assets =
+                {
+                    LargeImage = "v7"
+                }
+            };
+            activityManager.UpdateActivity(activity, (res) =>
+            {
+                if (res == Discord.Result.Ok)
+                    Debug.Log("Discord activity has been set up");
+                else
+                    Debug.Log("Discord activity could not be found !");
+            });
+        }
+
+        catch
         {
-            if (res == Discord.Result.Ok)
-                Debug.Log("Discord activity has been set up");
-            else
-                Debug.Log("Discord activity could not be found !");
-        });
+            Debug.Log("Discord not launched on game start !");
+        }
     }
 
     void Update()
     {
-        discord.RunCallbacks();
+        try
+        {
+            discord.RunCallbacks();
+        }
+        catch
+        {
+            // Avoiding game crash if Discord not launched
+        }
     }
 }
