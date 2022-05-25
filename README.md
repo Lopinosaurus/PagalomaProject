@@ -97,13 +97,13 @@ Currently, Lycans is not built for Linux or MacOS system. You will need a comput
 Here are the steps to follow if you want to install Lycans :
 
 1. [Download](https://github.com/Pagaloma-Studio/Open-Beta-Lycans/blob/main/Lycans-beta-1-0-setup.exe?raw=true) the installer
-2. Execute the installer. If Windows tries to warn you, this is actually normal, as our application is not signed yet. However, the installation is completely safe, as you can see on our [VirusTotal test](https://www.virustotal.com/gui/file/b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd?nocache=1). If you want to test yourself, make sure the checksum of the binary is :
+2. Execute the installer. If Windows tries to warn you, this is actually normal, as our application is not signed yet. However, the installation is completely safe, as you can see on our [VirusTotal test](https://www.virustotal.com/gui/file/26288ca51d76019c3fc15ae283655c55d5e339ac3ee97266aa45c3ae31811bf3?nocache=1). If you want to test yourself, make sure the checksum of the binary is :
 ```
-b1bbfb150172489d6599d30f66e84e7fa6a5e74b703759d2ed142be40bda5ffd
+26288ca51d76019c3fc15ae283655c55d5e339ac3ee97266aa45c3ae31811bf3
 ```
 or MD5 :
 ```
-0fb5a24cd19260c053bd38a2e50601a0
+E521C184D88ACEE9ECB5E5F07347598F
 ```
 3. Follow the steps on the installer.
 4. That's it ! If you want to uninstall Lycans, simply go where you installed it, and run `unins000.exe`
