@@ -120,7 +120,9 @@ namespace MainGame.PlayerScripts
             // For glitch cc abuse
             foreach (var role in RoomManager.Instance.players)
             {
-                Physics.IgnoreCollision(_characterController, role.gameObject.GetComponent<CharacterController>());
+                Physics.IgnoreCollision(_characterController,
+                    role.gameObject.GetComponent<CharacterController>(),
+                    true);
             }
             
             // for the ZQSD movements
