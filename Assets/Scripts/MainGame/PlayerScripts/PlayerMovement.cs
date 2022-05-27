@@ -117,6 +117,12 @@ namespace MainGame.PlayerScripts
 
         private void Start()
         {
+            // For glitch cc abuse
+            foreach (var role in RoomManager.Instance.players)
+            {
+                Physics.IgnoreCollision(_characterController, role.gameObject.GetComponent<CharacterController>());
+            }
+            
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw3D = Vector3.zero;
