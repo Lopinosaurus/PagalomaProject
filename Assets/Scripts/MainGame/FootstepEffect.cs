@@ -86,8 +86,6 @@ public class FootstepEffect : MonoBehaviour
                                && characterController.velocity.magnitude > 0f 
                                && characterController.velocity.magnitude < 6f:
                 {
-                    Debug.Log("Velocity : " + characterController.velocity.magnitude);
-                    Debug.Log("Sprinting case !");
                     var soundTaker = Random.Range(1, 2);
 
                     if (1 == soundTaker)

@@ -61,10 +61,13 @@ namespace MainGame.PlayerScripts.Roles
             _characterController = GetComponent<CharacterController>();
             cam = _cameraHolder.GetComponentInChildren<Camera>();
             _photonView = GetComponent<PhotonView>();
-            actionText = RoomManager.Instance.actionText;
-            deathText = RoomManager.Instance.deathText;
-            actionText.text = "";
-            deathText.enabled = false;
+            if (RoomManager.Instance != null)
+            {
+                actionText = RoomManager.Instance.actionText;
+                deathText = RoomManager.Instance.deathText;
+            }
+            if (actionText != null) actionText.text = "";
+            if (deathText != null) deathText.enabled = false;
             hasVoted = false;
         }
 

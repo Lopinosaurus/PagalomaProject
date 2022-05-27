@@ -43,6 +43,7 @@ namespace MainGame.PlayerScripts
 
         public Vector3 localMoveAmountNormalized;
         private Vector3 _inputMoveRaw3D;
+        public Vector3 InputMoveRaw3D => _inputMoveRaw3D;
 
         // Gravity
         [Space] [Header("Gravity settings")]
@@ -57,16 +58,25 @@ namespace MainGame.PlayerScripts
         public bool isSphereGrounded { get; set; }
         private bool isCCgrounded { get; set; }
 
+
         // Crouch & Hitboxes 
         [Space]
         [Header("Player height settings")]
         [SerializeField] private float crouchSmoothTime = 10;
         private float _standingHitboxHeight;
         private float _crouchedHitboxHeight;
-        private float _standingCameraHeight;
+        
+        private float _standingCameraHeightVillager;
+        private float _standingCameraHeightWerewolf;
         private float _crouchedCameraHeight;
+        
+        private float _camDepthVillager;
+        private float _camDepthWerewolf;
+
         [SerializeField] [Range(0f, 5f)] private float target;
         private Role _role;
+        private Werewolf _werewolf = null;
+        private bool isWerewolf = false;
 
         public enum MovementTypes
         {
@@ -84,7 +94,6 @@ namespace MainGame.PlayerScripts
         {
             nbBushes = 0;
             _playerInput = GetComponent<PlayerInput>();
-            GetComponent<PhotonView>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
 
@@ -93,18 +102,35 @@ namespace MainGame.PlayerScripts
             
             raySize = _characterController.radius * 1.1f;
         
+            // Hitboxes
             float hitboxHeight = _characterController.height;
             _standingHitboxHeight = hitboxHeight;
             _crouchedHitboxHeight = hitboxHeight * 0.7f;
 
-            float camHeight = cameraHolder.transform.localPosition.y;
-            _standingCameraHeight = camHeight;
-            _crouchedCameraHeight = camHeight * 0.7f;
+            // Cam heights
+            Vector3 camPos = cameraHolder.transform.localPosition;
+            _standingCameraHeightVillager = camPos.y;
+            _standingCameraHeightWerewolf = 3;
+            _crouchedCameraHeight = camPos.y * 0.7f;
+            
+            // Profs
+            _camDepthVillager = camPos.z;
+            _camDepthWerewolf = 1;
         }
 
         private void Start()
         {
             _role = GetComponent<Role>();
+            if (_role is Werewolf werewolf)
+            {
+                _werewolf = werewolf;
+                isWerewolf = true;
+                Debug.Log("IS WEREWOLF");
+            }
+            else
+            {
+                Debug.Log("NOT WEREWOLF");
+            }
             
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
@@ -138,9 +164,9 @@ namespace MainGame.PlayerScripts
         {
             Vector3 inputMoveNormalized3D = new Vector3
             {
-                x = _inputMoveRaw3D.x,
+                x = InputMoveRaw3D.x,
                 y = 0.0f,
-                z = _inputMoveRaw3D.z
+                z = InputMoveRaw3D.z
             }.normalized;
             
             // Updates the grounded boolean state
@@ -183,18 +209,11 @@ namespace MainGame.PlayerScripts
 
         private void UpdateMovementState()
         {
-            bool isWerewolf = false;
-            try
-            {
-                isWerewolf = ((Werewolf) _role).isTransformed;
-            }
-            catch  { }
-            
             if (WantsCrouchHold && !isWerewolf)
             {
                 currentMovementType = MovementTypes.Crouch;
             }
-            else if (Vector3.zero == _inputMoveRaw3D)
+            else if (Vector3.zero == InputMoveRaw3D)
             {
                 currentMovementType = MovementTypes.Stand;
             }
@@ -267,15 +286,7 @@ namespace MainGame.PlayerScripts
             // Chooses the new character controller height
             float desiredHitboxHeight;
             float desiredCameraHeight;
-            
-            bool isWerewolf = false;
-            try
-            {
-                isWerewolf = ((Werewolf) _role).isTransformed;
-            }
-            catch  { }
 
-            float desiredCameraProf = 0.2f;
             if (currentMovementType == MovementTypes.Crouch)
             {
                 desiredHitboxHeight = _crouchedHitboxHeight;
@@ -286,22 +297,22 @@ namespace MainGame.PlayerScripts
                 if (!isWerewolf)
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
-                    desiredCameraHeight = _standingCameraHeight;
+                    desiredCameraHeight = _standingCameraHeightVillager;
                 }
                 else
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
-                    desiredCameraHeight = 3;
+                    desiredCameraHeight = _standingCameraHeightWerewolf;
                 }
             }
 
-            desiredCameraProf = isWerewolf ? 1 : 0.2f;
+            var desiredCameraProf = isWerewolf ? _camDepthWerewolf : _camDepthVillager;
 
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;
             
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
-            _characterController.height -= _characterController.skinWidth;
+            // _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = _characterController.center;
             characterControllerCenter.y = _characterController.height * 0.5f;
             _characterController.center = characterControllerCenter;

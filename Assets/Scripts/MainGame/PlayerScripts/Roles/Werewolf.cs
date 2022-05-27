@@ -1,12 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using MainGame.Menus;
 using Photon.Pun;
-using Photon.Realtime;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MainGame.PlayerScripts.Roles
 {
@@ -15,7 +11,7 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
-        
+
         private const float werewolfDuration = 60;
 
         public List<Role> _targets = new List<Role>();
@@ -25,15 +21,18 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (_photonView.IsMine)
             {
-                if (isTransformed && _targets.Count > 0 && hasCooldown == false)
-                { 
-                    actionText.text = "Press E to Kill";
-                }
-                else if (VoteMenu.Instance.isNight && hasCooldown == false && isTransformed == false)
+                if (actionText != null)
                 {
-                    actionText.text = "Press E to Transform";
+                    if (isTransformed && _targets.Count > 0 && hasCooldown == false)
+                    {
+                        actionText.text = "Press E to Kill";
+                    }
+                    else if (VoteMenu.Instance.isNight && hasCooldown == false && isTransformed == false)
+                    {
+                        actionText.text = "Press E to Transform";
+                    }
+                    else actionText.text = "";
                 }
-                else actionText.text = "";
             }
         }
 
@@ -88,11 +87,10 @@ namespace MainGame.PlayerScripts.Roles
             // Particles to dissimulate werewolf transition
             GameObject p = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             p.transform.rotation = Quaternion.Euler(new float3(-90, 0, 0));
-            
+
             // Deactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
-            Debug.Log(_playerInput.currentActionMap);
-            
+
             // Transformation 
             if (isTransformation)
             {
@@ -112,24 +110,24 @@ namespace MainGame.PlayerScripts.Roles
                 {
                     _playerMovement.StartModifySpeed(0.1f, _playerMovement.BaseSpeedMult, 1, 1);
                 }
-                
+
                 isTransformed = false;
                 hasCooldown = true;
             }
-            
+
             UpdateActionText();
-            
+
             // Wait
             yield return new WaitForSeconds(1);
-            
+
             VillagerRenderer.SetActive(!isTransformation);
             WereWolfRenderer.SetActive(isTransformation);
-            
-            // Wait for 4 seconds
-            yield return new WaitForSeconds(4);
 
             // Changes the animator
             _playerAnimation.EnableWerewolfAnimations(isTransformation);
+
+            // Wait for 4 seconds
+            yield return new WaitForSeconds(4);
 
             // Reactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player");
@@ -221,6 +219,25 @@ namespace MainGame.PlayerScripts.Roles
         public void RPC_DeTransformation()
         {
             DeTransformation();
+        }
+
+        private void Update()
+        {
+            // TODO remove
+            if (VoteMenu.Instance == null)
+            {
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    Transformation();
+                    Debug.Log("transformation");
+                }
+
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    DeTransformation();
+                    Debug.Log("DE - transformation");
+                }
+            }
         }
     }
 }

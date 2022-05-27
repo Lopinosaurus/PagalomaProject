@@ -13,21 +13,27 @@ public class DetectCollision : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+        if (VoteMenu.Instance != null)
         {
-            if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, true);
-            if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, true);
-            if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, true);
+            if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+            {
+                if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, true);
+                if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, true);
+                if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, true);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+        if (VoteMenu.Instance != null)
         {
-            if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, false);
-            if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, false);
-            if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, false);
+            if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+            {
+                if (_werewolf.isActive && _werewolf.isAlive) _werewolf.UpdateTarget(other, false);
+                if (_seer.isActive && _seer.isAlive) _seer.UpdateTarget(other, false);
+                if (_priest.isActive && _priest.isAlive) _priest.UpdateTarget(other, false);
+            }
         }
     }
 }

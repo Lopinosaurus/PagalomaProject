@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using Photon.Pun;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -12,18 +9,16 @@ namespace MainGame.PlayerScripts
     {
         #region Attributes
 
+        // Components
         [SerializeField] private Transform camHolder;
-        private PlayerControls _playerControls;
-        private PlayerController _playerController;
         private PlayerInput _playerInput;
-        private PhotonView _photonView;
+        private PlayerMovement _playerMovement;
         private CharacterController _characterController;
 
         // Sensitivity
-        [Space] [Header("Mouse settings")] [Range(4f, 128f)] [SerializeField]
+        [Space] [Header("Mouse settings")]
         private float mouseSensX = 10f;
-
-        [Range(4f, 128f)] [SerializeField] private float mouseSensY = 10f;
+        private float mouseSensY = 10f;
 
         // Mouse input values
         private float _mouseDeltaX;
@@ -34,58 +29,44 @@ namespace MainGame.PlayerScripts
         private float _rotationY;
         private const float SmoothTimeX = 0.01f;
     
+        // Shake settings
         [Space][Header("Shake settings")]
         [SerializeField] [Range(0.0001f, 0.01f)] private float probShakeMultiplier = 0.01f;
         [SerializeField] [Range(0.1f, 10f)] private float shakeMultiplier = 4;
+        
+        // Jump settings
         public bool canTurnSides = true;
 
+        // Head settings
+        [SerializeField] private Transform Retarget;
+        [SerializeField] private Transform Hips;
+        private float deltaRotation;
+        private float rotationRef;
+        private const float bodyResetRotStrength = 12;
+        [SerializeField] [Range(0, 90)] private float rotationThreshold = 60f;
+        private bool isMoving;
+        
         #endregion
 
         #region Unity Methods
 
         private void Awake()
         {
-            _playerController = GetComponent<PlayerController>();
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
-            _photonView = GetComponent<PhotonView>();
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void Start()
         {
-            if (!_photonView.IsMine)
-            {
-                // Enable head components' layers
-            }
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            _playerControls = _playerController.PlayerControls;
 
             _playerInput.actions["Look"].performed += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
             _playerInput.actions["Look"].performed += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
             _playerInput.actions["Look"].canceled += ctx => _mouseDeltaX = ctx.ReadValue<Vector2>().x;
             _playerInput.actions["Look"].canceled += ctx => _mouseDeltaY = ctx.ReadValue<Vector2>().y;
         }
-
-        /*private void Update()
-        {
-            // Try bake occlusion
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                try
-                {
-                    Debug.Log("Started occlusion baking");
-                    StaticOcclusionCulling.Compute();  
-                }
-                catch
-                {
-                    Debug.LogWarning("Couldn't start occlusion baking");
-                }
-            }
-        }
-        */
 
         #endregion
 
@@ -115,9 +96,9 @@ namespace MainGame.PlayerScripts
             _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
         }
 
-        public Coroutine StartShake(float duration, float resetSpeed = 1)
+        public void StartShake(float duration, float resetSpeed = 1)
         {
-            return StartCoroutine(Shake(duration, resetSpeed));
+            StartCoroutine(Shake(duration, resetSpeed));
         }
         
         private IEnumerator Shake(float duration, float resetSpeed)
@@ -176,11 +157,64 @@ namespace MainGame.PlayerScripts
             ResetZCam();
         }
 
-        public void ResetZCam()
+        private void ResetZCam()
         {
             Vector3 rot = camHolder.localRotation.eulerAngles;
             rot.z = 0;
             camHolder.localRotation = Quaternion.Euler(rot);
+        }
+
+        public void HeadRotate()
+        {
+            // X-axis applies at all times (component)
+
+            // Y-axis applies when the player stops moving
+            isMoving = Vector3.zero != _playerMovement.InputMoveRaw3D;
+            if (isMoving)
+            {
+                rotationRef = transform.rotation.eulerAngles.y;
+                RotateBodyY(0);
+            }
+            else
+            {
+                // This delta is the difference between the last rotation while moving and the current rotation
+                float rotation = transform.rotation.eulerAngles.y;
+                deltaRotation = Mathf.DeltaAngle(rotation, rotationRef);
+                
+                // If the body rotates beyond that limit, we re-adapt
+                if (Mathf.Abs(deltaRotation) > rotationThreshold)
+                {
+                    var min = rotation - rotationThreshold;
+                    var max = rotation + rotationThreshold;
+
+                    if (rotationRef > max && deltaRotation < 0)
+                    {
+                        rotationRef -= 360;
+                        Debug.Log("max corrected");
+                    }
+                    if (rotationRef < min && deltaRotation > 0)
+                    {
+                        rotationRef += 360;
+                        Debug.Log("min corrected");
+                    }
+
+                    
+                    rotationRef = Mathf.Clamp(rotationRef, min, max);
+                }
+                else
+                {
+                    RotateBodyY(deltaRotation, true);
+                }
+            }
+        }
+
+        private void RotateBodyY(float rotY, bool isInstant = false)
+        {
+            Vector3 localRotHips = Hips.localRotation.eulerAngles;
+            float resetRotStrength = isInstant ? 1 : bodyResetRotStrength * Time.deltaTime;
+            localRotHips.y = Mathf.LerpAngle(localRotHips.y, rotY, resetRotStrength);
+            
+            Hips.transform.localRotation = Quaternion.Euler(localRotHips);
         }
     }
 }

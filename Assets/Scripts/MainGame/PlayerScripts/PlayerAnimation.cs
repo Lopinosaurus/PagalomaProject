@@ -1,5 +1,3 @@
-using System;
-using ExitGames.Client.Photon;
 using UnityEngine;
 using MainGame.PlayerScripts;
 using Vector2 = UnityEngine.Vector2;
@@ -28,7 +26,6 @@ public class PlayerAnimation : MonoBehaviour
     private int _WerewolfLayerIndex;
 
     // Movement settings
-    const float halfPi = Mathf.PI * 0.5f;
     private Vector2 velocity2D;
     private Vector2 velocity2Draw;
 

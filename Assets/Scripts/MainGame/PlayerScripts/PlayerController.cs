@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
-using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 
-[RequireComponent(typeof(PlayerMovement)),
- RequireComponent(typeof(PlayerLook))]
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerLook))]
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
@@ -37,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     // Light
     [SerializeField] private Light _light;
-    
+
     // Player Controls
     public PlayerControls PlayerControls;
 
@@ -48,12 +47,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject AiPrefab;
     private List<Transform> playerPositions;
 
-    private float minVillageDist = 120f;
-    private float minPlayerDist = 60f;
+    private readonly float minVillageDist = 120f;
+    private readonly float minPlayerDist = 60f;
     public bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday;
     [SerializeField] private bool enableAi = true;
-    
+
     // Sound for Ai
     [SerializeField] private AudioClip aiSound;
     [SerializeField] private AudioSource plyAudioSource;
@@ -101,49 +100,16 @@ public class PlayerController : MonoBehaviour
     internal void Start()
     {
         // Moves the player render backwards so that it doesn't clip with the camera
-        var transformLocalPosition = PlayerRender.transform.localPosition;
-        transformLocalPosition.z = -backShift;
-        PlayerRender.transform.localPosition = transformLocalPosition;
-
-        /*// DEBUG: sets the timescale
-        IEnumerator TimeScaler()
+        if (_photonView.IsMine)
         {
-            while (true)
-            {
-                Time.timeScale = slider;
-                yield return null;
-            }
+            Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
+            transformLocalPosition.z = -backShift;
+            PlayerRender.transform.localPosition = transformLocalPosition;
         }
-        StartCoroutine(TimeScaler());*/
-        
-        _role = GetComponent<Role>();
-        
+
         // Starts the light management
         StartCoroutine(LightManager());
-        
-        // Pre-start Ai
-        {
-            try
-            {
-                villageTransform = GameObject.FindWithTag("village").transform;
 
-                var t = RoomManager.Instance.players;
-                playerPositions = new List<Transform>();
-                foreach (var role in t)
-                {
-                    if (role.userId != _role.userId)
-                    {
-                        playerPositions.Add(role.gameObject.transform);
-                    }
-                }
-            }
-            catch
-            {
-                Debug.LogWarning("No RoomManager found ! (PlayerController)");
-            }
-        }
-        
-        // Starts the Ai
         if (!_photonView.IsMine)
         {
             Destroy(_postPross);
@@ -154,40 +120,61 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (enableAi)
-            {
-                StartCoroutine(AiCreator());
-            }
+            // Starts the Ai
+            if (enableAi) StartCoroutine(AiCreator());
         }
     }
 
     private IEnumerator LightManager()
     {
         _lampLight.intensity = 0;
-        
+
         // Non-werewolves don't see lights
-        if (RoomManager.Instance.localPlayer.GetType() == typeof(Werewolf) && _photonView.IsMine)
-        {
+        RoomManager roomManager = RoomManager.Instance;
+
+        if (roomManager == null) yield break;
+
+        if (roomManager.localPlayer.GetType() == typeof(Werewolf) && _photonView.IsMine)
             while (true)
             {
                 // It's day, turn off light
                 _lampLight.intensity = 0;
-            
+
                 yield return new WaitUntil(() => VoteMenu.Instance.isNight);
-            
+
                 // It's night, turn on light
                 _lampLight.intensity = 1;
-            
-                yield return new WaitUntil(() => !VoteMenu.Instance.isNight);   
-            }    
-        }
+
+                yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
+            }
     }
 
     private IEnumerator AiCreator()
     {
         // Werewolves are not affected
         if (_role.GetType() == typeof(Werewolf)) yield break;
+
+        // Gets the village
+        GameObject village = GameObject.FindWithTag("village");
+        if (village != null) villageTransform = village.transform;
+
+        // Waits until there is a real match
+        yield return new WaitUntil(() => RoomManager.Instance != null);
         
+        // Pre-start Ai
+        try
+        {
+            var t = RoomManager.Instance.players;
+            playerPositions = new List<Transform>();
+            foreach (Role role in t)
+                if (role.userId != _role.userId)
+                    playerPositions.Add(role.gameObject.transform);
+        }
+        catch
+        {
+            Debug.LogWarning("No RoomManager found ! (PlayerController)");
+        }
+
         while (true)
         {
             if (CanAiSpawn())
@@ -196,11 +183,11 @@ public class PlayerController : MonoBehaviour
                 AiInstance = Instantiate(AiPrefab,
                     transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
                     Quaternion.identity);
-                
+
                 plyAudioSource.Stop();
                 plyAudioSource.clip = aiSound;
                 plyAudioSource.Play();
-                var a = AiInstance.GetComponent<AiController>();
+                AiController a = AiInstance.GetComponent<AiController>();
                 a.targetRole = _role;
                 a._camHolder = cameraHolder;
 
@@ -218,10 +205,7 @@ public class PlayerController : MonoBehaviour
         // Already spawned today check
         try
         {
-            if (!VoteMenu.Instance.isNight)
-            {
-                hasAlreadySpawnedToday = false;
-            }
+            if (!VoteMenu.Instance.isNight) hasAlreadySpawnedToday = false;
         }
         catch
         {
@@ -229,57 +213,43 @@ public class PlayerController : MonoBehaviour
         }
 
         if (hasAlreadySpawnedToday)
-        {
             // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
             return false;
-        }
 
         // Already spawned check
         if (IaAlreadySpawned)
-        {
             // Debug.Log("SPAWNCHECK (1/5): Ai already exists");
             return false;
-        }
 
         try
         {
             // Alive check
             if (!_role.isAlive)
-            {
                 // Debug.Log("SPAWNCHECK (2/5): is dead");
                 return false;
-            }
 
             // Day check
             if (!VoteMenu.Instance.isNight)
-            {
                 // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
                 return false;
-            }
 
 
             // Village check
-            bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
-                                   minVillageDist * minVillageDist;
+            var villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
+                                  minVillageDist * minVillageDist;
             if (villageTooClose)
-            {
                 // Debug.Log("SPAWNCHECK (4/5): village is too close");
                 return false;
-            }
 
             // Player check
-            bool everyPlayerFarEnough = true;
-            for (int i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
-            {
+            var everyPlayerFarEnough = true;
+            for (var i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
                 everyPlayerFarEnough &= (playerPositions[i].position - transform.position).sqrMagnitude >
                                         minPlayerDist * minPlayerDist;
-            }
 
             if (!everyPlayerFarEnough)
-            {
                 // Debug.Log("SPAWNCHECK (5/5): a player is too close");
                 return false;
-            }
         }
         catch
         {
@@ -290,31 +260,25 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (_photonView.IsMine)
         {
-            if (_photonView.IsMine)
-            {
-                _playerLook.Look();
+            _playerLook.Look();
 
-                // Updates the jump feature
-                _playerMovement.UpdateJump();
+            _playerLook.HeadRotate();
 
-                // Moves the player
-                _playerMovement.Move(Time.deltaTime);
+            // Updates the jump feature
+            _playerMovement.UpdateJump();
 
-                // Updates the appearance based on the MovementType
-                _playerAnimation.UpdateAnimationsBasic();
-            }
+            // Moves the player
+            _playerMovement.Move(Time.deltaTime);
+
+            // Updates the appearance based on the MovementType
+            _playerAnimation.UpdateAnimationsBasic();
+
+            _playerMovement.UpdateHitbox();
         }
-
-        private void FixedUpdate()
-        {
-            if (_photonView.IsMine)
-            {
-                // Adjusts the player's hitbox when crouching
-                // TODO fix the tiny gap between the ground and the CharacterController
-                _playerMovement.UpdateHitbox();
-            }
-        }
-
-        #endregion
     }
+
+    #endregion
+}
