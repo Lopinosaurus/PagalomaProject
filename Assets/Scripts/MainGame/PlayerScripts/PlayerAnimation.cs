@@ -9,6 +9,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private Avatar _villagerAvatar;
     [SerializeField] private Avatar _werewolfAvatar;
     private Animator _currentAnimator;
+    public bool isWerewolfEnabled => _currentAnimator.avatar == _werewolfAvatar;
 
     // Boolean States hashes
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
@@ -110,7 +111,7 @@ public class PlayerAnimation : MonoBehaviour
         }        
     }
     
-    public void StartAttackAnimation(bool active)
+    public void WerewolfAttackAnimation(bool active)
     {
         // Toggles "Attack" animation
         if (active)

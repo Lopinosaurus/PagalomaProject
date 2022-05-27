@@ -74,9 +74,6 @@ namespace MainGame.PlayerScripts
         private float _camDepthWerewolf;
 
         [SerializeField] [Range(0f, 5f)] private float target;
-        private Role _role;
-        private Werewolf _werewolf = null;
-        private bool isWerewolf = false;
 
         public enum MovementTypes
         {
@@ -110,28 +107,16 @@ namespace MainGame.PlayerScripts
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
             _standingCameraHeightVillager = camPos.y;
-            _standingCameraHeightWerewolf = 3;
+            _standingCameraHeightWerewolf = 2;
             _crouchedCameraHeight = camPos.y * 0.7f;
             
             // Profs
             _camDepthVillager = camPos.z;
-            _camDepthWerewolf = 1;
+            _camDepthWerewolf = 1.1f;
         }
 
         private void Start()
         {
-            _role = GetComponent<Role>();
-            if (_role is Werewolf werewolf)
-            {
-                _werewolf = werewolf;
-                isWerewolf = true;
-                Debug.Log("IS WEREWOLF");
-            }
-            else
-            {
-                Debug.Log("NOT WEREWOLF");
-            }
-            
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw3D = Vector3.zero;
@@ -209,7 +194,7 @@ namespace MainGame.PlayerScripts
 
         private void UpdateMovementState()
         {
-            if (WantsCrouchHold && !isWerewolf)
+            if (WantsCrouchHold && !_playerAnimation.isWerewolfEnabled)
             {
                 currentMovementType = MovementTypes.Crouch;
             }
@@ -283,6 +268,8 @@ namespace MainGame.PlayerScripts
      
         public void UpdateHitbox()
         {
+            bool isWerewolf = _playerAnimation.isWerewolfEnabled;
+
             // Chooses the new character controller height
             float desiredHitboxHeight;
             float desiredCameraHeight;

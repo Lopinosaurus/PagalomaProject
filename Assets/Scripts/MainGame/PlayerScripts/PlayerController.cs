@@ -27,18 +27,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
     private Camera _cam;
-    private PostProcessLayer _postPross;
+    private PostProcessLayer _postProc;
     private AudioListener _audioListener;
 
     // First person management
     [SerializeField] private GameObject PlayerRender;
     [Range(-2, 2)] public float backShift = -0.23f;
-
-    // Light
-    [SerializeField] private Light _light;
-
-    // Player Controls
-    public PlayerControls PlayerControls;
 
     // Ai settings
     private Role _role;
@@ -76,9 +70,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Player Controls
-        PlayerControls = new PlayerControls();
-
         // Movement components
         GetComponentInChildren<CharacterController>();
 
@@ -87,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         // Camera component
         _cam = cameraHolder.GetComponentInChildren<Camera>();
-        _postPross = cameraHolder.GetComponentInChildren<PostProcessLayer>();
+        _postProc = cameraHolder.GetComponentInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
         if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
@@ -106,13 +97,13 @@ public class PlayerController : MonoBehaviour
             transformLocalPosition.z = -backShift;
             PlayerRender.transform.localPosition = transformLocalPosition;
         }
-
+        
         // Starts the light management
         StartCoroutine(LightManager());
 
         if (!_photonView.IsMine)
         {
-            Destroy(_postPross);
+            Destroy(_postProc);
             Destroy(_cam);
             Destroy(_audioListener);
             playerInput.enabled = false;
@@ -152,7 +143,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator AiCreator()
     {
         // Werewolves are not affected
-        if (_role.GetType() == typeof(Werewolf)) yield break;
+        if (RoomManager.Instance.localPlayer is Werewolf) yield break;
 
         // Gets the village
         GameObject village = GameObject.FindWithTag("village");

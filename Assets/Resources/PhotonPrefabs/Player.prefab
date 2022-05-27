@@ -2437,11 +2437,11 @@ Light:
   m_GameObject: {fileID: 3055617899030488355}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 30
+  m_Range: 0.5
   m_SpotAngle: 1
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -3684,11 +3684,11 @@ Light:
   m_GameObject: {fileID: 5004038009948949443}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 30
+  m_Range: 0.5
   m_SpotAngle: 1
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -4912,6 +4912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4718853506422041255}
+  - component: {fileID: 4615577922485951086}
   m_Layer: 7
   m_Name: mixamorig1:Hips
   m_TagString: Untagged
@@ -4936,6 +4937,22 @@ Transform:
   m_Father: {fileID: 7506619996978510457}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4615577922485951086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7353230354232530589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &7362886468928250554
 GameObject:
   m_ObjectHideFlags: 0
@@ -5248,7 +5265,6 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   PlayerRender: {fileID: 4950680158300606666}
   backShift: 0.23
-  _light: {fileID: 6658514047362406684}
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
@@ -5275,6 +5291,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 3692144932518771190}
   - {fileID: 2296100508060758552}
+  - {fileID: 4615577922485951086}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5304,7 +5321,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: bff1f46dc9fea834aac2958d14e0fa50, type: 2}
-  m_audioClip: {fileID: 8300000, guid: f4341f6ebc8ed794285aa3ee22b5916f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b2fe424a2f113dd49bb5f751e7236864, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6269,7 +6286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1022332633739182053
 Transform:
   m_ObjectHideFlags: 0

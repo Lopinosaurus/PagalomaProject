@@ -35,7 +35,6 @@ namespace MainGame.PlayerScripts.Roles
         public PlayerInput _playerInput;
         protected PlayerMovement _playerMovement;
         private PlayerController _playerController;
-        private PlayerLook _playerLook;
         protected PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
         private Camera cam;
@@ -55,7 +54,6 @@ namespace MainGame.PlayerScripts.Roles
             isActive = false;
             _playerInput = GetComponent<PlayerInput>();
             _playerController = GetComponent<PlayerController>();
-            _playerLook = GetComponent<PlayerLook>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerMovement = GetComponent<PlayerMovement>();
             _characterController = GetComponent<CharacterController>();
@@ -118,7 +116,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Disable components & gameplay variables
-            _characterController.detectCollisions = false;
+            _characterController.enabled = false;
             _playerController.enabled = false;
             isAlive = false;
 
@@ -129,7 +127,6 @@ namespace MainGame.PlayerScripts.Roles
             if ((bool)_cameraHolder)
             {
                 Vector3 startingPos = _cameraHolder.transform.position;
-                Quaternion startingRot = _cameraHolder.transform.rotation;
                 Vector3 endingPos = new Vector3
                 {
                     x = startingPos.x,
