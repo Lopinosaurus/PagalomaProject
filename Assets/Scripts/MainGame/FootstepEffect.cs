@@ -10,16 +10,12 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] private float velocityMagnitude;
     [SerializeField] private AudioClip dryFootstep;
     [SerializeField] private AudioSource plyAudioSource;
-    [SerializeField] private CharacterController characterController;
     [SerializeField, Range(.1f, 10)] private float maxDistance;
     [SerializeField] private float playerDistanceCounter;
-    [SerializeField] private int footstepCounter;
-    public static List<(CharacterController, AudioSource)> PlayersCc = new List<(CharacterController, AudioSource)>();
     private PlayerAnimation playerAnim;
 
     void Start()
     {
-        footstepCounter = 0;
         playerDistanceCounter = 0;
         playerAnim = GetComponent<PlayerAnimation>();
         plyAudioSource.playOnAwake = false;
@@ -28,11 +24,6 @@ public class FootstepEffect : MonoBehaviour
     
     void FixedUpdate()
     {
-        // if (PlayersCc is null)
-        // {
-        //     Debug.Log("PlayersCC is null !");
-        //     return;
-        // }
         velocityMagnitude = playerAnim.Velocity2DMagnitude;
         
         playerDistanceCounter += velocityMagnitude * Time.fixedDeltaTime;
