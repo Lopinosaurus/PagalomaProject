@@ -20,7 +20,7 @@ public class FootstepEffect : MonoBehaviour
     {
         playerDistanceCounter = 0;
         plyAudioSource.playOnAwake = false;
-        plyAudioSource.volume = .2f;
+        plyAudioSource.volume = .11f;
         animator = GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();
     }
