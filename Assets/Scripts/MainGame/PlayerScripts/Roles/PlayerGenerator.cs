@@ -90,9 +90,7 @@ namespace MainGame.PlayerScripts.Roles
                 (CharacterController playerChar, AudioSource playerSource) playerData = (
                     playerRole.gameObject.GetComponent<CharacterController>(),
                     playerRole.gameObject.GetComponent<AudioSource>());
-                
-                FootstepEffect.PlayersCc.Add(playerData);
-                
+
                 // Store reference to the local player
                 if (info.Sender.IsLocal)
                 {
