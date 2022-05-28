@@ -14,12 +14,13 @@ namespace MainGame.Menus
 
         private readonly Color _notClicked = new Color32(58, 58, 58, 255);
         private readonly Color _clicked = new Color32(99,128,178,255);
+        private readonly Color _werefolfColor = new Color(0.72f, 0.01f, 0f);
     
         public void SetUp(Role player)
         {
             _player = player;
             text.text = player.username;
-            if (RoomManager.Instance.localPlayer is Werewolf && player is Werewolf) text.color = new Color(0.72f, 0.01f, 0f);
+            if (RoomManager.Instance.localPlayer is Werewolf && _player is Werewolf) text.color = _werefolfColor;
             colorSquare.color = player.color;
             background.color = _notClicked;
         }
@@ -43,6 +44,7 @@ namespace MainGame.Menus
 
         public void UpdateItem()
         {
+            if (RoomManager.Instance.localPlayer is Werewolf && _player is Werewolf) text.color = _werefolfColor;
             // Update clicked state (background color)
             if (_player.isAlive)
             {
