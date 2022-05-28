@@ -5312,7 +5312,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 2.05
   MinDistance: 1.05
   MaxDistance: 500
   Pan2D: 0
@@ -5814,11 +5814,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMagnitude: 0
   dryFootstep: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
-  characterController: {fileID: 838235907301293933}
   plyAudioSource: {fileID: 9182737059992604612}
   maxDistance: 1.4
   playerDistanceCounter: 0
-  velocity3D: {x: 0, y: 0, z: 0}
   velocity2Draw: {x: 0, y: 0}
 --- !u!1 &7660706549352593690
 GameObject:

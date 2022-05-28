@@ -9,11 +9,9 @@ public class FootstepEffect : MonoBehaviour
 {
     [SerializeField] private float velocityMagnitude;
     [SerializeField] private AudioClip dryFootstep;
-    [SerializeField] private CharacterController characterController;
     [SerializeField] private AudioSource plyAudioSource;
     [SerializeField, Range(.1f, 10)] private float maxDistance;
     [SerializeField] private float playerDistanceCounter;
-    [SerializeField] private Vector3 velocity3D;
     [SerializeField] private Vector2 velocity2Draw;
     private Animator animator;
     private PlayerAnimation playerAnimation;
