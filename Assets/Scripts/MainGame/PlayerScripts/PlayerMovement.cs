@@ -112,13 +112,13 @@ namespace MainGame.PlayerScripts
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
             _standingCameraHeightVillager = camPos.y;
-            _standingCameraHeightWerewolf = 1.8f;
-            _crouchedCameraHeight = 1;
+            _standingCameraHeightWerewolf = 1.6f;
+            _crouchedCameraHeight = 0.8f;
             
             // Profs
-            _standingShiftVillager = camPos.z;
-            _crouchedShiftVillager = 1f;
-            _shiftWerewolf = 1.3f;
+            _standingShiftVillager = _playerController.backShift;
+            _crouchedShiftVillager = 0.7f;
+            _shiftWerewolf = 1.5f;
         }
 
         private void Start()
@@ -326,6 +326,8 @@ namespace MainGame.PlayerScripts
                 }
             }
 
+            Debug.Log($"{desiredRenderShift}");
+            
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;
             
@@ -338,7 +340,9 @@ namespace MainGame.PlayerScripts
             // Camera height modifier
             var localPosition = cameraHolder.transform.localPosition;
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
-            _playerController.MoveRender(-desiredRenderShift);
+            _playerController.MoveRender(-desiredRenderShift,
+                isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
+                smoothTime);
             cameraHolder.transform.localPosition = localPosition;
         }
     

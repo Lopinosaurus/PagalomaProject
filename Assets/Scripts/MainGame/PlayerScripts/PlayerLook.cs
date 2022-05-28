@@ -1,6 +1,7 @@
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 

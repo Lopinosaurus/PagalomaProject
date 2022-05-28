@@ -2388,7 +2388,7 @@ RotationConstraint:
   m_Enabled: 1
   m_Weight: 0.8
   m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: -0.00010196924, y: 0, z: 0}
+  m_RotationOffset: {x: -0.00011269807, y: 0, z: 0}
   m_AffectRotationX: 1
   m_AffectRotationY: 1
   m_AffectRotationZ: 1
@@ -5246,7 +5246,8 @@ MonoBehaviour:
   _playerAnimation: {fileID: 7430318575100400553}
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
-  PlayerRender: {fileID: 4950680158300606666}
+  VillagerRender: {fileID: 4950680158300606666}
+  WerewolfRender: {fileID: 8499297442018757553}
   _role: {fileID: 0}
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1

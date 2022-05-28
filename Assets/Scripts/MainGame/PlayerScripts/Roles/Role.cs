@@ -5,6 +5,7 @@ using MainGame.Menus;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 namespace MainGame.PlayerScripts.Roles
@@ -41,6 +42,7 @@ namespace MainGame.PlayerScripts.Roles
 
         // Die variables
         private const float maxDeathCamDistance = 5.0f;
+        private RotationConstraint _rotationConstraint;
 
         // Network component
         protected PhotonView _photonView; // Use protected to be able to access it in subclasses
@@ -67,6 +69,8 @@ namespace MainGame.PlayerScripts.Roles
             if (actionText != null) actionText.text = "";
             if (deathText != null) deathText.enabled = false;
             hasVoted = false;
+
+            _rotationConstraint = GetComponentInChildren<RotationConstraint>();
         }
 
         public void Activate()
@@ -114,6 +118,8 @@ namespace MainGame.PlayerScripts.Roles
                 _playerInput.actions["Die"].Disable();
                 _playerInput.actions["Kill"].Disable();
             }
+            
+            _rotationConstraint.enabled = false;
 
             // Disable components & gameplay variables
             _characterController.enabled = false;

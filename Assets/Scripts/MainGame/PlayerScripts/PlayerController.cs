@@ -32,8 +32,9 @@ public class PlayerController : MonoBehaviour
     private AudioListener _audioListener;
 
     // First person management
-    [SerializeField] private GameObject PlayerRender;
-    private float backShift = -0.23f;
+    [SerializeField] public GameObject VillagerRender;
+    [SerializeField] public GameObject WerewolfRender;
+    public readonly float backShift = 0.28f;
 
     // Ai settings
     public Role _role;
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine)
         {
             // Moves the player render backwards so that it doesn't clip with the camera
-            MoveRender(backShift);
+            MoveRender(backShift, VillagerRender);
             
             // Starts the Ai
             if (enableAi) StartCoroutine(AiCreator());
@@ -112,11 +113,13 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(LightManager());
     }
 
-    public void MoveRender(float shift)
+    public void MoveRender(float shift, GameObject render, float smoothTime = 1)
     {
-        Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
-        transformLocalPosition.z = shift;
-        PlayerRender.transform.localPosition = transformLocalPosition;
+        smoothTime = Mathf.Clamp01(smoothTime);
+        
+        Vector3 transformLocalPosition = render.transform.localPosition;
+        transformLocalPosition.z = Mathf.Lerp(transformLocalPosition.z, shift, smoothTime);
+        render.transform.localPosition = transformLocalPosition;
     }
 
     private IEnumerator LightManager()
@@ -275,7 +278,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerLook.HeadRotate();
         }
-        
     }
 
     #endregion
