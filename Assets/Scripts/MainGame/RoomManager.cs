@@ -69,7 +69,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         infoText.text = "";
 
         int numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
-        roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
+        roles = new []{"Werewolf","Werewolf","Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
         colors = new []{ "Red", "Blue", "Yellow", "Lime", "Pink", "Cyan", "Orange", "White", "Black", "Purple", "Green", "Grey", "Brown", "Teal", "Maroon", "Peach" };
         colors = colors.Take(numberOfPlayers).ToArray();
         roles = roles.Take(numberOfPlayers).ToArray();

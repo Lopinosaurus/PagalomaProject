@@ -33,6 +33,7 @@ namespace MainGame
         public void Add(Role player)
         {
             Instantiate(voteListItem, voteList).GetComponent<VoteListItem>().SetUp(player);
+            UpdateVoteItems();
         }
         
         public void UpdateVoteItems()
