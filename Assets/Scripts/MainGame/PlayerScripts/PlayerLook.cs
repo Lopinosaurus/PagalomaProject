@@ -13,7 +13,8 @@ namespace MainGame.PlayerScripts
         // Components
         [SerializeField] private Transform camHolder;
         private PlayerInput _playerInput;
-        private PlayerMovement _playerMovement;
+        private Animator _animator;
+        private PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
 
         // Sensitivity
@@ -55,7 +56,8 @@ namespace MainGame.PlayerScripts
         {
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
-            _playerMovement = GetComponent<PlayerMovement>();
+            _playerAnimation = GetComponent<PlayerAnimation>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Start()
@@ -170,9 +172,8 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            var velocity = _characterController.velocity;
-            isMoving = velocity.x != 0 || velocity.z != 0;
-            Debug.Log($"isMoving = {isMoving}");
+            isMoving = _animator.GetFloat(_playerAnimation._velocityXHash) != 0 ||
+                       _animator.GetFloat(_playerAnimation._velocityZHash) != 0;
             
             if (isMoving)
             {
