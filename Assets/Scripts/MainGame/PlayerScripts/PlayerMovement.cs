@@ -41,7 +41,7 @@ namespace MainGame.PlayerScripts
         private const float WerewolfMult = 1.15f;
         private const float baseSpeedMult = 1;
       
-        public int nbBushes;
+        [HideInInspector] public int nbBushes;
         
         [Space]
         [Header("Movement settings")]
@@ -60,7 +60,7 @@ namespace MainGame.PlayerScripts
         // Ground check
         private float raySize = 0.1f;
         public bool grounded;
-        public float slopeCompensationForce = 5f;
+        private float slopeCompensationForce = 5f;
         public bool isSphereGrounded { get; set; }
         private bool isCCgrounded { get; set; }
 
@@ -75,10 +75,9 @@ namespace MainGame.PlayerScripts
         private float _standingCameraHeightWerewolf;
         private float _crouchedCameraHeight;
         
-        private float _camDepthVillager;
+        private float _standingCamDepthVillager;
+        private float _crouchedCamDepthVillager;
         private float _camDepthWerewolf;
-
-        [SerializeField] [Range(0f, 5f)] private float target;
 
         public enum MovementTypes
         {
@@ -116,7 +115,8 @@ namespace MainGame.PlayerScripts
             _crouchedCameraHeight = camPos.y * 0.7f;
             
             // Profs
-            _camDepthVillager = camPos.z;
+            _standingCamDepthVillager = camPos.z;
+            _crouchedCamDepthVillager = camPos.z * 1.1f;
             _camDepthWerewolf = 1.3f;
         }
 
@@ -197,11 +197,8 @@ namespace MainGame.PlayerScripts
             currentMotion *= chosenDeltaTime;
             
             // Removes moves if needed
-            if (IsJumping)
-            {
-                currentMotion *= 0;
-            }
-            
+            if (shouldJumpFreezeGravity) currentMotion *= 0;
+
             // Move
             _characterController.Move(currentMotion);
         }
@@ -237,9 +234,9 @@ namespace MainGame.PlayerScripts
         {
             upwardVelocity.y += GravityForce * Time.deltaTime;
 
-            if (grounded && !IsJumping)
+            if (grounded || shouldJumpFreezeGravity)
             {
-                if (OnSlope())
+                if (OnSlope() && !shouldJumpFreezeGravity)
                 {
                     float downwardForce = -slopeCompensationForce;
                     downwardForce = Mathf.Clamp(downwardForce, -500, -2);
@@ -250,7 +247,6 @@ namespace MainGame.PlayerScripts
                 {
                     upwardVelocity.y = -2;
                 }
-                
             }
         }
 
@@ -305,11 +301,13 @@ namespace MainGame.PlayerScripts
             // Chooses the new character controller height
             float desiredHitboxHeight;
             float desiredCameraHeight;
+            float desiredCameraProf;
 
             if (currentMovementType == MovementTypes.Crouch)
             {
                 desiredHitboxHeight = _crouchedHitboxHeight;
                 desiredCameraHeight = _crouchedCameraHeight;
+                desiredCameraProf = _crouchedCamDepthVillager;
             }
             else
             {
@@ -317,15 +315,15 @@ namespace MainGame.PlayerScripts
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeightVillager;
+                    desiredCameraProf = _standingCamDepthVillager;
                 }
                 else
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeightWerewolf;
+                    desiredCameraProf = _standingCameraHeightWerewolf;
                 }
             }
-
-            var desiredCameraProf = isWerewolf ? _camDepthWerewolf : _camDepthVillager;
 
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;

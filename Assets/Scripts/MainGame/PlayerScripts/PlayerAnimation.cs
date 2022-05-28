@@ -87,7 +87,7 @@ public class PlayerAnimation : MonoBehaviour
         _currentAnimator.SetTrigger(_deathHash);
     }
     
-    public void StartJumpAnimation(bool active)
+    public void StartVaultMidAnimation(bool active)
     {
         // Toggles "Dying" animation
         if (active)
