@@ -5247,7 +5247,6 @@ MonoBehaviour:
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
   PlayerRender: {fileID: 4950680158300606666}
-  backShift: 0.23
   _role: {fileID: 0}
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
@@ -5815,9 +5814,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMagnitude: 0
   dryFootstep: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
+  characterController: {fileID: 838235907301293933}
   plyAudioSource: {fileID: 9182737059992604612}
   maxDistance: 1.4
   playerDistanceCounter: 0
+  velocity3D: {x: 0, y: 0, z: 0}
+  velocity2Draw: {x: 0, y: 0}
 --- !u!1 &7660706549352593690
 GameObject:
   m_ObjectHideFlags: 0

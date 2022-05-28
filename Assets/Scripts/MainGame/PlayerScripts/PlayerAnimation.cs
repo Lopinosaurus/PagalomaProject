@@ -20,8 +20,8 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int _attackHash = Animator.StringToHash("Attack");
 
     // Float States hashes
-    private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
-    private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+    public readonly int _velocityXHash = Animator.StringToHash("VelocityX");
+    public readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
     
     // Layer hashes
     private int _WerewolfLayerIndex;
@@ -29,9 +29,6 @@ public class PlayerAnimation : MonoBehaviour
     // Movement settings
     private Vector2 velocity2D;
     private Vector2 velocity2Draw;
-    
-    // Getter for footsteps
-    public float Velocity2DMagnitude => velocity2D.magnitude;
 
     private void Awake()
     {
