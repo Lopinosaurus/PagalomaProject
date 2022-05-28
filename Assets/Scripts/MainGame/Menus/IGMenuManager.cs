@@ -18,6 +18,7 @@ public class IGMenuManager : MonoBehaviour
     public GameObject voteMenu;
     public GameObject endScreen;
     public GameObject loadingScreen;
+    public GameObject playerClock;
     public TMP_Text victoryText;
     public TMP_Text defeatText;
     public TMP_Text whoWonText;
@@ -35,6 +36,7 @@ public class IGMenuManager : MonoBehaviour
         optionMenu.SetActive(false);
         voteMenu.SetActive(false);
         endScreen.SetActive(false);
+        playerClock.SetActive(false);
     }
 
     void Update()
