@@ -172,8 +172,10 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            isMoving = _animator.GetFloat(_playerAnimation._velocityXHash) != 0 ||
-                       _animator.GetFloat(_playerAnimation._velocityZHash) != 0;
+            isMoving = Mathf.Abs(_animator.GetFloat(_playerAnimation._velocityXHash)) > 0.1f ||
+                       Mathf.Abs(_animator.GetFloat(_playerAnimation._velocityZHash)) > 0.1f;
+            
+            Debug.Log($"ismoving = {isMoving}");
             
             if (isMoving)
             {
