@@ -3621,6 +3621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7748072702339364861}
+  - component: {fileID: 795840389997755757}
   m_Layer: 7
   m_Name: VillagerRender
   m_TagString: Player
@@ -3644,6 +3645,39 @@ Transform:
   m_Father: {fileID: 5413455336871077530}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &795840389997755757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4950680158300606666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 0
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 2
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 360
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &5004038009948949443
 GameObject:
   m_ObjectHideFlags: 0
@@ -5231,7 +5265,7 @@ MonoBehaviour:
   canTurnSides: 1
   Retarget: {fileID: 0}
   BodyToRotate: {fileID: 7748072702339364861}
-  rotationThreshold: 75
+  rotationThreshold: 90
 --- !u!114 &6099398095721299116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5276,6 +5310,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 3692144932518771190}
   - {fileID: 2296100508060758552}
+  - {fileID: 795840389997755757}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

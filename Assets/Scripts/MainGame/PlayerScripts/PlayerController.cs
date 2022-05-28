@@ -266,8 +266,11 @@ public class PlayerController : MonoBehaviour
 
             _playerMovement.UpdateHitbox();
         }
+        else
+        {
+            _playerLook.HeadRotate();
+        }
         
-        _playerLook.HeadRotate();
     }
 
     #endregion
