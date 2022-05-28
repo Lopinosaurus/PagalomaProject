@@ -5173,7 +5173,6 @@ GameObject:
   - component: {fileID: 7578259937013170486}
   - component: {fileID: 3692144932518771190}
   - component: {fileID: 9182737059992604612}
-  - component: {fileID: 2319464487688359292}
   - component: {fileID: 5554154994360629918}
   - component: {fileID: 838235907301293933}
   - component: {fileID: -7244464857301056814}
@@ -5187,6 +5186,7 @@ GameObject:
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 8582652644670617519}
   - component: {fileID: 2296100508060758552}
+  - component: {fileID: 8679982518694955207}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -5426,24 +5426,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2319464487688359292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f75f543c47d7024d9e04896a6097192, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dryCrouching: {fileID: 8300000, guid: 8f54ddeaf41804e4d9ffbe89e30fd215, type: 3}
-  dryWalking: {fileID: 8300000, guid: ffc55299c885e6545991d082d0e88263, type: 3}
-  drySprinting: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
-  wetCrouching: {fileID: 8300000, guid: d8165e52fa9fa254ab61715ed319f421, type: 3}
-  wetWalking: {fileID: 8300000, guid: 6ab57c6b1242bf146abd79a91ac903bc, type: 3}
-  wetSprinting: {fileID: 8300000, guid: 8beac96c001e9a34095208d8197cef14, type: 3}
 --- !u!114 &5554154994360629918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5855,6 +5837,25 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
+--- !u!114 &8679982518694955207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f75f543c47d7024d9e04896a6097192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityMagnitude: 0
+  dryFootstep: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
+  plyAudioSource: {fileID: 9182737059992604612}
+  characterController: {fileID: 838235907301293933}
+  maxDistance: 1.4
+  playerDistanceCounter: 0
+  footstepCounter: 0
 --- !u!1 &7660706549352593690
 GameObject:
   m_ObjectHideFlags: 0

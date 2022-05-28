@@ -29,6 +29,9 @@ public class PlayerAnimation : MonoBehaviour
     // Movement settings
     private Vector2 velocity2D;
     private Vector2 velocity2Draw;
+    
+    // Getter for footsteps
+    public float Velocity2DMagnitude => velocity2D.magnitude;
 
     private void Awake()
     {
