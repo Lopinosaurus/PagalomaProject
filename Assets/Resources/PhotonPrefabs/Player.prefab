@@ -5224,6 +5224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentJumpState: 0
   obstaclesPresent:
   - {fileID: 3821020153891733844}
   - {fileID: 2110481892036722437}
@@ -5244,9 +5245,7 @@ MonoBehaviour:
   localMoveAmountNormalized: {x: 0, y: 0, z: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
-  slopeCompensationForce: 50
   crouchSmoothTime: 10
-  target: 2.39
 --- !u!114 &2867563762611503884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5851,11 +5850,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMagnitude: 0
   dryFootstep: {fileID: 8300000, guid: 9d4b896266d24fa479dc98c5a9b4697d, type: 3}
-  plyAudioSource: {fileID: 9182737059992604612}
   characterController: {fileID: 838235907301293933}
+  plyAudioSource: {fileID: 9182737059992604612}
   maxDistance: 1.4
   playerDistanceCounter: 0
-  footstepCounter: 0
+  velocity3D: {x: 0, y: 0, z: 0}
+  velocity2Draw: {x: 0, y: 0}
 --- !u!1 &7660706549352593690
 GameObject:
   m_ObjectHideFlags: 0
