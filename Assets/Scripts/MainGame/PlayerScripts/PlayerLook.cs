@@ -14,7 +14,6 @@ namespace MainGame.PlayerScripts
         [SerializeField] private Transform camHolder;
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
-        private PhotonView _photonView;
         private CharacterController _characterController;
 
         // Sensitivity
@@ -57,7 +56,6 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerMovement = GetComponent<PlayerMovement>();
-            _photonView = GetComponent<PhotonView>();
         }
 
         private void Start()
@@ -172,7 +170,10 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            isMoving = Vector3.zero != _playerMovement.InputMoveRaw3D;
+            var velocity = _characterController.velocity;
+            isMoving = velocity.x != 0 || velocity.z != 0;
+            Debug.Log($"isMoving = {isMoving}");
+            
             if (isMoving)
             {
                 rotationRef = transform.rotation.eulerAngles.y;

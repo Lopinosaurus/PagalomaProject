@@ -50,7 +50,6 @@ namespace MainGame.PlayerScripts
 
         public Vector3 localMoveAmountNormalized;
         private Vector3 _inputMoveRaw3D;
-        public Vector3 InputMoveRaw3D => _inputMoveRaw3D;
 
         // Gravity
         [Space] [Header("Gravity settings")]
@@ -112,11 +111,11 @@ namespace MainGame.PlayerScripts
             Vector3 camPos = cameraHolder.transform.localPosition;
             _standingCameraHeightVillager = camPos.y;
             _standingCameraHeightWerewolf = 1.8f;
-            _crouchedCameraHeight = camPos.y * 0.7f;
+            _crouchedCameraHeight = camPos.y * 0.6f;
             
             // Profs
             _standingCamDepthVillager = camPos.z;
-            _crouchedCamDepthVillager = camPos.z * 1.1f;
+            _crouchedCamDepthVillager = 0.6f;
             _camDepthWerewolf = 1.3f;
         }
 
@@ -170,9 +169,9 @@ namespace MainGame.PlayerScripts
         {
             Vector3 inputMoveNormalized3D = new Vector3
             {
-                x = InputMoveRaw3D.x,
+                x = _inputMoveRaw3D.x,
                 y = 0.0f,
-                z = InputMoveRaw3D.z
+                z = _inputMoveRaw3D.z
             }.normalized;
             
             // Updates the grounded boolean state
@@ -216,7 +215,7 @@ namespace MainGame.PlayerScripts
             {
                 currentMovementType = MovementTypes.Crouch;
             }
-            else if (Vector3.zero == InputMoveRaw3D)
+            else if (Vector3.zero == _inputMoveRaw3D)
             {
                 currentMovementType = MovementTypes.Stand;
             }

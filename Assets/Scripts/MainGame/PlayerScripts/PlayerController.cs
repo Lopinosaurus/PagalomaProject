@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     // First person management
     [SerializeField] private GameObject PlayerRender;
-    [Range(-2, 2)] public float backShift = -0.23f;
+    private float backShift = -0.23f;
 
     // Ai settings
     public Role _role;
@@ -94,9 +94,7 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine)
         {
             // Moves the player render backwards so that it doesn't clip with the camera
-            Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
-            transformLocalPosition.z = -backShift;
-            PlayerRender.transform.localPosition = transformLocalPosition;
+            MoveRender(backShift);
             
             // Starts the Ai
             if (enableAi) StartCoroutine(AiCreator());
@@ -112,6 +110,13 @@ public class PlayerController : MonoBehaviour
     
         // Starts the light management
         StartCoroutine(LightManager());
+    }
+
+    private void MoveRender(float shift)
+    {
+        Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
+        transformLocalPosition.z = shift;
+        PlayerRender.transform.localPosition = transformLocalPosition;
     }
 
     private IEnumerator LightManager()
