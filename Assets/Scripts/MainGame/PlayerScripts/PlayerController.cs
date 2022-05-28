@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(LightManager());
     }
 
-    private void MoveRender(float shift)
+    public void MoveRender(float shift)
     {
         Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
         transformLocalPosition.z = shift;

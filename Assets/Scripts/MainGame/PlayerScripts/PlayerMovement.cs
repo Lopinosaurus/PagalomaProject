@@ -14,6 +14,7 @@ namespace MainGame.PlayerScripts
     
         // Player Controller & Controls
         private PlayerInput _playerInput;
+        private PlayerController _playerController;
 
         // Movement components
         [HideInInspector] public CharacterController _characterController;
@@ -74,9 +75,9 @@ namespace MainGame.PlayerScripts
         private float _standingCameraHeightWerewolf;
         private float _crouchedCameraHeight;
         
-        private float _standingCamDepthVillager;
-        private float _crouchedCamDepthVillager;
-        private float _camDepthWerewolf;
+        private float _standingShiftVillager;
+        private float _crouchedShiftVillager;
+        private float _shiftWerewolf;
 
         public enum MovementTypes
         {
@@ -96,6 +97,7 @@ namespace MainGame.PlayerScripts
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
+            _playerController = GetComponent<PlayerController>();
 
             _characterController = GetComponentInChildren<CharacterController>();
             _characterLayerValue = (int)Mathf.Log(characterLayer.value, 2);
@@ -114,9 +116,9 @@ namespace MainGame.PlayerScripts
             _crouchedCameraHeight = camPos.y * 0.6f;
             
             // Profs
-            _standingCamDepthVillager = camPos.z;
-            _crouchedCamDepthVillager = 0.6f;
-            _camDepthWerewolf = 1.3f;
+            _standingShiftVillager = camPos.z;
+            _crouchedShiftVillager = 0.6f;
+            _shiftWerewolf = 1.3f;
         }
 
         private void Start()
@@ -300,13 +302,13 @@ namespace MainGame.PlayerScripts
             // Chooses the new character controller height
             float desiredHitboxHeight;
             float desiredCameraHeight;
-            float desiredCameraProf;
+            float desiredRenderShift;
 
             if (currentMovementType == MovementTypes.Crouch)
             {
                 desiredHitboxHeight = _crouchedHitboxHeight;
                 desiredCameraHeight = _crouchedCameraHeight;
-                desiredCameraProf = _crouchedCamDepthVillager;
+                desiredRenderShift = _crouchedShiftVillager;
             }
             else
             {
@@ -314,13 +316,13 @@ namespace MainGame.PlayerScripts
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeightVillager;
-                    desiredCameraProf = _standingCamDepthVillager;
+                    desiredRenderShift = _standingShiftVillager;
                 }
                 else
                 {
                     desiredHitboxHeight = _standingHitboxHeight;
                     desiredCameraHeight = _standingCameraHeightWerewolf;
-                    desiredCameraProf = _standingCameraHeightWerewolf;
+                    desiredRenderShift = _shiftWerewolf;
                 }
             }
 
@@ -336,7 +338,7 @@ namespace MainGame.PlayerScripts
             // Camera height modifier
             var localPosition = cameraHolder.transform.localPosition;
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
-            localPosition.z =  Mathf.Lerp(localPosition.z, desiredCameraProf, smoothTime);
+            _playerController.MoveRender(-desiredRenderShift);
             cameraHolder.transform.localPosition = localPosition;
         }
     
