@@ -94,7 +94,12 @@ namespace MainGame.PlayerScripts.Roles
                 FootstepEffect.PlayersCc.Add(playerData);
                 
                 // Store reference to the local player
-                if (info.Sender.IsLocal) RoomManager.Instance.localPlayer = playerRole;
+                if (info.Sender.IsLocal)
+                {
+                    RoomManager.Instance.localPlayer = playerRole;
+                    RoomManager.Instance.localPlayer.GetComponent<PlayerController>()._role = playerRole;
+                    Debug.Log($"New role set in PlayerController : {playerRole}");
+                }
                 
                 // Update Voting List
                 VoteMenu.Instance.Add(playerRole);

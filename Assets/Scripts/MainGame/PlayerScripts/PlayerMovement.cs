@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using MainGame.PlayerScripts.Roles;
-using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,15 +25,24 @@ namespace MainGame.PlayerScripts
         [Space]
         [Header("Player speed settings")]
         [SerializeField] private float currentSpeed;
-        public float currentSpeedMult = 1;
-        public int nbBushes;
-        public readonly float BaseSpeedMult = 1;
         private const float SprintSpeed = 5f;
         private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
         private const float WalkSpeed = 2f;
         private const float SmoothMoveValue = 10f;
-    
+        
+        // Multipliers
+        public bool isBushMult;
+        public bool isWerewolfMult;
+
+        private const float BushMult = 0.4f;
+        public const float AiStunMult = 0.5f;
+        private float currentMultCoroutine = 1;
+        private const float WerewolfMult = 1.15f;
+        private const float baseSpeedMult = 1;
+      
+        public int nbBushes;
+        
         [Space]
         [Header("Movement settings")]
         [HideInInspector]
@@ -54,10 +61,8 @@ namespace MainGame.PlayerScripts
         private float raySize = 0.1f;
         public bool grounded;
         public float slopeCompensationForce = 5f;
-        private const float checkGroundRadius = 0.3f;
         public bool isSphereGrounded { get; set; }
         private bool isCCgrounded { get; set; }
-
 
         // Crouch & Hitboxes 
         [Space]
@@ -107,24 +112,21 @@ namespace MainGame.PlayerScripts
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
             _standingCameraHeightVillager = camPos.y;
-            _standingCameraHeightWerewolf = 2;
+            _standingCameraHeightWerewolf = 1.8f;
             _crouchedCameraHeight = camPos.y * 0.7f;
             
             // Profs
             _camDepthVillager = camPos.z;
-            _camDepthWerewolf = 1.1f;
+            _camDepthWerewolf = 1.3f;
         }
 
         private void Start()
         {
             // For glitch cc abuse
-            foreach (var role in RoomManager.Instance.players)
+            if (RoomManager.Instance != null)
             {
-                Physics.IgnoreCollision(_characterController,
-                    role.gameObject.GetComponent<CharacterController>(),
-                    true);
-            }
-            
+                StartCoroutine(IgnorePlayerCollisions());
+            }            
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw3D = Vector3.zero;
@@ -138,6 +140,17 @@ namespace MainGame.PlayerScripts
             // for the Jump button
             _playerInput.actions["Jump"].performed += ctx => WantsJump = ctx.ReadValueAsButton();
             _playerInput.actions["Jump"].canceled += ctx => WantsJump = ctx.ReadValueAsButton();
+        }
+
+        private IEnumerator IgnorePlayerCollisions()
+        {
+            yield return new WaitUntil(() => RoomManager.Instance.localPlayer != null);
+            
+            foreach (var role in RoomManager.Instance.players)
+            {
+                Physics.IgnoreCollision(_characterController,
+                    role.gameObject.GetComponent<CharacterController>(), true);
+            }
         }
 
         private void OnPerformedMove(InputAction.CallbackContext ctx)
@@ -271,9 +284,20 @@ namespace MainGame.PlayerScripts
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            currentSpeed *= currentSpeedMult;
+            currentSpeed *= GetMultiplier();
         }
-     
+
+        private float GetMultiplier()
+        {
+            float mult = baseSpeedMult;
+
+            if (isBushMult) mult *= BushMult;
+            if (isWerewolfMult) mult *= WerewolfMult;
+            mult *= currentMultCoroutine;
+            
+            return mult;
+        }
+
         public void UpdateHitbox()
         {
             bool isWerewolf = _playerAnimation.isWerewolfEnabled;
@@ -317,8 +341,6 @@ namespace MainGame.PlayerScripts
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
             localPosition.z =  Mathf.Lerp(localPosition.z, desiredCameraProf, smoothTime);
             cameraHolder.transform.localPosition = localPosition;
-            
-            
         }
     
         #endregion
@@ -353,19 +375,22 @@ namespace MainGame.PlayerScripts
             StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
         }
 
-        internal IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
+        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
         {
             float timer = 0;
-            var lastCurrentMult = currentSpeedMult;
-
+            float refMult = baseSpeedMult;
+            
             // First value
-            while (timer < duration * startTime)
+            while (timer <= duration * startTime)
             {
-                var progress = timer / (duration * startTime);
+                float divider = duration * startTime;
+                var progress = divider == 0 ? 1 : timer / divider;
                 
                 timer += Time.deltaTime;
-                currentSpeedMult = Mathf.Lerp(lastCurrentMult, targetValue, progress);
+                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
 
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
                 yield return null;
             }
             
@@ -378,23 +403,20 @@ namespace MainGame.PlayerScripts
             }
             
             // Second value
-            lastCurrentMult = currentSpeedMult;
+            float finalMult = baseSpeedMult;
             while (timer < duration)
             {
                 var progress = (timer - duration * endTime) / (duration * (1 - endTime));
                 
                 timer += Time.deltaTime;
-                currentSpeedMult = Mathf.Lerp(lastCurrentMult, BaseSpeedMult, progress);
+                refMult = Mathf.Lerp(refMult, finalMult, progress);
 
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
                 yield return null;
             }
 
-            currentSpeedMult = BaseSpeedMult;
-        }
-
-        private void Update()
-        {
-             if (Input.GetKeyDown(KeyCode.T)) StartModifySpeed(5, target, 0, 1);
+            currentMultCoroutine = baseSpeedMult;
         }
     }
 }

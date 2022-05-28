@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    public class Werewolf : Role
+    [Serializable] public class Werewolf : Role
     {
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
@@ -95,21 +96,14 @@ namespace MainGame.PlayerScripts.Roles
             if (isTransformation)
             {
                 isTransformed = true;
-                _playerMovement.StartModifySpeed(werewolfDuration, 1.15f, 0, 1);
+                _playerMovement.isWerewolfMult = true;
                 if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(werewolfDuration));
             }
             // DeTransformation
             else
             {
                 // Removes speed boost
-                try
-                {
-                    StopCoroutine(nameof(_playerMovement.ModifySpeed));
-                }
-                catch
-                {
-                    _playerMovement.StartModifySpeed(0.1f, _playerMovement.BaseSpeedMult, 1, 1);
-                }
+                _playerMovement.isWerewolfMult = false;
 
                 isTransformed = false;
                 hasCooldown = true;
@@ -191,20 +185,20 @@ namespace MainGame.PlayerScripts.Roles
 
 
         [PunRPC]
-        public void RPC_KillTarget(string userId) // TODO: Add kill animation
+        public void RPC_KillTarget(string _userId) // TODO: Add kill animation
         {
             Role target = null;
             foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId
             {
-                if (player.userId == userId) target = player;
+                if (player.userId == _userId) target = player;
             }
 
             if (target != null)
             {
                 if (target.isAlive) target.Die();
-                else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, Target is already dead");
+                else Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, Target is already dead");
             }
-            else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, target = null");
+            else Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, target = null");
         }
 
         [PunRPC]
@@ -217,25 +211,6 @@ namespace MainGame.PlayerScripts.Roles
         public void RPC_DeTransformation()
         {
             DeTransformation();
-        }
-
-        private void Update()
-        {
-            // TODO remove
-            if (VoteMenu.Instance == null)
-            {
-                if (Input.GetKeyDown(KeyCode.T))
-                {
-                    Transformation();
-                    Debug.Log("transformation");
-                }
-
-                if (Input.GetKeyDown(KeyCode.Y))
-                {
-                    DeTransformation();
-                    Debug.Log("DE - transformation");
-                }
-            }
         }
     }
 }

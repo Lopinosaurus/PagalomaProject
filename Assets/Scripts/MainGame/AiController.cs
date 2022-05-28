@@ -297,13 +297,11 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartModifySpeed(slowSpeedDuration, 0.3f, 0.3f, 0.8f);
+                    _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
                     _playerLook.StartShake(shakeDuration);
 
+                    // Dead
                     Destroy(gameObject);
-
-                    EnableMovementSpeed(Speed.Freeze);
-
                     _isAlive = false;
                 }
                 else

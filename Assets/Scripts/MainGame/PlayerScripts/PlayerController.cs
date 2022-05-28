@@ -11,6 +11,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerLook))]
+[RequireComponent(typeof(PlayerAnimation))]
 public class PlayerController : MonoBehaviour
 {
     #region Attributes
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     [Range(-2, 2)] public float backShift = -0.23f;
 
     // Ai settings
-    private Role _role;
+    public Role _role;
     private GameObject AiInstance;
     private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
@@ -90,18 +91,17 @@ public class PlayerController : MonoBehaviour
 
     internal void Start()
     {
-        // Moves the player render backwards so that it doesn't clip with the camera
         if (_photonView.IsMine)
         {
+            // Moves the player render backwards so that it doesn't clip with the camera
             Vector3 transformLocalPosition = PlayerRender.transform.localPosition;
             transformLocalPosition.z = -backShift;
             PlayerRender.transform.localPosition = transformLocalPosition;
+            
+            // Starts the Ai
+            if (enableAi) StartCoroutine(AiCreator());
         }
-        
-        // Starts the light management
-        StartCoroutine(LightManager());
-
-        if (!_photonView.IsMine)
+        else
         {
             Destroy(_postProc);
             Destroy(_cam);
@@ -109,11 +109,9 @@ public class PlayerController : MonoBehaviour
             playerInput.enabled = false;
             enableAi = false;
         }
-        else
-        {
-            // Starts the Ai
-            if (enableAi) StartCoroutine(AiCreator());
-        }
+    
+        // Starts the light management
+        StartCoroutine(LightManager());
     }
 
     private IEnumerator LightManager()
@@ -142,6 +140,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AiCreator()
     {
+        yield return new WaitUntil(() => _role != null);
+        
         // Werewolves are not affected
         if (RoomManager.Instance.localPlayer is Werewolf) yield break;
 
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
         try
         {
             // Alive check
-            if (!_role.isAlive)
+            if (_role != null && !_role.isAlive)
                 // Debug.Log("SPAWNCHECK (2/5): is dead");
                 return false;
 
@@ -223,7 +223,6 @@ public class PlayerController : MonoBehaviour
             if (!VoteMenu.Instance.isNight)
                 // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
                 return false;
-
 
             // Village check
             var villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
@@ -255,9 +254,7 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine)
         {
             _playerLook.Look();
-
-            _playerLook.HeadRotate();
-
+            
             // Updates the jump feature
             _playerMovement.UpdateJump();
 
@@ -269,6 +266,8 @@ public class PlayerController : MonoBehaviour
 
             _playerMovement.UpdateHitbox();
         }
+        
+        _playerLook.HeadRotate();
     }
 
     #endregion

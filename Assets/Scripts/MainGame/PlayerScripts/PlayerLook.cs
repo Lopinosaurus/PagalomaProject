@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -13,6 +14,7 @@ namespace MainGame.PlayerScripts
         [SerializeField] private Transform camHolder;
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
+        private PhotonView _photonView;
         private CharacterController _characterController;
 
         // Sensitivity
@@ -39,7 +41,7 @@ namespace MainGame.PlayerScripts
 
         // Head settings
         [SerializeField] private Transform Retarget;
-        [SerializeField] private Transform Hips;
+        [SerializeField] private Transform BodyToRotate;
         private float deltaRotation;
         private float rotationRef;
         private const float bodyResetRotStrength = 12;
@@ -55,6 +57,7 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerMovement = GetComponent<PlayerMovement>();
+            _photonView = GetComponent<PhotonView>();
         }
 
         private void Start()
@@ -190,12 +193,10 @@ namespace MainGame.PlayerScripts
                     if (rotationRef > max && deltaRotation < 0)
                     {
                         rotationRef -= 360;
-                        Debug.Log("max corrected");
                     }
                     if (rotationRef < min && deltaRotation > 0)
                     {
                         rotationRef += 360;
-                        Debug.Log("min corrected");
                     }
 
                     
@@ -210,11 +211,11 @@ namespace MainGame.PlayerScripts
 
         private void RotateBodyY(float rotY, bool isInstant = false)
         {
-            Vector3 localRotHips = Hips.localRotation.eulerAngles;
+            Vector3 localRotHips = BodyToRotate.localRotation.eulerAngles;
             float resetRotStrength = isInstant ? 1 : bodyResetRotStrength * Time.deltaTime;
             localRotHips.y = Mathf.LerpAngle(localRotHips.y, rotY, resetRotStrength);
             
-            Hips.transform.localRotation = Quaternion.Euler(localRotHips);
+            BodyToRotate.transform.localRotation = Quaternion.Euler(localRotHips);
         }
     }
 }
