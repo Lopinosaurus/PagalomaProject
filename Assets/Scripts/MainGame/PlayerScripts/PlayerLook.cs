@@ -1,7 +1,5 @@
 using System.Collections;
-using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
@@ -26,6 +24,8 @@ namespace MainGame.PlayerScripts
         // Mouse input values
         private float _mouseDeltaX;
         private float _mouseDeltaY;
+        public float turnDeltaY => _mouseDeltaX * mouseSensX * canTurnSidesMult;
+        private float canTurnSidesMult => (!canTurnSides ? 0.1f : 1);
 
         // Current player values
         private float _rotationX;
@@ -38,10 +38,9 @@ namespace MainGame.PlayerScripts
         [SerializeField] [Range(0.1f, 10f)] private float shakeMultiplier = 4;
         
         // Jump settings
-        public bool canTurnSides = true;
+        private bool canTurnSides = true;
 
         // Head settings
-        [SerializeField] private Transform Retarget;
         [SerializeField] private Transform BodyToRotate;
         private float deltaRotation;
         private float rotationRef;
@@ -76,8 +75,8 @@ namespace MainGame.PlayerScripts
 
         public void Look() // Modifies camera and player rotation
         {
-            _rotationY += _mouseDeltaX * mouseSensX * (!canTurnSides ? 0.1f : 1);
-            _rotationX -= _mouseDeltaY * mouseSensY;
+            _rotationY += _mouseDeltaX * mouseSensX * canTurnSidesMult;
+            _rotationX -= _mouseDeltaY * mouseSensY * canTurnSidesMult;
 
             _rotationX = Mathf.Clamp(_rotationX, -90f, 90f);
 
@@ -173,10 +172,8 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            isMoving = Mathf.Abs(_animator.GetFloat(_playerAnimation._velocityXHash)) > 0.1f ||
-                       Mathf.Abs(_animator.GetFloat(_playerAnimation._velocityZHash)) > 0.1f;
-            
-            Debug.Log($"ismoving = {isMoving}");
+            isMoving = Mathf.Abs(_playerAnimation.velocityX) > 0.1f ||
+                       Mathf.Abs(_playerAnimation.velocityZ) > 0.1f;
             
             if (isMoving)
             {
@@ -222,5 +219,7 @@ namespace MainGame.PlayerScripts
             
             BodyToRotate.transform.localRotation = Quaternion.Euler(localRotHips);
         }
+
+        public void LockViewJump(bool locked) => canTurnSides = !locked;
     }
 }

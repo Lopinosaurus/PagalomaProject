@@ -13,7 +13,6 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField, Range(.1f, 10)] private float maxDistance;
     [SerializeField] private float playerDistanceCounter;
     [SerializeField] private Vector2 velocity2Draw;
-    private Animator animator;
     private PlayerAnimation playerAnimation;
 
     void Start()
@@ -21,7 +20,6 @@ public class FootstepEffect : MonoBehaviour
         playerDistanceCounter = 0;
         plyAudioSource.playOnAwake = false;
         plyAudioSource.volume = .11f;
-        animator = GetComponent<Animator>();
         playerAnimation = GetComponent<PlayerAnimation>();
     }
     
@@ -29,8 +27,8 @@ public class FootstepEffect : MonoBehaviour
      {
          velocity2Draw = new Vector2
          {
-             x = animator.GetFloat(playerAnimation._velocityXHash),
-             y = animator.GetFloat(playerAnimation._velocityZHash)
+             x = playerAnimation.velocityX,
+             y = playerAnimation.velocityZ
          };
          
          velocityMagnitude = velocity2Draw.magnitude;

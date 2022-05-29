@@ -15,13 +15,18 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
     
     // Trigger States hashes
-    private readonly int _jumpHash = Animator.StringToHash("Jump");
+    private readonly int _midVaultHash = Animator.StringToHash("MidVault");
+    private readonly int _simpleJumpHash = Animator.StringToHash("SimpleJump");
     private readonly int _deathHash = Animator.StringToHash("Death");
     private readonly int _attackHash = Animator.StringToHash("Attack");
 
     // Float States hashes
-    public readonly int _velocityXHash = Animator.StringToHash("VelocityX");
-    public readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+    private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
+    private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+    
+    // Animation values
+    public float velocityX => _currentAnimator.GetFloat(_velocityXHash);
+    public float velocityZ => _currentAnimator.GetFloat(_velocityZHash);
     
     // Layer hashes
     private int _WerewolfLayerIndex;
@@ -84,17 +89,22 @@ public class PlayerAnimation : MonoBehaviour
         _currentAnimator.SetTrigger(_deathHash);
     }
     
-    public void StartVaultMidAnimation(bool active)
+    public void StartMidVaultAnimation(bool active)
     {
-        // Toggles "Dying" animation
+        // Toggles "SimpleJump" animation
         if (active)
-        {
-            _currentAnimator.SetTrigger(_jumpHash);
-        }
+            _currentAnimator.SetTrigger(_midVaultHash);
         else
-        {
-            _currentAnimator.ResetTrigger(_jumpHash);
-        }
+            _currentAnimator.ResetTrigger(_midVaultHash);
+    }
+    
+public void StartSimpleJumpAnimation(bool active)
+    {
+        // Toggles "SimpleJump" animation
+        if (active)
+            _currentAnimator.SetTrigger(_simpleJumpHash);
+        else
+            _currentAnimator.ResetTrigger(_simpleJumpHash);
     }
 
     public void EnableWerewolfAnimations(bool toWerewolf)
@@ -115,13 +125,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         // Toggles "Attack" animation
         if (active)
-        {
             _currentAnimator.SetTrigger(_attackHash);
-        }
         else
-        {
             _currentAnimator.ResetTrigger(_attackHash);
-        }
     }
 }
 

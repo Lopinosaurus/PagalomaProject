@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+// ReSharper disable ArrangeObjectCreationWhenTypeEvident
 
 namespace MainGame.PlayerScripts
 {
     public partial class PlayerMovement
     {
         // Jump values
-        private bool WantsJump { get; set; }
+        private bool WantsJump;
+        private bool AlreadyWantsJump;
+
         public enum JumpState
         {
             Still,
@@ -17,10 +19,16 @@ namespace MainGame.PlayerScripts
             HighVault
         }
 
-        private bool shouldJumpFreezeGravity =>
-            JumpState.MidVault == currentJumpState || JumpState.HighVault == currentJumpState;
+        private bool shouldFreezeControlsJump =>
+            JumpState.MidVault == currentJumpState ||
+            JumpState.HighVault == currentJumpState;
+        private bool shouldFreezeGravityJump =>
+            JumpState.SimpleJump == currentJumpState ||
+            JumpState.MidVault == currentJumpState ||
+            JumpState.HighVault == currentJumpState;
+
         public JumpState currentJumpState = JumpState.Still;
-        
+
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
@@ -28,86 +36,87 @@ namespace MainGame.PlayerScripts
         [SerializeField] private LayerMask characterLayer;
         internal int _characterLayerValue;
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
-        private List<Collider> collidersStopIgnoringVaultMid = new List<Collider>();
-        private float jumpStrength = 2;
+        private readonly List<Collider> collidersStopIgnoringVaultMid = new List<Collider>();
 
         // ReSharper disable once UnusedMember.Global
-        public void DeactivateJumpBool()
-        {
-            currentJumpState = JumpState.Still;
-        }
+        public void DeactivateJumpBool() => currentJumpState = JumpState.Still;
 
         public void UpdateJump()
         {
+            // End jumping
+            if (JumpState.Still == currentJumpState)
+            {
+                // Reset jump animations
+                _playerAnimation.StartMidVaultAnimation(false);
+                _playerAnimation.StartSimpleJumpAnimation(false);
+
+                // Reset cam movement
+                _playerLook.LockViewJump(false);
+
+                // Stops ignoring them
+                foreach (Collider jumpedCollider in collidersStopIgnoringVaultMid)
+                    Physics.IgnoreCollision(_characterController, jumpedCollider, false);
+            }
+
             // Gets what jump type is available
             JumpState availableJumpState = GetAvailableJump();
-            
+
             // Tries to jump is not already jumping and wants to jump
             if (WantsJump && JumpState.Still == currentJumpState)
-            {
                 switch (availableJumpState)
                 {
                     // Simple Jump
-                    case JumpState.SimpleJump:
+                    case JumpState.SimpleJump when !AlreadyWantsJump && grounded:
                         currentJumpState = JumpState.SimpleJump;
-                        
-                        upwardVelocity = Vector3.up * jumpStrength;
+
+                        // Starts the animation
+                        _playerAnimation.StartSimpleJumpAnimation(true);
+                        // Prevents the cam from turning too much
+                        _playerLook.LockViewJump(false);
                         break;
-                    
+
                     // Mid vault
                     case JumpState.MidVault:
-                    {
+
                         currentJumpState = JumpState.MidVault;
-                        
+
                         // Ignore colliders
                         collidersStopIgnoringVaultMid.Clear();
-                        foreach (Collider jumpedCollider in ignoredJumpedColliders.Where(jumpedCollider => jumpedCollider != null))
+                        foreach (Collider jumpedCollider in ignoredJumpedColliders.Where(jumpedCollider =>
+                                     jumpedCollider != null))
                         {
                             Physics.IgnoreCollision(_characterController, jumpedCollider, true);
                             // Sets them to stop ignoring them next
                             collidersStopIgnoringVaultMid.Add(jumpedCollider);
                         }
-                
+
                         // Starts the animation
-                        _playerAnimation.StartVaultMidAnimation(true);
+                        _playerAnimation.StartMidVaultAnimation(true);
                         // Prevents the cam from turning too much
-                        _playerLook.canTurnSides = false;
+                        _playerLook.LockViewJump(true);
                         break;
-                    }
-                    
+
                     // High vault
                     case JumpState.HighVault:
                         break;
                 }
-            }
 
-            // End jumping
-            if (JumpState.Still == currentJumpState)
-            {
-                _playerAnimation.StartVaultMidAnimation(false);
-                _playerLook.canTurnSides = true;
-                
-                // Stops ignoring them
-                foreach (var jumpedCollider in collidersStopIgnoringVaultMid)
-                {
-                    Physics.IgnoreCollision(_characterController, jumpedCollider, false);
-                }
-            }
+            if (WantsJump) AlreadyWantsJump = true;
         }
 
         private JumpState GetAvailableJump()
         {
             // Check for MidVault
-            bool canMidVault = 
-            // Check if there room to jump
-            !obstaclesAbsent.Any(j => j.IsColliding) &&
-            // Check if there is an obstacle to vault over
-            obstaclesPresent.All(j => j.IsColliding);
+            var canMidVault =
+                // Check if there room to jump
+                !obstaclesAbsent.Any(j => j.IsColliding) &&
+                // Check if there is an obstacle to vault over
+                obstaclesPresent.All(j => j.IsColliding);
 
             if (canMidVault) return JumpState.MidVault;
 
             if (grounded) return JumpState.SimpleJump;
-            
+
             return JumpState.Still;
         }
     }

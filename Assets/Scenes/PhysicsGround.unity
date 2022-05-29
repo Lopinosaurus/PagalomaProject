@@ -12391,10 +12391,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_6 (44)
       objectReference: {fileID: 0}
-    - target: {fileID: 3953282680730530211, guid: b444959930879364bbdd004713f45217, type: 3}
-      propertyPath: m_TagString
-      value: tree
-      objectReference: {fileID: 0}
     - target: {fileID: 4580034762982728269, guid: b444959930879364bbdd004713f45217, type: 3}
       propertyPath: m_RootOrder
       value: 267
@@ -16203,7 +16199,7 @@ GameObject:
   - component: {fileID: 1405006062}
   - component: {fileID: 1405006061}
   - component: {fileID: 1405006060}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Plane
   m_TagString: mapFloor
   m_Icon: {fileID: 0}
@@ -19773,10 +19769,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_1 (46)
       objectReference: {fileID: 0}
-    - target: {fileID: 7290431148054736045, guid: 4b52857ab624cba438ce9f2e763a003b, type: 3}
-      propertyPath: m_TagString
-      value: tree
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b52857ab624cba438ce9f2e763a003b, type: 3}
 --- !u!4 &1722780451 stripped
@@ -20671,10 +20663,6 @@ PrefabInstance:
     - target: {fileID: 5580981434177756579, guid: 7fb72dcb8cc230a42b08d6bbe7e1b975, type: 3}
       propertyPath: m_Name
       value: Tree_2 (45)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5580981434177756579, guid: 7fb72dcb8cc230a42b08d6bbe7e1b975, type: 3}
-      propertyPath: m_TagString
-      value: tree
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fb72dcb8cc230a42b08d6bbe7e1b975, type: 3}
