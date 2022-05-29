@@ -6,6 +6,7 @@ using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+// ReSharper disable UnusedMember.Local
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -79,8 +80,8 @@ public class DayNightCycle : MonoBehaviour
         }
         
         // light rotation
-        sun.transform.eulerAngles = (time - 0.25f) * noon * 4.0f;
-        moon.transform.eulerAngles = (time - 0.75f) * noon * 4.0f;
+        sun.transform.eulerAngles = noon * ((time - 0.25f) * 4.0f);
+        moon.transform.eulerAngles = noon * ((time - 0.75f) * 4.0f);
         
         // light intensity
         sun.intensity = sunIntensity.Evaluate(time);
@@ -109,8 +110,8 @@ public class DayNightCycle : MonoBehaviour
         // fog intensity
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
     }
-    
-    public void NewDay()
+
+    private void NewDay()
     {
         RoomManager.Instance.UpdateInfoText("It's a new day, go to the sign to vote!");
         VoteMenu.Instance.isDay = true;
@@ -121,7 +122,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.UpdateVoteItems();
     }
 
-    public void NewNight()
+    private void NewNight()
     {
         RoomManager.Instance.UpdateInfoText("It's the night, the powers are activated!");
         RoomManager.Instance.votes = new List<Role>();
@@ -134,17 +135,17 @@ public class DayNightCycle : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_NewDay(float time)
+    private void RPC_NewDay(float _time)
     {
-        this.time = time;
+        time = _time;
         isDay = true;
         NewDay();
     }
     
     [PunRPC]
-    void RPC_NewNight(float time)
+    void RPC_NewNight(float _time)
     {
-        this.time = time;
+        time = _time;
         isDay = false;
         NewNight();
     }

@@ -1,7 +1,4 @@
 using System.Collections;
-using MainGame.DecorsInteraction;
-using MainGame;
-using MainGame.Menus;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -26,8 +23,8 @@ namespace MainGame.PlayerScripts.Roles
         public Color color;
         public Role vote;
         public bool hasVoted; // Has submitted vote this day
-        [SerializeField] protected TMP_Text actionText;
-        [SerializeField] protected TMP_Text deathText;
+        protected TMP_Text actionText;
+        private TMP_Text deathText;
         
         [SerializeField] private bool kill;
 
@@ -114,11 +111,12 @@ namespace MainGame.PlayerScripts.Roles
             // Show death label & disable inputs
             if (_photonView.IsMine)
             {
-                deathText.enabled = true;
+                deathText.enabled = false;
                 _playerInput.actions["Die"].Disable();
                 _playerInput.actions["Kill"].Disable();
             }
             
+            //
             _rotationConstraint.enabled = false;
 
             // Disable components & gameplay variables
