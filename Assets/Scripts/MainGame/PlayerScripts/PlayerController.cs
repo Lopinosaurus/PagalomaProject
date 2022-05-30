@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     
     // First person management
     [Space, Header("Camera Components")]
-    [SerializeField] private Camera _camEnvironment;
     [SerializeField] private Camera _camPlayer;
     private PostProcessLayer[] _postProcLayers;
     private AudioListener _audioListener;
@@ -89,7 +88,7 @@ public class PlayerController : MonoBehaviour
         _postProcLayers = cameraHolder.GetComponentsInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
-        if (null == _camEnvironment) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == _camPlayer) throw new Exception("There is no camera attached to the Camera Holder !");
 
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
@@ -112,7 +111,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             foreach (var layer in _postProcLayers) Destroy(layer);
-            Destroy(_camEnvironment);
             Destroy(_camPlayer);
             Destroy(_audioListener);
             playerInput.enabled = false;

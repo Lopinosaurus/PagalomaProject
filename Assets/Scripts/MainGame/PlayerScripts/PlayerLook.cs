@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -11,7 +12,9 @@ namespace MainGame.PlayerScripts
 
         // Components
         [SerializeField] private Transform camHolder;
+        private Transform _cam;
         private PlayerInput _playerInput;
+        private PhotonView _photonView;
         private FootstepEffect _footstepEffect;
         private PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
@@ -48,6 +51,10 @@ namespace MainGame.PlayerScripts
         [SerializeField] [Range(0, 90)] private float rotationThreshold = 60f;
         private bool isMoving;
         
+        // Head Bob settings
+        private int side = 1;
+        private float amplitude = 1;
+        
         #endregion
 
         #region Unity Methods
@@ -57,11 +64,15 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
+            _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
+            _cam = GetComponentInChildren<Camera>().transform;
         }
 
         private void Start()
         {
+            if (_photonView.IsMine) StartCoroutine(HeadBob());
+            
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
@@ -90,9 +101,9 @@ namespace MainGame.PlayerScripts
                 _rotationX = Mathf.SmoothDampAngle(_rotationX, 80f, ref _, SmoothTimeX);
             }
 
-            var localRotationEuler = camHolder.transform.localRotation.eulerAngles;
+            var localRotationEuler = camHolder.localRotation.eulerAngles;
             localRotationEuler.x = _rotationX;
-            camHolder.transform.localRotation = Quaternion.Euler(localRotationEuler);
+            camHolder.localRotation = Quaternion.Euler(localRotationEuler);
 
             var rotationEuler = _characterController.transform.rotation.eulerAngles;
             rotationEuler.y = _rotationY;
@@ -221,5 +232,11 @@ namespace MainGame.PlayerScripts
         }
 
         public void LockViewJump(bool locked) => canTurnSides = !locked;
+
+        private IEnumerator HeadBob()
+        {
+            
+            yield return null;
+        }
     }
 }

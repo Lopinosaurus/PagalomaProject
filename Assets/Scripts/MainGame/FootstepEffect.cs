@@ -7,17 +7,17 @@ using Random = UnityEngine.Random;
 
 public class FootstepEffect : MonoBehaviour
 {
-    [SerializeField] private float velocityMagnitude;
+    private float velocityMagnitude;
     [SerializeField] private AudioClip dryFootstep;
     [SerializeField] private AudioSource plyAudioSource;
     [SerializeField, Range(.1f, 10)] private float maxDistance;
-    [SerializeField] private float playerDistanceCounter;
-    [SerializeField] private Vector2 velocity2Draw;
+    private float playerDistanceCounter;
+    private Vector2 velocity2Draw;
     private PlayerAnimation playerAnimation;
+    public float PlayerDistanceCounter => playerDistanceCounter;
 
     void Start()
     {
-        playerDistanceCounter = 0;
         plyAudioSource.playOnAwake = false;
         plyAudioSource.volume = .11f;
         playerAnimation = GetComponent<PlayerAnimation>();
@@ -32,8 +32,8 @@ public class FootstepEffect : MonoBehaviour
          };
          
          velocityMagnitude = velocity2Draw.magnitude;
-         playerDistanceCounter += velocityMagnitude * Time.fixedDeltaTime;
-         if (playerDistanceCounter >= maxDistance)
+         playerDistanceCounter = PlayerDistanceCounter + velocityMagnitude * Time.fixedDeltaTime;
+         if (PlayerDistanceCounter >= maxDistance)
          {
              playerDistanceCounter = 0;
              plyAudioSource.clip = dryFootstep;
@@ -43,6 +43,7 @@ public class FootstepEffect : MonoBehaviour
          // Yes, it's realistic.
          if (0 == velocityMagnitude)
          {
+             playerDistanceCounter = 0;
              plyAudioSource.Stop();    
          }
      }
