@@ -116,7 +116,7 @@ namespace MainGame.PlayerScripts.Roles
                 _playerInput.actions["Kill"].Disable();
             }
             
-            //
+            // Prevents the head for rotating in the ground when dying
             _rotationConstraint.enabled = false;
 
             // Disable components & gameplay variables

@@ -25,13 +25,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
+    [Space, Header("Scriptss")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
-    private Camera _cam;
+    
+    // First person management
+    [Space, Header("Camera Components")]
+    [SerializeField] private Camera _camEnvironment;
+    [SerializeField] private Camera _camPlayer;
     private PostProcessLayer _postProc;
     private AudioListener _audioListener;
-
-    // First person management
+    [Header("Model Renders")]
     [SerializeField] public GameObject VillagerRender;
     [SerializeField] public GameObject WerewolfRender;
     public readonly float backShift = 0.28f;
@@ -79,11 +83,10 @@ public class PlayerController : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
 
         // Camera component
-        _cam = cameraHolder.GetComponentInChildren<Camera>();
         _postProc = cameraHolder.GetComponentInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
-        if (null == _cam) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == _camEnvironment) throw new Exception("There is no camera attached to the Camera Holder !");
 
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
@@ -97,13 +100,17 @@ public class PlayerController : MonoBehaviour
             // Moves the player render backwards so that it doesn't clip with the camera
             MoveRender(backShift, VillagerRender);
             
+            // Turns the cam for the player render on
+            _camPlayer.gameObject.SetActive(true);
+            
             // Starts the Ai
             if (enableAi) StartCoroutine(AiCreator());
         }
         else
         {
             Destroy(_postProc);
-            Destroy(_cam);
+            Destroy(_camEnvironment);
+            Destroy(_camPlayer);
             Destroy(_audioListener);
             playerInput.enabled = false;
             enableAi = false;
