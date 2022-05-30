@@ -5,6 +5,7 @@ using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
@@ -33,14 +34,15 @@ public class PlayerController : MonoBehaviour
     [Space, Header("Camera Components")]
     [SerializeField] private Camera _camEnvironment;
     [SerializeField] private Camera _camPlayer;
-    private PostProcessLayer _postProc;
+    private PostProcessLayer[] _postProcLayers;
     private AudioListener _audioListener;
     [Header("Model Renders")]
     [SerializeField] public GameObject VillagerRender;
     [SerializeField] public GameObject WerewolfRender;
-    public readonly float backShift = 0.28f;
+    public readonly float backShift = 0.3f;
 
     // Ai settings
+    [Space, Header("Ai Settings")]
     public Role _role;
     private GameObject AiInstance;
     private Transform villageTransform;
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip aiSound;
     [SerializeField] private AudioSource plyAudioSource;
 
+    [Space, Header("Light")]
     [SerializeField] private Light _lampLight;
     // [SerializeField] [Range(0f, 1f)] private float slider;
 
@@ -83,7 +86,7 @@ public class PlayerController : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
 
         // Camera component
-        _postProc = cameraHolder.GetComponentInChildren<PostProcessLayer>();
+        _postProcLayers = cameraHolder.GetComponentsInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
         if (null == _camEnvironment) throw new Exception("There is no camera attached to the Camera Holder !");
@@ -99,7 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             // Moves the player render backwards so that it doesn't clip with the camera
             MoveRender(backShift, VillagerRender);
-            
+
             // Turns the cam for the player render on
             _camPlayer.gameObject.SetActive(true);
             
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Destroy(_postProc);
+            foreach (var layer in _postProcLayers) Destroy(layer);
             Destroy(_camEnvironment);
             Destroy(_camPlayer);
             Destroy(_audioListener);
@@ -195,7 +198,6 @@ public class PlayerController : MonoBehaviour
                 plyAudioSource.Play();
                 AiController a = AiInstance.GetComponent<AiController>();
                 a.targetRole = _role;
-                a._camHolder = cameraHolder;
 
                 hasAlreadySpawnedToday = true;
 

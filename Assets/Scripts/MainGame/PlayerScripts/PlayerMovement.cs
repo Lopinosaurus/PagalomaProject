@@ -337,10 +337,12 @@ namespace MainGame.PlayerScripts
             // Camera height modifier
             Vector3 localPosition = cameraHolder.transform.localPosition;
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
+            cameraHolder.transform.localPosition = localPosition;
+            
+            // Camera render depth modifier
             _playerController.MoveRender(-desiredRenderShift,
                 isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
                 smoothTime);
-            cameraHolder.transform.localPosition = localPosition;
         }
 
         #endregion

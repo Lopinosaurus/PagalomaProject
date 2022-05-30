@@ -12,7 +12,7 @@ namespace MainGame.PlayerScripts
         // Components
         [SerializeField] private Transform camHolder;
         private PlayerInput _playerInput;
-        private Animator _animator;
+        private FootstepEffect _footstepEffect;
         private PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
 
@@ -57,7 +57,7 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
-            _animator = GetComponent<Animator>();
+            _footstepEffect = GetComponent<FootstepEffect>();
         }
 
         private void Start()

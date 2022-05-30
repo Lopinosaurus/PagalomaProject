@@ -15,7 +15,6 @@ public class AiController : MonoBehaviour
     public Role targetRole;
     [SerializeField] private GameObject dissimulateParticle;
     private GameObject _targetPlayer;
-    public GameObject _camHolder;
     private Camera _targetCam;
     private Plane[] _targetPlanes;
 
@@ -345,7 +344,7 @@ public class AiController : MonoBehaviour
         {
             _isInCameraView = true;
 
-            Vector3 camPosition = _targetCam.transform.position;
+            /*Vector3 camPosition = _targetCam.transform.position;
 
             float colliderHeight = _capsuleCollider.height;
             Vector3 colliderPosition = _capsuleCollider.transform.position;
@@ -367,7 +366,7 @@ public class AiController : MonoBehaviour
                 {
                     if (hit.collider == _capsuleCollider) return true;
                 }
-            }
+            }*/
         }
         else
         {
