@@ -5,7 +5,6 @@ using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
@@ -26,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
-    [Space, Header("Scriptss")]
+    [Space, Header("Scripts")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] internal GameObject cameraHolder;
     
@@ -157,16 +156,17 @@ public class PlayerController : MonoBehaviour
     private IEnumerator AiCreator()
     {
         yield return new WaitUntil(() => _role != null);
-        
-        // Werewolves are not affected
-        if (RoomManager.Instance.localPlayer is Werewolf) yield break;
+        Debug.Log("received a role: " + _role.roleName);
 
-        // Gets the village
-        GameObject village = GameObject.FindWithTag("village");
-        if (village != null) villageTransform = village.transform;
+        if (RoomManager.Instance != null)
+        {
+            // Werewolves are not affected
+            if (RoomManager.Instance.localPlayer is Werewolf) yield break;
 
-        // Waits until there is a real match
-        yield return new WaitUntil(() => RoomManager.Instance != null);
+            // Gets the village
+            GameObject village = GameObject.FindWithTag("village");
+            if (village != null) villageTransform = village.transform;
+        }
         
         // Pre-start Ai
         try

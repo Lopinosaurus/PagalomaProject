@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ExitGames.Client.Photon;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using static System.Single;
@@ -73,9 +75,7 @@ public class AiController : MonoBehaviour
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
     private const float minCriticalDistFromPlayer = 7;
-    private const float minDangerDistFromPlayer = 30;
-    private const float minFlee = 20;
-    
+    private const float minDangerDistFromPlayer = 20;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 40;
@@ -88,6 +88,7 @@ public class AiController : MonoBehaviour
     private const float _hidingSpeed = 50;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
+    public Collider[] hitColliders = new Collider[200];
     private const float Acceleration = 500;
     private const float AccelerationFast = 100;
 
@@ -135,7 +136,7 @@ public class AiController : MonoBehaviour
             {
                 FindNewObstacle(true);
             }
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -182,22 +183,20 @@ public class AiController : MonoBehaviour
 
                 float distFromTarget = DistFromTarget;
                 // Reduces the timer
-                if (!_isInCameraView)
+                if (_isInCameraView)
                 {
-                    remainingTime -= Time.fixedDeltaTime;
-
-                    canShake = true;
-                }
-                else
-                {
-
                     remainingTime -= Time.deltaTime * 0.5f;
                     if (canShake)
                     {
                         canShake = false;
                         Debug.Log("should shake");
-                        _playerLook.StartShake(0.1f, 5);
+                        // _playerLook.StartShake(0.1f, 5);
                     }
+                }
+                else
+                {
+                    remainingTime -= Time.fixedDeltaTime;
+                    canShake = true;
                 }
 
                 // Decides when to attack
@@ -211,16 +210,15 @@ public class AiController : MonoBehaviour
                 {
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
                     bool tooClose = distFromTarget < minCriticalDistFromPlayer;
-                    isDanger = distFromTarget < minFlee;
+                    isDanger = distFromTarget < minDangerDistFromPlayer;
 
-                    if (remainingTime <= CycleTime && (tooClose || tooFar))
+                    if (remainingTime >= 0 && remainingTime <= CycleTime && (tooClose || tooFar))
                     {
                         if (tooClose)
-                        {
                             SetCurrentState(AiState.Caught);
-                        }
                         else
                         {
+                            SetCurrentState(AiState.Moving);
                             _agent.SetDestination(FindHidingSpot(false, true));
                         }
 
@@ -232,12 +230,12 @@ public class AiController : MonoBehaviour
                     else if (remainingTime < 0)
                     {
                         SetTime(CycleTime);
+                        
                         SetCurrentState(AiState.Moving);
-
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
+                        
                         if (previousCollider != currentHidingObstacle) moveCount++;
-
-                        Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.green, 1f, false);
+                        Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
                     }
                     else
                     {
@@ -253,15 +251,11 @@ public class AiController : MonoBehaviour
                 SetTime(CycleTime);
 
                 _agent.SetDestination(FindHidingSpot(true));
-                SetCurrentState(AiState.Moving);
                 
-                Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.green, 1f, false);
+                Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
 
                 // When the Ai has arrived, goes back to Hidden
-                if (_agent.remainingDistance < RemainingMinDistance)
-                {
-                    SetCurrentState(AiState.Hidden);
-                }
+                if ((transform.position - _agent.destination).sqrMagnitude < RemainingMinDistance) SetCurrentState(AiState.Hidden);
 
                 break;
 
@@ -282,7 +276,6 @@ public class AiController : MonoBehaviour
                 else
                 {
                     SetCurrentState(AiState.Relocate);
-                    transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
                     _agent.SetDestination(FindHidingSpot(false, true));
                 }
 
@@ -411,42 +404,44 @@ public class AiController : MonoBehaviour
 
         // Potential colliders to go to
         Vector3 center = targetPosition;
-        Debug.DrawRay(center, Vector3.up * 20, Color.blue, 1, false);
-        var hitColliders = new Collider[400];
-        Physics.OverlapSphereNonAlloc(center, radius, hitColliders);
+        hitColliders = Physics.OverlapSphere(center, radius);
 
         var correctCol = new List<(Collider, float)>();
 
-        for (var index = 0; index < hitColliders.Length && hitColliders[index] != null; index++)
+        foreach (Collider c in hitColliders)
         {
-            Collider c = hitColliders[index];
             // Skip invalids
-            if (IsInvalidCollider(c) ||
+            if (null == c ||
+                !IsValidCollider(c) ||
                 (c.transform.position - targetPosition).sqrMagnitude <
                 minDangerDistFromPlayer * minDangerDistFromPlayer ||
                 c == previousCollider ||
                 c == currentHidingObstacle ||
                 c == _capsuleCollider)
+            {
+                Debug.DrawRay(c.transform.position, Vector3.up, Color.red, 2, false);       
                 continue;
+            }
 
-            float sqrDist = (c.transform.position - _targetPlayer.transform.position).sqrMagnitude;
+            float sqrDist = (c.transform.position - targetPosition).sqrMagnitude;
 
             InsertSorted(correctCol, c, sqrDist);
         }
 
-        // Debug
-        for (int i = 0; i < hitColliders.Length && hitColliders[i] != null; i++)
+        Debug.Log($"there is {correctCol.Count(c => c.Item1 != null)} obstacle", currentHidingObstacle);
+        
+        for (int i = 0; i < correctCol.Count; i++)
         {
-            Debug.DrawRay(hitColliders[i].transform.position, Vector3.up * 10 + Vector3.back,
-                Color.Lerp(Color.red, Color.yellow, i / (float) hitColliders.Length),
-                2, false);
+            if (correctCol[i].Item1 == null) continue;
+            Debug.DrawRay(hitColliders[i].transform.position, Vector3.up,Color.green, 2, false);
         }
 
         Collider newCollider = ChooseRandom(correctCol, largeSearch);
-
+        Debug.DrawLine(transform.position + Vector3.up, targetPosition, Color.cyan, 1, false);       
+        
         previousCollider = currentHidingObstacle;
         currentHidingObstacle = newCollider;
-    }
+        }
 
     private Collider ChooseRandom(IReadOnlyList<(Collider, float)> cols, bool largeSearch)
     {
@@ -473,21 +468,22 @@ public class AiController : MonoBehaviour
         }
     }
 
-    private bool IsInvalidCollider(Collider c)
+    private bool IsValidCollider(Collider c)
     {
-        var transformPosition = c.gameObject.transform.position;
-        
         // Refreshes the camera planes
         _targetPlanes = GeometryUtility.CalculateFrustumPlanes(_targetCam);
-        if (GeometryUtility.TestPlanesAABB(_targetPlanes, _capsuleCollider.bounds)) return true;
+        if (GeometryUtility.TestPlanesAABB(_targetPlanes, c.bounds)) return false;
         
         Type type = c.GetType();
-        
-        return !c.CompareTag("tree")
-               && !c.CompareTag("stone")
-               || typeof(CharacterController) == type
-               || typeof(CapsuleCollider) == type
-               || c.gameObject.layer == _characterMaskValue;
+
+        if (!c.CompareTag("tree")
+            && !c.CompareTag("stone")
+            || typeof(CharacterController) == type
+            || typeof(CapsuleCollider) == type
+            || c.gameObject.layer == _characterMaskValue)
+            return false;
+
+        return true;
     }
 
     private int GetLayerMaskValue(LayerMask layerMask)
