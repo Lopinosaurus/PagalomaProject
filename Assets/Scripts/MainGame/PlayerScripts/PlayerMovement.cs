@@ -16,7 +16,6 @@ namespace MainGame.PlayerScripts
 
         // Player Controller & Controls
         private PlayerInput _playerInput;
-        private PhotonTransformViewClassic _photonTransformViewClassic;
         private PlayerController _playerController;
 
         // Movement components
@@ -98,7 +97,6 @@ namespace MainGame.PlayerScripts
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
             _playerController = GetComponent<PlayerController>();
-            _photonTransformViewClassic = GetComponent<PhotonTransformViewClassic>();
 
             _characterController = GetComponentInChildren<CharacterController>();
             _characterLayerValue = (int) Mathf.Log(characterLayer.value, 2);
@@ -200,7 +198,6 @@ namespace MainGame.PlayerScripts
                 _playerAnimation.velocityX,
                 grounded || JumpState.Still == currentJumpState ? 0 : currentMotion.y,
                 _playerAnimation.velocityZ);
-            _photonTransformViewClassic.SetSynchronizedValues(motionNetwork, _playerLook.turnDeltaY);
             
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
