@@ -68,8 +68,6 @@ namespace MainGame.PlayerScripts
 
                 foreach (var role in RoomManager.Instance.players)
                 {
-                    if (role.gameObject.GetComponent<PhotonView>().IsMine) continue;
-                    
                     role.gameObject.transform.Find("VillagerRender").GetChild(0).GetComponent<SkinnedMeshRenderer>()
                         .materials[1] = anonymousMaterial;
                 }
