@@ -47,13 +47,13 @@ public class AiController : MonoBehaviour
 
     private enum Speed
     {
-        Freeze,
-        Attack,
+        Frozen,
+        Attacking,
         Moving,
         Hiding,
         Relocating
     }
-
+    
     // Insert the LayerMask corresponding the player 
     [SerializeField] private LayerMask characterMask;
     private int _characterMaskValue;
@@ -69,11 +69,11 @@ public class AiController : MonoBehaviour
     private const float shakeDuration = 30;
     private const float slowSpeedDuration = 15;
     private int moveCount;
-    private const int MaxMoveCount = 5;
+    private const int MaxMoveCount = 15;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 1;
+    private const float CycleTime = 0.5f;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
@@ -201,7 +201,6 @@ public class AiController : MonoBehaviour
                 // Reduces the timer
                 if (_isInCameraView)
                 {
-                    remainingTime -= Time.deltaTime * 0.25f;
                     if (canShake)
                     {
                         canShake = false;
@@ -276,7 +275,7 @@ public class AiController : MonoBehaviour
                 break;
 
             case AiState.Caught when _isAlive:
-                EnableMovementSpeed(Speed.Freeze);
+                EnableMovementSpeed(Speed.Frozen);
                 SetCurrentState(AiState.Hidden);
 
                 remainingHealth--;
@@ -297,7 +296,7 @@ public class AiController : MonoBehaviour
 
                 break;
             case AiState.Attack when _isAlive:
-                EnableMovementSpeed(Speed.Attack);
+                EnableMovementSpeed(Speed.Attacking);
 
                 _agent.SetDestination(_targetPlayer.transform.position);
 
@@ -306,7 +305,7 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
-                    _playerLook.StartShake(shakeDuration, 5);
+                    _playerLook.StartShake(shakeDuration, 2);
                     ApplyMalusPostProcess();
 
                     // Dead
@@ -390,11 +389,11 @@ public class AiController : MonoBehaviour
     {
         switch (selected)
         {
-            case Speed.Freeze:
+            case Speed.Frozen:
                 _agent.speed = 0;
                 _agent.acceleration = 9999;
                 break;
-            case Speed.Attack:
+            case Speed.Attacking:
                 _agent.speed = Mathf.Clamp(20 - _agent.remainingDistance, 8, 20);
                 _agent.acceleration = Acceleration;
                 break;
