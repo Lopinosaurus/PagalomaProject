@@ -160,7 +160,8 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
         {
-            while (_cameraHolder.transform.position != endingPos)
+            float timer = 10;
+            while (_cameraHolder.transform.position != endingPos && timer > 0)
             {
                 Vector3 position = _cameraHolder.transform.position;
                 Quaternion rotation = _cameraHolder.transform.localRotation;
@@ -170,8 +171,13 @@ namespace MainGame.PlayerScripts.Roles
 
                 _cameraHolder.transform.position = position;
                 _cameraHolder.transform.localRotation = rotation;
+
+                timer -= Time.deltaTime;
+                
                 yield return null;
             }
+
+            GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
         }
 
         #endregion

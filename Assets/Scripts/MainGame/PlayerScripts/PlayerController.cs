@@ -45,11 +45,12 @@ public class PlayerController : MonoBehaviour
     private GameObject AiInstance;
     private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
-    private List<Transform> playerPositions;
+    private List<Transform> playerPositions = new List<Transform>();
+    public List<Transform> PlayerPositions => playerPositions;
 
     private readonly float minVillageDist = 120f;
     private readonly float minPlayerDist = 60f;
-    public bool IaAlreadySpawned => AiInstance;
+    private bool IaAlreadySpawned => AiInstance;
     private bool hasAlreadySpawnedToday;
     [SerializeField] private bool enableAi = true;
 
@@ -116,8 +117,36 @@ public class PlayerController : MonoBehaviour
             enableAi = false;
         }
     
+        // Starts to grab players
+        StartCoroutine(FindPlayers());
+        
         // Starts the light management
         StartCoroutine(LightManager());
+    }
+
+    private IEnumerator FindPlayers()
+    {
+        while (true)
+        {
+            try
+            {
+                var t = RoomManager.Instance.players;
+                if (t.Count != playerPositions.Count)
+                {
+                    playerPositions = new List<Transform>();
+                    foreach (Role role in t)
+                        if (role.userId != _role.userId)
+                            playerPositions.Add(role.gameObject.transform);
+                }
+            }
+            catch
+            {
+                Debug.LogWarning("No RoomManager found ! (PlayerController)");
+                yield break;
+            }
+
+            yield return new WaitForSeconds(2);
+        }
     }
 
     public void MoveRender(float shift, GameObject render, float smoothTime = 1)
@@ -168,20 +197,6 @@ public class PlayerController : MonoBehaviour
             if (village != null) villageTransform = village.transform;
         }
         
-        // Pre-start Ai
-        try
-        {
-            var t = RoomManager.Instance.players;
-            playerPositions = new List<Transform>();
-            foreach (Role role in t)
-                if (role.userId != _role.userId)
-                    playerPositions.Add(role.gameObject.transform);
-        }
-        catch
-        {
-            Debug.LogWarning("No RoomManager found ! (PlayerController)");
-        }
-
         while (true)
         {
             if (CanAiSpawn())

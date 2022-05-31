@@ -463,6 +463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8032422fbe11fab43b0f4e16a2891196, type: 3}
+--- !u!4 &373922467 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5413455336871077530, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+  m_PrefabInstance: {fileID: 1142678257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &394096595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4629690894335173921, guid: 8032422fbe11fab43b0f4e16a2891196, type: 3}
@@ -1039,26 +1044,14 @@ PrefabInstance:
       propertyPath: shakeMultiplier
       value: 3.1
       objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414118930303570805, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4950680158300606666, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 3552154069239022563, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: playerPositions.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4956978653042181620, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 191
-      objectReference: {fileID: 0}
+    - target: {fileID: 3552154069239022563, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: playerPositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 373922467}
     - target: {fileID: 5413455336871077530, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1107,9 +1100,9 @@ PrefabInstance:
       propertyPath: _role
       value: 
       objectReference: {fileID: 1506389139}
-    - target: {fileID: 6811204017319493261, guid: 5d492894bf90e0548a988da081434c07, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 6099398095721299116, guid: 5d492894bf90e0548a988da081434c07, type: 3}
+      propertyPath: enableAi
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7578259937013170486, guid: 5d492894bf90e0548a988da081434c07, type: 3}
       propertyPath: sceneViewId

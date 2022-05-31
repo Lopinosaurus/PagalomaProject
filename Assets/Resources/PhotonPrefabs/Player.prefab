@@ -5191,6 +5191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413455336871077530}
+  - component: {fileID: 3552154069239022563}
   - component: {fileID: 660215560512379707}
   - component: {fileID: 2867563762611503884}
   - component: {fileID: 6099398095721299116}
@@ -5237,6 +5238,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3552154069239022563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09b4fe5f67748c398be2729ed2a936a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anonymousMaterial: {fileID: 2100000, guid: 81dfed76a81a95b4a8fd3d29e36d84da, type: 2}
+  isSpectatorModeEnabled: 0
+  spectatorLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &660215560512379707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5329,7 +5347,7 @@ MonoBehaviour:
     InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 1
-    ExtrapolateOption: 1
+    ExtrapolateOption: 2
     ExtrapolateSpeed: 1
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
