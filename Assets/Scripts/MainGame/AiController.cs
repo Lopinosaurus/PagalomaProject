@@ -69,16 +69,16 @@ public class AiController : MonoBehaviour
     private const float shakeDuration = 30;
     private const float slowSpeedDuration = 15;
     private int moveCount;
-    private const int MaxMoveCount = 15;
+    private const int MaxMoveCount = 5;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 2;
+    private const float CycleTime = 1;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
     private const float minCriticalDistFromPlayer = 7;
-    private const float minDangerDistFromPlayer = 20;
+    private const float minDangerDistFromPlayer = 25;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 40;
@@ -201,7 +201,7 @@ public class AiController : MonoBehaviour
                 // Reduces the timer
                 if (_isInCameraView)
                 {
-                    remainingTime -= Time.deltaTime * 0.5f;
+                    remainingTime -= Time.deltaTime * 0.25f;
                     if (canShake)
                     {
                         canShake = false;

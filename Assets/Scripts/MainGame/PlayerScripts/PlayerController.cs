@@ -5,6 +5,7 @@ using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
@@ -126,10 +127,16 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator FindPlayers()
     {
+        yield return new WaitForSeconds(5);
+        
         while (true)
         {
+            yield return new WaitForSeconds(2);
+            
             try
             {
+                if (_role == null) _role = RoomManager.Instance.players.Find(r => r.GetComponent<PhotonView>().IsMine);
+
                 var t = RoomManager.Instance.players;
                 if (t.Count != playerPositions.Count)
                 {
@@ -142,10 +149,7 @@ public class PlayerController : MonoBehaviour
             catch
             {
                 Debug.LogWarning("No RoomManager found ! (PlayerController)");
-                yield break;
             }
-
-            yield return new WaitForSeconds(2);
         }
     }
 

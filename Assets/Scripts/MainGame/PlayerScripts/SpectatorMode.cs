@@ -1,11 +1,14 @@
-﻿using Photon.Pun;
+﻿using MainGame.PlayerScripts.Roles;
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MainGame.PlayerScripts
 {
     public class SpectatorMode : MonoBehaviour
     {
         [SerializeField] private Material anonymousMaterial;
+        [SerializeField] public SkinnedMeshRenderer skinnedMeshRenderer;
         private PhotonView _photonView;
 
         // Spectator settings
@@ -18,6 +21,8 @@ namespace MainGame.PlayerScripts
         private Camera defaultCam;
         [SerializeField] private LayerMask spectatorLayer;
         private Transform chosenPlayer;
+        private bool changed;
+        private PlayerInput _playerInput;
 
         private void Setup()
         {
@@ -25,13 +30,13 @@ namespace MainGame.PlayerScripts
             spectatorCamHolder = new GameObject("spectatorCamHolder");
             spectatorCamClone = Instantiate(defaultCam.gameObject, spectatorCamHolder.transform, false);
             spectatorCamClone.layer = (int) Mathf.Log(spectatorLayer, 2);
-            
+
             spectatorCamClone.SetActive(false);
-            
+
             spectatorCamClone.GetComponent<Camera>();
             Destroy(spectatorCamClone.GetComponent<AudioListener>());
         }
-        
+
         private void Awake()
         {
             // Scripts
@@ -39,50 +44,77 @@ namespace MainGame.PlayerScripts
             // _playerLook = GetComponent<PlayerLook>();
             // _playerController = GetComponent<PlayerController>();
             _photonView = GetComponent<PhotonView>();
+            _playerInput = GetComponent<PlayerInput>();
 
-            // Default cam
-            defaultCam = GetComponentInChildren<Camera>();
+            // Input system
+            if (_photonView.IsMine)
+            {
+                // Default cam
+                defaultCam = GetComponentInChildren<Camera>();
+            
+                // Enable everything
+                Setup();
+                
+                _playerInput.actions["ChangeSpectatorLeft"].performed += ctx =>
+                {
+                    var list = RoomManager.Instance.players;
+                    
+                    if (list.Count > 0 && ctx.ReadValueAsButton())
+                    {
+                        index++;
+                        index %= list.Count;
 
-            // Only works for the local player
-            if (!_photonView.IsMine) Destroy(this);
-            
-            // Enable everything
-            Setup();
-            
-            spectatorCamClone.transform.rotation = Quaternion.identity;
+                        chosenPlayer = list[index].transform;
+                    }
+                };
+
+                _playerInput.actions["ChangeSpectatorRight"].performed += ctx =>
+                {
+                    var list = RoomManager.Instance.players;
+
+                    if (list.Count > 0 && ctx.ReadValueAsButton())
+                    {
+                        index--;
+                        index += list.Count;
+                        index %= list.Count;
+
+                        chosenPlayer = list[index].transform;
+                    }
+                };
+                
+                spectatorCamClone.transform.rotation = Quaternion.identity;
+            }
         }
 
         private void LateUpdate()
         {
+            if (!_photonView.IsMine) return;
+            
             if (!isSpectatorModeEnabled)
             {
+                changed = false;
                 defaultCam.enabled = true;
                 spectatorCamClone.SetActive(false);
                 spectatorCamHolder.transform.position = transform.position + Vector3.up;
                 return;
             }
-            else
+
+            defaultCam.enabled = false;
+            spectatorCamClone.SetActive(true);
+
+            if (!changed)
             {
-                defaultCam.enabled = false;
-                spectatorCamClone.SetActive(true);
-
-                foreach (var role in RoomManager.Instance.players)
-                {
-                    role.gameObject.transform.Find("VillagerRender").GetChild(0).GetComponent<SkinnedMeshRenderer>()
-                        .materials[1] = anonymousMaterial;
-                }
+                changed = true;
+                AnonymizeColors();
             }
-
-            // Changes player choice with given input
-            UpdateChosenPlayer();
 
             if (chosenPlayer != null)
             {
-                Vector3 offset = Vector3.up * 2 + chosenPlayer.TransformDirection(Vector3.back * 3);
-                var chosenPlayerPosition = chosenPlayer.position;
+                Vector3 offset = Vector3.up * 1 + chosenPlayer.TransformDirection(Vector3.back * 2);
+                Vector3 chosenPlayerPosition = chosenPlayer.position + Vector3.up;
                 Vector3 dest = chosenPlayerPosition + offset;
 
-                Vector3 dir = (dest - chosenPlayerPosition);
+                Vector3 dir = dest - chosenPlayerPosition;
                 if (Physics.Raycast(chosenPlayerPosition,
                         dir,
                         out RaycastHit hit,
@@ -92,9 +124,10 @@ namespace MainGame.PlayerScripts
                     dest = hit.point - dir.normalized * 0.5f;
                     spectatorCamHolder.transform.position = dest;
                 }
-                
-                spectatorCamHolder.transform.position = Vector3.Lerp(spectatorCamHolder.transform.position, dest, Time.deltaTime * 2);
-                
+
+                spectatorCamHolder.transform.position =
+                    Vector3.Lerp(spectatorCamHolder.transform.position, dest, Time.deltaTime * 2);
+
                 spectatorCamHolder.transform.LookAt(chosenPlayerPosition);
                 Vector3 rotationEulerAngles = spectatorCamHolder.transform.rotation.eulerAngles;
                 rotationEulerAngles.x = 10;
@@ -102,26 +135,23 @@ namespace MainGame.PlayerScripts
             }
         }
 
-        private void UpdateChosenPlayer()
+        private void AnonymizeColors()
         {
-            var list = RoomManager.Instance.players;
-            
-            if (list.Count == 0) return;
-            
-            // TODO use input system instead
-            if (Input.GetMouseButtonDown(0))
+            foreach (Role role in RoomManager.Instance.players)
             {
-                index++;
-                index %= list.Count;
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                index--;
-                index += list.Count;
-                index %= list.Count;
-            }
+                var roleGameObject = role.gameObject;
+                if (roleGameObject.GetComponent<PhotonView>().IsMine) continue;
+                
+                SkinnedMeshRenderer meshRenderer = roleGameObject.GetComponent<SpectatorMode>().skinnedMeshRenderer;
+                var isActive = meshRenderer.gameObject.activeSelf;
 
-            chosenPlayer = list[index].gameObject.transform;
+                meshRenderer.gameObject.SetActive(true);
+
+                meshRenderer.materials[1].color =
+                    anonymousMaterial.color;
+
+                meshRenderer.gameObject.SetActive(isActive);
+            }
         }
     }
 }

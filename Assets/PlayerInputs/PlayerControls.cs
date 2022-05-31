@@ -107,6 +107,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSpectatorLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""7689bc81-4118-408b-8999-87215d384bce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSpectatorRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""e72ae476-2f69-4a6e-b00c-b691340b462b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -481,6 +499,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88cad81b-27bd-4b28-8deb-edec41de4f22"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSpectatorLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75baf0cc-d90c-4f77-ba62-752f28232999"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSpectatorLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3238a82e-e016-4028-bca4-6f1e92fb6194"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSpectatorRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""475dd116-d4be-4de5-aec8-0e75f528cbc0"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSpectatorRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1077,6 +1139,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
         m_Player_Kill = m_Player.FindAction("Kill", throwIfNotFound: true);
+        m_Player_ChangeSpectatorLeft = m_Player.FindAction("ChangeSpectatorLeft", throwIfNotFound: true);
+        m_Player_ChangeSpectatorRight = m_Player.FindAction("ChangeSpectatorRight", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
@@ -1157,6 +1221,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Die;
     private readonly InputAction m_Player_Kill;
+    private readonly InputAction m_Player_ChangeSpectatorLeft;
+    private readonly InputAction m_Player_ChangeSpectatorRight;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1170,6 +1236,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Die => m_Wrapper.m_Player_Die;
         public InputAction @Kill => m_Wrapper.m_Player_Kill;
+        public InputAction @ChangeSpectatorLeft => m_Wrapper.m_Player_ChangeSpectatorLeft;
+        public InputAction @ChangeSpectatorRight => m_Wrapper.m_Player_ChangeSpectatorRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1206,6 +1274,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Kill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
                 @Kill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
                 @Kill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnKill;
+                @ChangeSpectatorLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorLeft;
+                @ChangeSpectatorLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorLeft;
+                @ChangeSpectatorLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorLeft;
+                @ChangeSpectatorRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorRight;
+                @ChangeSpectatorRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorRight;
+                @ChangeSpectatorRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChangeSpectatorRight;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1237,6 +1311,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Kill.started += instance.OnKill;
                 @Kill.performed += instance.OnKill;
                 @Kill.canceled += instance.OnKill;
+                @ChangeSpectatorLeft.started += instance.OnChangeSpectatorLeft;
+                @ChangeSpectatorLeft.performed += instance.OnChangeSpectatorLeft;
+                @ChangeSpectatorLeft.canceled += instance.OnChangeSpectatorLeft;
+                @ChangeSpectatorRight.started += instance.OnChangeSpectatorRight;
+                @ChangeSpectatorRight.performed += instance.OnChangeSpectatorRight;
+                @ChangeSpectatorRight.canceled += instance.OnChangeSpectatorRight;
             }
         }
     }
@@ -1402,6 +1482,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
         void OnKill(InputAction.CallbackContext context);
+        void OnChangeSpectatorLeft(InputAction.CallbackContext context);
+        void OnChangeSpectatorRight(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
