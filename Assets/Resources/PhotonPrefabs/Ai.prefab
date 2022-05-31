@@ -31,6 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 979657702959630229}
+  - {fileID: 9096975910590566683}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRole: {fileID: 0}
   dissimulateParticle: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
-  _camHolder: {fileID: 0}
   previousCollider: {fileID: 0}
   currentHidingObstacle: {fileID: 0}
   isDanger: 0
@@ -59,6 +59,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   currentState: 0
+  hitColliders: []
 --- !u!195 &933700854028002495
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -560,6 +561,68 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &8904877906225573249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9096975910590566683}
+  - component: {fileID: 4759224847547271778}
+  - component: {fileID: 6968564793318321780}
+  m_Layer: 8
+  m_Name: PostProssEffectZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9096975910590566683
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8904877906225573249}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5365504288062960511}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4759224847547271778
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8904877906225573249}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6968564793318321780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8904877906225573249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: e821d71a9c380cd4bb5987200455e5b0, type: 2}
+  isGlobal: 0
+  blendDistance: 7
+  weight: 1
+  priority: 1
 --- !u!1 &9060413635818648316
 GameObject:
   m_ObjectHideFlags: 0

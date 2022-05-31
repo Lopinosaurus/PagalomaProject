@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class SelfDestruct : MonoBehaviour
 {
-    private void Awake()
+    public float timer = 5;
+
+    private void Start()
     {
-        Destroy(gameObject, 5);
+        Destroy(gameObject, timer);
     }
 }

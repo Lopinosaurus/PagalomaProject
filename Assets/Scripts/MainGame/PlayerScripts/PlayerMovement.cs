@@ -197,11 +197,10 @@ namespace MainGame.PlayerScripts
             
             // SYNCHRONIZE INTERPOLATION & EXTRAPOLATION !!
             Vector3 motionNetwork = new Vector3(
-                currentMotion.x,
+                _playerAnimation.velocityX,
                 grounded || JumpState.Still == currentJumpState ? 0 : currentMotion.y,
-                currentMotion.z);
+                _playerAnimation.velocityZ);
             _photonTransformViewClassic.SetSynchronizedValues(motionNetwork, _playerLook.turnDeltaY);
-            
             
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;

@@ -9,6 +9,7 @@ using MainGame.PlayerScripts.Roles;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.PostProcessing;
 using static System.Single;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,8 @@ public class AiController : MonoBehaviour
     private Camera _targetCam;
     private Plane[] _targetPlanes;
 
+    private PostProcessVolume _postProcessVolume;
+    
     private NavMeshAgent _agent;
     private CapsuleCollider _capsuleCollider;
     [SerializeField] private Collider previousCollider;
@@ -104,6 +107,9 @@ public class AiController : MonoBehaviour
 
         _agent = GetComponent<NavMeshAgent>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
+        
+        // Postprocessing
+        _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
 
         // CurrentHidingObstacle
         transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
@@ -126,6 +132,12 @@ public class AiController : MonoBehaviour
             Debug.Log("Ai badly placed");
             Destroy(gameObject);
         }
+    }
+
+    private void ApplyMalusPostProcess()
+    {
+        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessing(_postProcessVolume, shakeDuration);
+        Destroy(gameObject);
     }
 
     private IEnumerator NullToObstacle()
@@ -176,12 +188,16 @@ public class AiController : MonoBehaviour
             Debug.LogWarning("No RoomManager found ! (AiController)");
         }
 
+        // Disable or enable postprocessing if moving
+        _postProcessVolume.weight = currentState != AiState.Relocate || currentState != AiState.Moving ? 1 : 0;
+        
         switch (currentState)
         {
             case AiState.Hidden when _isAlive:
                 EnableMovementSpeed(Speed.Hiding);
-
+                
                 float distFromTarget = DistFromTarget;
+                
                 // Reduces the timer
                 if (_isInCameraView)
                 {
@@ -290,7 +306,8 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
-                    _playerLook.StartShake(shakeDuration);
+                    _playerLook.StartShake(shakeDuration, 20);
+                    ApplyMalusPostProcess();
 
                     // Dead
                     Destroy(gameObject);
@@ -428,8 +445,6 @@ public class AiController : MonoBehaviour
             InsertSorted(correctCol, c, sqrDist);
         }
 
-        Debug.Log($"there is {correctCol.Count(c => c.Item1 != null)} obstacle", currentHidingObstacle);
-        
         for (int i = 0; i < correctCol.Count; i++)
         {
             if (correctCol[i].Item1 == null) continue;

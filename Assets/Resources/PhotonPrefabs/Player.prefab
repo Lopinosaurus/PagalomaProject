@@ -5284,8 +5284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
-  probShakeMultiplier: 0.01
-  shakeMultiplier: 4
+  shakeMultiplier: 10
   BodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
 --- !u!114 &6099398095721299116
@@ -5394,7 +5393,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: bff1f46dc9fea834aac2958d14e0fa50, type: 2}
-  m_audioClip: {fileID: 8300000, guid: b2fe424a2f113dd49bb5f751e7236864, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f4341f6ebc8ed794285aa3ee22b5916f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

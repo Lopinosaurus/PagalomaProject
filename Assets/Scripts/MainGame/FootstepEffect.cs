@@ -11,6 +11,7 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField] private AudioClip dryFootstep;
     [SerializeField] private AudioSource plyAudioSource;
     [SerializeField, Range(.1f, 10)] private float maxDistance;
+    public float MaxDistance => maxDistance;
     private float playerDistanceCounter;
     private Vector2 velocity2Draw;
     private PlayerAnimation playerAnimation;
@@ -25,13 +26,7 @@ public class FootstepEffect : MonoBehaviour
     
      void FixedUpdate()
      {
-         velocity2Draw = new Vector2
-         {
-             x = playerAnimation.velocityX,
-             y = playerAnimation.velocityZ
-         };
-         
-         velocityMagnitude = velocity2Draw.magnitude;
+         velocityMagnitude = playerAnimation.velocity;
          playerDistanceCounter = PlayerDistanceCounter + velocityMagnitude * Time.fixedDeltaTime;
          if (PlayerDistanceCounter >= maxDistance)
          {

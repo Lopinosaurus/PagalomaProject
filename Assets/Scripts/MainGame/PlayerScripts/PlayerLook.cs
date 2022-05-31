@@ -2,6 +2,7 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 using Random = UnityEngine.Random;
 
 namespace MainGame.PlayerScripts
@@ -12,7 +13,6 @@ namespace MainGame.PlayerScripts
 
         // Components
         [SerializeField] private Transform camHolder;
-        private Transform _cam;
         private PlayerInput _playerInput;
         private PhotonView _photonView;
         private FootstepEffect _footstepEffect;
@@ -37,9 +37,8 @@ namespace MainGame.PlayerScripts
     
         // Shake settings
         [Space][Header("Shake settings")]
-        [SerializeField] [Range(0.0001f, 0.01f)] private float probShakeMultiplier = 0.01f;
-        [SerializeField] [Range(0.1f, 10f)] private float shakeMultiplier = 4;
-        
+        private float thresholdRotAngle = 1;
+
         // Jump settings
         private bool canTurnSides = true;
 
@@ -53,7 +52,7 @@ namespace MainGame.PlayerScripts
         
         // Head Bob settings
         private int side = 1;
-        private float amplitude = 1;
+        private float amplitude = 0.025f;
         
         #endregion
 
@@ -66,7 +65,6 @@ namespace MainGame.PlayerScripts
             _playerAnimation = GetComponent<PlayerAnimation>();
             _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
-            _cam = GetComponentInChildren<Camera>().transform;
         }
 
         private void Start()
@@ -110,61 +108,50 @@ namespace MainGame.PlayerScripts
             _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
         }
 
-        public void StartShake(float duration, float resetSpeed = 1)
+        public void StartShake(float duration, float shakeStrength)
         {
-            StartCoroutine(Shake(duration, resetSpeed));
+            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength;
+            StartCoroutine(Shake(duration, shakeStrength));
         }
         
-        private IEnumerator Shake(float duration, float resetSpeed)
+        private IEnumerator Shake(float duration, float shakeStrength)
         {
             float timer = 0;
-            float prob = 0;
-            Quaternion newRot = Random.rotation;
-        
-            // Final values
-            var finalRotEulerAngles = camHolder.localRotation.eulerAngles;
-            finalRotEulerAngles.z = 0;
-            finalRotEulerAngles.y = 0;
-            var finalRot = Quaternion.Euler(finalRotEulerAngles);
-            resetSpeed = resetSpeed < 1 ? 1 : resetSpeed; 
-            
+
             // Twist angle
             while (timer < duration)
             {
                 timer += Time.deltaTime;
 
-                float strength = (duration - timer) / duration * shakeMultiplier;
-            
-                Quaternion camHolderLocalRotation = camHolder.localRotation;
+                float strength = (duration - timer) / duration;
+                float deltaAngle = shakeStrength * strength;
+                
+                Vector3 forwardCamHolder = camHolder.InverseTransformDirection(camHolder.forward);
 
-                if (Random.Range(0, 1) > prob)
-                {
-                    prob += Time.deltaTime * probShakeMultiplier;
-                }
-                else
-                {
-                    prob = 0;
-                    newRot = Random.rotation;
-                }
+                camHolder.Rotate(forwardCamHolder, deltaAngle);
+                var localRotationEulerAngles = camHolder.localRotation.eulerAngles;
+                localRotationEulerAngles.y = 0;
+                camHolder.localRotation = Quaternion.Euler(localRotationEulerAngles);
 
-                // Move towards the angle
-                camHolder.localRotation = Quaternion.RotateTowards(
-                    camHolderLocalRotation,
-                    newRot,
-                    strength * Time.deltaTime * 100);
-            
                 yield return null;
             }
 
+            var finalRotEulerAngles = new Vector3(camHolder.localRotation.eulerAngles.x, 0, 0);
+            var finalRot = Quaternion.Euler(finalRotEulerAngles);
             // Restore normal angle
             timer = 10;
-            while (Quaternion.Angle(camHolder.localRotation, finalRot) > 0.5f && timer > 0)
+            while (Mathf.Abs(Quaternion.Angle(camHolder.localRotation, finalRot)) != 0 && timer > 0)
             {
-                float strength = Mathf.Clamp01(Time.deltaTime * resetSpeed);
-                camHolder.localRotation =
-                    Quaternion.Slerp(camHolder.localRotation, finalRot, strength);
+                // Final values
+                var localRotation = camHolder.localRotation;
+                finalRotEulerAngles = new Vector3(localRotation.eulerAngles.x, 0, 0);
+                finalRot = Quaternion.Euler(finalRotEulerAngles);
+                
+                localRotation = Quaternion.Lerp(localRotation, finalRot, 0.1f);
+                camHolder.localRotation = localRotation;
 
-                timer -= Time.deltaTime;
+                timer += Time.deltaTime;
+                
                 yield return null;
             }
         
@@ -235,8 +222,42 @@ namespace MainGame.PlayerScripts
 
         private IEnumerator HeadBob()
         {
+            while (true)
+            {
+                Vector3 pos = camHolder.localPosition;
+                float quot = 2 * Mathf.PI / _footstepEffect.MaxDistance;
+
+                if (_playerAnimation.velocity > 0)
+                {
+                    pos.y += Mathf.Cos(_footstepEffect.PlayerDistanceCounter * quot) * amplitude;
+
+                    camHolder.localPosition = pos;
+                }
+                else
+                {
+                    camHolder.localPosition = Vector3.Lerp(camHolder.localPosition, pos, 0.5f);
+                }
+                
+                yield return null;
+            }
+        }
+
+        public void LocalPostProcessing(PostProcessVolume postProcessVolume, float duration)
+        {
+            // Attach gameObject to player
+            GameObject localVolume = new GameObject($"localVolume ({duration})");
+            localVolume.transform.SetParent(transform);
             
-            yield return null;
+            // Attach spawner
+            PostProcessVolumeSpawner spawner = localVolume.AddComponent<PostProcessVolumeSpawner>();
+            spawner.timer = duration;
+            spawner.enabled = true;
+
+            // Attach postprocess
+            postProcessVolume.weight = 1;
+            postProcessVolume.priority = 1;
+            postProcessVolume.isGlobal = true;
+            postProcessVolume.transform.SetParent(localVolume.transform);
         }
     }
 }
