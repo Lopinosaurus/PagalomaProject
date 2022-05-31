@@ -177,7 +177,7 @@ namespace MainGame.PlayerScripts.Roles
                 yield return null;
             }
 
-            GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
+            if (_photonView.IsMine) GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
         }
 
         #endregion

@@ -5195,7 +5195,6 @@ GameObject:
   - component: {fileID: 660215560512379707}
   - component: {fileID: 2867563762611503884}
   - component: {fileID: 6099398095721299116}
-  - component: {fileID: 2502707150850679711}
   - component: {fileID: 7578259937013170486}
   - component: {fileID: 8679982518694955207}
   - component: {fileID: 9182737059992604612}
@@ -5211,6 +5210,7 @@ GameObject:
   - component: {fileID: 590110878684623782}
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 8582652644670617519}
+  - component: {fileID: 3233493481327671935}
   - component: {fileID: 2296100508060758552}
   m_Layer: 7
   m_Name: Player
@@ -5328,39 +5328,6 @@ MonoBehaviour:
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   plyAudioSource: {fileID: 9182737059992604612}
   _lampLight: {fileID: 6658514047362406684}
---- !u!114 &2502707150850679711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 2
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 2
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 15
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5380,7 +5347,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2502707150850679711}
+  - {fileID: 3233493481327671935}
   - {fileID: 2296100508060758552}
   sceneViewId: 0
   InstantiationId: 0
@@ -5854,6 +5821,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3233493481327671935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &2296100508060758552
 MonoBehaviour:
   m_ObjectHideFlags: 0
