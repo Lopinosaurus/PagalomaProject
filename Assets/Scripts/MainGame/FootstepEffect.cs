@@ -30,7 +30,7 @@ public class FootstepEffect : MonoBehaviour
          playerDistanceCounter = PlayerDistanceCounter + velocityMagnitude * Time.fixedDeltaTime;
          if (PlayerDistanceCounter >= maxDistance)
          {
-             playerDistanceCounter = 0;
+             playerDistanceCounter %= maxDistance;
              plyAudioSource.clip = dryFootstep;
              plyAudioSource.Play();
          }

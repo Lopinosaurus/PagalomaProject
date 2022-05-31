@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
@@ -13,10 +14,12 @@ namespace MainGame.PlayerScripts
 
         // Components
         [SerializeField] private Transform camHolder;
+        private Transform _cam;
         private PlayerInput _playerInput;
         private PhotonView _photonView;
         private FootstepEffect _footstepEffect;
         private PlayerAnimation _playerAnimation;
+        private PlayerMovement _playerMovement;
         private CharacterController _characterController;
 
         // Sensitivity
@@ -37,7 +40,6 @@ namespace MainGame.PlayerScripts
     
         // Shake settings
         [Space][Header("Shake settings")]
-        private float thresholdRotAngle = 1;
 
         // Jump settings
         private bool canTurnSides = true;
@@ -51,9 +53,22 @@ namespace MainGame.PlayerScripts
         private bool isMoving;
         
         // Head Bob settings
-        private int side = 1;
-        private float amplitude = 0.025f;
-        
+        private float amplitude = 0.1f;
+
+        public void HeadBob()
+        {
+            float quot = Mathf.PI / _footstepEffect.MaxDistance;
+            float piHalf = Mathf.PI * 0.5f;
+
+            Vector3 pos = camHolder.position;
+
+            pos.y -= Mathf.Cos(_footstepEffect.PlayerDistanceCounter * quot + piHalf) * amplitude;
+            _cam.position = pos;
+            var localPosition = _cam.localPosition;
+            localPosition.z = 0;
+            _cam.localPosition = localPosition;
+        }
+
         #endregion
 
         #region Unity Methods
@@ -63,13 +78,14 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
+            _playerMovement = GetComponent<PlayerMovement>();
             _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
+            _cam = GetComponentInChildren<Camera>().transform;
         }
 
         private void Start()
         {
-            if (_photonView.IsMine) StartCoroutine(HeadBob());
             
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -219,28 +235,6 @@ namespace MainGame.PlayerScripts
         }
 
         public void LockViewJump(bool locked) => canTurnSides = !locked;
-
-        private IEnumerator HeadBob()
-        {
-            while (true)
-            {
-                Vector3 pos = camHolder.localPosition;
-                float quot = 2 * Mathf.PI / _footstepEffect.MaxDistance;
-
-                if (_playerAnimation.velocity > 0)
-                {
-                    pos.y += Mathf.Cos(_footstepEffect.PlayerDistanceCounter * quot) * amplitude;
-
-                    camHolder.localPosition = pos;
-                }
-                else
-                {
-                    camHolder.localPosition = Vector3.Lerp(camHolder.localPosition, pos, 0.5f);
-                }
-                
-                yield return null;
-            }
-        }
 
         public void LocalPostProcessing(PostProcessVolume postProcessVolume, float duration)
         {

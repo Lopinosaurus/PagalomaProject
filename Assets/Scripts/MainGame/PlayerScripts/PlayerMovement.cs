@@ -326,7 +326,7 @@ namespace MainGame.PlayerScripts
 
             // Character controller modifier
             var smoothTime = Time.deltaTime * crouchSmoothTime;
-
+            
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
             // _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = _characterController.center;
@@ -342,6 +342,8 @@ namespace MainGame.PlayerScripts
             _playerController.MoveRender(-desiredRenderShift,
                 isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
                 smoothTime);
+            
+            _playerLook.HeadBob();
         }
 
         #endregion

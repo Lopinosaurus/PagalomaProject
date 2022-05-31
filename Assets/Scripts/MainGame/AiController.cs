@@ -306,7 +306,7 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
-                    _playerLook.StartShake(shakeDuration, 20);
+                    _playerLook.StartShake(shakeDuration, 5);
                     ApplyMalusPostProcess();
 
                     // Dead

@@ -27,7 +27,8 @@ public class PlayerAnimation : MonoBehaviour
     // Animation values
     public float velocityX => _currentAnimator.GetFloat(_velocityXHash);
     public float velocityZ => _currentAnimator.GetFloat(_velocityZHash);
-    public float velocity => new Vector2(velocityX, velocityZ).magnitude;
+    public float velocity => new Vector2(Mathf.Sin(Mathf.Atan2(velocityZ, velocityX)) * velocityZ,
+        Mathf.Cos(Mathf.Atan2(velocityZ, velocityX)) * velocityX).magnitude;
     
     // Layer hashes
     private int _WerewolfLayerIndex;
