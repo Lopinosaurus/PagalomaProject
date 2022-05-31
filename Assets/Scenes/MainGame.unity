@@ -5,9 +5,9 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
-    smallestHole: 0.25
-    backfaceThreshold: 100
+    smallestOccluder: 3
+    smallestHole: 0.2
+    backfaceThreshold: 60
   m_SceneGUID: 27327d2395c43994fb666119e8990f74
   m_OcclusionCullingData: {fileID: 36300000, guid: c25d4b000cc60d44688f73db4284fdd1, type: 2}
 --- !u!104 &2
@@ -6407,6 +6407,7 @@ MonoBehaviour:
   voteMenu: {fileID: 1824923142}
   endScreen: {fileID: 1000448819}
   loadingScreen: {fileID: 1250184675}
+  playerClock: {fileID: 0}
   victoryText: {fileID: 1226791649}
   defeatText: {fileID: 1367349585}
   whoWonText: {fileID: 622765387}
@@ -19523,13 +19524,13 @@ MonoBehaviour:
   time: 0
   fullDayLength: 300
   startTime: 0.4
-  timeRate: 0
+  timeRate: 0.003
   noon: {x: 90, y: 0, z: 0}
   isDay: 0
   sun: {fileID: 94995236}
   sunColor:
     serializedVersion: 2
-    key0: {r: 1, g: 0.6813002, b: 0.1462264, a: 1}
+    key0: {r: 1, g: 0.68235296, b: 0.14509805, a: 1}
     key1: {r: 1, g: 0.9253613, b: 0.8537736, a: 1}
     key2: {r: 1, g: 0.68235296, b: 0.14509805, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -19611,7 +19612,7 @@ MonoBehaviour:
   moonColor:
     serializedVersion: 2
     key0: {r: 0, g: 0.21273908, b: 0.7924528, a: 1}
-    key1: {r: 0, g: 0.15686275, b: 0.58431375, a: 1}
+    key1: {r: 0, g: 0.21176471, b: 0.7921569, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}

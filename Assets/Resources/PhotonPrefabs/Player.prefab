@@ -5284,7 +5284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
-  shakeMultiplier: 10
   BodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
 --- !u!114 &6099398095721299116

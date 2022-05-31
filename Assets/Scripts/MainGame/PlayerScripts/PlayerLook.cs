@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 using Random = UnityEngine.Random;
@@ -16,6 +17,7 @@ namespace MainGame.PlayerScripts
         [SerializeField] private Transform camHolder;
         private Transform _cam;
         private PlayerInput _playerInput;
+        private RotationConstraint _rotationConstraint;
         private PhotonView _photonView;
         private FootstepEffect _footstepEffect;
         private PlayerAnimation _playerAnimation;
@@ -82,11 +84,19 @@ namespace MainGame.PlayerScripts
             _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
             _cam = GetComponentInChildren<Camera>().transform;
+            _rotationConstraint = GetComponentInChildren<RotationConstraint>();
+            
+            if (_photonView.IsMine)
+            {
+                _rotationConstraint.locked = false;
+                _rotationConstraint.rotationAtRest = new Vector3(200, 0, 0);
+
+                _rotationConstraint.SetSource(0, new ConstraintSource());
+            }
         }
 
         private void Start()
         {
-            
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
@@ -126,7 +136,7 @@ namespace MainGame.PlayerScripts
 
         public void StartShake(float duration, float shakeStrength)
         {
-            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength;
+            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 5;
             StartCoroutine(Shake(duration, shakeStrength));
         }
         
@@ -141,6 +151,9 @@ namespace MainGame.PlayerScripts
 
                 float strength = (duration - timer) / duration;
                 float deltaAngle = shakeStrength * strength;
+
+                deltaAngle *= 10f * strength;
+                deltaAngle *= 0.5f + Mathf.Cos(strength * 2 * Mathf.PI) * 0.5f;
                 
                 Vector3 forwardCamHolder = camHolder.InverseTransformDirection(camHolder.forward);
 

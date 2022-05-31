@@ -114,11 +114,11 @@ namespace MainGame.PlayerScripts
             Vector3 camPos = cameraHolder.transform.localPosition;
             _standingCameraHeightVillager = camPos.y;
             _standingCameraHeightWerewolf = 1.6f;
-            _crouchedCameraHeight = 0.8f;
+            _crouchedCameraHeight = 1;
 
             // Profs
             _standingShiftVillager = _playerController.backShift;
-            _crouchedShiftVillager = 0.7f;
+            _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
         }
 
