@@ -136,24 +136,30 @@ namespace MainGame.PlayerScripts
 
         public void StartShake(float duration, float shakeStrength)
         {
-            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 5;
+            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 100;
             StartCoroutine(Shake(duration, shakeStrength));
         }
         
         private IEnumerator Shake(float duration, float shakeStrength)
         {
             float timer = 0;
-
+            int side = Random.Range(0, 2) == 1 ? 1 : -1;
+            float angleSoFar = 60;
+            
             // Twist angle
             while (timer < duration)
             {
                 timer += Time.deltaTime;
 
                 float strength = (duration - timer) / duration;
-                float deltaAngle = shakeStrength * strength;
+                float deltaAngle = shakeStrength * strength * side;
 
-                deltaAngle *= 10f * strength;
-                deltaAngle *= 0.5f + Mathf.Sin(strength * 2 * Mathf.PI) * 0.5f;
+                angleSoFar += Mathf.Abs(deltaAngle);
+                if (angleSoFar >= 120)
+                {
+                    angleSoFar = 0;
+                    side *= -1;
+                }
                 
                 Vector3 forwardCamHolder = camHolder.InverseTransformDirection(camHolder.forward);
 
