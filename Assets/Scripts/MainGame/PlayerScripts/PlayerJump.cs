@@ -27,7 +27,7 @@ namespace MainGame.PlayerScripts
             JumpState.MidVault == currentJumpState ||
             JumpState.HighVault == currentJumpState;
 
-        public JumpState currentJumpState = JumpState.Still;
+       private static JumpState currentJumpState = JumpState.Still;
 
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
@@ -38,18 +38,13 @@ namespace MainGame.PlayerScripts
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private readonly List<Collider> collidersStopIgnoringVaultMid = new List<Collider>();
 
-        // ReSharper disable once UnusedMember.Global
-        public void DeactivateJumpBool() => currentJumpState = JumpState.Still;
+         public static void SetJumpState(JumpState desired) => currentJumpState = desired;
 
-        public void UpdateJump()
+         public void UpdateJump()
         {
             // End jumping
             if (JumpState.Still == currentJumpState)
             {
-                // Reset jump animations
-                _playerAnimation.StartMidVaultAnimation(false);
-                _playerAnimation.StartSimpleJumpAnimation(false);
-
                 // Reset cam movement
                 _playerLook.LockViewJump(false);
 
@@ -83,7 +78,7 @@ namespace MainGame.PlayerScripts
                         // Ignore colliders
                         collidersStopIgnoringVaultMid.Clear();
                         foreach (Collider jumpedCollider in ignoredJumpedColliders.Where(jumpedCollider =>
-                                     jumpedCollider != null))
+                                     null != jumpedCollider))
                         {
                             Physics.IgnoreCollision(_characterController, jumpedCollider, true);
                             // Sets them to stop ignoring them next
@@ -101,6 +96,8 @@ namespace MainGame.PlayerScripts
                         break;
                 }
 
+            Debug.Log("currentJumpState is " + currentJumpState);
+            
             if (WantsJump) AlreadyWantsJump = true;
         }
 

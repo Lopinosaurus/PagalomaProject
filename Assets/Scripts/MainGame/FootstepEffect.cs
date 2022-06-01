@@ -39,7 +39,7 @@ public class FootstepEffect : MonoBehaviour
          if (0 == velocityMagnitude)
          {
              playerDistanceCounter = 0;
-             plyAudioSource.Stop();    
+             // plyAudioSource.Stop();    
          }
      }
 }

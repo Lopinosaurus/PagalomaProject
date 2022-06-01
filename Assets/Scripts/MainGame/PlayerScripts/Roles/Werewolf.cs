@@ -32,7 +32,7 @@ namespace MainGame.PlayerScripts.Roles
                     {
                         actionText.text = "Press E to Transform";
                     }
-                    else actionText.text = "";
+                    else actionText.text = "Press E to Attack";
                 }
             }
         }
@@ -174,6 +174,7 @@ namespace MainGame.PlayerScripts.Roles
                 }
                 else
                 {
+                    _playerAnimation.WerewolfAttackAnimation(true);
                     Debug.Log("[-] Can't kill: No target to kill");
                 }
             }

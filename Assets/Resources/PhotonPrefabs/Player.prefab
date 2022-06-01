@@ -5268,7 +5268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentJumpState: 0
   obstaclesPresent:
   - {fileID: 3821020153891733844}
   - {fileID: 2110481892036722437}
@@ -5803,6 +5802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
   _werewolfAvatar: {fileID: 9000000, guid: 7cf5d88391f7f65429cfe3e10aa82fa4, type: 3}
+  _currentAnimator: {fileID: 0}
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 3

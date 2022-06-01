@@ -135,10 +135,9 @@ public class AiController : MonoBehaviour
         }
     }
 
-    private void ApplyMalusPostProcess()
+    private void ApplyMalusPostProcessAndSound()
     {
-        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessing(_postProcessVolume, shakeDuration);
-        Destroy(gameObject);
+        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessingAndSound(_postProcessVolume, shakeDuration, stateOfShock);
     }
 
     private IEnumerator NullToObstacle()
@@ -198,8 +197,6 @@ public class AiController : MonoBehaviour
                 // Decides when to attack
                 if (moveCount == MaxMoveCount - 1 && !reachedLast)
                 {
-                    Debug.Log("reached Last");
-                    
                     remainingTime = Random.Range(5f, 10f);
                     reachedLast = true;
                 }
@@ -230,7 +227,6 @@ public class AiController : MonoBehaviour
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
                         
                         if (previousCollider != currentHidingObstacle && !tooFar) moveCount++;
-                        Debug.Log("Moved");
                         Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
                     }
                     else
@@ -287,17 +283,12 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
-                    _playerLook.StartShake(shakeDuration, 1);
-                    ApplyMalusPostProcess();
+                    _playerLook.StartShake(shakeDuration, 5);
+                    ApplyMalusPostProcessAndSound();
 
                     // Dead
                     Destroy(gameObject);
                     _isAlive = false;
-                    
-                    // State of shock sound
-                    iaSound.Stop();
-                    iaSound.clip = stateOfShock;
-                    iaSound.Play();
                 }
                 else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
                 {

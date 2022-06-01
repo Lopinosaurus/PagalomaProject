@@ -136,7 +136,7 @@ namespace MainGame.PlayerScripts
 
         public void StartShake(float duration, float shakeStrength)
         {
-            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 100;
+            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 5;
             StartCoroutine(Shake(duration, shakeStrength));
         }
         
@@ -255,7 +255,7 @@ namespace MainGame.PlayerScripts
 
         public void LockViewJump(bool locked) => canTurnSides = !locked;
 
-        public void LocalPostProcessing(PostProcessVolume postProcessVolume, float duration)
+        public void LocalPostProcessingAndSound(PostProcessVolume postProcessVolume, float duration, AudioClip audioClip)
         {
             // Attach gameObject to player
             GameObject localVolume = new GameObject($"localVolume ({duration})");
@@ -271,6 +271,14 @@ namespace MainGame.PlayerScripts
             postProcessVolume.priority = 1;
             postProcessVolume.isGlobal = true;
             postProcessVolume.transform.SetParent(localVolume.transform);
+            
+            // Execute sound if available
+            if (audioClip != null)
+            {
+                var audioSource = localVolume.AddComponent<AudioSource>();
+                audioSource.clip = audioClip;
+                audioSource.Play();
+            }
         }
     }
 }

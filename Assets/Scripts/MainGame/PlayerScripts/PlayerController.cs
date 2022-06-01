@@ -47,12 +47,11 @@ public class PlayerController : MonoBehaviour
     private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
     private List<Transform> playerPositions = new List<Transform>();
-    public List<Transform> PlayerPositions => playerPositions;
 
     private readonly float minVillageDist = 120f;
     private readonly float minPlayerDist = 60f;
     private bool IaAlreadySpawned => AiInstance;
-    private bool hasAlreadySpawnedToday;
+    private bool hasAlreadySpawnedTonight;
     [SerializeField] private bool enableAi = true;
 
     // Sound for Ai
@@ -189,7 +188,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator AiCreator()
     {
         yield return new WaitUntil(() => _role != null);
-        Debug.Log("received a role: " + _role.roleName);
 
         if (RoomManager.Instance != null)
         {
@@ -210,13 +208,12 @@ public class PlayerController : MonoBehaviour
                     transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
                     Quaternion.identity);
 
-                plyAudioSource.Stop();
                 plyAudioSource.clip = aiSound;
                 plyAudioSource.Play();
                 AiController a = AiInstance.GetComponent<AiController>();
                 a.targetRole = _role;
 
-                hasAlreadySpawnedToday = true;
+                hasAlreadySpawnedTonight = true;
 
                 Debug.Log("Ai created");
             }
@@ -230,15 +227,15 @@ public class PlayerController : MonoBehaviour
         // Already spawned today check
         try
         {
-            if (!VoteMenu.Instance.isNight) hasAlreadySpawnedToday = false;
+            if (!VoteMenu.Instance.isNight) hasAlreadySpawnedTonight = false;
         }
         catch
         {
-            hasAlreadySpawnedToday = false;
+            hasAlreadySpawnedTonight = false;
         }
 
-        if (hasAlreadySpawnedToday)
-            // Debug.Log("SPAWNCHECK (0/5): Already spawn today");
+        if (hasAlreadySpawnedTonight)
+            // Debug.Log("SPAWNCHECK (0/5): Already spawn tonight");
             return false;
 
         // Already spawned check
