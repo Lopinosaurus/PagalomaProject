@@ -36,7 +36,8 @@ public class IGMenuManager : MonoBehaviour
         optionMenu.SetActive(false);
         voteMenu.SetActive(false);
         endScreen.SetActive(false);
-        playerClock.SetActive(false);
+        // playerClock.SetActive(false);
+        // TODO assign something to this value !!
     }
 
     void Update()

@@ -153,7 +153,7 @@ namespace MainGame.PlayerScripts
                 float deltaAngle = shakeStrength * strength;
 
                 deltaAngle *= 10f * strength;
-                deltaAngle *= 0.5f + Mathf.Cos(strength * 2 * Mathf.PI) * 0.5f;
+                deltaAngle *= 0.5f + Mathf.Sin(strength * 2 * Mathf.PI) * 0.5f;
                 
                 Vector3 forwardCamHolder = camHolder.InverseTransformDirection(camHolder.forward);
 

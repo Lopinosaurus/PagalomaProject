@@ -30,8 +30,7 @@ public class AiController : MonoBehaviour
     private bool _isViewed;
     public bool isDanger;
     private bool _isInCameraView;
-    private bool canShake;
-    
+
     // Sound "State of Shock"
     [SerializeField] private AudioSource iaSound;
     [SerializeField] private AudioClip stateOfShock;
@@ -61,6 +60,8 @@ public class AiController : MonoBehaviour
     // Gameplay stats
     [Space] [Header("Gameplay statistics")] [SerializeField]
     private AiState currentState = AiState.Relocate;
+    private float timeBeingCaught;
+    private const float maxTimeBeingCaught = 2.5f;
 
     private float remainingTime = 4;
     private int remainingHealth = 3;
@@ -73,27 +74,27 @@ public class AiController : MonoBehaviour
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private const float CycleTime = 0.5f;
+    private float CycleTime => 1.5f - moveCount / MaxMoveCount;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
-    private const float minCriticalDistFromPlayer = 7;
-    private const float minDangerDistFromPlayer = 25;
+    private const float minDangerDistFromPlayer = 35;
 
     // Spawn settings
-    [Space] [Header("Spawn distances")] private float _minSpawnRange = 40;
-    private float _maxSpawnRange = 50;
+    [Space] [Header("Spawn distances")] private float _minSpawnRange = 50;
+    private float _maxSpawnRange = 60;
 
     // NavMeshAgent settings
     [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)]
-    private float _normalSpeed = 50;
+    private float _normalSpeed = 200;
 
     private const float _hidingSpeed = 50;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
-    public Collider[] hitColliders = new Collider[200];
+    public Collider[] hitColliders;
+    private bool reachedLast;
     private const float Acceleration = 500;
-    private const float AccelerationFast = 100;
+    private const float AccelerationFast = 500;
 
     private void Start()
     {
@@ -176,10 +177,6 @@ public class AiController : MonoBehaviour
             if (RoomManager.Instance && !VoteMenu.Instance.isNight)
             {
                 Destroy(gameObject);
-                
-                iaSound.clip = iaKilled;
-                iaSound.Stop();
-                iaSound.Play();
                 return;
             }
         }
@@ -195,61 +192,45 @@ public class AiController : MonoBehaviour
         {
             case AiState.Hidden when _isAlive:
                 EnableMovementSpeed(Speed.Hiding);
+
+                remainingTime -= Time.fixedDeltaTime;
                 
-                float distFromTarget = DistFromTarget;
-                
-                // Reduces the timer
-                if (_isInCameraView)
+                // Decides when to attack
+                if (moveCount == MaxMoveCount - 1 && !reachedLast)
                 {
-                    if (canShake)
-                    {
-                        canShake = false;
-                        Debug.Log("should shake");
-                        // _playerLook.StartShake(0.1f, 5);
-                    }
-                }
-                else
-                {
-                    remainingTime -= Time.fixedDeltaTime;
-                    canShake = true;
+                    Debug.Log("reached Last");
+                    
+                    remainingTime = Random.Range(5f, 10f);
+                    reachedLast = true;
                 }
 
-                // Decides when to attack
                 if (moveCount >= MaxMoveCount)
                 {
+                    reachedLast = false;
+                    moveCount = 0;
+                    timeBeingCaught = 0;
+                    _agent.SetDestination(_targetPlayer.transform.position);
                     SetCurrentState(AiState.Attack);
                 }
-
+                
                 // Teleports if too close or too far
                 else
                 {
+                    float distFromTarget = DistFromTarget;
+                    
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
-                    bool tooClose = distFromTarget < minCriticalDistFromPlayer;
                     isDanger = distFromTarget < minDangerDistFromPlayer;
 
-                    if (remainingTime >= 0 && remainingTime <= CycleTime && (tooClose || tooFar))
-                    {
-                        if (tooClose)
-                            SetCurrentState(AiState.Caught);
-                        else
-                        {
-                            SetCurrentState(AiState.Moving);
-                            _agent.SetDestination(FindHidingSpot(false, true));
-                        }
-
-                        if (previousCollider != currentHidingObstacle &&
-                            _agent.remainingDistance < RemainingMinDistance) moveCount++;
-                    }
-
                     // When the time has run out normally, moves
-                    else if (remainingTime < 0)
+                    if (remainingTime < 0 || tooFar)
                     {
                         SetTime(CycleTime);
                         
                         SetCurrentState(AiState.Moving);
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
                         
-                        if (previousCollider != currentHidingObstacle) moveCount++;
+                        if (previousCollider != currentHidingObstacle && !tooFar) moveCount++;
+                        Debug.Log("Moved");
                         Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
                     }
                     else
@@ -291,6 +272,7 @@ public class AiController : MonoBehaviour
                 else
                 {
                     SetCurrentState(AiState.Relocate);
+                    remainingTime = 3;
                     _agent.SetDestination(FindHidingSpot(false, true));
                 }
 
@@ -305,19 +287,24 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
-                    _playerLook.StartShake(shakeDuration, 2);
+                    _playerLook.StartShake(shakeDuration, 1);
                     ApplyMalusPostProcess();
 
                     // Dead
                     Destroy(gameObject);
                     _isAlive = false;
-                }
-                else
-                {
+                    
+                    // State of shock sound
                     iaSound.Stop();
                     iaSound.clip = stateOfShock;
                     iaSound.Play();
                 }
+                else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
+                {
+                    timeBeingCaught += Time.fixedDeltaTime;
+                }
+                
+                if (timeBeingCaught >= maxTimeBeingCaught) SetCurrentState(AiState.Caught);
 
                 break;
             case AiState.Relocate:
@@ -394,8 +381,8 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = 9999;
                 break;
             case Speed.Attacking:
-                _agent.speed = Mathf.Clamp(20 - _agent.remainingDistance, 8, 20);
-                _agent.acceleration = Acceleration;
+                _agent.speed = Mathf.Clamp(20 - _agent.remainingDistance, 10, 20);
+                _agent.acceleration = 10;
                 break;
             case Speed.Moving:
                 _agent.speed = _normalSpeed;
@@ -419,27 +406,29 @@ public class AiController : MonoBehaviour
         var radius = _maxSpawnRange;
 
         // Potential colliders to go to
-        Vector3 center = targetPosition;
-        hitColliders = Physics.OverlapSphere(center, radius);
+        Vector3 center = (targetPosition + transform.position) * 0.5f;
+        hitColliders = new Collider[300];
+        Physics.OverlapSphereNonAlloc(center, radius, hitColliders, _characterMaskValue);
 
         var correctCol = new List<(Collider, float)>();
 
         foreach (Collider c in hitColliders)
         {
             // Skip invalids
-            if (null == c ||
-                !IsValidCollider(c) ||
-                (c.transform.position - targetPosition).sqrMagnitude <
-                minDangerDistFromPlayer * minDangerDistFromPlayer ||
+            if (null == c) continue;
+            
+            float sqrMagnitude = (c.transform.position - targetPosition).sqrMagnitude;
+            if (!IsValidCollider(c) ||
                 c == previousCollider ||
                 c == currentHidingObstacle ||
-                c == _capsuleCollider)
+                c == _capsuleCollider ||
+                sqrMagnitude < minDangerDistFromPlayer * minDangerDistFromPlayer)
             {
-                Debug.DrawRay(c.transform.position, Vector3.up, Color.red, 2, false);       
+                Debug.DrawRay(c.transform.position, Vector3.up, Color.red, 2, false);
                 continue;
             }
 
-            float sqrDist = (c.transform.position - targetPosition).sqrMagnitude;
+            float sqrDist = sqrMagnitude;
 
             InsertSorted(correctCol, c, sqrDist);
         }
@@ -447,7 +436,7 @@ public class AiController : MonoBehaviour
         for (int i = 0; i < correctCol.Count; i++)
         {
             if (correctCol[i].Item1 == null) continue;
-            Debug.DrawRay(hitColliders[i].transform.position, Vector3.up,Color.green, 2, false);
+            Debug.DrawRay(correctCol[i].Item1.transform.position, Vector3.up,Color.green, 2, false);
         }
 
         Collider newCollider = ChooseRandom(correctCol, largeSearch);
@@ -464,8 +453,10 @@ public class AiController : MonoBehaviour
             return currentHidingObstacle;
         }
 
+        if (largeSearch) return cols[cols.Count - 1].Item1;
+        
         var index = 0;
-        var prob = largeSearch ? 0.7f : 0.9f;
+        var prob = 0.9f;
         while (index < cols.Count - 1 && Random.Range(0f, 1f) > prob) index++;
 
         return cols[index].Item1;

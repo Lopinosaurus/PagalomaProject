@@ -166,8 +166,8 @@ namespace MainGame.PlayerScripts.Roles
                 Vector3 position = _cameraHolder.transform.position;
                 Quaternion rotation = _cameraHolder.transform.localRotation;
 
-                position = Vector3.Slerp(position, endingPos, 0.02f);
-                rotation = Quaternion.Slerp(rotation, endingRot, 0.05f);
+                position = Vector3.Lerp(position, endingPos, 0.02f);
+                rotation = Quaternion.Lerp(rotation, endingRot, 0.05f);
 
                 _cameraHolder.transform.position = position;
                 _cameraHolder.transform.localRotation = rotation;

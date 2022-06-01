@@ -55,8 +55,11 @@ namespace MainGame.PlayerScripts
                 // Enable everything
                 Setup();
                 
+                // Change left side in the list
                 _playerInput.actions["ChangeSpectatorLeft"].performed += ctx =>
                 {
+                    if (!RoomManager.Instance) return;
+
                     var list = RoomManager.Instance.players;
                     
                     if (list.Count > 0 && ctx.ReadValueAsButton())
@@ -68,8 +71,11 @@ namespace MainGame.PlayerScripts
                     }
                 };
 
+                // Change right side in the list
                 _playerInput.actions["ChangeSpectatorRight"].performed += ctx =>
                 {
+                    if (!RoomManager.Instance) return;
+                    
                     var list = RoomManager.Instance.players;
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
@@ -100,6 +106,7 @@ namespace MainGame.PlayerScripts
             }
 
             defaultCam.enabled = false;
+            _playerInput.enabled = true;
             spectatorCamClone.SetActive(true);
 
             if (!changed)
