@@ -340,7 +340,11 @@ namespace MainGame.PlayerScripts
                 isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
                 smoothTime);
             
+            // HeadBob
             _playerLook.HeadBob();
+            
+            // FOV Change according to movement
+            _playerLook.FOVChanger();
         }
 
         #endregion

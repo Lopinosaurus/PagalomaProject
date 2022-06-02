@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Xml.Schema;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -15,7 +16,7 @@ namespace MainGame.PlayerScripts
 
         // Components
         [SerializeField] private Transform camHolder;
-        private Transform _cam;
+        private Camera _cam;
         private PlayerInput _playerInput;
         private RotationConstraint _rotationConstraint;
         private PhotonView _photonView;
@@ -56,19 +57,24 @@ namespace MainGame.PlayerScripts
         
         // Head Bob settings
         private float amplitude = 0.1f;
+        private float PiDividedByMaxDistance;
+        private const float piHalf = Mathf.PI * 0.5f;
+
+        // FOV
+        private float baseFOV;
+        [SerializeField] private float addMovementFOV = 2;
 
         public void HeadBob()
         {
-            float quot = Mathf.PI / _footstepEffect.MaxDistance;
-            float piHalf = Mathf.PI * 0.5f;
-
             Vector3 pos = camHolder.position;
 
-            pos.y -= Mathf.Cos(_footstepEffect.PlayerDistanceCounter * quot + piHalf) * amplitude;
-            _cam.position = pos;
-            var localPosition = _cam.localPosition;
+            pos.y -= Mathf.Cos(_footstepEffect.PlayerDistanceCounter * PiDividedByMaxDistance + piHalf) * amplitude;
+            var camTransform = _cam.transform;
+            camTransform.position = pos;
+            var localPosition = camTransform.localPosition;
             localPosition.z = 0;
-            _cam.localPosition = localPosition;
+            
+            camTransform.localPosition = localPosition;
         }
 
         #endregion
@@ -83,8 +89,14 @@ namespace MainGame.PlayerScripts
             _playerMovement = GetComponent<PlayerMovement>();
             _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
-            _cam = GetComponentInChildren<Camera>().transform;
+            _cam = GetComponentInChildren<Camera>();
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
+            
+            // HeadBob
+            PiDividedByMaxDistance = Mathf.PI / _footstepEffect.MaxDistance;
+            
+            // FOV
+            baseFOV = _cam.fieldOfView;
             
             if (_photonView.IsMine)
             {
@@ -136,7 +148,7 @@ namespace MainGame.PlayerScripts
 
         public void StartShake(float duration, float shakeStrength)
         {
-            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 5;
+            shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 300;
             StartCoroutine(Shake(duration, shakeStrength));
         }
         
@@ -152,10 +164,12 @@ namespace MainGame.PlayerScripts
                 timer += Time.deltaTime;
 
                 float strength = (duration - timer) / duration;
-                float deltaAngle = shakeStrength * strength * side;
-
-                angleSoFar += Mathf.Abs(deltaAngle);
-                if (angleSoFar >= 120)
+                float deltaAngle = shakeStrength * strength * side * Time.deltaTime;
+                
+                var absDeltaAngle = Mathf.Abs(deltaAngle);
+                angleSoFar += absDeltaAngle;
+                
+                if (angleSoFar >= 180)
                 {
                     angleSoFar = 0;
                     side *= -1;
@@ -279,6 +293,11 @@ namespace MainGame.PlayerScripts
                 audioSource.clip = audioClip;
                 audioSource.Play();
             }
+        }
+
+        public void FOVChanger()
+        {
+            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, baseFOV + addMovementFOV * _playerAnimation.velocity, 1);
         }
     }
 }

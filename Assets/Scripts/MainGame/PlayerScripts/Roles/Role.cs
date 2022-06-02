@@ -92,7 +92,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (kill) UseAbility();
 
-            if (!VoteMenu.Instance.isNight && hasShield) hasShield = false;
+            if (VoteMenu.Instance != null && !VoteMenu.Instance.isNight && hasShield) hasShield = false;
         }
 
         #endregion

@@ -96,8 +96,6 @@ namespace MainGame.PlayerScripts
                         break;
                 }
 
-            Debug.Log("currentJumpState is " + currentJumpState);
-            
             if (WantsJump) AlreadyWantsJump = true;
         }
 

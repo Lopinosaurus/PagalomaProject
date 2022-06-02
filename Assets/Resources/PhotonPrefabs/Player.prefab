@@ -5304,6 +5304,7 @@ MonoBehaviour:
   camHolder: {fileID: 6598090228381821785}
   BodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
+  addMovementFOV: 2
 --- !u!114 &6099398095721299116
 MonoBehaviour:
   m_ObjectHideFlags: 0

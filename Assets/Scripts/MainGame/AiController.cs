@@ -293,6 +293,15 @@ public class AiController : MonoBehaviour
                 else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
                 {
                     timeBeingCaught += Time.fixedDeltaTime;
+
+                    Vector3 dirAiPlayer = (_targetPlayer.transform.position - transform.position);
+                    Vector3 forwardPlayer = _targetPlayer.transform.forward;
+                    float angle = Vector3.Angle(dirAiPlayer, forwardPlayer);
+                    
+                    Debug.Log($"angle is {angle}");
+
+                    float deltaAngle = Mathf.Sign(angle) * Time.deltaTime * 100;
+                    _targetPlayer.transform.Rotate(Vector3.up, deltaAngle);
                 }
                 
                 if (timeBeingCaught >= maxTimeBeingCaught) SetCurrentState(AiState.Caught);
