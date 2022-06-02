@@ -1,9 +1,11 @@
 using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace MainGame.PlayerScripts.Roles
 {
@@ -20,11 +22,13 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasShield; // Shield given by the Priest
         public string username;
         public string userId;
-        public Color color;
         public Role vote;
         public bool hasVoted; // Has submitted vote this day
         protected TMP_Text actionText;
         private TMP_Text deathText;
+        
+        public Color color;
+        private PostProcessVolume _postProcessVolume;
         
         [SerializeField] private bool kill;
 
@@ -68,6 +72,9 @@ namespace MainGame.PlayerScripts.Roles
             hasVoted = false;
 
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
+            _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
+
+            _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
         }
 
         public void Activate()
@@ -84,6 +91,8 @@ namespace MainGame.PlayerScripts.Roles
         private void LateUpdate()
         {
             if (kill) UseAbility();
+
+            if (!VoteMenu.Instance.isNight && hasShield) hasShield = false;
         }
 
         #endregion
@@ -93,7 +102,14 @@ namespace MainGame.PlayerScripts.Roles
         public void SetPlayerColor(Color _color)
         {
             color = _color;
-            gameObject.transform.Find("VillagerRender").GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
+            var find = gameObject.transform.Find("VillagerRender");
+            bool wasActive = find.gameObject.activeSelf;
+            
+            find.gameObject.SetActive(true);
+            
+            find.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
+            
+            find.gameObject.SetActive(wasActive);
         }
 
         public virtual void UseAbility()

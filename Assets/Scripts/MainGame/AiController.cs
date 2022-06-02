@@ -431,7 +431,7 @@ public class AiController : MonoBehaviour
         }
 
         Collider newCollider = ChooseRandom(correctCol, largeSearch);
-        Debug.DrawLine(transform.position + Vector3.up, targetPosition, Color.cyan, 1, false);       
+        Debug.DrawLine(transform.position + Vector3.up, targetPosition, Color.cyan, 12, false);       
         
         previousCollider = currentHidingObstacle;
         currentHidingObstacle = newCollider;

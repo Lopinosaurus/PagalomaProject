@@ -238,12 +238,12 @@ namespace MainGame.PlayerScripts
                 if (OnSlope())
                 {
                     float downwardForce = -slopeCompensationForce;
-                    downwardForce = Mathf.Clamp(downwardForce, -500, -2);
+                    downwardForce = Mathf.Clamp(downwardForce, -500, -0.2f);
 
                     upwardVelocity.y = downwardForce;
                 }
                 else 
-                    upwardVelocity.y = -2;
+                    upwardVelocity.y = -0.2f;
             }
         }
 

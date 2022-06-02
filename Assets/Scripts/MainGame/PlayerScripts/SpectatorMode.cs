@@ -146,18 +146,7 @@ namespace MainGame.PlayerScripts
         {
             foreach (Role role in RoomManager.Instance.players)
             {
-                var roleGameObject = role.gameObject;
-                if (roleGameObject.GetComponent<PhotonView>().IsMine) continue;
-                
-                SkinnedMeshRenderer meshRenderer = roleGameObject.GetComponent<SpectatorMode>().skinnedMeshRenderer;
-                var isActive = meshRenderer.gameObject.activeSelf;
-
-                meshRenderer.gameObject.SetActive(true);
-
-                meshRenderer.materials[1].color =
-                    anonymousMaterial.color;
-
-                meshRenderer.gameObject.SetActive(isActive);
+                role.SetPlayerColor(anonymousMaterial.color);
             }
         }
     }
