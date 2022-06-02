@@ -183,7 +183,7 @@ public class AiController : MonoBehaviour
         {
             Debug.LogWarning("No RoomManager found ! (AiController)");
         }
-
+        
         // Disable or enable postprocessing if moving
         _postProcessVolume.weight = currentState != AiState.Relocate || currentState != AiState.Moving ? 1 : 0;
         
@@ -293,15 +293,18 @@ public class AiController : MonoBehaviour
                 else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
                 {
                     timeBeingCaught += Time.fixedDeltaTime;
-
+                    
+                    // Look away ?
                     Vector3 dirAiPlayer = (_targetPlayer.transform.position - transform.position);
                     Vector3 forwardPlayer = _targetPlayer.transform.forward;
-                    float angle = Vector3.Angle(dirAiPlayer, forwardPlayer);
-                    
+                    float angle = Vector3.SignedAngle(dirAiPlayer, forwardPlayer, Vector3.up);
+
                     Debug.Log($"angle is {angle}");
 
-                    float deltaAngle = Mathf.Sign(angle) * Time.deltaTime * 100;
-                    _targetPlayer.transform.Rotate(Vector3.up, deltaAngle);
+                    float deltaAngle = angle * Time.deltaTime * 0.3f;
+                    deltaAngle *= Math.Sign(_playerLook._rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
+
+                    _targetPlayer.transform.Rotate(Vector3.up, -deltaAngle);
                 }
                 
                 if (timeBeingCaught >= maxTimeBeingCaught) SetCurrentState(AiState.Caught);

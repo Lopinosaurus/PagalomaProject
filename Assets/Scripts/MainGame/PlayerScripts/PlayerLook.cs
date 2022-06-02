@@ -38,7 +38,7 @@ namespace MainGame.PlayerScripts
 
         // Current player values
         private float _rotationX;
-        private float _rotationY;
+        public float _rotationY;
         private const float SmoothTimeX = 0.01f;
     
         // Shake settings
@@ -122,7 +122,7 @@ namespace MainGame.PlayerScripts
 
         public void Look() // Modifies camera and player rotation
         {
-            _rotationY += _mouseDeltaX * mouseSensX * canTurnSidesMult;
+            _rotationY = _mouseDeltaX * mouseSensX * canTurnSidesMult;
             _rotationX -= _mouseDeltaY * mouseSensY * canTurnSidesMult;
 
             _rotationX = Mathf.Clamp(_rotationX, -90f, 90f);
@@ -143,7 +143,8 @@ namespace MainGame.PlayerScripts
 
             var rotationEuler = _characterController.transform.rotation.eulerAngles;
             rotationEuler.y = _rotationY;
-            _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
+            // _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
+            _characterController.transform.Rotate(Vector3.up, _rotationY);
         }
 
         public void StartShake(float duration, float shakeStrength)
