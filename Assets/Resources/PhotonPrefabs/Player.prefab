@@ -5302,6 +5302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
+  _rotationY: 0
   BodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
   addMovementFOV: 2
