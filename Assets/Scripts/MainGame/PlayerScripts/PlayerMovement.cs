@@ -193,12 +193,6 @@ namespace MainGame.PlayerScripts
              
             currentMotion += upwardVelocity;
             
-            // SYNCHRONIZE INTERPOLATION & EXTRAPOLATION !!
-            Vector3 motionNetwork = new Vector3(
-                _playerAnimation.velocityX,
-                grounded || JumpState.Still == currentJumpState ? 0 : currentMotion.y,
-                _playerAnimation.velocityZ);
-            
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
             

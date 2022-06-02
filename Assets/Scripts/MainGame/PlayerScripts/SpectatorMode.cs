@@ -7,6 +7,7 @@ namespace MainGame.PlayerScripts
 {
     public class SpectatorMode : MonoBehaviour
     {
+        private bool anonymisePlayers = false;
         [SerializeField] private Material anonymousMaterial;
         [SerializeField] public SkinnedMeshRenderer skinnedMeshRenderer;
         private PhotonView _photonView;
@@ -109,7 +110,7 @@ namespace MainGame.PlayerScripts
             _playerInput.enabled = true;
             spectatorCamClone.SetActive(true);
 
-            if (!changed)
+            if (!changed && anonymisePlayers)
             {
                 changed = true;
                 AnonymizeColors();
