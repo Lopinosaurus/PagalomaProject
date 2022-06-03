@@ -148,6 +148,7 @@ public class PlayerController : MonoBehaviour
             catch
             {
                 Debug.LogWarning("No RoomManager found ! (PlayerController)");
+                yield break;
             }
         }
     }

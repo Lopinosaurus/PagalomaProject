@@ -237,11 +237,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.85406965, b: 0.7688679, a: 1}
-  m_Intensity: 2
-  m_Range: 5
-  m_SpotAngle: 100
-  m_InnerSpotAngle: 1
+  m_Color: {r: 1, g: 0.8912998, b: 0.7122642, a: 1}
+  m_Intensity: 3
+  m_Range: 3
+  m_SpotAngle: 90
+  m_InnerSpotAngle: 9
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -300,5 +300,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780c264b7d2dd0244aeb41d3683a9923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 0}
-  DNC: {fileID: 0}

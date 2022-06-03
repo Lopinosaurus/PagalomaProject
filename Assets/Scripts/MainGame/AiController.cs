@@ -142,13 +142,17 @@ public class AiController : MonoBehaviour
 
     private IEnumerator NullToObstacle()
     {
-        while (true)
+        int count = 0;
+        
+        while (count < 5)
         {
             if (null == currentHidingObstacle)
             {
                 FindNewObstacle(true);
             }
-            yield return new WaitForSeconds(0.5f);
+
+            count++;
+            yield return new WaitForSeconds(3);
         }
     }
 
@@ -227,7 +231,6 @@ public class AiController : MonoBehaviour
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
                         
                         if (previousCollider != currentHidingObstacle && !tooFar) moveCount++;
-                        Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
                     }
                     else
                     {
@@ -244,8 +247,6 @@ public class AiController : MonoBehaviour
 
                 _agent.SetDestination(FindHidingSpot(true));
                 
-                Debug.DrawRay(_agent.destination, Vector3.up * 12, Color.magenta, 1f, false);
-
                 // When the Ai has arrived, goes back to Hidden
                 if ((transform.position - _agent.destination).sqrMagnitude < RemainingMinDistance) SetCurrentState(AiState.Hidden);
 
@@ -443,7 +444,6 @@ public class AiController : MonoBehaviour
         }
 
         Collider newCollider = ChooseRandom(correctCol, largeSearch);
-        Debug.DrawLine(transform.position + Vector3.up, targetPosition, Color.cyan, 12, false);       
         
         previousCollider = currentHidingObstacle;
         currentHidingObstacle = newCollider;
@@ -515,6 +515,7 @@ public class AiController : MonoBehaviour
         {
             StartCoroutine(NullToObstacle());
         }
+        
         Vector3 targetPosition = _targetPlayer.transform.position;
 
         Vector3 direction = obstaclePosition - targetPosition;

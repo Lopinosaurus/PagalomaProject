@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class Lights : MonoBehaviour
 {
-    public Light _light;
-    public DayNightCycle DNC;
+    private Light _light;
+    private DayNightCycle DNC;
 
-    public void Start()
+    public void Awake()
     {
-        DNC = GameObject.FindGameObjectWithTag("DayNightCycle").GetComponent<DayNightCycle>();
-        _light = this.GetComponent<Light>();
+        _light = GetComponent<Light>();
+    }
+
+    private void Start()
+    {
+        var DayNightCycleGameObject = GameObject.FindGameObjectWithTag("DayNightCycle");
+        if (DayNightCycleGameObject) DNC = DayNightCycleGameObject.GetComponent<DayNightCycle>();
     }
 
     public void Update()
     {
-        _light.intensity = -8f * DNC.time * (1f - DNC.time) + 2f;
+        if (DNC) _light.intensity = -8f * DNC.time * (1f - DNC.time) + 2f;
     }
 }
