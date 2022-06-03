@@ -21,7 +21,27 @@ ModelImporter:
   - first:
       74: -1954632274769931838
     second: Villager|Armature.001|mixamo.com|Layer0
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: af14824e349b9b348959dbb3a302f819, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 48f97999f93807e43b72b522414ab1dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: dd99228293abc1347a7cdeb13b8fdcd1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 9a61898c888c3a845a7340c8b455277e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
