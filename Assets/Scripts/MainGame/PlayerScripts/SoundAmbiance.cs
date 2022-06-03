@@ -25,8 +25,7 @@ public class SoundAmbiance : MonoBehaviour
                 isDayPlaying = true;
             }
         }
-        
-        if (VoteMenu.Instance.isNight)
+        else if (VoteMenu.Instance.isNight)
         {
             if (isDayPlaying)
             {
