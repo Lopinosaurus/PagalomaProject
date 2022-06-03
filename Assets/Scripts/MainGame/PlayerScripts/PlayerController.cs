@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     // Sound for Ai
     [SerializeField] private AudioClip aiSound;
-    [SerializeField] private AudioSource plyAudioSource;
+    [SerializeField] private AudioSource playerAudioSource;
 
     [Space, Header("Light")]
     [SerializeField] private Light _lampLight;
@@ -209,8 +209,10 @@ public class PlayerController : MonoBehaviour
                     transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
                     Quaternion.identity);
 
-                plyAudioSource.clip = aiSound;
-                plyAudioSource.Play();
+                // Ai spawn sound
+                playerAudioSource.clip = aiSound;
+                playerAudioSource.Play();
+                
                 AiController a = AiInstance.GetComponent<AiController>();
                 a.targetRole = _role;
 

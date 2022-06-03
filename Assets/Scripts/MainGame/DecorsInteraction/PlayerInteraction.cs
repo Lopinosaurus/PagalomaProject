@@ -5,40 +5,34 @@ using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics.Tracing;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public static PlayerInteraction Instance;
-    [SerializeField] private bool nearDoor = false;
-    [SerializeField] private bool nearSign = false;
+    [SerializeField] private bool nearDoor;
+    [SerializeField] private bool nearSign;
     public GameObject door;
     [SerializeField] private PhotonView PV;
+
+    public PlayerInteraction() => nearSign = false;
 
     private void Awake()
     {
         if (PV.IsMine) Instance = this;
     }
 
-    void Update()
-    {
-        if (nearDoor && Input.GetKeyDown(KeyCode.E)) // Should be moved to Click()
-        {
-            RPC_OpenCloseDoor(door.transform.name);
-            PV.RPC("RPC_OpenCloseDoor", RpcTarget.Others, door.transform.name);
-        }
-    }
-
     public void NearDoor(GameObject message, GameObject door, bool nearDoor)
     {
-        this.nearDoor = nearDoor;
-        this.door = door;
-        message.SetActive(nearDoor);
+        if (PV.IsMine)
+        {
+            this.nearDoor = nearDoor;
+            this.door = door;
+            message.SetActive(nearDoor);
+        }
     }
     
-    public void NearSign(bool nearSign)
-    {
-        this.nearSign = nearSign;
-    }
+    public void NearSign(bool nearSign) => this.nearSign = nearSign;
 
     public void Click()
     {
@@ -46,6 +40,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log("[+] Should open voting screen");
             IGMenuManager.Instance.OpenVoteMenu();
+        }
+
+        if (nearDoor)
+        {
+            RPC_OpenCloseDoor(door.transform.name);
+            PV.RPC("RPC_OpenCloseDoor", RpcTarget.All, door.transform.name);
         }
     }
 

@@ -11,12 +11,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.PostProcessing;
 using static System.Single;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class AiController : MonoBehaviour
 {
     public Role targetRole;
     [SerializeField] private GameObject dissimulateParticle;
+    [SerializeField] private GameObject render;
     private GameObject _targetPlayer;
     private Camera _targetCam;
     private Plane[] _targetPlanes;
@@ -25,6 +27,7 @@ public class AiController : MonoBehaviour
     
     private NavMeshAgent _agent;
     private CapsuleCollider _capsuleCollider;
+    [Space, Header("Colliders")]
     [SerializeField] private Collider previousCollider;
     [SerializeField] private Collider currentHidingObstacle;
     private bool _isViewed;
@@ -32,9 +35,11 @@ public class AiController : MonoBehaviour
     private bool _isInCameraView;
 
     // Sound "State of Shock"
-    [SerializeField] private AudioSource iaSound;
     [SerializeField] private AudioClip stateOfShock;
-    [SerializeField] private AudioClip iaKilled;
+    [SerializeField] private AudioSource ambiantAudioSource;
+    private AudioSource movementAudioSource;
+    
+
     private enum AiState
     {
         Hidden,
@@ -64,21 +69,22 @@ public class AiController : MonoBehaviour
     private const float maxTimeBeingCaught = 2.5f;
 
     private float remainingTime = 4;
-    private int remainingHealth = 3;
+    private int remainingHealth = 1;
 
     private bool _isAlive = true;
     private const float shakeDuration = 30;
-    private const float slowSpeedDuration = 15;
+    private const float slowSpeedDuration = 30;
     private int moveCount;
     private const int MaxMoveCount = 15;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private float CycleTime => 1.5f - moveCount / MaxMoveCount;
+    private float CycleTime => 4 - moveCount / MaxMoveCount;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
-    private const float minDangerDistFromPlayer = 35;
+    private const float minDangerDistFromPlayer = 15;
+    private const float minCriticalDistFromPlayer = 7;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 50;
@@ -117,6 +123,9 @@ public class AiController : MonoBehaviour
         StartCoroutine(NullToObstacle());
         
         SetTime(3);
+        
+        // Sound
+        movementAudioSource = GetComponent<AudioSource>();
 
         _characterMaskValue = GetLayerMaskValue(characterMask);
 
@@ -137,6 +146,7 @@ public class AiController : MonoBehaviour
 
     private void ApplyMalusPostProcessAndSound()
     {
+        Destroy(ambiantAudioSource);
         _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessingAndSound(_postProcessVolume, shakeDuration, stateOfShock);
     }
 
@@ -166,10 +176,10 @@ public class AiController : MonoBehaviour
     private void RotateTowardsPlayer()
     {
         Transform transform1;
-        (transform1 = transform).LookAt(_targetPlayer.transform.position);
+        (transform1 = render.transform).LookAt(_targetPlayer.transform.position);
         Vector3 eulerAngles = transform1.rotation.eulerAngles;
         eulerAngles.x = 0;
-        transform.rotation = Quaternion.Euler(eulerAngles);
+        render.transform.rotation = Quaternion.Euler(eulerAngles);
     }
 
     private void FixedUpdate()
@@ -187,9 +197,10 @@ public class AiController : MonoBehaviour
         {
             Debug.LogWarning("No RoomManager found ! (AiController)");
         }
-        
-        // Disable or enable postprocessing if moving
-        _postProcessVolume.weight = currentState != AiState.Relocate || currentState != AiState.Moving ? 1 : 0;
+
+        Debug.DrawRay(_agent.destination, Vector3.up * 10, Color.cyan);
+
+        float distFromTarget = DistFromTarget;
         
         switch (currentState)
         {
@@ -217,23 +228,30 @@ public class AiController : MonoBehaviour
                 // Teleports if too close or too far
                 else
                 {
-                    float distFromTarget = DistFromTarget;
-                    
+                    bool tooClose = distFromTarget < minCriticalDistFromPlayer;
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
                     isDanger = distFromTarget < minDangerDistFromPlayer;
 
                     // When the time has run out normally, moves
-                    if (remainingTime < 0 || tooFar)
+                    if (remainingTime < 0 || tooFar || tooClose)
                     {
                         SetTime(CycleTime);
                         
                         SetCurrentState(AiState.Moving);
                         _agent.SetDestination(FindHidingSpot(false, isDanger));
                         
-                        if (previousCollider != currentHidingObstacle && !tooFar) moveCount++;
+                        if (previousCollider != currentHidingObstacle && !tooFar)
+                        {
+                            moveCount++;
+                            // Play sound
+                            movementAudioSource.pitch = Mathf.Lerp(-2, 2, moveCount / MaxMoveCount);
+                            movementAudioSource.Play();
+                        }
                     }
                     else
                     {
+                        PostProcessWithDistance(distFromTarget);
+                        
                         // Stays hidden
                         _agent.SetDestination(FindHidingSpot(true));
                     }
@@ -279,11 +297,11 @@ public class AiController : MonoBehaviour
 
                 _agent.SetDestination(_targetPlayer.transform.position);
 
-                if (DistFromTarget <= AttackMaxDistancePlayer)
+                if (distFromTarget <= AttackMaxDistancePlayer)
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0.3f, 0.8f);
+                    _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0, 0.8f);
                     _playerLook.StartShake(shakeDuration, 5);
                     ApplyMalusPostProcessAndSound();
 
@@ -294,18 +312,8 @@ public class AiController : MonoBehaviour
                 else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
                 {
                     timeBeingCaught += Time.fixedDeltaTime;
-                    
-                    // Look away ?
-                    Vector3 dirAiPlayer = (_targetPlayer.transform.position - transform.position);
-                    Vector3 forwardPlayer = _targetPlayer.transform.forward;
-                    float angle = Vector3.SignedAngle(dirAiPlayer, forwardPlayer, Vector3.up);
 
-                    Debug.Log($"angle is {angle}");
-
-                    float deltaAngle = angle * Time.deltaTime * 0.3f;
-                    deltaAngle *= Math.Sign(_playerLook._rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
-
-                    _targetPlayer.transform.Rotate(Vector3.up, -deltaAngle);
+                    LookAway();
                 }
                 
                 if (timeBeingCaught >= maxTimeBeingCaught) SetCurrentState(AiState.Caught);
@@ -322,6 +330,41 @@ public class AiController : MonoBehaviour
 
                 break;
         }
+    }
+
+    private void PostProcessWithDistance(float distFromTarget)
+    {
+        float dangerDistFromPlayer =
+            1 - (distFromTarget - minCriticalDistFromPlayer) / (minDangerDistFromPlayer - minCriticalDistFromPlayer);
+
+        dangerDistFromPlayer = Mathf.Clamp01(dangerDistFromPlayer);
+
+        // Disable or enable postprocessing if moving
+        _postProcessVolume.weight = _postProcessVolume.weight < dangerDistFromPlayer
+            ? dangerDistFromPlayer
+            : Mathf.Lerp(_postProcessVolume.weight, dangerDistFromPlayer, Time.deltaTime);
+                        
+        // Shakes intensely
+        if (_isInCameraView)
+        {
+            if (distFromTarget < minDangerDistFromPlayer)
+            {
+                _playerLook.StartShake(0.1f, dangerDistFromPlayer);
+            }
+        }
+    }
+
+    private void LookAway()
+    {
+        // Look away
+        Vector3 dirAiPlayer = _targetPlayer.transform.position - transform.position;
+        Vector3 forwardPlayer = _targetPlayer.transform.forward;
+        float angle = Vector3.SignedAngle(dirAiPlayer, forwardPlayer, Vector3.up);
+
+        float deltaAngle = angle * Time.deltaTime * 0.5f;
+        deltaAngle *= Math.Sign(_playerLook._rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
+
+        _targetPlayer.transform.Rotate(Vector3.up, -deltaAngle);
     }
 
     private void SetTime(float cycleTime) => remainingTime = cycleTime;
@@ -389,7 +432,7 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = 10;
                 break;
             case Speed.Moving:
-                _agent.speed = _normalSpeed;
+                _agent.speed = _normalSpeed * Mathf.Clamp01(_agent.remainingDistance * 0.05f);
                 _agent.acceleration = Acceleration;
                 break;
             case Speed.Hiding:
@@ -507,27 +550,28 @@ public class AiController : MonoBehaviour
         }
 
         Vector3 obstaclePosition = _targetPlayer.transform.TransformDirection(Vector3.back * 10);
+        
         try
         {
             obstaclePosition = currentHidingObstacle.transform.position;
         }
         catch
         {
+            Debug.Log("Obstacle was null, looking for a new one");
             StartCoroutine(NullToObstacle());
         }
         
         Vector3 targetPosition = _targetPlayer.transform.position;
-
         Vector3 direction = obstaclePosition - targetPosition;
 
         // Tries to find the point behind the obstacle aligned with the player
         Vector3 hidingSpot = obstaclePosition + direction.normalized * 1.5f;
 
-        // Sticks it to the ground
-        if (Physics.Raycast(hidingSpot, Vector3.down, out RaycastHit hit, _characterMaskValue))
-        {
-            hidingSpot.y = hit.point.y;
-        }
+        // // Sticks it to the ground
+        // if (Physics.Raycast(hidingSpot, Vector3.down, out RaycastHit hit, _characterMaskValue))
+        // {
+        //     hidingSpot.y = hit.point.y;
+        // }
 
         return hidingSpot;
     }

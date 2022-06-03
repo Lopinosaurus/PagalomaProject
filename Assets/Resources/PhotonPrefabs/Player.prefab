@@ -5345,7 +5345,7 @@ MonoBehaviour:
   AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
-  plyAudioSource: {fileID: 9182737059992604612}
+  playerAudioSource: {fileID: 9182737059992604612}
   _lampLight: {fileID: 6658514047362406684}
 --- !u!114 &7578259937013170486
 MonoBehaviour:
