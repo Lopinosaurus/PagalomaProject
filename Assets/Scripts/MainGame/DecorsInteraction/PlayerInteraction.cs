@@ -45,17 +45,16 @@ public class PlayerInteraction : MonoBehaviour
             IGMenuManager.Instance.OpenVoteMenu();
         }
         
-        if (nearDoor)
+        if (PV.IsMine && nearDoor && Input.GetMouseButtonDown(0))
         {
-            PV.RPC("RPC_OpenCloseDoor", RpcTarget.All, door.transform.name);
+            RPC_OpenCloseDoor(door.transform.name);
+            PV.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, door.transform.name);
         }
     }
 
     [PunRPC]
     private void RPC_OpenCloseDoor(string doorId)
     {
-        if (!Input.GetMouseButtonDown(0)) return;
-        
         GameObject theDoor = GameObject.Find(doorId);
         Animator anim = theDoor.transform.GetComponent<Animator>();
         anim.SetBool(_openingHash, !anim.GetBool(_openingHash));

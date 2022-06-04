@@ -14686,7 +14686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: VOTE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a8531a44e6be0b45a7b5d4634491219, type: 2}
   m_sharedMaterial: {fileID: -2737097684459779535, guid: 5a8531a44e6be0b45a7b5d4634491219, type: 2}
@@ -20368,7 +20368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1824923143
 RectTransform:
   m_ObjectHideFlags: 0
