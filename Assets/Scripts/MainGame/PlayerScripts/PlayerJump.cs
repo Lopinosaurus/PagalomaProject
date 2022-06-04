@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
 
@@ -37,8 +38,14 @@ namespace MainGame.PlayerScripts
         internal int _characterLayerValue;
         public List<Collider> ignoredJumpedColliders = new List<Collider>();
         private readonly List<Collider> collidersStopIgnoringVaultMid = new List<Collider>();
+        private static PhotonView _photonView;
 
-         public static void SetJumpState(JumpState desired) => currentJumpState = desired;
+        public static void SetJumpState(JumpState desired)
+         {
+             if (!_photonView.IsMine) return;
+             
+             currentJumpState = desired;
+         }
 
          public void UpdateJump()
         {

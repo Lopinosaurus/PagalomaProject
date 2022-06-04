@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MainGame.PlayerScripts;
+using Photon.Pun;
 using UnityEngine;
 
 public class JumpStateSetter : StateMachineBehaviour
 {
-    public PlayerMovement.JumpState desiredJumpState; 
-    
+    public PlayerMovement.JumpState desiredJumpState;
+   
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     // public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     // {

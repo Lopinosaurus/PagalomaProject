@@ -97,6 +97,7 @@ namespace MainGame.PlayerScripts
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerLook = GetComponent<PlayerLook>();
             _playerController = GetComponent<PlayerController>();
+            _photonView = GetComponent<PhotonView>();
 
             _characterController = GetComponentInChildren<CharacterController>();
             _characterLayerValue = (int) Mathf.Log(characterLayer.value, 2);
