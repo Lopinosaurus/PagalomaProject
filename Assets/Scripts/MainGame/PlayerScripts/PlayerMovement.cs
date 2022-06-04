@@ -12,7 +12,7 @@ namespace MainGame.PlayerScripts
         #region Attributes
 
         // External GameObjects and components
-        [SerializeField] private GameObject cameraHolder;
+        [SerializeField] public GameObject cameraHolder;
 
         // Player Controller & Controls
         private PlayerInput _playerInput;
