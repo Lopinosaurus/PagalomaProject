@@ -32,14 +32,13 @@ namespace MainGame.PlayerScripts.Roles
                     {
                         actionText.text = "Press E to Transform";
                     }
-                    else actionText.text = "Press E to Attack";
+                    else actionText.text = "";
                 }
             }
         }
 
         public void
-            UpdateTarget(Collider other,
-                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+            UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (isTransformed == false) return;
             if (other.CompareTag("Player"))
@@ -174,7 +173,6 @@ namespace MainGame.PlayerScripts.Roles
                 }
                 else
                 {
-                    _playerAnimation.WerewolfAttackAnimation(true);
                     Debug.Log("[-] Can't kill: No target to kill");
                 }
             }
