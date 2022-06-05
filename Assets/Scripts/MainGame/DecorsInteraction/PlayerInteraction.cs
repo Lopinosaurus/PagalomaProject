@@ -50,7 +50,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (PV.IsMine || null == RoomManager.Instance)
         {
-            Debug.Log("PV is mine");
+            //Debug.Log("PV is mine");
             if (nearDoor)
             {
                 Debug.Log("near door");
