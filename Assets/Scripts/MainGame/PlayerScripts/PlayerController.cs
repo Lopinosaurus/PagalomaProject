@@ -293,9 +293,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerLook.Look();
             
-            // Updates the jump feature
-            _playerMovement.UpdateJump();
-
             // Moves the player
             _playerMovement.Move(Time.deltaTime);
 

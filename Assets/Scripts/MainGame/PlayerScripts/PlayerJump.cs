@@ -50,9 +50,9 @@ namespace MainGame.PlayerScripts
              currentJumpState = desired;
          }
 
-         public void UpdateJump()
+        private void UpdateJump()
          {
-             if (grounded) upwardVelocity.y = 2.2f;
+             if (grounded && WantsJump) upwardVelocity.y = 2.2f;
              
              return;
             
