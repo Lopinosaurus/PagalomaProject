@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
             foreach (var layer in _postProcLayers) Destroy(layer);
             Destroy(_camPlayer);
             Destroy(_audioListener);
+            Destroy(GetComponent<CharacterController>());
             playerInput.enabled = false;
             enableAi = false;
         }
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
 
         if (roomManager == null) yield break;
 
-        if (roomManager.localPlayer.GetType() == typeof(Werewolf) && _photonView.IsMine)
+        if (roomManager.localPlayer is Werewolf && _photonView.IsMine)
             while (true)
             {
                 // It's day, turn off light

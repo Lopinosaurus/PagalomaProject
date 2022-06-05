@@ -38,7 +38,8 @@ namespace MainGame
         
         public void UpdateVoteItems()
         {
-            if (RoomManager.Instance.localPlayer.vote != null && !RoomManager.Instance.localPlayer.vote.isAlive) RoomManager.Instance.localPlayer.vote = null;
+            if (RoomManager.Instance.localPlayer.vote != null && !RoomManager.Instance.localPlayer.vote.isAlive)
+                RoomManager.Instance.localPlayer.vote = null;
             voteButton.interactable = isDay && !RoomManager.Instance.localPlayer.hasVoted;
             foreach (Transform trans in voteList)
             {

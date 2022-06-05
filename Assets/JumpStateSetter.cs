@@ -20,7 +20,7 @@ public class JumpStateSetter : StateMachineBehaviour
     {
         foreach (var jumpHash in PlayerAnimation.jumpHashes)
         {
-            animator.SetBool(jumpHash, false);
+            animator.ResetTrigger(jumpHash);
         }
         
         PlayerMovement.SetJumpState(desiredJumpState);
