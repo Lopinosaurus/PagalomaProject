@@ -239,7 +239,7 @@ namespace MainGame.PlayerScripts
 
                 upwardVelocity.y = downwardForce;
             }
-            else if (_characterController.isGrounded)
+            else if (grounded && upwardVelocity.y < 0)
             {
                 upwardVelocity.y = -0.2f;
             }
