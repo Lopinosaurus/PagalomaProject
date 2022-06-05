@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using MainGame.PlayerScripts;
-using Photon.Pun;
 using UnityEngine;
 
 public class JumpStateSetter : StateMachineBehaviour

@@ -5285,6 +5285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2f80710ced7ef4eadb608677c4913d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpCollider: {fileID: 5939792417099521718}
   obstaclesPresent:
   - {fileID: 3821020153891733844}
   - {fileID: 2110481892036722437}
