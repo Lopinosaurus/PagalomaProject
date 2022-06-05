@@ -127,10 +127,12 @@ namespace MainGame.PlayerScripts.Roles
             // Show death label & disable inputs
             if (_photonView.IsMine)
             {
-                deathText.enabled = false;
+                deathText.enabled = true;
                 _playerInput.actions["Die"].Disable();
                 _playerInput.actions["Kill"].Disable();
             }
+            
+            _playerAnimation.EnableDeathAppearance();
             
             // Prevents the head for rotating in the ground when dying
             _rotationConstraint.enabled = false;
@@ -144,7 +146,7 @@ namespace MainGame.PlayerScripts.Roles
             VoteMenu.Instance.UpdateVoteItems();
 
             // Initial camera position
-            if ((bool)_cameraHolder)
+            if (null != _cameraHolder)
             {
                 Vector3 startingPos = _cameraHolder.transform.position;
                 Vector3 endingPos = new Vector3
@@ -153,9 +155,7 @@ namespace MainGame.PlayerScripts.Roles
                     y = startingPos.y + maxDeathCamDistance,
                     z = startingPos.z
                 };
-
-                _playerAnimation.EnableDeathAppearance();
-
+                
                 // Final camera position
                 if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
                     endingPos.y = hitInfo.point.y - 0.2f;

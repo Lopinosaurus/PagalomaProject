@@ -5884,7 +5884,7 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: isCrouching
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: Death
   - Type: 9
     SynchronizeType: 2
