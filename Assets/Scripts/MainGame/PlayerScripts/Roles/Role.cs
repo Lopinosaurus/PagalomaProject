@@ -127,7 +127,7 @@ namespace MainGame.PlayerScripts.Roles
             // Show death label & disable inputs
             if (_photonView.IsMine)
             {
-                deathText.enabled = false;
+                deathText.enabled = true;
                 _playerInput.actions["Die"].Disable();
                 _playerInput.actions["Kill"].Disable();
             }
