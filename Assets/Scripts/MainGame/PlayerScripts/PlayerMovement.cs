@@ -232,17 +232,16 @@ namespace MainGame.PlayerScripts
             {
                 upwardVelocity.y = 0;
             }
-            else if (grounded)
+            else if (OnSlope() && isCCgrounded)
             {
-                if (OnSlope())
-                {
-                    float downwardForce = -slopeCompensationForce;
-                    downwardForce = Mathf.Clamp(downwardForce, -500, -0.2f);
+                float downwardForce = -slopeCompensationForce;
+                downwardForce = Mathf.Clamp(downwardForce, -500, -0.2f);
 
-                    upwardVelocity.y = downwardForce;
-                }
-                else 
-                    upwardVelocity.y = -0.2f;
+                upwardVelocity.y = downwardForce;
+            }
+            else if (grounded && upwardVelocity.y < 0)
+            {
+                upwardVelocity.y = -0.2f;
             }
         }
 

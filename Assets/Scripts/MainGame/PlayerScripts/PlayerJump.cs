@@ -51,9 +51,8 @@ namespace MainGame.PlayerScripts
          }
 
         private void UpdateJump()
-         {
-             if (grounded && WantsJump) upwardVelocity.y = 2.2f;
-             
+        {
+            if (grounded && WantsJump) upwardVelocity.y = 7;
              return;
             
             // End jumping
