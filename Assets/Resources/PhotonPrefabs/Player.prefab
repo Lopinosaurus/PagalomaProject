@@ -1693,7 +1693,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 88
+  field of view: 65
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5347,7 +5347,7 @@ MonoBehaviour:
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   playerAudioSource: {fileID: 9182737059992604612}
   _lampLight: {fileID: 6658514047362406684}
-  firstPerson: 0
+  firstPerson: 1
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0
