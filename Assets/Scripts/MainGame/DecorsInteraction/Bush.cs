@@ -5,7 +5,7 @@ public class Bush : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other != null && other.CompareTag("Player"))
         {
             other.GetComponent<PlayerMovement>().isBushMult = true;
             other.GetComponent<PlayerMovement>().nbBushes++;
@@ -14,7 +14,7 @@ public class Bush : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other != null && other.CompareTag("Player"))
         {
             other.GetComponent<PlayerMovement>().nbBushes--;
             if (other.GetComponent<PlayerMovement>().nbBushes == 0)
