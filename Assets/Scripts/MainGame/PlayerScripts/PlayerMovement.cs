@@ -119,6 +119,8 @@ namespace MainGame.PlayerScripts
             _standingShiftVillager = _playerController.backShift;
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
+            
+            if (!_photonView.IsMine) Destroy(jumpCollider);
         }
 
         private void Start()

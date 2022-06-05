@@ -12,6 +12,8 @@ namespace MainGame.PlayerScripts
         private bool WantsJump;
         private bool AlreadyWantsJump;
 
+        [SerializeField] private Rigidbody jumpCollider;
+
         public enum JumpState
         {
             Still,
@@ -49,7 +51,11 @@ namespace MainGame.PlayerScripts
          }
 
          public void UpdateJump()
-        {
+         {
+             if (grounded) upwardVelocity.y = 2.2f;
+             
+             return;
+            
             // End jumping
             if (JumpState.Still == currentJumpState)
             {
