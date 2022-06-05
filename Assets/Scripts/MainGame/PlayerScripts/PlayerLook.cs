@@ -141,8 +141,6 @@ namespace MainGame.PlayerScripts
             localRotationEuler.x = _rotationX;
             camHolder.localRotation = Quaternion.Euler(localRotationEuler);
 
-            var rotationEuler = _characterController.transform.rotation.eulerAngles;
-            rotationEuler.y = _rotationY;
             // _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
             _characterController.transform.Rotate(Vector3.up, _rotationY);
         }

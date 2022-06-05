@@ -5347,6 +5347,7 @@ MonoBehaviour:
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   playerAudioSource: {fileID: 9182737059992604612}
   _lampLight: {fileID: 6658514047362406684}
+  firstPerson: 0
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0

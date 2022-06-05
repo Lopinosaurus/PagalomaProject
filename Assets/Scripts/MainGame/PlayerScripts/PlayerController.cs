@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
 
     [Space, Header("Light")]
     [SerializeField] private Light _lampLight;
+
+    [SerializeField] private bool firstPerson;
     // [SerializeField] [Range(0f, 1f)] private float slider;
 
     #endregion
@@ -155,6 +157,8 @@ public class PlayerController : MonoBehaviour
 
     public void MoveRender(float shift, GameObject render, float smoothTime = 1)
     {
+        if (!firstPerson) return;
+        
         smoothTime = Mathf.Clamp01(smoothTime);
         
         Vector3 transformLocalPosition = render.transform.localPosition;

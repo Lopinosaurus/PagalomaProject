@@ -5,6 +5,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics.Tracing;
 using MainGame.PlayerScripts;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,7 +29,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            Debug.Log($"nearDoor = {nearDoor}");
             this.door = door;
             this.nearDoor = nearDoor;
             message.SetActive(nearDoor);
@@ -44,11 +44,24 @@ public class PlayerInteraction : MonoBehaviour
             Debug.Log("[+] Should open voting screen");
             IGMenuManager.Instance.OpenVoteMenu();
         }
-        
-        if (PV.IsMine && nearDoor && Input.GetMouseButtonDown(0))
+    }
+
+    private void Update()
+    {
+        if (PV.IsMine || null == RoomManager.Instance)
         {
-            RPC_OpenCloseDoor(door.transform.name);
-            PV.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, door.transform.name);
+            Debug.Log("PV is mine");
+            if (nearDoor)
+            {
+                Debug.Log("near door");
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("mouse 0");
+                    RPC_OpenCloseDoor(door.transform.name);
+                    PV.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, door.transform.name);
+                }
+            }
         }
     }
 

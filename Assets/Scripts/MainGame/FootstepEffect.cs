@@ -38,7 +38,7 @@ public class FootstepEffect : MonoBehaviour
          // Yes, it's realistic.
          if (0 == velocityMagnitude)
          {
-             playerDistanceCounter = 0;
+             playerDistanceCounter = Mathf.Lerp(playerDistanceCounter, 0, Time.deltaTime);
              // plyAudioSource.Stop();    
          }
      }
