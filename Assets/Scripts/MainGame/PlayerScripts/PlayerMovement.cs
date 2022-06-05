@@ -179,6 +179,8 @@ namespace MainGame.PlayerScripts
 
             // Updates gravity
             UpdateGravity(); // changes 'transformGravity'
+            
+            UpdateJump();
 
             // Updates the speed based on the MovementType
             UpdateSpeed();
