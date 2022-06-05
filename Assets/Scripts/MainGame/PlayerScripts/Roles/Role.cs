@@ -25,7 +25,7 @@ namespace MainGame.PlayerScripts.Roles
         public Role vote;
         public bool hasVoted; // Has submitted vote this day
         protected TMP_Text actionText;
-        private TMP_Text deathText;
+        public TMP_Text deathText;
         
         public Color color;
         private PostProcessVolume _postProcessVolume;
