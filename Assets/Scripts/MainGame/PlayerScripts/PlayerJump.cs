@@ -29,7 +29,8 @@ namespace MainGame.PlayerScripts
             JumpState.HighVault == currentJumpState;
 
        private static JumpState currentJumpState = JumpState.Still;
-
+       public JumpState CurrentJumpState => currentJumpState;
+       
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
