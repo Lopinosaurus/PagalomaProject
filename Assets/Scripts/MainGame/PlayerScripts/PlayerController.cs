@@ -115,7 +115,6 @@ public class PlayerController : MonoBehaviour
             foreach (var layer in _postProcLayers) Destroy(layer);
             Destroy(_camPlayer);
             Destroy(_audioListener);
-            Destroy(GetComponent<CharacterController>());
             playerInput.enabled = false;
             enableAi = false;
         }

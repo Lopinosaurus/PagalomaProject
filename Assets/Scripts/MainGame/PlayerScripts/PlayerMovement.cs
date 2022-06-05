@@ -124,7 +124,7 @@ namespace MainGame.PlayerScripts
         private void Start()
         {
             // For glitch cc abuse
-            if (RoomManager.Instance != null) StartCoroutine(IgnorePlayerCollisions());
+            StartCoroutine(IgnorePlayerCollisions());
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw2D = Vector2.zero;
