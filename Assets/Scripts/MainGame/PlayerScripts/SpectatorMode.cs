@@ -109,6 +109,7 @@ namespace MainGame.PlayerScripts
             defaultCam.enabled = false;
             _playerInput.enabled = true;
             spectatorCamClone.SetActive(true);
+            GetComponent<Role>().deathText.enabled = false; 
 
             if (!changed && anonymisePlayers)
             {
