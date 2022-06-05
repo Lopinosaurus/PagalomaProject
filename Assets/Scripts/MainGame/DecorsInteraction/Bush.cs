@@ -7,8 +7,8 @@ public class Bush : MonoBehaviour
     {
         if (other != null && other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerMovement>().isBushMult = true;
-            other.GetComponent<PlayerMovement>().nbBushes++;
+            other.gameObject.GetComponent<PlayerMovement>().isBushMult = true;
+            other.gameObject.GetComponent<PlayerMovement>().nbBushes++;
         }
     }
 
@@ -16,10 +16,10 @@ public class Bush : MonoBehaviour
     {
         if (other != null && other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerMovement>().nbBushes--;
+            other.gameObject.GetComponent<PlayerMovement>().nbBushes--;
             if (other.GetComponent<PlayerMovement>().nbBushes == 0)
             {
-                other.GetComponent<PlayerMovement>().isBushMult = false;
+                other.gameObject.GetComponent<PlayerMovement>().isBushMult = false;
             }
         }
     }
