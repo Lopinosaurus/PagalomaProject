@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MainGame.PlayerScripts;
+using Photon.Pun;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,14 +14,13 @@ public class FootstepEffect : MonoBehaviour
     [SerializeField, Range(.1f, 10)] private float maxDistance;
     public float MaxDistance => maxDistance;
     private float playerDistanceCounter;
-    private Vector2 velocity2Draw;
     private PlayerAnimation playerAnimation;
     public float PlayerDistanceCounter => playerDistanceCounter;
 
     void Start()
     {
         plyAudioSource.playOnAwake = false;
-        plyAudioSource.volume = .11f;
+        plyAudioSource.volume = GetComponent<PhotonView>().IsMine ? 0.05f : 0.11f;
         playerAnimation = GetComponent<PlayerAnimation>();
     }
     
