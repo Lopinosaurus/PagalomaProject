@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MainGame;
+using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using Photon.Realtime;
@@ -35,6 +36,8 @@ public class DayNightCycle : MonoBehaviour
     
     private PhotonView PV;
 
+    private Transform villageTransform;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -45,6 +48,8 @@ public class DayNightCycle : MonoBehaviour
         timeRate = 1.0f / fullDayLength;
         time = startTime;
         isDay = true;
+
+        villageTransform = RoomManager.Instance.map.village.transform;
     }
 
     private void Update()
@@ -52,6 +57,20 @@ public class DayNightCycle : MonoBehaviour
         //DEMO
         if (Input.GetKeyDown(KeyCode.T)) time = 0.24f;
         if (Input.GetKeyDown(KeyCode.Y)) time = 0.74f;
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            foreach (var player in RoomManager.Instance.players)
+            {
+                var transform1 = player.gameObject.GetComponent<CharacterController>().transform;
+                transform1.LookAt(villageTransform.position);
+                Vector3 euler = transform1.rotation.eulerAngles;
+                euler.x = 0; euler.z = 0;
+                transform1.rotation = Quaternion.Euler(euler);
+                
+                player.gameObject.GetComponent<PlayerMovement>().StartModifySpeed(5, 2,0, 1);
+            }
+        }
         
         // increment time
         time += timeRate * Time.deltaTime;

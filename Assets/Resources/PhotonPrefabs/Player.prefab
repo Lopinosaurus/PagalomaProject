@@ -5657,6 +5657,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -5682,6 +5683,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -5708,6 +5710,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -5738,6 +5741,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -5763,6 +5767,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}
@@ -5789,6 +5794,7 @@ MonoBehaviour:
   userId: 
   vote: {fileID: 0}
   hasVoted: 0
+  deathText: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   kill: 0
   _cameraHolder: {fileID: 1141215766398316333}

@@ -173,9 +173,15 @@ public class PlayerController : MonoBehaviour
         // Non-werewolves don't see lights
         RoomManager roomManager = RoomManager.Instance;
 
-        if (roomManager == null) yield break;
+        if (null == roomManager) yield break;
 
-        if (roomManager.localPlayer is Werewolf && _photonView.IsMine)
+        bool isMasterClient = PhotonNetwork.IsMasterClient;
+        
+        if (roomManager.localPlayer is Werewolf && _photonView.IsMine
+            || isMasterClient)
+        {
+            if (isMasterClient) _lampLight.color = Color.white;
+            
             while (true)
             {
                 // It's day, turn off light
@@ -188,6 +194,7 @@ public class PlayerController : MonoBehaviour
 
                 yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
             }
+        }
     }
 
     private IEnumerator AiCreator()
