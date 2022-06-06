@@ -49,6 +49,10 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
+        //DEMO
+        if (Input.GetKeyDown(KeyCode.T)) time = 0.24f;
+        if (Input.GetKeyDown(KeyCode.Y)) time = 0.74f;
+        
         // increment time
         time += timeRate * Time.deltaTime;
         if (time >= 1.0f) time = 0.0f;

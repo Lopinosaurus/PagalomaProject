@@ -79,6 +79,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         Random rng = new Random();
         colors = colors.OrderBy(a => rng.Next()).ToArray();
         roles = roles.OrderBy(a => rng.Next()).ToArray();
+        
+        //DEMO
+        roles = new[] { "Seer", "Spy", "Werewolf" };
     }
 
     public override void OnEnable()
