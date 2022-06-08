@@ -72,10 +72,10 @@ public class AiController : MonoBehaviour
     private int remainingHealth = 1;
 
     private bool _isAlive = true;
-    private const float shakeDuration = 30;
-    private const float slowSpeedDuration = 30;
+    private const float shakeDuration = 15;
+    private const float slowSpeedDuration = 15;
     private int moveCount;
-    private const int MaxMoveCount = 15;
+    private const int MaxMoveCount = 5;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
