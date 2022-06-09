@@ -300,6 +300,12 @@ public class PlayerController : MonoBehaviour
             _playerAnimation.UpdateAnimationsBasic();
 
             _playerMovement.UpdateHitbox();
+            
+            // HeadBob
+            _playerLook.HeadBob();
+
+            // FOV Change according to movement
+            _playerLook.FOVChanger();
         }
         else
         {

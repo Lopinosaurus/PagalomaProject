@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -119,14 +118,12 @@ namespace MainGame.PlayerScripts
             _standingShiftVillager = _playerController.backShift;
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
-            
+
             if (!_photonView.IsMine) Destroy(jumpCollider);
         }
 
         private void Start()
         {
-            // For glitch cc abuse
-            StartCoroutine(IgnorePlayerCollisions());
             // for the ZQSD movements
             _playerInput.actions["Move"].performed += OnPerformedMove;
             _playerInput.actions["Move"].canceled += _ => _inputMoveRaw2D = Vector2.zero;
@@ -139,15 +136,6 @@ namespace MainGame.PlayerScripts
             // for the Jump button
             _playerInput.actions["Jump"].performed += ctx => WantsJump = ctx.ReadValueAsButton();
             _playerInput.actions["Jump"].canceled += ctx => AlreadyWantsJump = WantsJump = ctx.ReadValueAsButton();
-        }
-
-        private IEnumerator IgnorePlayerCollisions()
-        {
-            yield return new WaitUntil(() => RoomManager.Instance.localPlayer != null);
-
-            foreach (Role role in RoomManager.Instance.players)
-                Physics.IgnoreCollision(_characterController,
-                    role.gameObject.GetComponent<CharacterController>(), true);
         }
 
         private void OnPerformedMove(InputAction.CallbackContext ctx)
@@ -165,7 +153,7 @@ namespace MainGame.PlayerScripts
 
         public void Move(float chosenDeltaTime)
         {
-            var inputMoveNormalized2D = new Vector2
+            Vector2 inputMoveNormalized2D = new Vector2
             {
                 x = _inputMoveRaw2D.x,
                 y = _inputMoveRaw2D.y
@@ -179,7 +167,7 @@ namespace MainGame.PlayerScripts
 
             // Updates gravity
             UpdateGravity(); // changes 'transformGravity'
-            
+
             UpdateJump();
 
             // Updates the speed based on the MovementType
@@ -195,12 +183,12 @@ namespace MainGame.PlayerScripts
 
             // Removes moves if needed
             if (shouldFreezeControlsJump) currentMotion *= 0;
-             
+
             currentMotion += upwardVelocity;
-            
+
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
-            
+
             // Move
             _characterController.Move(currentMotion);
         }
@@ -214,14 +202,24 @@ namespace MainGame.PlayerScripts
 
         private void UpdateMovementState()
         {
-            if (WantsCrouchHold && !_playerAnimation.isWerewolfEnabled && !shouldFreezeControlsJump)
+            if (WantsCrouchHold &&
+                !_playerAnimation.isWerewolfEnabled &&
+                !shouldFreezeControlsJump)
+            {
                 currentMovementType = MovementTypes.Crouch;
+            }    
             else if (Vector2.zero == _inputMoveRaw2D)
+            {
                 currentMovementType = MovementTypes.Stand;
+            }     
             else if (WantsSprint)
+            {
                 currentMovementType = MovementTypes.Sprint;
+            }     
             else
+            {
                 currentMovementType = MovementTypes.Walk;
+            }     
         }
 
         private void UpdateGravity()
@@ -232,9 +230,9 @@ namespace MainGame.PlayerScripts
             {
                 upwardVelocity.y = 0;
             }
-            else if (OnSlope() && isCCgrounded)
+            else if (OnSlope())
             {
-                float downwardForce = -slopeCompensationForce;
+                var downwardForce = -slopeCompensationForce;
                 downwardForce = Mathf.Clamp(downwardForce, -500, -0.2f);
 
                 upwardVelocity.y = downwardForce;
@@ -249,16 +247,13 @@ namespace MainGame.PlayerScripts
         {
             var onSlope = false;
 
-            if (isSphereGrounded)
-            {
-                var maxDistance = _characterController.height + _characterController.radius + raySize;
-                Debug.DrawRay(transform.position, Vector3.down, Color.red, 0.05f, false);
-                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
-                        maxDistance,
-                        _characterLayerValue))
-                    if (hit.normal != Vector3.up)
-                        onSlope = true;
-            }
+            var maxDistance = _characterController.height + _characterController.radius + raySize;
+            Debug.DrawRay(transform.position, Vector3.down, Color.red, 0.05f, false);
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
+                    maxDistance,
+                    _characterLayerValue))
+                if (hit.normal != Vector3.up)
+                    onSlope = true;
 
             return onSlope;
         }
@@ -279,7 +274,7 @@ namespace MainGame.PlayerScripts
 
         private float GetMultiplier()
         {
-            var mult = baseSpeedMult;
+            float mult = baseSpeedMult;
 
             if (isBushMult) mult *= BushMult;
             if (isWerewolfMult) mult *= WerewolfMult;
@@ -290,7 +285,7 @@ namespace MainGame.PlayerScripts
 
         public void UpdateHitbox()
         {
-            var isWerewolf = _playerAnimation.isWerewolfEnabled;
+            bool isWerewolf = _playerAnimation.isWerewolfEnabled;
 
             // Chooses the new character controller height
             float desiredHitboxHeight;
@@ -321,7 +316,7 @@ namespace MainGame.PlayerScripts
 
             // Character controller modifier
             var smoothTime = Time.deltaTime * crouchSmoothTime;
-            
+
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
             // _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = _characterController.center;
@@ -332,17 +327,11 @@ namespace MainGame.PlayerScripts
             Vector3 localPosition = cameraHolder.transform.localPosition;
             localPosition.y = Mathf.Lerp(localPosition.y, desiredCameraHeight, smoothTime);
             cameraHolder.transform.localPosition = localPosition;
-            
+
             // Camera render depth modifier
             _playerController.MoveRender(-desiredRenderShift,
                 isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
                 smoothTime);
-            
-            // HeadBob
-            _playerLook.HeadBob();
-            
-            // FOV Change according to movement
-            _playerLook.FOVChanger();
         }
 
         #endregion

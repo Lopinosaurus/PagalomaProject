@@ -56,7 +56,7 @@ namespace MainGame.PlayerScripts
         private bool isMoving;
         
         // Head Bob settings
-        private float amplitude = 0.1f;
+        private const float amplitude = 0.1f;
         private float PiDividedByMaxDistance;
         private const float piHalf = Mathf.PI * 0.5f;
 
