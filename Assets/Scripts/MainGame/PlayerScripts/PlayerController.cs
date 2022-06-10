@@ -289,6 +289,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Updates the grounded boolean state
+        _playerMovement.UpdateGrounded();
+        
         if (_photonView.IsMine)
         {
             _playerLook.Look();

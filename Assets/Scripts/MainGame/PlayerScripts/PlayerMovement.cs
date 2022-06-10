@@ -119,7 +119,7 @@ namespace MainGame.PlayerScripts
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
 
-            if (!_photonView.IsMine) Destroy(jumpCollider);
+            if (!_photonView.IsMine) Destroy(groundCheck);
         }
 
         private void Start()
@@ -159,9 +159,6 @@ namespace MainGame.PlayerScripts
                 y = _inputMoveRaw2D.y
             }.normalized;
 
-            // Updates the grounded boolean state
-            UpdateGrounded();
-
             // Updates the current movement type
             UpdateMovementState();
 
@@ -176,24 +173,29 @@ namespace MainGame.PlayerScripts
             // Sets the new movement vector based on the inputs
             SmoothMoveAmount(inputMoveNormalized2D);
 
-            // Applies direction
-            Vector3 currentMotion = transform.TransformDirection(new Vector3(localMoveAmountNormalized.x,
-                0,
-                localMoveAmountNormalized.y));
-
             // Removes moves if needed
-            if (shouldFreezeControlsJump) currentMotion *= 0;
+            Vector3 currentMotion = Vector3.zero;
+            
+            // Applies direction
+            if (!shouldJumpFreezeControls)
+            {
+                currentMotion = transform.TransformDirection(
+                    new Vector3(
+                        localMoveAmountNormalized.x,
+                      0,
+                      localMoveAmountNormalized.y));
+            }
 
+            // Gravity
             currentMotion += upwardVelocity;
-
+            
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
-
-            // Move
-            _characterController.Move(currentMotion);
+    
+            if (_characterController.enabled) _characterController.Move(currentMotion);
         }
 
-        private void UpdateGrounded()
+        public void UpdateGrounded()
         {
             isCCgrounded = _characterController.isGrounded;
 
@@ -204,7 +206,7 @@ namespace MainGame.PlayerScripts
         {
             if (WantsCrouchHold &&
                 !_playerAnimation.isWerewolfEnabled &&
-                !shouldFreezeControlsJump)
+                !shouldJumpFreezeControls)
             {
                 currentMovementType = MovementTypes.Crouch;
             }    
@@ -226,32 +228,32 @@ namespace MainGame.PlayerScripts
         {
             upwardVelocity.y += GravityForce * Time.deltaTime;
 
-            if (shouldFreezeGravityJump)
+            if (shouldJumpFreezeGravity)
             {
                 upwardVelocity.y = 0;
             }
-            else if (OnSlope())
+            else if (upwardVelocity.y <= 0)
             {
-                var downwardForce = -slopeCompensationForce;
-                downwardForce = Mathf.Clamp(downwardForce, -500, -0.2f);
+                if (OnSlope())
+                {
+                    float downwardForce = -slopeCompensationForce;
+                    downwardForce = Mathf.Clamp(downwardForce, -500, -0.01f);
 
-                upwardVelocity.y = downwardForce;
-            }
-            else if (grounded && upwardVelocity.y < 0)
-            {
-                upwardVelocity.y = -0.2f;
+                    upwardVelocity.y = downwardForce;
+                }
+                else if (grounded) upwardVelocity.y = -0.01f;
             }
         }
 
         private bool OnSlope()
         {
             var onSlope = false;
-
             var maxDistance = _characterController.height + _characterController.radius + raySize;
-            Debug.DrawRay(transform.position, Vector3.down, Color.red, 0.05f, false);
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit,
-                    maxDistance,
-                    _characterLayerValue))
+
+            Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
+            
+            Debug.DrawRay(transform.position, slopeDistanceDetection, Color.red, 0.05f, false);
+            if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance, _characterLayerValue))
                 if (hit.normal != Vector3.up)
                     onSlope = true;
 
@@ -350,7 +352,7 @@ namespace MainGame.PlayerScripts
             localMoveAmountNormalized = amount;
         }
 
-        public void SetGroundedState(bool _grounded)
+        private void SetGroundedState(bool _grounded)
         {
             grounded = _grounded;
         }

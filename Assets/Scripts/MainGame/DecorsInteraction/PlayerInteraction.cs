@@ -53,11 +53,8 @@ public class PlayerInteraction : MonoBehaviour
             //Debug.Log("PV is mine");
             if (nearDoor)
             {
-                Debug.Log("near door");
-
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("mouse 0");
                     RPC_OpenCloseDoor(door.transform.name);
                     PV.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, door.transform.name);
                 }
@@ -71,8 +68,5 @@ public class PlayerInteraction : MonoBehaviour
         GameObject theDoor = GameObject.Find(doorId);
         Animator anim = theDoor.transform.GetComponent<Animator>();
         anim.SetBool(_openingHash, !anim.GetBool(_openingHash));
-        
-        Debug.Log($"isOpen is {anim.GetBool(_openingHash)}");
     }
-
 }

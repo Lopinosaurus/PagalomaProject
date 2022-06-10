@@ -7,9 +7,6 @@ namespace MainGame.PlayerScripts
 {
     public class SpectatorMode : MonoBehaviour
     {
-        private bool anonymisePlayers = false;
-        [SerializeField] private Material anonymousMaterial;
-        [SerializeField] public SkinnedMeshRenderer skinnedMeshRenderer;
         private PhotonView _photonView;
 
         // Spectator settings
@@ -22,7 +19,6 @@ namespace MainGame.PlayerScripts
         private Camera defaultCam;
         [SerializeField] private LayerMask spectatorLayer;
         private Transform chosenPlayer;
-        private bool changed;
         private PlayerInput _playerInput;
 
         private void Setup()
@@ -52,17 +48,17 @@ namespace MainGame.PlayerScripts
             {
                 // Default cam
                 defaultCam = GetComponentInChildren<Camera>();
-            
+
                 // Enable everything
                 Setup();
-                
+
                 // Change left side in the list
                 _playerInput.actions["ChangeSpectatorLeft"].performed += ctx =>
                 {
                     if (!RoomManager.Instance) return;
 
                     var list = RoomManager.Instance.players;
-                    
+
                     if (list.Count > 0 && ctx.ReadValueAsButton())
                     {
                         index++;
@@ -76,7 +72,7 @@ namespace MainGame.PlayerScripts
                 _playerInput.actions["ChangeSpectatorRight"].performed += ctx =>
                 {
                     if (!RoomManager.Instance) return;
-                    
+
                     var list = RoomManager.Instance.players;
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
@@ -88,7 +84,7 @@ namespace MainGame.PlayerScripts
                         chosenPlayer = list[index].transform;
                     }
                 };
-                
+
                 spectatorCamClone.transform.rotation = Quaternion.identity;
             }
         }
@@ -96,10 +92,9 @@ namespace MainGame.PlayerScripts
         private void LateUpdate()
         {
             if (!_photonView.IsMine) return;
-            
+
             if (!isSpectatorModeEnabled)
             {
-                changed = false;
                 defaultCam.enabled = true;
                 spectatorCamClone.SetActive(false);
                 spectatorCamHolder.transform.position = transform.position + Vector3.up;
@@ -109,13 +104,7 @@ namespace MainGame.PlayerScripts
             defaultCam.enabled = false;
             _playerInput.enabled = true;
             spectatorCamClone.SetActive(true);
-            GetComponent<Role>().deathText.enabled = false; 
-
-            if (!changed && anonymisePlayers)
-            {
-                changed = true;
-                AnonymizeColors();
-            }
+            GetComponent<Role>().deathText.enabled = false;
 
             if (chosenPlayer != null)
             {
@@ -141,14 +130,6 @@ namespace MainGame.PlayerScripts
                 Vector3 rotationEulerAngles = spectatorCamHolder.transform.rotation.eulerAngles;
                 rotationEulerAngles.x = 10;
                 spectatorCamHolder.transform.rotation = Quaternion.Euler(rotationEulerAngles);
-            }
-        }
-
-        private void AnonymizeColors()
-        {
-            foreach (Role role in RoomManager.Instance.players)
-            {
-                role.SetPlayerColor(anonymousMaterial.color);
             }
         }
     }

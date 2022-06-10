@@ -169,7 +169,7 @@ namespace MainGame.PlayerScripts.Roles
                     _targets.Remove(target);
                     _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
 
-                    _playerAnimation.WerewolfAttackAnimation(true);
+                    _playerAnimation.EnableWerewolfAttackAnimation(true);
                 }
                 else
                 {

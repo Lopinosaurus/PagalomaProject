@@ -17,7 +17,6 @@ namespace MainGame.PlayerScripts.Roles
         private Priest Priest;
         private Role[] roles;
         [SerializeField] private GameObject _attackCollider;
-        [SerializeField] private PhotonView _photonView;
 
         private void Awake()
         {
@@ -28,7 +27,7 @@ namespace MainGame.PlayerScripts.Roles
             Spy = GetComponent<Spy>();
             Priest = GetComponent<Priest>();
             roles = new[] { (Role)Villager, Seer, Werewolf, Lycan, Spy, Priest };
-            _photonView = GetComponent<PhotonView>();
+            GetComponent<PhotonView>();
         }
 
         private void Start()
@@ -85,11 +84,6 @@ namespace MainGame.PlayerScripts.Roles
                 
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
-                
-                // Add player CharacterController and AudioSource to Footstep list
-                (CharacterController playerChar, AudioSource playerSource) playerData = (
-                    playerRole.gameObject.GetComponent<CharacterController>(),
-                    playerRole.gameObject.GetComponent<AudioSource>());
 
                 // Store reference to the local player
                 if (info.Sender.IsLocal)
