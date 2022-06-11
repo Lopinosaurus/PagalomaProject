@@ -55,16 +55,16 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3522955778539423533, guid: 43475a39d0606b04dbe302535c3c8993, type: 3}
-  - {fileID: -6629797300637803691, guid: 43475a39d0606b04dbe302535c3c8993, type: 3}
-  - {fileID: -2813467912831258332, guid: 43475a39d0606b04dbe302535c3c8993, type: 3}
-  - {fileID: -8274133419916619345, guid: 43475a39d0606b04dbe302535c3c8993, type: 3}
+  - {fileID: 2100000, guid: 771900cada1197148b4e8097ca40c7b2, type: 2}
+  - {fileID: 2100000, guid: bb4ee70c6c6c75b46bb68ea5f19bb694, type: 2}
+  - {fileID: 2100000, guid: e1a93bebaad7d6c4ab72cde1657c509e, type: 2}
+  - {fileID: 2100000, guid: b1bb4dfa7b479f841a7035465172f97e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,4 +141,8 @@ MonoBehaviour:
   - {fileID: 5002897348582614430, guid: cb7d7b3bca2bacd4188dce398b197190, type: 3}
   - {fileID: 7330669331910174397, guid: 04ea0f318afb0e74d90b064a1f316dd2, type: 3}
   - {fileID: 98636915652034778, guid: fcfdf395c0ca57b45b3878e886c08745, type: 3}
-  bushes: []
+  bushes:
+  - {fileID: 5403189892822996970, guid: 735163aeff7a1a74aa418bd40cd79186, type: 3}
+  - {fileID: 7323625929470411953, guid: 59e584460fd551948a6ba92ebe8629bd, type: 3}
+  - {fileID: 2548554771251362532, guid: 6782ad361a29c384fbdccfaa69219e51, type: 3}
+  - {fileID: 8466939504654046417, guid: af8c14819893b7c4894b720da2ba9064, type: 3}

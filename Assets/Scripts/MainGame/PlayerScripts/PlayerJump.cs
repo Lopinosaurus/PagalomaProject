@@ -42,9 +42,13 @@ namespace MainGame.PlayerScripts
         [SerializeField] private LayerMask characterLayer;
         private int _characterLayerValue;
 
-        public void SetJumpState(JumpState desired)
+        public void SetJumpState(JumpState desired, ResetJump resetJump = null)
          {
-             if (!_photonView.IsMine) return;
+             if (!_photonView.IsMine)
+             {
+                 Destroy(resetJump);
+                 return;
+             }
 
              if (desired != currentJumpState)
              {
@@ -88,6 +92,7 @@ namespace MainGame.PlayerScripts
                         case JumpState.SimpleJump:
                             SetJumpState(JumpState.SimpleJump);
                             _playerAnimation.StartSimpleJumpAnimation(true);
+                            Debug.Log("started Jump animation !");
                             break;
                     
                         case JumpState.MidVault:
@@ -132,10 +137,7 @@ namespace MainGame.PlayerScripts
 
             
             // Simple Jump
-            if (grounded)
-            {
-                return JumpState.SimpleJump;
-            }
+            if (grounded) return JumpState.SimpleJump;
 
             return JumpState.Still;
         }

@@ -22,7 +22,7 @@ namespace MainGame.PlayerScripts
         private PhotonView _photonView;
         private FootstepEffect _footstepEffect;
         private PlayerAnimation _playerAnimation;
-        private PlayerMovement _playerMovement;
+        private DepthOfField _depthOfField;
         private CharacterController _characterController;
 
         // Sensitivity
@@ -86,7 +86,7 @@ namespace MainGame.PlayerScripts
             _characterController = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _playerAnimation = GetComponent<PlayerAnimation>();
-            _playerMovement = GetComponent<PlayerMovement>();
+            _depthOfField = GetComponentInChildren<PostProcessVolume>().profile.GetSetting<DepthOfField>();
             _photonView = GetComponent<PhotonView>();
             _footstepEffect = GetComponent<FootstepEffect>();
             _cam = GetComponentInChildren<Camera>();
@@ -297,6 +297,26 @@ namespace MainGame.PlayerScripts
         public void FOVChanger()
         {
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, baseFOV + addMovementFOV * _playerAnimation.velocity, 1);
+        }
+
+        public void DOFChanger()
+        {
+            float focusDistanceValue = _depthOfField.focusDistance.value;
+            float newFocusDistanceValue = focusDistanceValue;
+
+            Transform camTransform = _cam.transform;
+            
+            if (Physics.SphereCast(camTransform.position, 0.01f, camTransform.forward, out RaycastHit hit,
+                    float.PositiveInfinity, 7, QueryTriggerInteraction.Ignore))
+            {
+                newFocusDistanceValue = hit.distance;
+                Debug.DrawLine(camTransform.position, hit.point, Color.red);
+            }
+
+            _depthOfField.focusDistance.value =
+                focusDistanceValue > newFocusDistanceValue
+                    ? newFocusDistanceValue
+                    : focusDistanceValue + Time.deltaTime;
         }
     }
 }

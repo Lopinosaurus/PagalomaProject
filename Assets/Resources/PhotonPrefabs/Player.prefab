@@ -1679,7 +1679,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 2
+  m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
@@ -5282,6 +5282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 5939792417099521718}
+  currentJumpState: 0
   obstaclesPresent:
   - {fileID: 3821020153891733844}
   - {fileID: 2110481892036722437}
@@ -5809,7 +5810,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackCollider: {fileID: 660008149618959238}
-  _photonView: {fileID: 7578259937013170486}
 --- !u!114 &7430318575100400553
 MonoBehaviour:
   m_ObjectHideFlags: 0

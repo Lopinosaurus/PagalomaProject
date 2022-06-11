@@ -25,17 +25,17 @@ public class PlayerInteraction : MonoBehaviour
         if (PV.IsMine) Instance = this;
     }
 
-    public void NearDoor(GameObject message, GameObject door, bool nearDoor)
+    public void NearDoor(GameObject message, GameObject _door, bool _nearDoor)
     {
         if (PV.IsMine)
         {
-            this.door = door;
-            this.nearDoor = nearDoor;
+            door = _door;
+            nearDoor = _nearDoor;
             message.SetActive(nearDoor);
         }
     }
     
-    public void NearSign(bool nearSign) => this.nearSign = nearSign;
+    public void NearSign(bool _nearSign) => nearSign = _nearSign;
 
     public void Click()
     {

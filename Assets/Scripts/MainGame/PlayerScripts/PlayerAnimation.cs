@@ -1,3 +1,5 @@
+using System;
+using Photon.Pun;
 using UnityEngine;
 namespace MainGame.PlayerScripts
 {
@@ -42,6 +44,8 @@ namespace MainGame.PlayerScripts
             _playerMovement = GetComponent<PlayerMovement>();
             CurrentAnimator = GetComponent<Animator>();
             _WerewolfLayerIndex = CurrentAnimator.GetLayerIndex("WerewolfLayer");
+
+            if (!GetComponent<PhotonView>().IsMine) CurrentAnimator.applyRootMotion = false;
         }
 
         public void UpdateAnimationsBasic()

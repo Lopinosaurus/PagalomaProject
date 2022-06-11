@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             foreach (var layer in _postProcLayers) Destroy(layer);
+            Destroy(GetComponentInChildren<PostProcessVolume>());
             Destroy(_camPlayer);
             Destroy(_audioListener);
             playerInput.enabled = false;
@@ -309,11 +310,16 @@ public class PlayerController : MonoBehaviour
 
             // FOV Change according to movement
             _playerLook.FOVChanger();
+            
+            // Focus DOF
+            _playerLook.DOFChanger();
         }
         else
         {
             _playerLook.HeadRotate();
         }
+                
+        
     }
 
     #endregion
