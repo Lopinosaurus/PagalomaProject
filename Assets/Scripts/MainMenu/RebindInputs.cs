@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,6 @@ public class RebindInputs : MonoBehaviour
     // Rebinding Game Objects
     [SerializeField] private GameObject startRebind;
     [SerializeField] private GameObject waitingForInput;
-
 
     public void StartRebinding()
     {

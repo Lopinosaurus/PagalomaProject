@@ -7,11 +7,10 @@ using Discord;
 public class DiscordController : MonoBehaviour
 {
     public Discord.Discord discord;
-    void Start()
+    private bool discordRunning = false;
+    void StartRichPresence()
     {
-        try
-        {
-            discord = new Discord.Discord(976739443060932638, (System.UInt64) Discord.CreateFlags.Default);
+        discord = new Discord.Discord(976739443060932638, (System.UInt64) Discord.CreateFlags.Default);
             var activityManager = discord.GetActivityManager();
             var activity = new Discord.Activity
             {
@@ -29,23 +28,25 @@ public class DiscordController : MonoBehaviour
                 else
                     Debug.Log("Discord activity could not be found !");
             });
-        }
+    }
 
-        catch
+    // Checking if Discord is installed and launched
+    private void Start()
+    {
+        for (int i = 0; i < System.Diagnostics.Process.GetProcesses().Length; i++)
         {
-            Debug.Log("Discord not launched on game start !");
+            if (System.Diagnostics.Process.GetProcesses()[i].ToString() == "System.Diagnostics.Process (Discord)")
+            {
+                discordRunning = true;
+                StartRichPresence();
+                break;
+            }
         }
     }
 
     void Update()
     {
-        try
-        {
+        if (discordRunning)
             discord.RunCallbacks();
-        }
-        catch
-        {
-            // Avoiding game crash if Discord not launched
-        }
     }
 }
