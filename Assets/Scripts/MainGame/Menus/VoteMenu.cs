@@ -50,7 +50,12 @@ namespace MainGame
             RoomManager.Instance.localPlayer.hasVoted = true;
             Role votedPlayer = RoomManager.Instance.localPlayer.vote;
             RoomManager.Instance.votes.Add(votedPlayer);
-            PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer != null ? votedPlayer.userId : "");
+            // if (votedPlayer != null) PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer.userId);
+            // else PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, "");
+            PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others,
+                votedPlayer != null
+                    ? votedPlayer.userId
+                    : "");
         }
 
         public void KillVotedPlayer(string userId) // Only MasterClient has access to this method

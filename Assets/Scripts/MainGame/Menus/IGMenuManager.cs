@@ -91,12 +91,9 @@ public class IGMenuManager : MonoBehaviour
         victoryText.enabled = victory;
         defeatText.enabled = !victory;
 
-        whoWonText.text = whoWon switch
-        {
-            1 => "The Werewolves WON",
-            2 => "The Villagers WON",
-            _ => "Nobody WON"
-        };
+        if (whoWon == 1) whoWonText.text = "The Werewolves WON";
+        else if (whoWon == 2) whoWonText.text = "The Villagers WON";
+        else whoWonText.text = "Nobody WON";
     }
 
     public void Quit()
