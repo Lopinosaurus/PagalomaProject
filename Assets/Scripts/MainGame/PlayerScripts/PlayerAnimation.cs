@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
 namespace MainGame.PlayerScripts
@@ -7,6 +6,7 @@ namespace MainGame.PlayerScripts
     {
         // Scripts components
         private PlayerMovement _playerMovement;
+        private PhotonView _photonView;
         [SerializeField] private Avatar _villagerAvatar;
         [SerializeField] private Avatar _werewolfAvatar;
         public Animator CurrentAnimator;
@@ -42,7 +42,11 @@ namespace MainGame.PlayerScripts
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
+            _photonView = GetComponent<PhotonView>();
+            
             CurrentAnimator = GetComponent<Animator>();
+            foreach (var rj in CurrentAnimator.GetBehaviours<SetJumpState>()) rj.PlayerMovement = _playerMovement;
+            
             _WerewolfLayerIndex = CurrentAnimator.GetLayerIndex("WerewolfLayer");
 
             if (!GetComponent<PhotonView>().IsMine) CurrentAnimator.applyRootMotion = false;
@@ -87,33 +91,51 @@ namespace MainGame.PlayerScripts
                               * (velocity2Draw.x > 0 ? 1 : -1);
 
             velocity2D = new Vector2(velocityY, _velocityX);
-            // Debug.Log($"{velocity2D}");
         }
 
         public void EnableDeathAppearance()
         {
             // Toggles "Dying" animation
             CurrentAnimator.SetTrigger(_deathHash);
+            
+            // Synchronises triggers
+            return;
+            _photonView.RPC(nameof(RPC_EnableDeathAppearance), RpcTarget.Others);
         }
 
-        public void StartMidVaultAnimation(bool active)
+        [PunRPC]
+        private void RPC_EnableDeathAppearance() => CurrentAnimator.SetTrigger(_deathHash);
+        
+        public void StartMidVaultAnimation()
         {
-            // Toggles "SimpleJump" animation
-            if (active)
-                CurrentAnimator.SetTrigger(_midVaultHash);
-            else
-                CurrentAnimator.ResetTrigger(_midVaultHash);
+            // Toggles "MidVault" animation
+            CurrentAnimator.SetTrigger(_midVaultHash);
+            
+            Debug.Log("jum^ped");
+            
+            // Synchronises triggers
+            return;
+            _photonView.RPC(nameof(RPC_MidVaultAnimation), RpcTarget.Others);
         }
+        
+        [PunRPC]
+        private void RPC_MidVaultAnimation() => CurrentAnimator.SetTrigger(_midVaultHash);
 
-        public void StartSimpleJumpAnimation(bool active)
+        public void StartSimpleJumpAnimation()
         {
-            // Toggles "SimpleJump" animation
-            if (active)
-                CurrentAnimator.SetTrigger(_simpleJumpHash);
-            else
-                CurrentAnimator.ResetTrigger(_simpleJumpHash);
+            // Toggles "MidVault" animation
+            CurrentAnimator.SetTrigger(_simpleJumpHash);
+            
+            Debug.Log("started Jump");
+            
+            // Synchronises triggers
+            return;
+            _photonView.RPC(nameof(RPC_SimpleJumpAnimation), RpcTarget.Others);
         }
 
+        [PunRPC]
+        private void RPC_SimpleJumpAnimation() => CurrentAnimator.SetTrigger(_simpleJumpHash);
+        
         public void EnableWerewolfAnimations(bool toWerewolf)
         {
             if (toWerewolf)
@@ -128,13 +150,17 @@ namespace MainGame.PlayerScripts
             }
         }
 
-        public void EnableWerewolfAttackAnimation(bool active)
+        public void EnableWerewolfAttackAnimation()
         {
             // Toggles "Attack" animation
-            if (active)
-                CurrentAnimator.SetTrigger(_attackHash);
-            else
-                CurrentAnimator.ResetTrigger(_attackHash);
+            CurrentAnimator.SetTrigger(_attackHash);
+            
+            // Synchronises triggers
+            return;
+            _photonView.RPC(nameof(RPC_WerewolfAttackAnimation), RpcTarget.Others);
         }
+        
+        [PunRPC]
+        private void RPC_WerewolfAttackAnimation() => CurrentAnimator.SetTrigger(_attackHash);
     }
 }

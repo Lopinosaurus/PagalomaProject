@@ -78,7 +78,7 @@ namespace MainGame.PlayerScripts.Roles
 
         private void Transformation()
         {
-            if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
+            if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Transformation), RpcTarget.Others);
             StartCoroutine(WerewolfTransform(true));
         }
 
@@ -137,7 +137,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (isTransformed)
             {
-                if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
+                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_DeTransformation), RpcTarget.Others);
                 StartCoroutine(WerewolfTransform(false));
             }
         }
@@ -167,9 +167,9 @@ namespace MainGame.PlayerScripts.Roles
 
                     target.Die();
                     _targets.Remove(target);
-                    _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
+                    _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-                    _playerAnimation.EnableWerewolfAttackAnimation(true);
+                    _playerAnimation.EnableWerewolfAttackAnimation();
                 }
                 else
                 {

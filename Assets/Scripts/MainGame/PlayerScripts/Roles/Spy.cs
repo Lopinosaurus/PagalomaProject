@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -31,7 +28,7 @@ namespace MainGame.PlayerScripts.Roles
             if (!hasCooldown)
             {
                 hasCooldown = true;
-                _photonView.RPC("RPC_BecomeInvisible", RpcTarget.Others);
+                _photonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
             }

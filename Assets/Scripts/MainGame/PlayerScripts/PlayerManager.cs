@@ -1,12 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
-using MainGame.PlayerScripts.Roles;
-using Random = UnityEngine.Random;
-using TMPro;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
@@ -25,7 +19,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (PV.IsMine)
         {
             // Get local player role
-            PV.RPC("RPC_GetRole", RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
+            PV.RPC(nameof(RPC_GetRole), RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
         }
     }
 
@@ -65,7 +59,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         color = RoomManager.Instance.GetNextColor();
         spawnIndex = RoomManager.Instance.nextPlayerRoleIndex;
         RoomManager.Instance.nextPlayerRoleIndex ++;
-        PV.RPC("RPC_ReceiveRole", RpcTarget.OthersBuffered, roleName, color, spawnIndex); // Broadcast the new role and color
+        PV.RPC(nameof(RPC_ReceiveRole), RpcTarget.OthersBuffered, roleName, color, spawnIndex); // Broadcast the new role and color
         DisplayRole();
     }
 

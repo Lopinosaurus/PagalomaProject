@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -78,7 +75,7 @@ namespace MainGame.PlayerScripts.Roles
                     _targets.Remove(target);
                     UpdateActionText();
                     RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username}!");
-                    _photonView.RPC("RPC_GiveShield", RpcTarget.Others, target.userId);
+                    _photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
                     
                 }
                 else

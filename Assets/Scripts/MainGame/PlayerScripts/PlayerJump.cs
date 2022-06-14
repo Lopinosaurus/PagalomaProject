@@ -37,27 +37,24 @@ namespace MainGame.PlayerScripts
         public JumpState currentJumpState = JumpState.Still;
 
        [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
-        [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
+       [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
         
         [SerializeField] private LayerMask characterLayer;
         private int _characterLayerValue;
 
-        public void SetJumpState(JumpState desired, ResetJump resetJump = null)
-         {
-             if (!_photonView.IsMine)
-             {
-                 Destroy(resetJump);
-                 return;
-             }
-
-             if (desired != currentJumpState)
-             {
-                 DisableCharacterController(desired);
-                 _playerLook.LockViewJump(JumpState.MidVault == desired || JumpState.HighVault == desired);
-             }
-
-             currentJumpState = desired;
-         }
+        public void SetJumpState(JumpState desired)
+        {
+            if (_photonView.IsMine)
+            {
+                if (desired != currentJumpState)
+                {
+                    currentJumpState = desired;
+                    
+                    DisableCharacterController(desired);
+                    _playerLook.LockViewJump(shouldJumpFreezeControls);
+                }
+            }
+        }
 
         private void DisableCharacterController(JumpState desired)
         {
@@ -91,13 +88,12 @@ namespace MainGame.PlayerScripts
                     
                         case JumpState.SimpleJump:
                             SetJumpState(JumpState.SimpleJump);
-                            _playerAnimation.StartSimpleJumpAnimation(true);
-                            Debug.Log("started Jump animation !");
+                            _playerAnimation.StartSimpleJumpAnimation();
                             break;
                     
                         case JumpState.MidVault:
                             SetJumpState(JumpState.MidVault);
-                            _playerAnimation.StartMidVaultAnimation(true);
+                            _playerAnimation.StartMidVaultAnimation();
                             break;
                     
                         case JumpState.HighVault:
@@ -117,7 +113,7 @@ namespace MainGame.PlayerScripts
             {
                 case JumpState.SimpleJump:
                 {
-                    if (_characterController.collisionFlags == CollisionFlags.Above)
+                    if (CollisionFlags.Above == _characterController.collisionFlags)
                         SetJumpState(JumpState.Still);
                     break;
                 }

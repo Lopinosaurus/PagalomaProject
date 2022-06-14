@@ -27,6 +27,8 @@ namespace MainGame.PlayerScripts
         [Space] [Header("Player speed settings")] [SerializeField]
         private float currentSpeed;
 
+        public Vector3 FinalCurrentMotion;
+        
         private const float SprintSpeed = 5f;
         private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
@@ -56,11 +58,11 @@ namespace MainGame.PlayerScripts
         public Vector3 upwardVelocity = Vector3.zero;
 
         // Ground check
-        private float raySize = 0.1f;
         public bool grounded;
+        public bool isSphereGrounded;
+        private float raySize = 0.1f;
         private readonly float slopeCompensationForce = 100f;
-        public bool isSphereGrounded { get; set; }
-        private bool isCCgrounded { get; set; }
+        private bool isCCGrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space] [Header("Player height settings")] [SerializeField]
@@ -188,6 +190,8 @@ namespace MainGame.PlayerScripts
 
             // Gravity
             currentMotion += upwardVelocity;
+
+            FinalCurrentMotion = currentMotion;
             
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
@@ -197,9 +201,9 @@ namespace MainGame.PlayerScripts
 
         public void UpdateGrounded()
         {
-            isCCgrounded = _characterController.isGrounded;
+            isCCGrounded = _characterController.isGrounded;
 
-            SetGroundedState(isCCgrounded || isSphereGrounded);
+            SetGroundedState(isCCGrounded || isSphereGrounded);
         }
 
         private void UpdateMovementState()

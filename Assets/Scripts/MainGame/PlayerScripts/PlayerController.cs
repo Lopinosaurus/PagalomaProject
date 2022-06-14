@@ -5,7 +5,6 @@ using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
@@ -318,8 +317,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerLook.HeadRotate();
         }
-                
-        
     }
 
     #endregion

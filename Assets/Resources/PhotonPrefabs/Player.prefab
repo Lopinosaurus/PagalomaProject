@@ -5295,6 +5295,7 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   _characterController: {fileID: 0}
   currentSpeed: 0
+  FinalCurrentMotion: {x: 0, y: 0, z: 0}
   isBushMult: 0
   isWerewolfMult: 0
   nbBushes: 0
@@ -5302,6 +5303,7 @@ MonoBehaviour:
   localMoveAmountNormalized: {x: 0, y: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
+  isSphereGrounded: 0
   crouchSmoothTime: 10
 --- !u!114 &2867563762611503884
 MonoBehaviour:
@@ -5885,19 +5887,19 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: isCrouching
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Death
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: Attack
   - Type: 3
     SynchronizeType: 2
     Name: WerewolfEnabled
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: SimpleJump
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: MidVault
   m_SynchronizeLayers:
   - SynchronizeType: 1

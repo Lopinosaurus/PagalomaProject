@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using MainGame;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
-// ReSharper disable UnusedMember.Local
-
 public class DayNightCycle : MonoBehaviour
 {
     [Range(0.0f, 1.0f)]
@@ -58,11 +53,11 @@ public class DayNightCycle : MonoBehaviour
             isDay = true;
             if (PhotonNetwork.IsMasterClient)
             {
-                PV.RPC("RPC_NewDay", RpcTarget.Others, time);
+                PV.RPC(nameof(RPC_NewDay), RpcTarget.Others, time);
                 NewDay();
                 
                 int isEOG = RoomManager.Instance.CheckIfEOG();
-                if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
+                if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
             }
         } else if ((time <= 0.25 || time >= 0.75) && isDay) // New night
         {
@@ -72,9 +67,9 @@ public class DayNightCycle : MonoBehaviour
                 if (VoteMenu.Instance.isFirstDay == false) RoomManager.Instance.ResolveVote();
                 
                 int isEOG = RoomManager.Instance.CheckIfEOG();
-                if (isEOG != 0) PV.RPC("RPC_EOG", RpcTarget.All, isEOG);
+                if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
                 
-                PV.RPC("RPC_NewNight", RpcTarget.Others, time);
+                PV.RPC(nameof(RPC_NewNight), RpcTarget.Others, time);
                 NewNight();
             }
         }

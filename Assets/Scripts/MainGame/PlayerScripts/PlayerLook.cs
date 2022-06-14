@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Xml.Schema;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations;

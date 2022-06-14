@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using ExitGames.Client.Photon; // Used for OnRoomPropertiesUpdate
+// Used for OnRoomPropertiesUpdate
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Linq;

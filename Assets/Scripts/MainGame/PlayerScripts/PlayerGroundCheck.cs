@@ -1,5 +1,5 @@
-using System;
 using MainGame.PlayerScripts;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerGroundCheck : MonoBehaviour
@@ -12,6 +12,7 @@ public class PlayerGroundCheck : MonoBehaviour
     private void Awake()
     {
         characterMaskValue = (int)Mathf.Log(characterMask.value, 2);
+        if (!GetComponentInParent<PhotonView>().IsMine) Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)

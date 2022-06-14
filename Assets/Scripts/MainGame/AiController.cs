@@ -1,17 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using ExitGames.Client.Photon;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.PostProcessing;
-using static System.Single;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class AiController : MonoBehaviour
