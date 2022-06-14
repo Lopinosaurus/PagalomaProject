@@ -75,8 +75,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         foreach (string c in roles) Debug.Log(c);
         // Shuffle colors and roles lists
         Random rng = new Random();
-        colors = colors.OrderBy(a => rng.Next()).ToArray();
-        roles = roles.OrderBy(a => rng.Next()).ToArray();
+        colors = colors.OrderBy(_ => rng.Next()).ToArray();
+        roles = roles.OrderBy(_ => rng.Next()).ToArray();
     }
 
     public override void OnEnable()
@@ -96,17 +96,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (scene.buildIndex == 1) // MainGame scene
         {
             // Master Client needs to generate the Map Seed
-            if (PhotonNetwork.IsMasterClient)
-            {
-                GenerateMapSeed();
-            }
+            if (PhotonNetwork.IsMasterClient) GenerateMapSeed();
         }
     }
 
     private void GenerateMapSeed()
     {
-        System.Random rng = new System.Random();
-        int seed = rng.Next(0, 100000); // Generate random int between 0 and 100000
+        // TODO ignore this
+        int seed = UnityEngine.Random.Range(0, 100000); // Generate random int between 0 and 100000
         customGameProperties["MapSeed"] = seed; // Add the seed to the Photon Hashtable
         PhotonNetwork.CurrentRoom.SetCustomProperties(customGameProperties); // Send the custom property to the server so that it is available for everyone in the room
     }
@@ -155,7 +152,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         foreach (Role vote in votes)
         {
             string userId = "";
-            if (vote != null) userId = vote.userId;
+            if (vote) userId = vote.userId;
             
             if (voteResults.ContainsKey(userId)) voteResults[userId]++;
             else voteResults.Add(userId, 1);
@@ -177,27 +174,28 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
 
+        // This line below cancels votes when ex-aequo
         if (max == max2) votedUserId = "";
         VoteMenu.Instance.KillVotedPlayer(votedUserId);
     }
     
     public void ClearTargets() // Clear targets list of local player
     {
-        if (localPlayer is Seer)
+        if (localPlayer is Seer seer)
         {
-            ((Seer)localPlayer)._targets = new List<Role>();
+            seer._targets = new List<Role>();
         }
-        if (localPlayer is Werewolf)
+        if (localPlayer is Werewolf werewolf)
         {
-            ((Werewolf)localPlayer)._targets = new List<Role>();
-            if (!VoteMenu.Instance.isNight) ((Werewolf)localPlayer).DeTransformation();
+            werewolf._targets = new List<Role>();
+            if (!VoteMenu.Instance.isNight) werewolf.DeTransformation();
         }
         localPlayer.UpdateActionText();
     }
 
-    public int CheckIfEOG() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead
+    public EndGameState CheckIfEOG() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead
     {
-        int res = 0;
+        EndGameState res = EndGameState.None;
         bool isThereWerewolf = false;
         bool isThereVillager = false;
         
@@ -210,15 +208,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
 
-        if (isThereWerewolf && !isThereVillager) res = 1;
-        else if (!isThereWerewolf && isThereVillager) res = 2;
-        if (!isThereVillager && !isThereWerewolf) res = 3;
+        if (isThereWerewolf && !isThereVillager) res = EndGameState.WerewolvesWon;
+        else if (!isThereWerewolf && isThereVillager) res = EndGameState.VillagersWon;
+        if (!isThereVillager && !isThereWerewolf) res = EndGameState.EveryoneDead;
+        
         return res;
     }
 
-    public void DisplayEndScreen(int isEOG)
+    public void DisplayEndScreen(int _isEOG)
     {
-        bool victory = isEOG != 3 && ((isEOG == 1) == localPlayer is Werewolf);
-        IGMenuManager.Instance.OpenEndMenu(victory, isEOG);
+        EndGameState isEOG = (EndGameState) _isEOG;
+        
+        bool victory = isEOG != EndGameState.EveryoneDead &&
+                       isEOG == EndGameState.WerewolvesWon == localPlayer is Werewolf;
+        IGMenuManager.Instance.OpenEndMenu(victory, (int)isEOG);
     }
+}
+
+public enum EndGameState
+{
+    None,
+    WerewolvesWon,
+    VillagersWon,
+    EveryoneDead
 }
