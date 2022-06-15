@@ -192,9 +192,7 @@ public class AiController : MonoBehaviour
         {
             Debug.LogWarning("No RoomManager found ! (AiController)");
         }
-
-        Debug.DrawRay(_agent.destination, Vector3.up * 10, Color.cyan);
-
+        
         float distFromTarget = DistFromTarget;
         
         switch (currentState)
@@ -466,19 +464,12 @@ public class AiController : MonoBehaviour
                 c == _capsuleCollider ||
                 sqrMagnitude < minDangerDistFromPlayer * minDangerDistFromPlayer)
             {
-                Debug.DrawRay(c.transform.position, Vector3.up, Color.red, 2, false);
                 continue;
             }
 
             float sqrDist = sqrMagnitude;
 
             InsertSorted(correctCol, c, sqrDist);
-        }
-
-        for (int i = 0; i < correctCol.Count; i++)
-        {
-            if (correctCol[i].Item1 == null) continue;
-            Debug.DrawRay(correctCol[i].Item1.transform.position, Vector3.up,Color.green, 2, false);
         }
 
         Collider newCollider = ChooseRandom(correctCol, largeSearch);

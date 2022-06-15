@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts
@@ -7,15 +8,24 @@ namespace MainGame.PlayerScripts
         [SerializeField] private PlayerMovement.JumpState desiredSetState = PlayerMovement.JumpState.Still;
         public PlayerMovement PlayerMovement;
 
-        private void Awake()
-        {
-            PlayerMovement = RoomManager.Instance.localPlayer.gameObject.GetComponent<PlayerMovement>();
-        }
-
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            // if (null != PlayerMovement) PlayerMovement.SetJumpState(desiredSetState);
+            if (null != PlayerMovement)
+            {
+                PlayerMovement.SetJumpState(desiredSetState);
+            }
+            else
+            {
+                try
+                {
+                    PlayerMovement = RoomManager.Instance.localPlayer.gameObject.GetComponent<PlayerMovement>();
+                }
+                catch
+                {
+                    Debug.LogWarning("No localPlayerFound !");
+                }
+            }
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -102,7 +102,6 @@ namespace MainGame.PlayerScripts
             CurrentAnimator.SetTrigger(_deathHash);
 
             // Synchronises triggers
-            return;
             _photonView.RPC(nameof(RPC_EnableDeathAppearance), RpcTarget.Others);
         }
 
@@ -120,7 +119,6 @@ namespace MainGame.PlayerScripts
             Debug.Log("jum^ped");
 
             // Synchronises triggers
-            return;
             _photonView.RPC(nameof(RPC_MidVaultAnimation), RpcTarget.Others);
         }
 
@@ -133,14 +131,12 @@ namespace MainGame.PlayerScripts
         public void StartSimpleJumpAnimation()
         {
             Debug.Log("started Jump");
-
             
             // Toggles "MidVault" animation
             CurrentAnimator.SetTrigger(_simpleJumpHash);
 
 
             // Synchronises triggers
-            return;
             _photonView.RPC(nameof(RPC_SimpleJumpAnimation), RpcTarget.Others);
         }
 
@@ -170,7 +166,6 @@ namespace MainGame.PlayerScripts
             CurrentAnimator.SetTrigger(_attackHash);
 
             // Synchronises triggers
-            return;
             _photonView.RPC(nameof(RPC_WerewolfAttackAnimation), RpcTarget.Others);
         }
 
