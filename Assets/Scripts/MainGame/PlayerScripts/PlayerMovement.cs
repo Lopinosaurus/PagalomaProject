@@ -8,6 +8,59 @@ namespace MainGame.PlayerScripts
 {
     public partial class PlayerMovement : MonoBehaviour
     {
+        public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)
+        {
+            startTime = Mathf.Clamp01(startTime);
+            endTime = Mathf.Clamp(endTime, startTime, 1);
+            targetMultiplier = targetMultiplier < 0 ? 0 : targetMultiplier;
+
+            StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
+        }
+
+        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
+        {
+            float timer = 0;
+            float refMult = baseSpeedMult;
+
+            // First value
+            while (timer <= duration * startTime)
+            {
+                float divider = duration * startTime;
+                float progress = divider == 0 ? 1 : timer / divider;
+
+                timer += Time.deltaTime;
+                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
+
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
+                yield return null;
+            }
+
+            // Waits for endTime
+            while (timer < duration * endTime)
+            {
+                timer += Time.deltaTime;
+
+                yield return null;
+            }
+
+            // Second value
+            float finalMult = baseSpeedMult;
+            while (timer < duration)
+            {
+                float progress = (timer - duration * endTime) / (duration * (1 - endTime));
+
+                timer += Time.deltaTime;
+                refMult = Mathf.Lerp(refMult, finalMult, progress);
+
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
+                yield return null;
+            }
+
+            currentMultCoroutine = baseSpeedMult;
+        }
+
         #region Attributes
 
         // External GameObjects and components
@@ -28,7 +81,7 @@ namespace MainGame.PlayerScripts
         private float currentSpeed;
 
         public Vector3 FinalCurrentMotion;
-        
+
         private const float SprintSpeed = 5f;
         private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
@@ -106,7 +159,7 @@ namespace MainGame.PlayerScripts
             raySize = _characterController.radius * 1.1f;
 
             // Hitboxes
-            var hitboxHeight = _characterController.height;
+            float hitboxHeight = _characterController.height;
             _standingHitboxHeight = hitboxHeight;
             _crouchedHitboxHeight = hitboxHeight * 0.7f;
 
@@ -177,25 +230,23 @@ namespace MainGame.PlayerScripts
 
             // Removes moves if needed
             Vector3 currentMotion = Vector3.zero;
-            
+
             // Applies direction
             if (!shouldJumpFreezeControls)
-            {
                 currentMotion = transform.TransformDirection(
                     new Vector3(
                         localMoveAmountNormalized.x,
-                      0,
-                      localMoveAmountNormalized.y));
-            }
+                        0,
+                        localMoveAmountNormalized.y));
 
             // Gravity
             currentMotion += upwardVelocity;
 
             FinalCurrentMotion = currentMotion;
-            
+
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
-    
+
             if (_characterController.enabled) _characterController.Move(currentMotion);
         }
 
@@ -211,21 +262,13 @@ namespace MainGame.PlayerScripts
             if (WantsCrouchHold &&
                 !_playerAnimation.isWerewolfEnabled &&
                 !shouldJumpFreezeControls)
-            {
                 currentMovementType = MovementTypes.Crouch;
-            }    
             else if (Vector2.zero == _inputMoveRaw2D)
-            {
                 currentMovementType = MovementTypes.Stand;
-            }     
             else if (WantsSprint)
-            {
                 currentMovementType = MovementTypes.Sprint;
-            }     
             else
-            {
                 currentMovementType = MovementTypes.Walk;
-            }     
         }
 
         private void UpdateGravity()
@@ -245,19 +288,23 @@ namespace MainGame.PlayerScripts
 
                     upwardVelocity.y = downwardForce;
                 }
-                else if (grounded) upwardVelocity.y = -0.01f;
+                else if (grounded)
+                {
+                    upwardVelocity.y = -0.01f;
+                }
             }
         }
 
         private bool OnSlope()
         {
             var onSlope = false;
-            var maxDistance = _characterController.height + _characterController.radius + raySize;
+            float maxDistance = _characterController.height + _characterController.radius + raySize;
 
             Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
-            
+
             Debug.DrawRay(transform.position, slopeDistanceDetection, Color.red, 0.05f, false);
-            if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance, _characterLayerValue))
+            if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance,
+                    _characterLayerValue))
                 if (hit.normal != Vector3.up)
                     onSlope = true;
 
@@ -321,7 +368,7 @@ namespace MainGame.PlayerScripts
             }
 
             // Character controller modifier
-            var smoothTime = Time.deltaTime * crouchSmoothTime;
+            float smoothTime = Time.deltaTime * crouchSmoothTime;
 
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
             // _characterController.height -= _characterController.skinWidth;
@@ -362,58 +409,5 @@ namespace MainGame.PlayerScripts
         }
 
         #endregion
-
-        public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)
-        {
-            startTime = Mathf.Clamp01(startTime);
-            endTime = Mathf.Clamp(endTime, startTime, 1);
-            targetMultiplier = targetMultiplier < 0 ? 0 : targetMultiplier;
-
-            StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
-        }
-
-        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
-        {
-            float timer = 0;
-            var refMult = baseSpeedMult;
-
-            // First value
-            while (timer <= duration * startTime)
-            {
-                var divider = duration * startTime;
-                var progress = divider == 0 ? 1 : timer / divider;
-
-                timer += Time.deltaTime;
-                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
-
-                // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
-                yield return null;
-            }
-
-            // Waits for endTime
-            while (timer < duration * endTime)
-            {
-                timer += Time.deltaTime;
-
-                yield return null;
-            }
-
-            // Second value
-            var finalMult = baseSpeedMult;
-            while (timer < duration)
-            {
-                var progress = (timer - duration * endTime) / (duration * (1 - endTime));
-
-                timer += Time.deltaTime;
-                refMult = Mathf.Lerp(refMult, finalMult, progress);
-
-                // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
-                yield return null;
-            }
-
-            currentMultCoroutine = baseSpeedMult;
-        }
     }
 }

@@ -1,7 +1,6 @@
 using MainGame;
 using UnityEngine;
 
-
 public class SoundAmbiance : MonoBehaviour
 {
     [SerializeField] private AudioSource ambianceSource;
@@ -10,7 +9,7 @@ public class SoundAmbiance : MonoBehaviour
     [SerializeField] private bool isDayPlaying;
 
 
-    void Update()
+    private void Update()
     {
         if (!VoteMenu.Instance.isNight)
         {

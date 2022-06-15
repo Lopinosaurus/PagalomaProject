@@ -25,27 +25,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
-    [Space, Header("Scripts")]
-    [SerializeField] private PlayerInput playerInput;
+    [Space] [Header("Scripts")] [SerializeField]
+    private PlayerInput playerInput;
+
     [SerializeField] internal GameObject cameraHolder;
-    
+
     // First person management
-    [Space, Header("Camera Components")]
-    [SerializeField] private Camera _camPlayer;
+    [Space] [Header("Camera Components")] [SerializeField]
+    private Camera _camPlayer;
+
     private PostProcessLayer[] _postProcLayers;
     private AudioListener _audioListener;
-    [Header("Model Renders")]
-    [SerializeField] public GameObject VillagerRender;
+
+    [Header("Model Renders")] [SerializeField]
+    public GameObject VillagerRender;
+
     [SerializeField] public GameObject WerewolfRender;
     public readonly float backShift = 0.3f;
 
     // Ai settings
-    [Space, Header("Ai Settings")]
-    public Role _role;
+    [Space] [Header("Ai Settings")] public Role _role;
+
     private GameObject AiInstance;
     private Transform villageTransform;
     [SerializeField] private GameObject AiPrefab;
-    private List<Transform> playerPositions = new List<Transform>();
+    private List<Transform> playerPositions;
 
     private readonly float minVillageDist = 120f;
     private readonly float minPlayerDist = 60f;
@@ -57,8 +61,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip aiSound;
     [SerializeField] private AudioSource playerAudioSource;
 
-    [Space, Header("Light")]
-    [SerializeField] private Light _lampLight;
+    [Space] [Header("Light")] [SerializeField]
+    private Light _lampLight;
 
     [SerializeField] private bool firstPerson;
     // [SerializeField] [Range(0f, 1f)] private float slider;
@@ -105,23 +109,23 @@ public class PlayerController : MonoBehaviour
 
             // Turns the cam for the player render on
             _camPlayer.gameObject.SetActive(true);
-            
+
             // Starts the Ai
             if (enableAi) StartCoroutine(AiCreator());
         }
         else
         {
-            foreach (var layer in _postProcLayers) Destroy(layer);
+            foreach (PostProcessLayer layer in _postProcLayers) Destroy(layer);
             Destroy(GetComponentInChildren<PostProcessVolume>());
             Destroy(_camPlayer);
             Destroy(_audioListener);
             playerInput.enabled = false;
             enableAi = false;
         }
-    
+
         // Starts to grab players
         StartCoroutine(FindPlayers());
-        
+
         // Starts the light management
         StartCoroutine(LightManager());
     }
@@ -129,16 +133,16 @@ public class PlayerController : MonoBehaviour
     private IEnumerator FindPlayers()
     {
         yield return new WaitForSeconds(5);
-        
+
         while (true)
         {
             yield return new WaitForSeconds(2);
-            
+
             try
             {
                 if (_role == null) _role = RoomManager.Instance.players.Find(r => r.GetComponent<PhotonView>().IsMine);
 
-                var t = RoomManager.Instance.players;
+                List<Role> t = RoomManager.Instance.players;
                 if (t.Count != playerPositions.Count)
                 {
                     playerPositions = new List<Transform>();
@@ -158,9 +162,9 @@ public class PlayerController : MonoBehaviour
     public void MoveRender(float shift, GameObject render, float smoothTime = 1)
     {
         if (!firstPerson) return;
-        
+
         smoothTime = Mathf.Clamp01(smoothTime);
-        
+
         Vector3 transformLocalPosition = render.transform.localPosition;
         transformLocalPosition.z = Mathf.Lerp(transformLocalPosition.z, shift, smoothTime);
         render.transform.localPosition = transformLocalPosition;
@@ -203,7 +207,7 @@ public class PlayerController : MonoBehaviour
             GameObject village = GameObject.FindWithTag("village");
             if (village != null) villageTransform = village.transform;
         }
-        
+
         while (true)
         {
             if (CanAiSpawn())
@@ -216,7 +220,7 @@ public class PlayerController : MonoBehaviour
                 // Ai spawn sound
                 playerAudioSource.clip = aiSound;
                 playerAudioSource.Play();
-                
+
                 AiController a = AiInstance.GetComponent<AiController>();
                 a.targetRole = _role;
 
@@ -263,8 +267,8 @@ public class PlayerController : MonoBehaviour
                 return false;
 
             // Village check
-            var villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
-                                  minVillageDist * minVillageDist;
+            bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
+                                   minVillageDist * minVillageDist;
             if (villageTooClose)
                 // Debug.Log("SPAWNCHECK (4/5): village is too close");
                 return false;
@@ -291,11 +295,11 @@ public class PlayerController : MonoBehaviour
     {
         // Updates the grounded boolean state
         _playerMovement.UpdateGrounded();
-        
+
         if (_photonView.IsMine)
         {
             _playerLook.Look();
-            
+
             // Moves the player
             _playerMovement.Move(Time.deltaTime);
 
@@ -303,13 +307,13 @@ public class PlayerController : MonoBehaviour
             _playerAnimation.UpdateAnimationsBasic();
 
             _playerMovement.UpdateHitbox();
-            
+
             // HeadBob
             _playerLook.HeadBob();
 
             // FOV Change according to movement
             _playerLook.FOVChanger();
-            
+
             // Focus DOF
             _playerLook.DOFChanger();
         }

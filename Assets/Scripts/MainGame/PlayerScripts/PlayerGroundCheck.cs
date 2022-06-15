@@ -11,7 +11,7 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void Awake()
     {
-        characterMaskValue = (int)Mathf.Log(characterMask.value, 2);
+        characterMaskValue = (int) Mathf.Log(characterMask.value, 2);
         if (!GetComponentInParent<PhotonView>().IsMine) Destroy(gameObject);
     }
 

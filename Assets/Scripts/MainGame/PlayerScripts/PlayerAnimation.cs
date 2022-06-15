@@ -1,29 +1,38 @@
 using Photon.Pun;
 using UnityEngine;
+
 namespace MainGame.PlayerScripts
 {
     public class PlayerAnimation : MonoBehaviour
     {
-        // Scripts components
-        private PlayerMovement _playerMovement;
-        private PhotonView _photonView;
-        [SerializeField] private Avatar _villagerAvatar;
-        [SerializeField] private Avatar _werewolfAvatar;
-        public Animator CurrentAnimator;
-        public bool isWerewolfEnabled => CurrentAnimator.avatar == _werewolfAvatar;
-
-        // Boolean States hashes
-        private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
-
         // Trigger States hashes
         private static readonly int _midVaultHash = Animator.StringToHash("MidVault");
         private static readonly int _simpleJumpHash = Animator.StringToHash("SimpleJump");
         private static readonly int _deathHash = Animator.StringToHash("Death");
         private static readonly int _attackHash = Animator.StringToHash("Attack");
+        [SerializeField] private Avatar _villagerAvatar;
+        [SerializeField] private Avatar _werewolfAvatar;
+        public Animator CurrentAnimator;
+
+        // Boolean States hashes
+        private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
 
         // Float States hashes
         private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
         private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
+
+        private PhotonView _photonView;
+
+        // Scripts components
+        private PlayerMovement _playerMovement;
+
+        // Layer hashes
+        private int _WerewolfLayerIndex;
+
+        // Movement settings
+        private Vector2 velocity2D;
+        private Vector2 velocity2Draw;
+        public bool isWerewolfEnabled => CurrentAnimator.avatar == _werewolfAvatar;
 
         // Animation values
         public float velocityX => CurrentAnimator.GetFloat(_velocityXHash);
@@ -32,21 +41,15 @@ namespace MainGame.PlayerScripts
         public float velocity => new Vector2(Mathf.Sin(Mathf.Atan2(velocityZ, velocityX)) * velocityZ,
             Mathf.Cos(Mathf.Atan2(velocityZ, velocityX)) * velocityX).magnitude;
 
-        // Layer hashes
-        private int _WerewolfLayerIndex;
-
-        // Movement settings
-        private Vector2 velocity2D;
-        private Vector2 velocity2Draw;
-
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
             _photonView = GetComponent<PhotonView>();
-            
+
             CurrentAnimator = GetComponent<Animator>();
-            foreach (var rj in CurrentAnimator.GetBehaviours<SetJumpState>()) rj.PlayerMovement = _playerMovement;
-            
+            foreach (SetJumpState rj in CurrentAnimator.GetBehaviours<SetJumpState>())
+                rj.PlayerMovement = _playerMovement;
+
             _WerewolfLayerIndex = CurrentAnimator.GetLayerIndex("WerewolfLayer");
 
             if (!GetComponent<PhotonView>().IsMine) CurrentAnimator.applyRootMotion = false;
@@ -54,7 +57,7 @@ namespace MainGame.PlayerScripts
 
         public void UpdateAnimationsBasic()
         {
-            var velocity3D = transform.InverseTransformDirection(_playerMovement._characterController.velocity);
+            Vector3 velocity3D = transform.InverseTransformDirection(_playerMovement._characterController.velocity);
             velocity2Draw = new Vector2
             {
                 x = velocity3D.x,
@@ -83,7 +86,7 @@ namespace MainGame.PlayerScripts
             float angleX = -Vector2.SignedAngle(velocity2D, Vector2.right) * Mathf.Deg2Rad;
             float angleY = -Vector2.SignedAngle(velocity2D, Vector2.up) * Mathf.Deg2Rad;
 
-            var magnitude = velocity2Draw.magnitude;
+            float magnitude = velocity2Draw.magnitude;
 
             float _velocityX = Mathf.Clamp(Mathf.Abs(Mathf.Tan(angleX) * magnitude), 0, magnitude)
                                * (velocity2Draw.y > 0 ? 1 : -1);
@@ -97,45 +100,56 @@ namespace MainGame.PlayerScripts
         {
             // Toggles "Dying" animation
             CurrentAnimator.SetTrigger(_deathHash);
-            
+
             // Synchronises triggers
             return;
             _photonView.RPC(nameof(RPC_EnableDeathAppearance), RpcTarget.Others);
         }
 
         [PunRPC]
-        private void RPC_EnableDeathAppearance() => CurrentAnimator.SetTrigger(_deathHash);
-        
+        private void RPC_EnableDeathAppearance()
+        {
+            CurrentAnimator.SetTrigger(_deathHash);
+        }
+
         public void StartMidVaultAnimation()
         {
             // Toggles "MidVault" animation
             CurrentAnimator.SetTrigger(_midVaultHash);
-            
+
             Debug.Log("jum^ped");
-            
+
             // Synchronises triggers
             return;
             _photonView.RPC(nameof(RPC_MidVaultAnimation), RpcTarget.Others);
         }
-        
+
         [PunRPC]
-        private void RPC_MidVaultAnimation() => CurrentAnimator.SetTrigger(_midVaultHash);
+        private void RPC_MidVaultAnimation()
+        {
+            CurrentAnimator.SetTrigger(_midVaultHash);
+        }
 
         public void StartSimpleJumpAnimation()
         {
+            Debug.Log("started Jump");
+
+            
             // Toggles "MidVault" animation
             CurrentAnimator.SetTrigger(_simpleJumpHash);
-            
-            Debug.Log("started Jump");
-            
+
+
             // Synchronises triggers
             return;
             _photonView.RPC(nameof(RPC_SimpleJumpAnimation), RpcTarget.Others);
         }
 
         [PunRPC]
-        private void RPC_SimpleJumpAnimation() => CurrentAnimator.SetTrigger(_simpleJumpHash);
-        
+        private void RPC_SimpleJumpAnimation()
+        {
+            CurrentAnimator.SetTrigger(_simpleJumpHash);
+        }
+
         public void EnableWerewolfAnimations(bool toWerewolf)
         {
             if (toWerewolf)
@@ -154,13 +168,16 @@ namespace MainGame.PlayerScripts
         {
             // Toggles "Attack" animation
             CurrentAnimator.SetTrigger(_attackHash);
-            
+
             // Synchronises triggers
             return;
             _photonView.RPC(nameof(RPC_WerewolfAttackAnimation), RpcTarget.Others);
         }
-        
+
         [PunRPC]
-        private void RPC_WerewolfAttackAnimation() => CurrentAnimator.SetTrigger(_attackHash);
+        private void RPC_WerewolfAttackAnimation()
+        {
+            CurrentAnimator.SetTrigger(_attackHash);
+        }
     }
 }

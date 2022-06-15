@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts
@@ -16,7 +15,7 @@ namespace MainGame.PlayerScripts
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (null != PlayerMovement) PlayerMovement.SetJumpState(desiredSetState);
+            // if (null != PlayerMovement) PlayerMovement.SetJumpState(desiredSetState);
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
