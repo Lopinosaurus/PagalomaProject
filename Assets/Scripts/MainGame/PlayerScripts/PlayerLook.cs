@@ -192,7 +192,6 @@ namespace MainGame.PlayerScripts
                     float.PositiveInfinity, 7, QueryTriggerInteraction.Ignore))
             {
                 newFocusDistanceValue = hit.distance;
-                Debug.DrawLine(camTransform.position, hit.point, Color.red);
             }
 
             _depthOfField.focusDistance.value =

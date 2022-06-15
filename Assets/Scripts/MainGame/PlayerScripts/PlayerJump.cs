@@ -14,11 +14,11 @@ namespace MainGame.PlayerScripts
             HighVault
         }
 
-        private static PhotonView _photonView;
+        private PhotonView _photonView;
 
         [SerializeField] private Rigidbody groundCheck;
 
-        public JumpState currentJumpState = JumpState.Still;
+        private JumpState currentJumpState = JumpState.Still;
 
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
         [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
@@ -44,9 +44,10 @@ namespace MainGame.PlayerScripts
             JumpState.MidVault == currentJumpState ||
             JumpState.HighVault == currentJumpState;
 
-        private void SetJumpState(JumpState desired)
+        public void SetJumpState(JumpState desired)
         {
             if (_photonView.IsMine)
+            {
                 if (desired != currentJumpState)
                 {
                     currentJumpState = desired;
@@ -54,6 +55,7 @@ namespace MainGame.PlayerScripts
                     DisableCharacterController(desired);
                     _playerLook.LockViewJump(shouldJumpFreezeControls);
                 }
+            }
         }
 
         private void DisableCharacterController(JumpState desired)
