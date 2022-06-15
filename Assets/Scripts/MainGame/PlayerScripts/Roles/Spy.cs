@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,6 +7,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Spy : Villager
     {
         [SerializeField] private SkinnedMeshRenderer PlayerRender;
+
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -19,7 +17,7 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-         public override void UseAbility()
+        public override void UseAbility()
         {
             if (isAlive && VoteMenu.Instance.isNight) BecomeInvisible();
         }
@@ -31,7 +29,7 @@ namespace MainGame.PlayerScripts.Roles
             if (!hasCooldown)
             {
                 hasCooldown = true;
-                _photonView.RPC("RPC_BecomeInvisible", RpcTarget.Others);
+                _photonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
             }
@@ -40,7 +38,9 @@ namespace MainGame.PlayerScripts.Roles
                 Debug.Log("[-] Can't become Invisible: You have a Cooldown");
             }
         }
-        IEnumerator UpdateInvisibility () {
+
+        private IEnumerator UpdateInvisibility()
+        {
             PlayerRender.enabled = false;
             yield return new WaitForSeconds(25);
             PlayerRender.enabled = true;
@@ -49,10 +49,7 @@ namespace MainGame.PlayerScripts.Roles
         [PunRPC]
         public void RPC_BecomeInvisible()
         {
-            if (RoomManager.Instance.localPlayer is Werewolf)
-            {
-                StartCoroutine(UpdateInvisibility());
-            }
+            if (RoomManager.Instance.localPlayer is Werewolf) StartCoroutine(UpdateInvisibility());
         }
     }
 }

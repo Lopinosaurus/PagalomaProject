@@ -7,47 +7,41 @@ using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    [Serializable] public class Werewolf : Role
+    [Serializable]
+    public class Werewolf : Role
     {
+        private const float werewolfDuration = 60;
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
 
-        private const float werewolfDuration = 60;
-
         public List<Role> _targets = new List<Role>();
-        public bool isTransformed = false;
+        public bool isTransformed;
 
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
-            {
                 if (actionText != null)
                 {
                     if (isTransformed && _targets.Count > 0 && hasCooldown == false)
-                    {
                         actionText.text = "Press E to Kill";
-                    }
                     else if (VoteMenu.Instance.isNight && hasCooldown == false && isTransformed == false)
-                    {
                         actionText.text = "Press E to Transform";
-                    }
                     else actionText.text = "";
                 }
-            }
         }
 
         public void
-            UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+            UpdateTarget(Collider other,
+                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (isTransformed == false) return;
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
                 foreach (Role role in other.GetComponents<Role>())
-                {
-                    if (role.enabled) tempTarget = role;
-                }
+                    if (role.enabled)
+                        tempTarget = role;
 
                 if (tempTarget != null && !(tempTarget is Werewolf))
                 {
@@ -78,7 +72,7 @@ namespace MainGame.PlayerScripts.Roles
 
         private void Transformation()
         {
-            if (_photonView.IsMine) _photonView.RPC("RPC_Transformation", RpcTarget.Others);
+            if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Transformation), RpcTarget.Others);
             StartCoroutine(WerewolfTransform(true));
         }
 
@@ -137,7 +131,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (isTransformed)
             {
-                if (_photonView.IsMine) _photonView.RPC("RPC_DeTransformation", RpcTarget.Others);
+                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_DeTransformation), RpcTarget.Others);
                 StartCoroutine(WerewolfTransform(false));
             }
         }
@@ -161,15 +155,15 @@ namespace MainGame.PlayerScripts.Roles
                     UpdateActionText();
                     if (target.hasShield)
                     {
-                        RoomManager.Instance.UpdateInfoText($"Kill attempt failed because the player has a shield!");
+                        RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
                         return;
                     }
 
                     target.Die();
                     _targets.Remove(target);
-                    _photonView.RPC("RPC_KillTarget", RpcTarget.Others, target.userId);
+                    _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-                    _playerAnimation.EnableWerewolfAttackAnimation(true);
+                    _playerAnimation.EnableWerewolfAttackAnimation();
                 }
                 else
                 {
@@ -188,16 +182,18 @@ namespace MainGame.PlayerScripts.Roles
         {
             Role target = null;
             foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId
-            {
-                if (player.userId == _userId) target = player;
-            }
+                if (player.userId == _userId)
+                    target = player;
 
             if (target != null)
             {
                 if (target.isAlive) target.Die();
                 else Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, Target is already dead");
             }
-            else Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, target = null");
+            else
+            {
+                Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, target = null");
+            }
         }
 
         [PunRPC]

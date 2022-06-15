@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,32 +7,35 @@ namespace MainGame.PlayerScripts.Roles
     {
         public List<Role> _targets = new List<Role>();
 
-        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        public void
+            UpdateTarget(Collider other,
+                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
                 foreach (Role role in other.GetComponents<Role>())
-                {
-                    if (role.enabled) tempTarget = role;
-                }
-                
+                    if (role.enabled)
+                        tempTarget = role;
+
                 if (tempTarget != null && !(tempTarget is Seer))
                 {
                     if (add)
                     {
                         _targets.Add(tempTarget);
-                        Debug.Log("[+] Seer target added: "+tempTarget.name);
-                    } else if (_targets.Contains(tempTarget))
+                        Debug.Log("[+] Seer target added: " + tempTarget.name);
+                    }
+                    else if (_targets.Contains(tempTarget))
                     {
                         _targets.Remove(tempTarget);
-                        Debug.Log("[-] Seer target removed: "+tempTarget.name);
+                        Debug.Log("[-] Seer target removed: " + tempTarget.name);
                     }
                 }
             }
+
             UpdateActionText();
         }
-        
+
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -44,7 +45,7 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-         public override void UseAbility()
+        public override void UseAbility()
         {
             SpyTarget();
         }
@@ -62,6 +63,7 @@ namespace MainGame.PlayerScripts.Roles
                         Debug.Log("[-] Can't spy: Target is dead");
                         return;
                     }
+
                     hasCooldown = true;
                     Debug.Log($"[+] The Role of the target is: {target.roleName}");
                     string displayedRole = target.roleName;

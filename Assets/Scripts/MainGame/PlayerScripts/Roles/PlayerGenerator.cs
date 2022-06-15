@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
-using MainGame.Menus;
 using Photon.Pun;
 using UnityEngine;
 
@@ -9,14 +5,14 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class PlayerGenerator : MonoBehaviour, IPunInstantiateMagicCallback
     {
-        private Villager Villager;
-        private Seer Seer;
-        private Werewolf Werewolf;
+        [SerializeField] private GameObject _attackCollider;
         private Lycan Lycan;
-        private Spy Spy;
         private Priest Priest;
         private Role[] roles;
-        [SerializeField] private GameObject _attackCollider;
+        private Seer Seer;
+        private Spy Spy;
+        private Villager Villager;
+        private Werewolf Werewolf;
 
         private void Awake()
         {
@@ -26,7 +22,7 @@ namespace MainGame.PlayerScripts.Roles
             Lycan = GetComponent<Lycan>();
             Spy = GetComponent<Spy>();
             Priest = GetComponent<Priest>();
-            roles = new[] { (Role)Villager, Seer, Werewolf, Lycan, Spy, Priest };
+            roles = new[] {(Role) Villager, Seer, Werewolf, Lycan, Spy, Priest};
             GetComponent<PhotonView>();
         }
 
@@ -38,13 +34,13 @@ namespace MainGame.PlayerScripts.Roles
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             object[] instantiationData = info.photonView.InstantiationData;
-            string roleName = (string)instantiationData[0];
-            Color color = RoomManager.Instance.colorsDict[(string)instantiationData[1]];
-            string username = (string)instantiationData[2];
-            string userId = (string)instantiationData[3];
+            var roleName = (string) instantiationData[0];
+            Color color = RoomManager.Instance.colorsDict[(string) instantiationData[1]];
+            var username = (string) instantiationData[2];
+            var userId = (string) instantiationData[3];
 
             Role playerRole = null;
-            
+
             switch (roleName)
             {
                 case "Villager":
@@ -70,18 +66,18 @@ namespace MainGame.PlayerScripts.Roles
                     break;
             }
 
-            if ((bool)playerRole) // checks if null with that
+            if ((bool) playerRole) // checks if null with that
             {
                 // Disable other roles
                 foreach (Role role in roles)
                     if (playerRole != role)
                         role.enabled = false;
-                
+
                 playerRole!.Activate();
                 playerRole.userId = userId;
                 playerRole.username = username;
                 playerRole.SetPlayerColor(color);
-                
+
                 // Add instantiated role to players list
                 RoomManager.Instance.players.Add(playerRole);
 
@@ -92,7 +88,7 @@ namespace MainGame.PlayerScripts.Roles
                     RoomManager.Instance.localPlayer.GetComponent<PlayerController>()._role = playerRole;
                     Debug.Log($"New role set in PlayerController : {playerRole}");
                 }
-                
+
                 // Update Voting List
                 VoteMenu.Instance.Add(playerRole);
             }
@@ -102,10 +98,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Deactivate _attackCollider for non-local players
-            if (!info.Sender.IsLocal && _attackCollider)
-            {
-                Destroy(_attackCollider);
-            }
+            if (!info.Sender.IsLocal && _attackCollider) Destroy(_attackCollider);
         }
     }
 }

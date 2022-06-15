@@ -1,7 +1,5 @@
-using MainGame.PlayerScripts.Roles;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MainGame.Menus
 {

@@ -5295,6 +5295,7 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   _characterController: {fileID: 0}
   currentSpeed: 0
+  FinalCurrentMotion: {x: 0, y: 0, z: 0}
   isBushMult: 0
   isWerewolfMult: 0
   nbBushes: 0
@@ -5302,6 +5303,7 @@ MonoBehaviour:
   localMoveAmountNormalized: {x: 0, y: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
+  isSphereGrounded: 0
   crouchSmoothTime: 10
 --- !u!114 &2867563762611503884
 MonoBehaviour:
@@ -5851,7 +5853,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
@@ -5867,7 +5869,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
   m_Name: 
@@ -5885,19 +5887,19 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: isCrouching
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Death
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: Attack
   - Type: 3
     SynchronizeType: 2
     Name: WerewolfEnabled
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: SimpleJump
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: MidVault
   m_SynchronizeLayers:
   - SynchronizeType: 1

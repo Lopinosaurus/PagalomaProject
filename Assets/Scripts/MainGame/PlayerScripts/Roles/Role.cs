@@ -1,6 +1,5 @@
 using System.Collections;
 using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -26,10 +25,10 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasVoted; // Has submitted vote this day
         protected TMP_Text actionText;
         public TMP_Text deathText;
-        
+
         public Color color;
         private PostProcessVolume _postProcessVolume;
-        
+
         [SerializeField] private bool kill;
 
         // Controls
@@ -67,6 +66,7 @@ namespace MainGame.PlayerScripts.Roles
                 actionText = RoomManager.Instance.actionText;
                 deathText = RoomManager.Instance.deathText;
             }
+
             if (actionText != null) actionText.text = "";
             if (deathText != null) deathText.enabled = false;
             hasVoted = false;
@@ -102,13 +102,13 @@ namespace MainGame.PlayerScripts.Roles
         public void SetPlayerColor(Color _color)
         {
             color = _color;
-            var find = gameObject.transform.Find("VillagerRender");
+            Transform find = gameObject.transform.Find("VillagerRender");
             bool wasActive = find.gameObject.activeSelf;
-            
+
             find.gameObject.SetActive(true);
-            
+
             find.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
-            
+
             find.gameObject.SetActive(wasActive);
         }
 
@@ -131,9 +131,9 @@ namespace MainGame.PlayerScripts.Roles
                 _playerInput.actions["Die"].Disable();
                 _playerInput.actions["Kill"].Disable();
             }
-            
+
             _playerAnimation.EnableDeathAppearance();
-            
+
             // Prevents the head for rotating in the ground when dying
             _rotationConstraint.enabled = false;
 
@@ -155,7 +155,7 @@ namespace MainGame.PlayerScripts.Roles
                     y = startingPos.y + maxDeathCamDistance,
                     z = startingPos.z
                 };
-                
+
                 // Final camera position
                 if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
                     endingPos.y = hitInfo.point.y - 0.2f;
@@ -189,7 +189,7 @@ namespace MainGame.PlayerScripts.Roles
                 _cameraHolder.transform.localRotation = rotation;
 
                 timer -= Time.deltaTime;
-                
+
                 yield return null;
             }
 

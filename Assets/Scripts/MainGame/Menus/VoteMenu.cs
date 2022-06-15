@@ -1,9 +1,6 @@
-﻿using System;
-using JetBrains.Annotations;
-using MainGame.Menus;
+﻿using MainGame.Menus;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,15 +50,19 @@ namespace MainGame
             RoomManager.Instance.localPlayer.hasVoted = true;
             Role votedPlayer = RoomManager.Instance.localPlayer.vote;
             RoomManager.Instance.votes.Add(votedPlayer);
-            if (votedPlayer != null) PV.RPC("RPC_SubmitVote", RpcTarget.Others, votedPlayer.userId);
-            else PV.RPC("RPC_SubmitVote", RpcTarget.Others, "");
+            // if (votedPlayer != null) PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer.userId);
+            // else PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, "");
+            PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others,
+                votedPlayer != null
+                    ? votedPlayer.userId
+                    : "");
         }
 
         public void KillVotedPlayer(string userId) // Only MasterClient has access to this method
         {
-            PV.RPC("RPC_KillVotedPlayer", RpcTarget.All, userId);
+            PV.RPC(nameof(RPC_KillVotedPlayer), RpcTarget.All, userId);
         }
-        private void __KillVotedPlayer(Role player)
+        private static void KillVotedPlayer(Role player)
         {
             string message;
             if (player == null) message = "Nobody was eliminated today";
@@ -75,7 +76,7 @@ namespace MainGame
         }
         
         [PunRPC]
-        void RPC_SubmitVote(string userId)
+        private void RPC_SubmitVote(string userId)
         {
             if (userId != "")
             {
@@ -98,7 +99,7 @@ namespace MainGame
             {
                 if (player.userId == userId) votedPlayer = player;
             }
-            __KillVotedPlayer(votedPlayer);
+            KillVotedPlayer(votedPlayer);
         }
     }
 }

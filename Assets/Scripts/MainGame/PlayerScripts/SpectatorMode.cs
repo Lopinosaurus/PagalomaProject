@@ -1,4 +1,5 @@
-﻿using MainGame.PlayerScripts.Roles;
+﻿using System.Collections.Generic;
+using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,32 +8,18 @@ namespace MainGame.PlayerScripts
 {
     public class SpectatorMode : MonoBehaviour
     {
-        private PhotonView _photonView;
-
         // Spectator settings
         public bool isSpectatorModeEnabled;
+        [SerializeField] private LayerMask spectatorLayer;
+        private PhotonView _photonView;
+        private PlayerInput _playerInput;
+        private Transform chosenPlayer;
+        private Camera defaultCam;
         private int index;
 
         // Camera references
         private GameObject spectatorCamClone;
         private GameObject spectatorCamHolder;
-        private Camera defaultCam;
-        [SerializeField] private LayerMask spectatorLayer;
-        private Transform chosenPlayer;
-        private PlayerInput _playerInput;
-
-        private void Setup()
-        {
-            // Spectator cam
-            spectatorCamHolder = new GameObject("spectatorCamHolder");
-            spectatorCamClone = Instantiate(defaultCam.gameObject, spectatorCamHolder.transform, false);
-            spectatorCamClone.layer = (int) Mathf.Log(spectatorLayer, 2);
-
-            spectatorCamClone.SetActive(false);
-
-            spectatorCamClone.GetComponent<Camera>();
-            Destroy(spectatorCamClone.GetComponent<AudioListener>());
-        }
 
         private void Awake()
         {
@@ -57,7 +44,7 @@ namespace MainGame.PlayerScripts
                 {
                     if (!RoomManager.Instance) return;
 
-                    var list = RoomManager.Instance.players;
+                    List<Role> list = RoomManager.Instance.players;
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
                     {
@@ -73,7 +60,7 @@ namespace MainGame.PlayerScripts
                 {
                     if (!RoomManager.Instance) return;
 
-                    var list = RoomManager.Instance.players;
+                    List<Role> list = RoomManager.Instance.players;
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
                     {
@@ -131,6 +118,19 @@ namespace MainGame.PlayerScripts
                 rotationEulerAngles.x = 10;
                 spectatorCamHolder.transform.rotation = Quaternion.Euler(rotationEulerAngles);
             }
+        }
+
+        private void Setup()
+        {
+            // Spectator cam
+            spectatorCamHolder = new GameObject("spectatorCamHolder");
+            spectatorCamClone = Instantiate(defaultCam.gameObject, spectatorCamHolder.transform, false);
+            spectatorCamClone.layer = (int) Mathf.Log(spectatorLayer, 2);
+
+            spectatorCamClone.SetActive(false);
+
+            spectatorCamClone.GetComponent<Camera>();
+            Destroy(spectatorCamClone.GetComponent<AudioListener>());
         }
     }
 }

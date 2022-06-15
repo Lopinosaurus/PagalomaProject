@@ -42,8 +42,7 @@ namespace MainGame
             // Yes, it's realistic.
             if (0 == velocityMagnitude)
             {
-                playerDistanceCounter = Mathf.Lerp(playerDistanceCounter, 0, Time.deltaTime);
-                // plyAudioSource.Stop();    
+                playerDistanceCounter = Mathf.Lerp(playerDistanceCounter, 0, Time.fixedDeltaTime);
             }
         }
     }

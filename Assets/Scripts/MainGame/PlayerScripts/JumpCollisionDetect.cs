@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -6,8 +5,8 @@ namespace MainGame.PlayerScripts
 {
     public class JumpCollisionDetect : MonoBehaviour
     {
-        public bool IsColliding => collisions > 0;
         private int collisions;
+        public bool IsColliding => collisions > 0;
 
         private void Start()
         {

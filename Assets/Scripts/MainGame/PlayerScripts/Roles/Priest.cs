@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
 
@@ -12,32 +9,35 @@ namespace MainGame.PlayerScripts.Roles
         public List<Role> _targets = new List<Role>();
         public Role lastPlayerShielded;
 
-        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        public void
+            UpdateTarget(Collider other,
+                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
                 foreach (Role role in other.GetComponents<Role>())
-                {
-                    if (role.enabled) tempTarget = role;
-                }
-                
+                    if (role.enabled)
+                        tempTarget = role;
+
                 if (tempTarget != null && tempTarget.GetType() != typeof(Priest))
                 {
                     if (add)
                     {
                         _targets.Add(tempTarget);
-                        Debug.Log("[+] Priest target added: "+tempTarget.name);
-                    } else if (_targets.Contains(tempTarget))
+                        Debug.Log("[+] Priest target added: " + tempTarget.name);
+                    }
+                    else if (_targets.Contains(tempTarget))
                     {
                         _targets.Remove(tempTarget);
-                        Debug.Log("[-] Priest target removed: "+tempTarget.name);
+                        Debug.Log("[-] Priest target removed: " + tempTarget.name);
                     }
                 }
             }
+
             UpdateActionText();
         }
-        
+
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -47,7 +47,7 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-         public override void UseAbility()
+        public override void UseAbility()
         {
             GiveShield();
         }
@@ -69,17 +69,17 @@ namespace MainGame.PlayerScripts.Roles
                     if (lastPlayerShielded == target)
                     {
                         Debug.Log("[-] GiveShield: Can't give the same person a shield twice in a row");
-                        RoomManager.Instance.UpdateInfoText($"You can not give the same person a shield twice in a row");
+                        RoomManager.Instance.UpdateInfoText("You can not give the same person a shield twice in a row");
                         return;
                     }
+
                     hasCooldown = true;
                     target.hasShield = true;
                     lastPlayerShielded = target;
                     _targets.Remove(target);
                     UpdateActionText();
                     RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username}!");
-                    _photonView.RPC("RPC_GiveShield", RpcTarget.Others, target.userId);
-                    
+                    _photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
                 }
                 else
                 {
@@ -97,16 +97,18 @@ namespace MainGame.PlayerScripts.Roles
         {
             Role target = null;
             foreach (Role player in RoomManager.Instance.players) // Get target with corresponding _userId
-            {
-                if (player.userId == _userId) target = player;
-            }
+                if (player.userId == _userId)
+                    target = player;
 
             if (target != null)
             {
                 if (target.isAlive) target.hasShield = true;
                 else Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, Target is dead");
             }
-            else Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, target = null");
+            else
+            {
+                Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, target = null");
+            }
         }
     }
 }
