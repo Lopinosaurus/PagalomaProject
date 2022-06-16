@@ -24,7 +24,7 @@ public class TabMenu : MonoBehaviour
         Instantiate(tabMenuItem, tabList).GetComponent<TabMenuItem>().SetUp(player);
         UpdateTabItem();
     }
-
+    
     private void UpdateTabItem()
     {
         

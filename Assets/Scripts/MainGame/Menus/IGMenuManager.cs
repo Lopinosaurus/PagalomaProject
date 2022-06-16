@@ -103,6 +103,11 @@ public class IGMenuManager : MonoBehaviour
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(0);
     }
+
+    public void OpenTabMenu()
+    {
+        
+    }
 }
 
 
