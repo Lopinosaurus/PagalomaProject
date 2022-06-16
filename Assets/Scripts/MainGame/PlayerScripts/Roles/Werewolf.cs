@@ -10,7 +10,10 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        private const float werewolfDuration = 60;
+        public float werewolfDuration = 60;
+        public float timerMult = 1;
+        private float timer;
+        
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
@@ -30,18 +33,19 @@ namespace MainGame.PlayerScripts.Roles
                     else actionText.text = "";
                 }
         }
-
-        public void
-            UpdateTarget(Collider other,
-                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        
+        /// <summary>
+        ///   <para>Adds or removes the targets list.</para>
+        /// </summary>
+        /// <param name="other">The collider that will be updated.</param>
+        /// <param name="add">When true, adds the collider to the targets list, otherwise will try to remove it.</param>
+        public void UpdateTarget(Collider other, bool add)
         {
             if (isTransformed == false) return;
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
-                foreach (Role role in other.GetComponents<Role>())
-                    if (role.enabled)
-                        tempTarget = role;
+                foreach (Role role in other.GetComponents<Role>()) if (role.enabled) tempTarget = role;
 
                 if (tempTarget != null && !(tempTarget is Werewolf))
                 {
@@ -66,27 +70,36 @@ namespace MainGame.PlayerScripts.Roles
             if (!hasCooldown && VoteMenu.Instance.isNight)
             {
                 if (isTransformed) KillTarget();
-                else Transformation();
+                else UpdateTransformation(true);
             }
         }
 
-        private void Transformation()
+        public void UpdateTransformation(bool goingToWerewolf)
         {
-            if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Transformation), RpcTarget.Others);
-            StartCoroutine(WerewolfTransform(true));
+            if (goingToWerewolf && !isTransformed)
+            {
+                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Transformation), RpcTarget.Others);
+                StartCoroutine(WerewolfTransform(true));
+            }
+            else if (isTransformed)
+            {
+                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Detransformation), RpcTarget.Others);
+                StartCoroutine(WerewolfTransform(false));
+            }
         }
-
-        private IEnumerator WerewolfTransform(bool isTransformation)
+    
+        private IEnumerator WerewolfTransform(bool goingToWerewolf)
         {
             // Particles to dissimulate werewolf transition
-            GameObject p = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-            p.transform.rotation = Quaternion.Euler(new float3(-90, 0, 0));
+            GameObject particles = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
+            particles.transform.parent = transform;
 
             // Deactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
 
             // Transformation 
-            if (isTransformation)
+            if (goingToWerewolf)
             {
                 isTransformed = true;
                 _playerMovement.isWerewolfMult = true;
@@ -96,9 +109,8 @@ namespace MainGame.PlayerScripts.Roles
             else
             {
                 // Removes speed boost
-                _playerMovement.isWerewolfMult = false;
-
                 isTransformed = false;
+                _playerMovement.isWerewolfMult = false;
                 hasCooldown = true;
             }
 
@@ -107,11 +119,12 @@ namespace MainGame.PlayerScripts.Roles
             // Wait
             yield return new WaitForSeconds(1);
 
-            VillagerRenderer.SetActive(!isTransformation);
-            WereWolfRenderer.SetActive(isTransformation);
+            // TODO improve visual transition
+            VillagerRenderer.SetActive(!goingToWerewolf);
+            WereWolfRenderer.SetActive(goingToWerewolf);
 
             // Changes the animator
-            _playerAnimation.EnableWerewolfAnimations(isTransformation);
+            _playerAnimation.EnableWerewolfAnimations(goingToWerewolf);
 
             // Wait for 4 seconds
             yield return new WaitForSeconds(4);
@@ -123,22 +136,20 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator DeTransformationCoroutine(float delay)
         {
-            yield return new WaitForSeconds(delay);
-            DeTransformation();
-        }
-
-        public void DeTransformation()
-        {
-            if (isTransformed)
+            timer = delay;
+            timerMult = 1;           
+            
+            while (timer > 0)
             {
-                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_DeTransformation), RpcTarget.Others);
-                StartCoroutine(WerewolfTransform(false));
+                timer -= timerMult * Time.deltaTime;
+                yield return null;
             }
+
+            UpdateTransformation(false);
         }
 
         private void KillTarget() // TODO: Add kill animation
         {
-            Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
             if (!hasCooldown)
             {
                 if (_targets.Count > 0)
@@ -150,7 +161,6 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
 
-                    transform.position = target.transform.position;
                     hasCooldown = true;
                     UpdateActionText();
                     if (target.hasShield)
@@ -159,6 +169,8 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
 
+                    Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
+                    
                     target.Die();
                     _targets.Remove(target);
                     _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
@@ -197,15 +209,9 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         [PunRPC]
-        public void RPC_Transformation()
-        {
-            Transformation();
-        }
+        public void RPC_Transformation() => UpdateTransformation(true);
 
         [PunRPC]
-        public void RPC_DeTransformation()
-        {
-            DeTransformation();
-        }
+        public void RPC_Detransformation() => UpdateTransformation(false);
     }
 }

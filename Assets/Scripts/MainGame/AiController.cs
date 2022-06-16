@@ -237,7 +237,6 @@ public class AiController : MonoBehaviour
                         {
                             moveCount++;
                             // Play sound
-                            movementAudioSource.pitch = Mathf.Lerp(-2, 2, moveCount / MaxMoveCount);
                             movementAudioSource.Play();
                         }
                     }

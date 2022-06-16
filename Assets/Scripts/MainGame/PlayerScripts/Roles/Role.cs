@@ -16,20 +16,23 @@ namespace MainGame.PlayerScripts.Roles
 
         // Gameplay attributes
         public string roleName;
+        public string username;
+        public string userId;
+        
+        [SerializeField] private bool kill;
         public bool isAlive = true;
         public bool hasCooldown;
         public bool hasShield; // Shield given by the Priest
-        public string username;
-        public string userId;
-        public Role vote;
         public bool hasVoted; // Has submitted vote this day
+
+        private float cooldown;
+        
         protected TMP_Text actionText;
         public TMP_Text deathText;
+        public Role vote;
 
         public Color color;
         private PostProcessVolume _postProcessVolume;
-
-        [SerializeField] private bool kill;
 
         // Controls
         [SerializeField] private GameObject _cameraHolder;
@@ -38,10 +41,9 @@ namespace MainGame.PlayerScripts.Roles
         private PlayerController _playerController;
         protected PlayerAnimation _playerAnimation;
         private CharacterController _characterController;
-        private Camera cam;
 
         // Die variables
-        private const float maxDeathCamDistance = 5.0f;
+        private const float maxDeathCamDistance = 5;
         private RotationConstraint _rotationConstraint;
 
         // Network component
@@ -54,13 +56,16 @@ namespace MainGame.PlayerScripts.Roles
         private void Awake()
         {
             isActive = false;
+            hasVoted = false;
+            
             _playerInput = GetComponent<PlayerInput>();
             _playerController = GetComponent<PlayerController>();
             _playerAnimation = GetComponent<PlayerAnimation>();
             _playerMovement = GetComponent<PlayerMovement>();
             _characterController = GetComponent<CharacterController>();
-            cam = _cameraHolder.GetComponentInChildren<Camera>();
+            _cameraHolder.GetComponentInChildren<Camera>();
             _photonView = GetComponent<PhotonView>();
+            
             if (RoomManager.Instance != null)
             {
                 actionText = RoomManager.Instance.actionText;
@@ -69,22 +74,35 @@ namespace MainGame.PlayerScripts.Roles
 
             if (actionText != null) actionText.text = "";
             if (deathText != null) deathText.enabled = false;
-            hasVoted = false;
 
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
             _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
 
             _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
+
+            // StartCoroutine(CooldownManager());
+        }
+
+        private IEnumerator CooldownManager()
+        {
+            while (true)
+            {
+                if (cooldown > 0) cooldown -= Time.fixedDeltaTime;
+                if (hasCooldown)  cooldown = float.MaxValue;
+                
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         public void Activate()
         {
             isActive = true;
+            
             if (_photonView.IsMine)
             {
                 _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
                 _playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
-                _playerInput.actions["Click"].performed += ctx => PlayerInteraction.Instance.Click();
+                _playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
             }
         }
 
@@ -168,8 +186,7 @@ namespace MainGame.PlayerScripts.Roles
                     y = endingRot.eulerAngles.y,
                     z = 180
                 };
-                // Debug.Log("endingRot is:" + endingRot);
-                // Start camera animation
+                
                 StartCoroutine(MoveCamHolder(endingPos, endingRot));
             }
         }
@@ -182,8 +199,8 @@ namespace MainGame.PlayerScripts.Roles
                 Vector3 position = _cameraHolder.transform.position;
                 Quaternion rotation = _cameraHolder.transform.localRotation;
 
-                position = Vector3.Lerp(position, endingPos, 0.02f);
-                rotation = Quaternion.Lerp(rotation, endingRot, 0.05f);
+                position = Vector3.Slerp(position, endingPos, Time.deltaTime);
+                rotation = Quaternion.Slerp(rotation, endingRot, Time.deltaTime);
 
                 _cameraHolder.transform.position = position;
                 _cameraHolder.transform.localRotation = rotation;

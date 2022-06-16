@@ -190,7 +190,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (localPlayer is Werewolf)
         {
             ((Werewolf)localPlayer)._targets = new List<Role>();
-            if (!VoteMenu.Instance.isNight) ((Werewolf)localPlayer).DeTransformation();
+            if (!VoteMenu.Instance.isNight) ((Werewolf)localPlayer).UpdateTransformation(false);
         }
         localPlayer.UpdateActionText();
     }
