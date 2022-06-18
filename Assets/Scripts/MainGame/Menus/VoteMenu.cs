@@ -20,7 +20,6 @@ namespace MainGame
         public void Awake()
         {
             Instance = this;
-            PV = GetComponent<PhotonView>();
             isFirstDay = true;
             isDay = false;
             voteButton.interactable = isDay;

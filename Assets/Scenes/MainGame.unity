@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 94995236}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.172768, g: 0.21589169, b: 0.29782546, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: e1658356f3a67ba4887d40845ccace31, type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -845,7 +845,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -878,7 +878,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -4086,7 +4086,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404845915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 758.69946, y: 492.81558, z: 1.8930831}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6368,8 +6368,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 1
+  m_MatchWidthOrHeight: 0.503
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -6387,7 +6387,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -6460,7 +6460,7 @@ MonoBehaviour:
   voteList: {fileID: 880488201}
   voteListItem: {fileID: 1426795346255268687, guid: 158b93b15189ec444b8b9c4f10107189, type: 3}
   voteButton: {fileID: 1437944627}
-  PV: {fileID: 0}
+  PV: {fileID: 545822854}
   isDay: 0
   isFirstDay: 0
 --- !u!114 &545822854
@@ -12067,6 +12067,10 @@ PrefabInstance:
       value: 1.855
       objectReference: {fileID: 0}
     - target: {fileID: 2701530226136478965, guid: ec1d4e380df5faa41adc77648931a4fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2701530226136478965, guid: ec1d4e380df5faa41adc77648931a4fe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -13402,22 +13406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Windmill
       objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 2207610764667147502, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 302e340b98fc9bf43ae63790c74785ad, type: 2}
     - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
       propertyPath: m_LocalPosition.x
       value: 153.35
@@ -13446,17 +13438,9 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.020231213
       objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 1.943
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -99.263
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580897739215391268, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.294
+    - target: {fileID: 7169256087100040290, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6639c4c310923b8468ac090b2c81c808, type: 3}
@@ -16778,7 +16762,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -21925,10 +21909,6 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4245652776279252930, guid: 346dc552975a02548a297dc4eb5fcac3, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866733609918678402, guid: 346dc552975a02548a297dc4eb5fcac3, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}

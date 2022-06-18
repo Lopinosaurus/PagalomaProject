@@ -5382,7 +5382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
-  _werewolfAvatar: {fileID: 9000000, guid: 7cf5d88391f7f65429cfe3e10aa82fa4, type: 3}
+  _werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
   CurrentAnimator: {fileID: 8582652644670617519}
 --- !u!95 &8582652644670617519
 Animator:

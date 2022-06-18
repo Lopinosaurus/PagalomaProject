@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -11,7 +10,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Werewolf : Role
     {
         public float werewolfDuration = 60;
-        public float timerMult = 1;
+        public float currentlyUsedMult = 1;
         private float timer;
         
         [SerializeField] private GameObject VillagerRenderer;
@@ -24,7 +23,7 @@ namespace MainGame.PlayerScripts.Roles
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
-                if (actionText != null)
+                if (actionText)
                 {
                     if (isTransformed && _targets.Count > 0 && hasCooldown == false)
                         actionText.text = "Press E to Kill";
@@ -134,15 +133,19 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log(_playerInput.currentActionMap);
         }
 
+        public void PauseTimer() => currentlyUsedMult = 0;
+        public void ResumeTimerWithMult(int newMult = 1) => currentlyUsedMult = newMult;
+        
         private IEnumerator DeTransformationCoroutine(float delay)
         {
+            var waitForFixedUpdate = new WaitForFixedUpdate();
             timer = delay;
-            timerMult = 1;           
+            currentlyUsedMult = 1;           
             
             while (timer > 0)
             {
-                timer -= timerMult * Time.deltaTime;
-                yield return null;
+                timer -= currentlyUsedMult * Time.deltaTime;
+                yield return waitForFixedUpdate;
             }
 
             UpdateTransformation(false);
