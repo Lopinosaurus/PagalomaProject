@@ -73,10 +73,13 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
 
-                    hasCooldown = true;
+                    // Makes it so that the power is only usable once (per night)
+                    SetCooldownInfinite();
+                    
                     target.hasShield = true;
                     lastPlayerShielded = target;
                     _targets.Remove(target);
+                    
                     UpdateActionText();
                     RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username}!");
                     _photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);

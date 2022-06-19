@@ -9,10 +9,6 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        public float werewolfDuration = 60;
-        public float currentlyUsedMult = 1;
-        private float timer;
-        
         [SerializeField] private GameObject VillagerRenderer;
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
@@ -20,6 +16,9 @@ namespace MainGame.PlayerScripts.Roles
         public List<Role> _targets = new List<Role>();
         public bool isTransformed;
 
+        public float werewolfPowerDuration = 60;
+        public float afterAttackCooldown = 5;
+        
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
@@ -101,16 +100,16 @@ namespace MainGame.PlayerScripts.Roles
             if (goingToWerewolf)
             {
                 isTransformed = true;
-                _playerMovement.isWerewolfMult = true;
-                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine(werewolfDuration));
+                _playerMovement.isWerewolfTransformedMult = true;
+                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
             }
             // DeTransformation
             else
             {
                 // Removes speed boost
                 isTransformed = false;
-                _playerMovement.isWerewolfMult = false;
-                hasCooldown = true;
+                _playerMovement.isWerewolfTransformedMult = false;
+                SetCooldownInfinite();
             }
 
             UpdateActionText();
@@ -133,20 +132,13 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log(_playerInput.currentActionMap);
         }
 
-        public void PauseTimer() => currentlyUsedMult = 0;
-        public void ResumeTimerWithMult(int newMult = 1) => currentlyUsedMult = newMult;
-        
-        private IEnumerator DeTransformationCoroutine(float delay)
+        private IEnumerator DeTransformationCoroutine()
         {
             var waitForFixedUpdate = new WaitForFixedUpdate();
-            timer = delay;
-            currentlyUsedMult = 1;           
-            
-            while (timer > 0)
-            {
-                timer -= currentlyUsedMult * Time.deltaTime;
-                yield return waitForFixedUpdate;
-            }
+
+            // Will bring the werewolf back to human when the cooldown runs out
+            SetPowerTimer(werewolfPowerDuration);
+            while (hasCooldown) yield return waitForFixedUpdate;
 
             UpdateTransformation(false);
         }
@@ -164,7 +156,14 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
 
-                    hasCooldown = true;
+                    // Waits a few seconds before re-enabling attack
+                    SetCooldown(afterAttackCooldown);
+                    // it also pauses the timer for the power
+                    PausePowerTimer();
+                    ResumePowerTimer(afterAttackCooldown);
+                    // it also slows the Werewolf
+                    _playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
+                    
                     UpdateActionText();
                     if (target.hasShield)
                     {
@@ -193,7 +192,7 @@ namespace MainGame.PlayerScripts.Roles
 
 
         [PunRPC]
-        public void RPC_KillTarget(string _userId) // TODO: Add kill animation
+        public void RPC_KillTarget(string _userId)
         {
             Role target = null;
             foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId

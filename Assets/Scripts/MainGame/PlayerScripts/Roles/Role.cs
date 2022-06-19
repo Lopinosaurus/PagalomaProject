@@ -21,11 +21,18 @@ namespace MainGame.PlayerScripts.Roles
         
         [SerializeField] private bool kill;
         public bool isAlive = true;
-        public bool hasCooldown;
         public bool hasShield; // Shield given by the Priest
         public bool hasVoted; // Has submitted vote this day
 
+        // Power cooldown
+        protected bool hasCooldown => cooldown > 0;
+        private float currentlyUsedCooldownMult = 1;
         private float cooldown;
+        
+        // Power timer (how long does the power stay active)
+        protected bool isPowerTimerOngoing => powerTimer > 0;
+        private float currentlyUsedPowerTimerMult = 1;
+        private float powerTimer;
         
         protected TMP_Text actionText;
         public TMP_Text deathText;
@@ -80,19 +87,49 @@ namespace MainGame.PlayerScripts.Roles
 
             _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
 
-            // StartCoroutine(CooldownManager());
+            StartCoroutine(CooldownAndPowerTimerManager());
         }
 
-        private IEnumerator CooldownManager()
+        private IEnumerator CooldownAndPowerTimerManager()
         {
+            var waitForFixedUpdate = new WaitForFixedUpdate();
+            
             while (true)
             {
-                if (cooldown > 0) cooldown -= Time.fixedDeltaTime;
-                if (hasCooldown)  cooldown = float.MaxValue;
-                
-                yield return new WaitForFixedUpdate();
+                if (cooldown > 0) cooldown -= currentlyUsedCooldownMult * Time.fixedDeltaTime;
+                if (powerTimer > 0) powerTimer -= currentlyUsedPowerTimerMult * Time.fixedDeltaTime;
+
+                yield return waitForFixedUpdate;
             }
         }
+
+        // Power cooldown
+        private void PauseCooldown() => SetCooldownMultiplier(0);
+        private void ResumeCooldown() => SetCooldownMultiplier(1);
+        protected void SetCooldown(float value) => cooldown = value < 0 ? 0 : value;
+        public void ResetCooldown() => SetCooldown(0);
+        public void SetCooldownInfinite() => SetCooldown(float.MaxValue);
+        private void SetCooldownMultiplier(float newMultiplier) => currentlyUsedCooldownMult = newMultiplier < 0 ? 0 : newMultiplier;
+        
+        // Power timer (how long does it stay active ?)
+        protected void PausePowerTimer() => SetPowerTimerMultiplier(0);
+
+        protected void ResumePowerTimer(float delayInSeconds = 0)
+        {
+            if (0 == delayInSeconds) SetCooldownMultiplier(1);
+            else StartCoroutine(ResumePowerTimerCoroutine(delayInSeconds));
+        }
+
+        private IEnumerator ResumePowerTimerCoroutine(float delayInSeconds)
+        {
+            yield return new WaitForSeconds(delayInSeconds);
+            ResumePowerTimer();
+        }
+        
+        protected void SetPowerTimer(float value) => powerTimer = value < 0 ? 0 : value;
+        public void ResetPowerTimer() => SetPowerTimer(0);
+        public void SetPowerTimerInfinite() => SetPowerTimer(float.MaxValue);
+        private void SetPowerTimerMultiplier(float newMultiplier) => currentlyUsedPowerTimerMult = newMultiplier < 0 ? 0 : newMultiplier;
 
         public void Activate()
         {
@@ -214,5 +251,6 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         #endregion
+
     }
 }

@@ -64,7 +64,7 @@ namespace MainGame.PlayerScripts.Roles
                         return;
                     }
 
-                    hasCooldown = true;
+                    SetCooldownInfinite();
                     Debug.Log($"[+] The Role of the target is: {target.roleName}");
                     string displayedRole = target.roleName;
                     if (displayedRole == "Lycan") displayedRole = "Werewolf";

@@ -90,7 +90,7 @@ namespace MainGame.PlayerScripts
 
         // Multipliers
         public bool isBushMult;
-        public bool isWerewolfMult;
+        public bool isWerewolfTransformedMult;
 
         private const float BushMult = 0.4f;
         public const float AiStunMult = 0.5f;
@@ -330,7 +330,7 @@ namespace MainGame.PlayerScripts
             float mult = baseSpeedMult;
 
             if (isBushMult) mult *= BushMult;
-            if (isWerewolfMult) mult *= WerewolfMult;
+            if (isWerewolfTransformedMult) mult *= WerewolfMult;
             mult *= currentMultCoroutine;
 
             return mult;

@@ -28,7 +28,7 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
             if (!hasCooldown)
             {
-                hasCooldown = true;
+                SetCooldownInfinite();
                 _photonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();

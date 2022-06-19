@@ -86,20 +86,8 @@ public class DayNightCycle : MonoBehaviour
         sun.color = sunColor.Evaluate(time);
         moon.color = moonColor.Evaluate(time);
         
-        // enable / disable the sun
-        if (sun.intensity == 0 && sun.gameObject.activeInHierarchy)
-            sun.gameObject.SetActive(false);
-        else if (sun.intensity > 0 && !sun.gameObject.activeInHierarchy)
-            sun.gameObject.SetActive(true);
-        
-        // enable / disable the moon
-        if (moon.intensity == 0 && moon.gameObject.activeInHierarchy)
-            moon.gameObject.SetActive(false);
-        else if (moon.intensity > 0 && !moon.gameObject.activeInHierarchy)
-            moon.gameObject.SetActive(true);
-        
         // lighting and reflections intensity
-        RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
+        // RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
         RenderSettings.reflectionIntensity = reflectionsIntensityMultiplier.Evaluate(time);
 
         // fog intensity
@@ -112,7 +100,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = true;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasVoted = false;
-        RoomManager.Instance.localPlayer.hasCooldown = true;
+        RoomManager.Instance.localPlayer.SetCooldownInfinite();
         RoomManager.Instance.ClearTargets();
         VoteMenu.Instance.UpdateVoteItems();
     }
@@ -123,7 +111,7 @@ public class DayNightCycle : MonoBehaviour
         RoomManager.Instance.votes = new List<Role>();
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
-        RoomManager.Instance.localPlayer.hasCooldown = false;
+        RoomManager.Instance.localPlayer.ResetCooldown();
         RoomManager.Instance.localPlayer.UpdateActionText();
         RoomManager.Instance.localPlayer.vote = null;
         VoteMenu.Instance.UpdateVoteItems();

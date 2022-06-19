@@ -2451,7 +2451,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -2544,7 +2544,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -3775,7 +3775,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -5296,7 +5296,7 @@ MonoBehaviour:
   currentSpeed: 0
   FinalCurrentMotion: {x: 0, y: 0, z: 0}
   isBushMult: 0
-  isWerewolfMult: 0
+  isWerewolfTransformedMult: 0
   nbBushes: 0
   currentMovementType: 0
   localMoveAmountNormalized: {x: 0, y: 0}
@@ -5651,7 +5651,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
@@ -5677,7 +5676,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
@@ -5704,7 +5702,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
@@ -5712,13 +5709,13 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   _cameraHolder: {fileID: 1141215766398316333}
   _playerInput: {fileID: 5554154994360629918}
-  werewolfDuration: 60
-  timerMult: 1
   VillagerRenderer: {fileID: 4950680158300606666}
   WereWolfRenderer: {fileID: 8499297442018757553}
   Particles: {fileID: 4280448778261451547, guid: 05d4513cea190b84f8a46b69e521b16c, type: 3}
   _targets: []
   isTransformed: 0
+  werewolfPowerDuration: 60
+  afterAttackCooldown: 5
 --- !u!114 &2369406844203047068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5737,7 +5734,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
@@ -5763,7 +5759,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
@@ -5790,7 +5785,6 @@ MonoBehaviour:
   userId: 
   kill: 0
   isAlive: 1
-  hasCooldown: 0
   hasShield: 0
   hasVoted: 0
   deathText: {fileID: 0}
