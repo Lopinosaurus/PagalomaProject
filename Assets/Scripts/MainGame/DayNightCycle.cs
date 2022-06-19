@@ -88,7 +88,7 @@ public class DayNightCycle : MonoBehaviour
         
         // lighting and reflections intensity
         // RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
-        RenderSettings.reflectionIntensity = reflectionsIntensityMultiplier.Evaluate(time);
+        // RenderSettings.reflectionIntensity = reflectionsIntensityMultiplier.Evaluate(time);
 
         // fog intensity
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
