@@ -83,6 +83,7 @@ namespace MainGame.PlayerScripts.Roles
             else UpdateTransformation(true);
         }
 
+        [ContextMenu(nameof(UpdateTransformation))]
         public void UpdateTransformation(bool goingToWerewolf)
         {
             // Won't transform into given state if already in this given state
