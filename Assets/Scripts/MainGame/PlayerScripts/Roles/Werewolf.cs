@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -13,25 +14,33 @@ namespace MainGame.PlayerScripts.Roles
         [SerializeField] private GameObject WereWolfRenderer;
         [SerializeField] private GameObject Particles;
 
+        public readonly string friendlyRoleName = "Werewolf";
+        
         public List<Role> _targets = new List<Role>();
         public bool isTransformed;
 
         public float werewolfPowerDuration = 60;
         public float afterAttackCooldown = 5;
         
+        private const float earlyTransformationTransitionDuration = 1;
+        private const float lateTransformationTransitionDuration = 4;
+
+        private float totalTransformationTransitionDuration =>
+            earlyTransformationTransitionDuration + lateTransformationTransitionDuration;
+
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
                 if (actionText)
                 {
-                    if (isTransformed && _targets.Count > 0 && hasCooldown == false)
+                    if (isTransformed && _targets.Count > 0 && powerTimer.isNotZero && powerCooldown.isZero)
                         actionText.text = "Press E to Kill";
-                    else if (VoteMenu.Instance.isNight && hasCooldown == false && isTransformed == false)
+                    else if (VoteMenu.Instance.isNight && isTransformed == false)
                         actionText.text = "Press E to Transform";
                     else actionText.text = "";
                 }
         }
-        
+
         /// <summary>
         ///   <para>Adds or removes the targets list.</para>
         /// </summary>
@@ -40,10 +49,13 @@ namespace MainGame.PlayerScripts.Roles
         public void UpdateTarget(Collider other, bool add)
         {
             if (isTransformed == false) return;
+            
             if (other.CompareTag("Player"))
             {
                 Role tempTarget = null;
-                foreach (Role role in other.GetComponents<Role>()) if (role.enabled) tempTarget = role;
+                foreach (Role role in other.GetComponents<Role>())
+                    if (role.enabled)
+                        tempTarget = role;
 
                 if (tempTarget != null && !(tempTarget is Werewolf))
                 {
@@ -65,27 +77,24 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UseAbility()
         {
-            if (!hasCooldown && VoteMenu.Instance.isNight)
-            {
-                if (isTransformed) KillTarget();
-                else UpdateTransformation(true);
-            }
+            if (!CanUseAbilityGeneric()) return;
+            
+            if (isTransformed) KillTarget();
+            else UpdateTransformation(true);
         }
 
         public void UpdateTransformation(bool goingToWerewolf)
         {
-            if (goingToWerewolf && !isTransformed)
-            {
-                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Transformation), RpcTarget.Others);
-                StartCoroutine(WerewolfTransform(true));
-            }
-            else if (isTransformed)
-            {
-                if (_photonView.IsMine) _photonView.RPC(nameof(RPC_Detransformation), RpcTarget.Others);
-                StartCoroutine(WerewolfTransform(false));
-            }
+            // Won't transform into given state if already in this given state
+            if (goingToWerewolf == isTransformed) return;
+
+            if (!arePowerAndCooldownValid) return;
+
+            if (_photonView.IsMine) _photonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
+
+            StartCoroutine(WerewolfTransform(goingToWerewolf));
         }
-    
+
         private IEnumerator WerewolfTransform(bool goingToWerewolf)
         {
             // Particles to dissimulate werewolf transition
@@ -96,26 +105,26 @@ namespace MainGame.PlayerScripts.Roles
             // Deactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
 
-            // Transformation 
+            // Transformation
+            isTransformed = goingToWerewolf;
+            _playerMovement.isWerewolfTransformedMult = goingToWerewolf;
+
+            // Starts countdown
             if (goingToWerewolf)
             {
-                isTransformed = true;
-                _playerMovement.isWerewolfTransformedMult = true;
-                if (_photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
+                powerTimer.Set(werewolfPowerDuration);
+                powerTimer.Pause();
+                powerTimer.Resume(totalTransformationTransitionDuration);
             }
-            // DeTransformation
-            else
-            {
-                // Removes speed boost
-                isTransformed = false;
-                _playerMovement.isWerewolfTransformedMult = false;
-                SetCooldownInfinite();
-            }
+            else powerTimer.Reset();
 
+            if (goingToWerewolf && _photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
+
+            // Updates the messages on screen
             UpdateActionText();
 
             // Wait
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(earlyTransformationTransitionDuration);
 
             // TODO improve visual transition
             VillagerRenderer.SetActive(!goingToWerewolf);
@@ -125,79 +134,87 @@ namespace MainGame.PlayerScripts.Roles
             _playerAnimation.EnableWerewolfAnimations(goingToWerewolf);
 
             // Wait for 4 seconds
-            yield return new WaitForSeconds(4);
+            yield return new WaitForSeconds(lateTransformationTransitionDuration);
 
             // Reactivate controls
             if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player");
-            Debug.Log(_playerInput.currentActionMap);
         }
 
         private IEnumerator DeTransformationCoroutine()
         {
             var waitForFixedUpdate = new WaitForFixedUpdate();
 
-            // Will bring the werewolf back to human when the cooldown runs out
-            SetPowerTimer(werewolfPowerDuration);
-            while (hasCooldown) yield return waitForFixedUpdate;
+            // Will bring the werewolf back to human when the power timer runs out
+            while (powerTimer.isNotZero) yield return waitForFixedUpdate;
 
             UpdateTransformation(false);
         }
 
-        private void KillTarget() // TODO: Add kill animation
+        private void KillTarget()
         {
-            if (!hasCooldown)
+        // Cannot attack if no target
+            if (_targets.Count == 0)
             {
-                if (_targets.Count > 0)
-                {
-                    Role target = _targets[_targets.Count - 1];
-                    if (target.isAlive == false)
-                    {
-                        Debug.Log("[-] Can't kill: Target is already dead");
-                        return;
-                    }
-
-                    // Waits a few seconds before re-enabling attack
-                    SetCooldown(afterAttackCooldown);
-                    // it also pauses the timer for the power
-                    PausePowerTimer();
-                    ResumePowerTimer(afterAttackCooldown);
-                    // it also slows the Werewolf
-                    _playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
-                    
-                    UpdateActionText();
-                    if (target.hasShield)
-                    {
-                        RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
-                        return;
-                    }
-
-                    Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
-                    
-                    target.Die();
-                    _targets.Remove(target);
-                    _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
-
-                    _playerAnimation.EnableWerewolfAttackAnimation();
-                }
-                else
-                {
-                    Debug.Log("[-] Can't kill: No target to kill");
-                }
+                Debug.Log("[-] Can't kill: No target to kill");
+                return;
             }
-            else
+
+            Role target = _targets[_targets.Count - 1];
+
+            // Cannot attack if target is dead
+            if (target.isAlive == false)
             {
-                Debug.Log("[-] Can't kill: You have a Cooldown");
+                Debug.Log("[-] Can't kill: Target is already dead");
+                return;
             }
+
+            // Cannot attack if target has shield
+            if (target.hasShield)
+            {
+                RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
+                return;
+            }
+
+            Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
+
+            target.Die();
+            _targets.Remove(target);
+            _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+
+            _playerAnimation.EnableWerewolfAttackAnimation();
+
+            // Waits a few seconds before re-enabling attack
+            powerCooldown.Set(afterAttackCooldown);
+            // it also pauses the timer for the power
+            powerTimer.Pause();
+            powerTimer.Resume(afterAttackCooldown);
+            // it also slows the Werewolf
+            _playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
+
+            UpdateActionText();
+
+            UpdateActionText();
+            if (target.hasShield)
+            {
+                RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
+                return;
+            }
+
+            Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
+
+            target.Die();
+            _targets.Remove(target);
+            _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+
+            _playerAnimation.EnableWerewolfAttackAnimation();
         }
 
 
         [PunRPC]
         public void RPC_KillTarget(string _userId)
         {
-            Role target = null;
-            foreach (Role player in RoomManager.Instance.players) // Get target with corresponding userId
-                if (player.userId == _userId)
-                    target = player;
+            // Tries to get the matching player, and can be null if not found
+            Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == _userId);
 
             if (target != null)
             {
@@ -211,9 +228,8 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         [PunRPC]
-        public void RPC_Transformation() => UpdateTransformation(true);
-
+        public void RPC_Transformation() => StartCoroutine(WerewolfTransform(true));
         [PunRPC]
-        public void RPC_Detransformation() => UpdateTransformation(false);
+        public void RPC_Detransformation() => StartCoroutine(WerewolfTransform(false));
     }
 }

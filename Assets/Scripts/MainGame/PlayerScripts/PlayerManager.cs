@@ -48,7 +48,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (PV.IsMine)
         {
-            RoomManager.Instance.DisplayRole(roleName);
+            RoomManager.Instance.DisplayRole(roleName, RoomManager.Instance.colorsDict[color]);
             CreateController(); // Call CreateController only when roleName have been received
         }
     }

@@ -24,15 +24,12 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasShield; // Shield given by the Priest
         public bool hasVoted; // Has submitted vote this day
 
-        // Power cooldown
-        protected bool hasCooldown => cooldown > 0;
-        private float currentlyUsedCooldownMult = 1;
-        private float cooldown;
-        
-        // Power timer (how long does the power stay active)
-        protected bool isPowerTimerOngoing => powerTimer > 0;
-        private float currentlyUsedPowerTimerMult = 1;
-        private float powerTimer;
+        // Power cooldown (timer you have to wait before you can activate your power)
+        public Countdown.Countdown powerCooldown;
+        // Power timer (timer during which you can make use of your power)
+        public Countdown.Countdown powerTimer;
+        protected bool arePowerAndCooldownValid => powerCooldown.isZero && powerTimer.isNotZero;
+
         
         protected TMP_Text actionText;
         public TMP_Text deathText;
@@ -87,50 +84,10 @@ namespace MainGame.PlayerScripts.Roles
 
             _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
 
-            StartCoroutine(CooldownAndPowerTimerManager());
-        }
-
-        private IEnumerator CooldownAndPowerTimerManager()
-        {
-            var waitForFixedUpdate = new WaitForFixedUpdate();
-            
-            while (true)
-            {
-                if (cooldown > 0) cooldown -= currentlyUsedCooldownMult * Time.fixedDeltaTime;
-                if (powerTimer > 0) powerTimer -= currentlyUsedPowerTimerMult * Time.fixedDeltaTime;
-
-                yield return waitForFixedUpdate;
-            }
-        }
-
-        // Power cooldown
-        private void PauseCooldown() => SetCooldownMultiplier(0);
-        private void ResumeCooldown() => SetCooldownMultiplier(1);
-        protected void SetCooldown(float value) => cooldown = value < 0 ? 0 : value;
-        public void ResetCooldown() => SetCooldown(0);
-        public void SetCooldownInfinite() => SetCooldown(float.MaxValue);
-        private void SetCooldownMultiplier(float newMultiplier) => currentlyUsedCooldownMult = newMultiplier < 0 ? 0 : newMultiplier;
-        
-        // Power timer (how long does it stay active ?)
-        protected void PausePowerTimer() => SetPowerTimerMultiplier(0);
-
-        protected void ResumePowerTimer(float delayInSeconds = 0)
-        {
-            if (0 == delayInSeconds) SetCooldownMultiplier(1);
-            else StartCoroutine(ResumePowerTimerCoroutine(delayInSeconds));
-        }
-
-        private IEnumerator ResumePowerTimerCoroutine(float delayInSeconds)
-        {
-            yield return new WaitForSeconds(delayInSeconds);
-            ResumePowerTimer();
+            powerCooldown = gameObject.AddComponent<Countdown.Countdown>();
+            powerTimer = gameObject.AddComponent<Countdown.Countdown>();
         }
         
-        protected void SetPowerTimer(float value) => powerTimer = value < 0 ? 0 : value;
-        public void ResetPowerTimer() => SetPowerTimer(0);
-        public void SetPowerTimerInfinite() => SetPowerTimer(float.MaxValue);
-        private void SetPowerTimerMultiplier(float newMultiplier) => currentlyUsedPowerTimerMult = newMultiplier < 0 ? 0 : newMultiplier;
-
         public void Activate()
         {
             isActive = true;
@@ -147,7 +104,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (kill) UseAbility();
 
-            if (VoteMenu.Instance != null && !VoteMenu.Instance.isNight && hasShield) hasShield = false;
+            if (VoteMenu.Instance && !VoteMenu.Instance.isNight && hasShield) hasShield = false;
         }
 
         #endregion
@@ -171,10 +128,19 @@ namespace MainGame.PlayerScripts.Roles
         {
             Debug.Log("E pressed but you are have not ability because you are a Villager. (Villager < all UwU)");
         }
+        
+        protected bool CanUseAbilityGeneric()
+        {
+            if (!VoteMenu.Instance.isNight) return false;
+            if (!arePowerAndCooldownValid) return false;
+            if (!isAlive) return false;
+
+            return true;
+        }
 
         public virtual void UpdateActionText()
         {
-            Debug.Log("In UpdateActionText() but you have no action text");
+            Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
         }
 
         public void Die()
@@ -201,7 +167,7 @@ namespace MainGame.PlayerScripts.Roles
             VoteMenu.Instance.UpdateVoteItems();
 
             // Initial camera position
-            if (null != _cameraHolder)
+            if (_cameraHolder)
             {
                 Vector3 startingPos = _cameraHolder.transform.position;
                 Vector3 endingPos = new Vector3
@@ -213,15 +179,14 @@ namespace MainGame.PlayerScripts.Roles
 
                 // Final camera position
                 if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
-                    endingPos.y = hitInfo.point.y - 0.2f;
+                    endingPos.y = hitInfo.point.y;
 
                 // Final camera rotation
-                Quaternion endingRot = Quaternion.identity;
+                Quaternion endingRot = _cameraHolder.transform.localRotation;
                 endingRot.eulerAngles = new Vector3
                 {
                     x = 90,
-                    y = endingRot.eulerAngles.y,
-                    z = 180
+                    y = endingRot.eulerAngles.y + 180
                 };
                 
                 StartCoroutine(MoveCamHolder(endingPos, endingRot));
@@ -252,5 +217,20 @@ namespace MainGame.PlayerScripts.Roles
 
         #endregion
 
+        public void SetCountdowns(bool isNight)
+        {
+            if (isNight)
+            {
+                powerTimer.SetInfinite();
+                powerCooldown.Reset();
+            }
+            else
+            {
+                powerTimer.Reset();
+            }
+
+            powerCooldown.Resume();
+            powerTimer.Resume();
+        }
     }
 }

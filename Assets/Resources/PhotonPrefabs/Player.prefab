@@ -1700,7 +1700,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 191
-  m_RenderingPath: 3
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -5653,6 +5653,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -5678,6 +5680,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -5704,6 +5708,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -5736,6 +5742,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -5761,6 +5769,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
@@ -5787,6 +5797,8 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}

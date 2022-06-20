@@ -6,10 +6,10 @@ namespace MainGame.PlayerScripts.Roles
     public class Seer : Villager
     {
         public List<Role> _targets = new List<Role>();
+        
+        public readonly string friendlyRoleName = "Seer";
 
-        public void
-            UpdateTarget(Collider other,
-                bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other.CompareTag("Player"))
             {
@@ -40,45 +40,42 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (_photonView.IsMine)
             {
-                if (_targets.Count > 0 && hasCooldown == false) actionText.text = "Press E to Reveal Role";
+                if (_targets.Count > 0 && powerTimer.isNotZero) actionText.text = "Press E to Reveal Role";
                 else actionText.text = "";
             }
         }
 
         public override void UseAbility()
         {
-            SpyTarget();
+            if (!CanUseAbilityGeneric()) return;
+            
+            RevealRole();
         }
 
-        private void SpyTarget()
+        private void RevealRole()
         {
-            Debug.Log("E pressed and you are a Seer, you gonna get someone's role");
-            if (!hasCooldown)
+            if (0 == _targets.Count)
             {
-                if (_targets.Count > 0)
-                {
-                    Role target = _targets[_targets.Count - 1];
-                    if (target.isAlive == false)
-                    {
-                        Debug.Log("[-] Can't spy: Target is dead");
-                        return;
-                    }
+                Debug.Log("[-] Can't reveal role: No target");
+                return;
+            }
 
-                    SetCooldownInfinite();
-                    Debug.Log($"[+] The Role of the target is: {target.roleName}");
-                    string displayedRole = target.roleName;
-                    if (displayedRole == "Lycan") displayedRole = "Werewolf";
-                    RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
-                }
-                else
-                {
-                    Debug.Log("[-] Can't Spy: No target to spy");
-                }
-            }
-            else
+            Role target = _targets[_targets.Count - 1];
+            
+            if (target.isAlive == false)
             {
-                Debug.Log("[-] Can't Spy: You have a Cooldown");
+                Debug.Log("[-] Can't reveal role: Target is dead");
+                return;
             }
+
+            Debug.Log($"[+] The Role of the target is: {target.roleName}");
+            
+            string displayedRole = target.roleName;
+            if (target is Lycan lycan) displayedRole = lycan.friendlyRoleName;
+            
+            RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
+            
+            powerTimer.SetInfinite();
         }
     }
 }

@@ -7,28 +7,31 @@ namespace MainGame.PlayerScripts.Roles
     public class Spy : Villager
     {
         [SerializeField] private SkinnedMeshRenderer PlayerRender;
+        private readonly float invisibilityDuration = 25;
 
         public override void UpdateActionText()
         {
             if (_photonView.IsMine)
             {
-                if (hasCooldown == false && isAlive) actionText.text = "Press E to Activate Invisibility";
+                if (powerTimer.isNotZero && isAlive) actionText.text = "Press E to Activate Invisibility";
                 else actionText.text = "";
             }
         }
 
         public override void UseAbility()
         {
-            if (isAlive && VoteMenu.Instance.isNight) BecomeInvisible();
+            if (!CanUseAbilityGeneric()) return;
+            
+            BecomeInvisible();
         }
 
         private void BecomeInvisible()
         {
             if (!VoteMenu.Instance.isNight) return;
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
-            if (!hasCooldown)
+            if (powerCooldown.isZero && powerTimer.isNotZero)
             {
-                SetCooldownInfinite();
+                powerTimer.Reset();
                 _photonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
@@ -41,8 +44,9 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator UpdateInvisibility()
         {
+            // TODO Improve visuals
             PlayerRender.enabled = false;
-            yield return new WaitForSeconds(25);
+            yield return new WaitForSeconds(invisibilityDuration);
             PlayerRender.enabled = true;
         }
 

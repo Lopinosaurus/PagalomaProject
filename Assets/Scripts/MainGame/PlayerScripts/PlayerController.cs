@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
@@ -124,38 +125,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // Starts to grab players
-        StartCoroutine(FindPlayers());
+        StartCoroutine(GetRole());
 
         // Starts the light management
         StartCoroutine(LightManager());
     }
 
-    private IEnumerator FindPlayers()
+    private IEnumerator GetRole()
     {
-        yield return new WaitForSeconds(5);
-
-        while (true)
+        bool roomManager = RoomManager.Instance;
+        
+        while (!_role && roomManager)
         {
-            yield return new WaitForSeconds(2);
-
-            try
-            {
-                if (_role == null) _role = RoomManager.Instance.players.Find(r => r.GetComponent<PhotonView>().IsMine);
-
-                List<Role> t = RoomManager.Instance.players;
-                if (t.Count != playerPositions.Count)
-                {
-                    playerPositions = new List<Transform>();
-                    foreach (Role role in t)
-                        if (role.userId != _role.userId)
-                            playerPositions.Add(role.gameObject.transform);
-                }
-            }
-            catch
-            {
-                Debug.LogWarning("No RoomManager found ! (PlayerController)");
-                yield break;
-            }
+            _role = RoomManager.Instance.localPlayer;
+            yield return null;
         }
     }
 
@@ -188,6 +171,7 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitUntil(() => VoteMenu.Instance.isNight);
 
                 // It's night, turn on light
+                // ReSharper disable once Unity.InefficientPropertyAccess
                 _lampLight.intensity = 1;
 
                 yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
@@ -274,10 +258,8 @@ public class PlayerController : MonoBehaviour
                 return false;
 
             // Player check
-            var everyPlayerFarEnough = true;
-            for (var i = 0; i < playerPositions.Count && everyPlayerFarEnough; i++)
-                everyPlayerFarEnough &= (playerPositions[i].position - transform.position).sqrMagnitude >
-                                        minPlayerDist * minPlayerDist;
+            bool everyPlayerFarEnough = RoomManager.Instance.players.All(role =>
+                !((role.transform.position - transform.position).sqrMagnitude > minPlayerDist * minPlayerDist));
 
             if (!everyPlayerFarEnough)
                 // Debug.Log("SPAWNCHECK (5/5): a player is too close");

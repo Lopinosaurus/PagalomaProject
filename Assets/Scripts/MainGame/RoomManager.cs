@@ -9,7 +9,7 @@ using MainGame;
 using MainGame.Menus;
 using MainGame.PlayerScripts.Roles;
 using TMPro;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -74,9 +74,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
         foreach (string c in colors) Debug.Log(c);
         foreach (string c in roles) Debug.Log(c);
         // Shuffle colors and roles lists
-        Random rng = new Random();
-        colors = colors.OrderBy(a => rng.Next()).ToArray();
-        roles = roles.OrderBy(a => rng.Next()).ToArray();
+        colors = colors.OrderBy(a => Random.Range(0, int.MaxValue)).ToArray();
+        roles = roles.OrderBy(a => Random.Range(0, int.MaxValue)).ToArray();
     }
 
     public override void OnEnable()
@@ -136,13 +135,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
         return colors[nextPlayerRoleIndex];
     }
 
-    public void DisplayRole(string roleName)
+    public void DisplayRole(string roleName, Color color)
     {
         roleText.text = "You are "+roleName;
+        roleText.outlineColor = color;
     }
     
     public void UpdateInfoText(string message = "")
     {
+        // TODO optimize
         InfoListItem item = Instantiate(infoListItem, infoList);
         item.GetComponent<InfoListItem>().SetUp(message);
         Destroy(item.gameObject, 5);
@@ -155,7 +156,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         foreach (Role vote in votes)
         {
             string userId = "";
-            if (vote != null) userId = vote.userId;
+            if (vote) userId = vote.userId;
             
             if (voteResults.ContainsKey(userId)) voteResults[userId]++;
             else voteResults.Add(userId, 1);
@@ -163,6 +164,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         int max = 0;
         int max2 = 0;
+        
         string votedUserId = "";
         foreach (string userId in voteResults.Keys)
         {

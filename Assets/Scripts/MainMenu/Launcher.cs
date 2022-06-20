@@ -21,7 +21,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     [SerializeField] private GameObject playerListItemPrefab;
     [SerializeField] private GameObject startGameButton;
     private List<RoomInfo> activeRooms = new List<RoomInfo>();
-    private int numberOfPlayers = 0;
+    private int numberOfPlayers;
 
     private void Awake()
     {

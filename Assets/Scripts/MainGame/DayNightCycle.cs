@@ -46,20 +46,22 @@ public class DayNightCycle : MonoBehaviour
     {
         // increment time
         time += timeRate * Time.deltaTime;
-        if (time >= 1.0f) time = 0.0f;
+        time = Mathf.Clamp01(time);
 
-        if (time > 0.25 && time < 0.75 && isDay == false) // New day
+        if (time > 0.25 && time < 0.75) // New day
         {
-            isDay = true;
-            if (PhotonNetwork.IsMasterClient)
+            if (isDay == false)
             {
-                PV.RPC(nameof(RPC_NewDay), RpcTarget.Others, time);
-                NewDay();
+                isDay = true;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PV.RPC(nameof(RPC_NewDay), RpcTarget.All, time);
                 
-                int isEOG = RoomManager.Instance.CheckIfEOG();
-                if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
+                    int isEOG = RoomManager.Instance.CheckIfEOG();
+                    if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
+                }
             }
-        } else if ((time <= 0.25 || time >= 0.75) && isDay) // New night
+        } else if (isDay) // New night
         {
             isDay = false;
             if (PhotonNetwork.IsMasterClient)
@@ -69,8 +71,7 @@ public class DayNightCycle : MonoBehaviour
                 int isEOG = RoomManager.Instance.CheckIfEOG();
                 if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
                 
-                PV.RPC(nameof(RPC_NewNight), RpcTarget.Others, time);
-                NewNight();
+                PV.RPC(nameof(RPC_NewNight), RpcTarget.All, time);
             }
         }
         
@@ -86,6 +87,20 @@ public class DayNightCycle : MonoBehaviour
         sun.color = sunColor.Evaluate(time);
         moon.color = moonColor.Evaluate(time);
         
+        // DON'T MODIFY ACTIVE STATES IN AN UPDATE LOOP !!!
+        
+        // // enable / disable the sun
+        // if (sun.intensity == 0 && sun.gameObject.activeInHierarchy)
+        //     sun.gameObject.SetActive(false);
+        // else if (sun.intensity > 0 && !sun.gameObject.activeInHierarchy)
+        //     sun.gameObject.SetActive(true);
+        //
+        // // enable / disable the moon
+        // if (moon.intensity == 0 && moon.gameObject.activeInHierarchy)
+        //     moon.gameObject.SetActive(false);
+        // else if (moon.intensity > 0 && !moon.gameObject.activeInHierarchy)
+        //     moon.gameObject.SetActive(true);
+        
         // lighting and reflections intensity
         // RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
         // RenderSettings.reflectionIntensity = reflectionsIntensityMultiplier.Evaluate(time);
@@ -100,7 +115,7 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.isDay = true;
         VoteMenu.Instance.isFirstDay = false;
         RoomManager.Instance.localPlayer.hasVoted = false;
-        RoomManager.Instance.localPlayer.SetCooldownInfinite();
+        RoomManager.Instance.localPlayer.SetCountdowns(false);
         RoomManager.Instance.ClearTargets();
         VoteMenu.Instance.UpdateVoteItems();
     }
@@ -111,7 +126,7 @@ public class DayNightCycle : MonoBehaviour
         RoomManager.Instance.votes = new List<Role>();
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
-        RoomManager.Instance.localPlayer.ResetCooldown();
+        RoomManager.Instance.localPlayer.SetCountdowns(true);
         RoomManager.Instance.localPlayer.UpdateActionText();
         RoomManager.Instance.localPlayer.vote = null;
         VoteMenu.Instance.UpdateVoteItems();
@@ -134,8 +149,5 @@ public class DayNightCycle : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_EOG(int isEOG)
-    {
-        RoomManager.Instance.DisplayEndScreen(isEOG);
-    }
+    void RPC_EOG(int isEOG) => RoomManager.Instance.DisplayEndScreen(isEOG);
 }
