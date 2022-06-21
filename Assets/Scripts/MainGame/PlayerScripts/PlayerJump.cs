@@ -7,7 +7,7 @@ namespace MainGame.PlayerScripts
     public partial class PlayerMovement
     {
         public enum JumpState
-        {
+        {   
             Still,
             SimpleJump,
             MidVault,
@@ -34,7 +34,7 @@ namespace MainGame.PlayerScripts
 
         // Jump booleans
         private bool WantsJump;
-        private const float jumpStrength = 4;
+        [SerializeField, Range(5, 8)] private float jumpStrength = 4;
 
         private bool shouldJumpFreezeControls =>
             JumpState.MidVault == currentJumpState ||

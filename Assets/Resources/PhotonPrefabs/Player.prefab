@@ -5324,7 +5324,6 @@ GameObject:
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 8582652644670617519}
   - component: {fileID: 3233493481327671935}
-  - component: {fileID: 6765919464641235586}
   - component: {fileID: 756289277428963088}
   - component: {fileID: 639062901070065131}
   - component: {fileID: 2296100508060758552}
@@ -5392,6 +5391,7 @@ MonoBehaviour:
   characterLayer:
     serializedVersion: 2
     m_Bits: 128
+  jumpStrength: 6
   cameraHolder: {fileID: 1141215766398316333}
   _characterController: {fileID: 0}
   currentSpeed: 0
@@ -5932,8 +5932,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
-  _werewolfAvatar: {fileID: 9000000, guid: 7cf5d88391f7f65429cfe3e10aa82fa4, type: 3}
+  _werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
   CurrentAnimator: {fileID: 8582652644670617519}
+  simpleJumpAnimation: {fileID: 0}
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 3
@@ -5969,22 +5970,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &6765919464641235586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RigLayers:
-  - m_Rig: {fileID: 0}
-    m_Active: 1
-  m_Effectors: []
 --- !u!114 &756289277428963088
 MonoBehaviour:
   m_ObjectHideFlags: 0

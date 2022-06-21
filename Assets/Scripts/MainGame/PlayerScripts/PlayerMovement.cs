@@ -107,7 +107,7 @@ namespace MainGame.PlayerScripts
             float hitboxHeight = _characterController.height;
             _standingHitboxHeight = hitboxHeight;
             _crouchedHitboxHeight = hitboxHeight * 0.7f;
-            _characterController.skinWidth = 0;
+            _characterController.skinWidth = 0.01f;
 
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
@@ -313,8 +313,8 @@ namespace MainGame.PlayerScripts
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;
 
+            // CharacterController heights & center
             _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
-            // _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = _characterController.center;
             characterControllerCenter.y = _characterController.height * 0.5f;
             _characterController.center = characterControllerCenter;

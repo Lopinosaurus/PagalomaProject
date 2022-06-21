@@ -1,4 +1,5 @@
 using Photon.Pun;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts
@@ -12,7 +13,6 @@ namespace MainGame.PlayerScripts
         // Scripts components
         private PlayerMovement _playerMovement;
         private PhotonView _photonView;
-
         
         // Trigger States hashes
         private static readonly int _midVaultHash = Animator.StringToHash("MidVault");
@@ -42,9 +42,11 @@ namespace MainGame.PlayerScripts
         // Animation values
         public float velocityX => CurrentAnimator.GetFloat(_velocityXHash);
         public float velocityZ => CurrentAnimator.GetFloat(_velocityZHash);
-
         public float velocity => new Vector2(Mathf.Sin(Mathf.Atan2(velocityZ, velocityX)) * velocityZ,
             Mathf.Cos(Mathf.Atan2(velocityZ, velocityX)) * velocityX).magnitude;
+        
+        // Animations
+        [Space, SerializeField] private AnimatorState simpleJumpAnimation;
         
         private void Awake()
         {
@@ -52,6 +54,7 @@ namespace MainGame.PlayerScripts
             _photonView = GetComponent<PhotonView>();
 
             CurrentAnimator = GetComponent<Animator>();
+            
             foreach (SetJumpState rj in CurrentAnimator.GetBehaviours<SetJumpState>())
                 rj.PlayerMovement = _playerMovement;
 

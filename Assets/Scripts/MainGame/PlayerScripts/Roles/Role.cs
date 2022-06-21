@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.Remoting.Contexts;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace MainGame.PlayerScripts.Roles
         private PostProcessVolume _postProcessVolume;
 
         // Controls
-        [SerializeField] private GameObject _cameraHolder;
+        [SerializeField] public GameObject _cameraHolder;
         public PlayerInput _playerInput;
         protected PlayerMovement _playerMovement;
         private PlayerController _playerController;
@@ -140,11 +141,10 @@ namespace MainGame.PlayerScripts.Roles
             return true;
         }
 
-        public virtual void UpdateActionText()
-        {
-            Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
-        }
+        public virtual void UpdateActionText() => Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
 
+        [ContextMenuItem("commands", nameof(Die))]
+        private ContextMenu da;
         public void Die()
         {
             // Show death label & disable inputs
@@ -171,6 +171,9 @@ namespace MainGame.PlayerScripts.Roles
             // Initial camera position
             if (_cameraHolder)
             {
+                // Detach cameraHolder from body
+                _cameraHolder.transform.parent = null;
+                
                 Vector3 startingPos = _cameraHolder.transform.position;
                 Vector3 endingPos = new Vector3
                 {

@@ -34,7 +34,7 @@ namespace MainGame.PlayerScripts
             if (_photonView.IsMine)
             {
                 // Default cam
-                defaultCam = GetComponentInChildren<Camera>();
+                defaultCam = GetComponent<Role>()._cameraHolder.GetComponentInChildren<Camera>();
 
                 // Enable everything
                 Setup();
@@ -74,12 +74,13 @@ namespace MainGame.PlayerScripts
 
                 spectatorCamClone.transform.rotation = Quaternion.identity;
             }
+            {
+                Destroy(this);
+            }
         }
 
         private void LateUpdate()
         {
-            if (!_photonView.IsMine) return;
-
             if (!isSpectatorModeEnabled)
             {
                 defaultCam.enabled = true;

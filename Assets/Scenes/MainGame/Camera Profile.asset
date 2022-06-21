@@ -84,34 +84,6 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 1
     value: 20.3
---- !u!114 &-4255189707208234691
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 10
-  aperture:
-    overrideState: 1
-    value: 10
-  focalLength:
-    overrideState: 1
-    value: 40
-  kernelSize:
-    overrideState: 0
-    value: 1
 --- !u!114 &-1760897958911532071
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -156,6 +128,34 @@ MonoBehaviour:
   opacity:
     overrideState: 0
     value: 1
+--- !u!114 &-1527352000341942297
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 10
+  aperture:
+    overrideState: 1
+    value: 15
+  focalLength:
+    overrideState: 0
+    value: 50
+  kernelSize:
+    overrideState: 0
+    value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   - {fileID: -6992860270260211158}
   - {fileID: 2555036199009427512}
   - {fileID: -1760897958911532071}
-  - {fileID: -4255189707208234691}
+  - {fileID: -1527352000341942297}
 --- !u!114 &739053601496879766
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1572,15 +1572,15 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   spectralLut:
-    overrideState: 1
+    overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.075
+    value: 0.076
   fastMode:
-    overrideState: 1
-    value: 1
+    overrideState: 0
+    value: 0
 --- !u!114 &7487782807392688084
 MonoBehaviour:
   m_ObjectHideFlags: 3

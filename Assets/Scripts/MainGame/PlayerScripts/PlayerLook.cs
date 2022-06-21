@@ -194,10 +194,8 @@ namespace MainGame.PlayerScripts
                 newFocusDistanceValue = hit.distance;
             }
 
-            _depthOfField.focusDistance.value =
-                focusDistanceValue > newFocusDistanceValue
-                    ? newFocusDistanceValue
-                    : focusDistanceValue + Time.deltaTime;
+            _depthOfField.focusDistance.value = newFocusDistanceValue;
+
         }
 
         #region Attributes
@@ -251,7 +249,7 @@ namespace MainGame.PlayerScripts
         // FOV
         private float baseFOV;
         [SerializeField] private float addMovementFOV = 2;
-
+        
         public void HeadBob()
         {
             Vector3 pos = camHolder.position;
