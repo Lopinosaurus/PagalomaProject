@@ -5,26 +5,31 @@ namespace MainGame.PlayerScripts
 {
     public class PlayerAnimation : MonoBehaviour
     {
+        [SerializeField] private Avatar _villagerAvatar;
+        [SerializeField] private Avatar _werewolfAvatar;
+        public Animator CurrentAnimator;
+        
+        // Scripts components
+        private PlayerMovement _playerMovement;
+        private PhotonView _photonView;
+
+        
         // Trigger States hashes
         private static readonly int _midVaultHash = Animator.StringToHash("MidVault");
         private static readonly int _simpleJumpHash = Animator.StringToHash("SimpleJump");
         private static readonly int _deathHash = Animator.StringToHash("Death");
         private static readonly int _attackHash = Animator.StringToHash("Attack");
-        [SerializeField] private Avatar _villagerAvatar;
-        [SerializeField] private Avatar _werewolfAvatar;
-        public Animator CurrentAnimator;
 
         // Boolean States hashes
-        private readonly int _isCrouchingHash = Animator.StringToHash("isCrouching");
+        private readonly int _isCrouchingHash = Animator.StringToHash("IsCrouching");
+ 
+        // Int States hashes
+        private readonly int _jumpStateHash = Animator.StringToHash("JumpState");
+        public int SimpleJumpHash => _simpleJumpHash;
 
         // Float States hashes
         private readonly int _velocityXHash = Animator.StringToHash("VelocityX");
         private readonly int _velocityZHash = Animator.StringToHash("VelocityZ");
-
-        private PhotonView _photonView;
-
-        // Scripts components
-        private PlayerMovement _playerMovement;
 
         // Layer hashes
         private int _WerewolfLayerIndex;
@@ -40,7 +45,7 @@ namespace MainGame.PlayerScripts
 
         public float velocity => new Vector2(Mathf.Sin(Mathf.Atan2(velocityZ, velocityX)) * velocityZ,
             Mathf.Cos(Mathf.Atan2(velocityZ, velocityX)) * velocityX).magnitude;
-
+        
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
@@ -130,11 +135,8 @@ namespace MainGame.PlayerScripts
 
         public void StartSimpleJumpAnimation()
         {
-            Debug.Log("started Jump");
-            
             // Toggles "MidVault" animation
-            CurrentAnimator.SetTrigger(_simpleJumpHash);
-
+            CurrentAnimator.SetTrigger(SimpleJumpHash);
 
             // Synchronises triggers
             _photonView.RPC(nameof(RPC_SimpleJumpAnimation), RpcTarget.Others);
@@ -143,7 +145,7 @@ namespace MainGame.PlayerScripts
         [PunRPC]
         private void RPC_SimpleJumpAnimation()
         {
-            CurrentAnimator.SetTrigger(_simpleJumpHash);
+            CurrentAnimator.SetTrigger(SimpleJumpHash);
         }
 
         public void EnableWerewolfAnimations(bool toWerewolf)
@@ -173,6 +175,11 @@ namespace MainGame.PlayerScripts
         private void RPC_WerewolfAttackAnimation()
         {
             CurrentAnimator.SetTrigger(_attackHash);
+        }
+
+        public void SetAnimationJumpState(int state)
+        {
+            CurrentAnimator.SetInteger(_jumpStateHash, state);
         }
     }
 }

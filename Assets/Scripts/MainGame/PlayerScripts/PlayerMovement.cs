@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
@@ -8,59 +7,6 @@ namespace MainGame.PlayerScripts
 {
     public partial class PlayerMovement : MonoBehaviour
     {
-        public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)
-        {
-            startTime = Mathf.Clamp01(startTime);
-            endTime = Mathf.Clamp(endTime, startTime, 1);
-            targetMultiplier = targetMultiplier < 0 ? 0 : targetMultiplier;
-
-            StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
-        }
-
-        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
-        {
-            float timer = 0;
-            float refMult = baseSpeedMult;
-
-            // First value
-            while (timer <= duration * startTime)
-            {
-                float divider = duration * startTime;
-                float progress = divider == 0 ? 1 : timer / divider;
-
-                timer += Time.deltaTime;
-                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
-
-                // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
-                yield return null;
-            }
-
-            // Waits for endTime
-            while (timer < duration * endTime)
-            {
-                timer += Time.deltaTime;
-
-                yield return null;
-            }
-
-            // Second value
-            float finalMult = baseSpeedMult;
-            while (timer < duration)
-            {
-                float progress = (timer - duration * endTime) / (duration * (1 - endTime));
-
-                timer += Time.deltaTime;
-                refMult = Mathf.Lerp(refMult, finalMult, progress);
-
-                // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
-                yield return null;
-            }
-
-            currentMultCoroutine = baseSpeedMult;
-        }
-
         #region Attributes
 
         // External GameObjects and components
@@ -80,8 +26,6 @@ namespace MainGame.PlayerScripts
         [Space] [Header("Player speed settings")] [SerializeField]
         private float currentSpeed;
 
-        public Vector3 FinalCurrentMotion;
-
         private const float SprintSpeed = 5f;
         private const float SprintBackSpeed = 3f;
         private const float CrouchSpeed = 1f;
@@ -89,13 +33,14 @@ namespace MainGame.PlayerScripts
         private const float SmoothMoveValue = 10f;
 
         // Multipliers
-        public bool isBushMult;
+        public bool isBushSlowingPlayer;
         public bool isWerewolfTransformedMult;
-
-        private const float BushMult = 0.4f;
-        public const float AiStunMult = 0.5f;
         private float currentMultCoroutine = 1;
+
+        private const float BushSlowSpeed = 2;
+        
         private const float WerewolfMult = 1.15f;
+        public const float AiStunMult = .5f;
         private const float baseSpeedMult = 1;
 
         [HideInInspector] public int nbBushes;
@@ -162,6 +107,7 @@ namespace MainGame.PlayerScripts
             float hitboxHeight = _characterController.height;
             _standingHitboxHeight = hitboxHeight;
             _crouchedHitboxHeight = hitboxHeight * 0.7f;
+            _characterController.skinWidth = 0;
 
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
@@ -242,8 +188,6 @@ namespace MainGame.PlayerScripts
             // Gravity
             currentMotion += upwardVelocity;
 
-            FinalCurrentMotion = currentMotion;
-
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
 
@@ -288,9 +232,9 @@ namespace MainGame.PlayerScripts
 
                     upwardVelocity.y = downwardForce;
                 }
-                else if (grounded)
+                else if (isCCGrounded)
                 {
-                    upwardVelocity.y = -0.01f;
+                    upwardVelocity.y = -0.2f;
                 }
             }
         }
@@ -319,21 +263,20 @@ namespace MainGame.PlayerScripts
                 MovementTypes.Crouch => CrouchSpeed,
                 MovementTypes.Walk => WalkSpeed,
                 MovementTypes.Sprint => SprintSpeed,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new System.ArgumentOutOfRangeException()
             };
 
-            currentSpeed *= GetMultiplier();
+            AdjustSpeedWithContext();
         }
 
-        private float GetMultiplier()
+        private void AdjustSpeedWithContext()
         {
-            float mult = baseSpeedMult;
+            // Multipliers
+            if (isWerewolfTransformedMult) currentSpeed *= WerewolfMult;
+            currentSpeed *= currentMultCoroutine;
 
-            if (isBushMult) mult *= BushMult;
-            if (isWerewolfTransformedMult) mult *= WerewolfMult;
-            mult *= currentMultCoroutine;
-
-            return mult;
+            // Clamp speeds
+            if (isBushSlowingPlayer) currentSpeed = Mathf.Clamp(currentSpeed, 0, BushSlowSpeed);
         }
 
         public void UpdateHitbox()
@@ -387,6 +330,59 @@ namespace MainGame.PlayerScripts
                 smoothTime);
         }
 
+        public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)
+        {
+            startTime = Mathf.Clamp01(startTime);
+            endTime = Mathf.Clamp(endTime, startTime, 1);
+            targetMultiplier = targetMultiplier < 0 ? 0 : targetMultiplier;
+
+            StartCoroutine(ModifySpeed(duration, targetMultiplier, startTime, endTime));
+        }
+
+        private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
+        {
+            float timer = 0;
+            float refMult = baseSpeedMult;
+
+            // First value
+            while (timer <= duration * startTime)
+            {
+                float divider = duration * startTime;
+                float progress = divider == 0 ? 1 : timer / divider;
+
+                timer += Time.deltaTime;
+                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
+
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
+                yield return null;
+            }
+
+            // Waits for endTime
+            while (timer < duration * endTime)
+            {
+                timer += Time.deltaTime;
+
+                yield return null;
+            }
+
+            // Second value
+            float finalMult = baseSpeedMult;
+            while (timer < duration)
+            {
+                float progress = (timer - duration * endTime) / (duration * (1 - endTime));
+
+                timer += Time.deltaTime;
+                refMult = Mathf.Lerp(refMult, finalMult, progress);
+
+                // Apply it
+                currentMultCoroutine = baseSpeedMult * refMult;
+                yield return null;
+            }
+
+            currentMultCoroutine = baseSpeedMult;
+        }
+        
         #endregion
 
         #region Setters

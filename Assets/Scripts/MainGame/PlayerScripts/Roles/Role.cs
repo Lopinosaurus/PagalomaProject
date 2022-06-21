@@ -84,8 +84,10 @@ namespace MainGame.PlayerScripts.Roles
 
             _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
 
-            powerCooldown = gameObject.AddComponent<Countdown.Countdown>();
-            powerTimer = gameObject.AddComponent<Countdown.Countdown>();
+            // Countdown instances
+            Countdown.Countdown[] countdownInstances = GetComponents<Countdown.Countdown>();
+            powerCooldown = countdownInstances[0];
+            powerTimer = countdownInstances[1];
         }
         
         public void Activate()

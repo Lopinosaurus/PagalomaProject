@@ -1700,7 +1700,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 191
-  m_RenderingPath: 1
+  m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -2844,7 +2844,7 @@ SkinnedMeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
+  m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
@@ -4985,6 +4985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4718853506422041255}
+  - component: {fileID: 7850881568708102490}
   m_Layer: 7
   m_Name: mixamorig1:Hips
   m_TagString: Player
@@ -5009,6 +5010,103 @@ Transform:
   m_Father: {fileID: 7506619996978510457}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7850881568708102490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7353230354232530589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boneShape: 1
+  drawBones: 1
+  drawTripods: 0
+  boneSize: 1
+  tripodSize: 1
+  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
+  m_Transforms:
+  - {fileID: 4718853506422041255}
+  - {fileID: 6152782281066179515}
+  - {fileID: 1044576770973941454}
+  - {fileID: 2433648784738989204}
+  - {fileID: 7804201674080307227}
+  - {fileID: 7614336363798123434}
+  - {fileID: 1905993832072931373}
+  - {fileID: 3062968740202530602}
+  - {fileID: 1694048565924798844}
+  - {fileID: 8759786794678674210}
+  - {fileID: 1956130671764013518}
+  - {fileID: 2165491462629887741}
+  - {fileID: 9017248617070858088}
+  - {fileID: 6291853355485621639}
+  - {fileID: 4296945107977633769}
+  - {fileID: 9092294684208352588}
+  - {fileID: 8702437550256649633}
+  - {fileID: 3452428442974402881}
+  - {fileID: 2781033965143046539}
+  - {fileID: 3814307213980973764}
+  - {fileID: 833861610256445083}
+  - {fileID: 4661566239374312496}
+  - {fileID: 3745078055213092717}
+  - {fileID: 184883144643484709}
+  - {fileID: 4385045270794138490}
+  - {fileID: 4626677411155563208}
+  - {fileID: 2389788017194756981}
+  - {fileID: 7436862215345700376}
+  - {fileID: 2183973217171239294}
+  - {fileID: 4210211478442661306}
+  - {fileID: 6736345247787136351}
+  - {fileID: 2726452372348436692}
+  - {fileID: 2307170926441618511}
+  - {fileID: 8154480379466217981}
+  - {fileID: 3233481292348620909}
+  - {fileID: 2484918938296030289}
+  - {fileID: 281263215015581526}
+  - {fileID: 8358294702966866033}
+  - {fileID: 608354528593582927}
+  - {fileID: 7378167815633265513}
+  - {fileID: 4667612755002692424}
+  - {fileID: 5343424615275228351}
+  - {fileID: 6239816022761251556}
+  - {fileID: 1685973634584819356}
+  - {fileID: 3231530150728425053}
+  - {fileID: 3191223335936553045}
+  - {fileID: 3414118930303570805}
+  - {fileID: 1555424697256982201}
+  - {fileID: 4234132280399571967}
+  - {fileID: 3671904040819726391}
+  - {fileID: 8856133949312324012}
+  - {fileID: 3398415014948223115}
+  - {fileID: 2601338993843025888}
+  - {fileID: 3273236525041098940}
+  - {fileID: 7696878624884686578}
+  - {fileID: 3767948255347471212}
+  - {fileID: 6438653720900905894}
+  - {fileID: 6321974060052774435}
+  - {fileID: 2664089058994229432}
+  - {fileID: 9167296993169889668}
+  - {fileID: 171704545361609838}
+  - {fileID: 1416305018361296327}
+  - {fileID: 6007815983492342376}
+  - {fileID: 2793249779441172914}
+  - {fileID: 2036966654033418826}
+  - {fileID: 1006421997500347527}
+  - {fileID: 4514807073484884931}
+  - {fileID: 7268323771067312254}
+  - {fileID: 7336603394020094070}
+  - {fileID: 5951731048321825919}
+  - {fileID: 4364132244534710670}
+  - {fileID: 713315673904339392}
+  - {fileID: 4911415885863754917}
+  - {fileID: 1246858209939417047}
+  - {fileID: 3388834150522899932}
+  - {fileID: 4912344549485534627}
+  - {fileID: 7574337697789884612}
+  - {fileID: 1692570472717678163}
 --- !u!1 &7362886468928250554
 GameObject:
   m_ObjectHideFlags: 0
@@ -5226,6 +5324,9 @@ GameObject:
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 8582652644670617519}
   - component: {fileID: 3233493481327671935}
+  - component: {fileID: 6765919464641235586}
+  - component: {fileID: 756289277428963088}
+  - component: {fileID: 639062901070065131}
   - component: {fileID: 2296100508060758552}
   m_Layer: 7
   m_Name: Player
@@ -5294,8 +5395,7 @@ MonoBehaviour:
   cameraHolder: {fileID: 1141215766398316333}
   _characterController: {fileID: 0}
   currentSpeed: 0
-  FinalCurrentMotion: {x: 0, y: 0, z: 0}
-  isBushMult: 0
+  isBushSlowingPlayer: 0
   isWerewolfTransformedMult: 0
   nbBushes: 0
   currentMovementType: 0
@@ -5606,7 +5706,7 @@ CharacterController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
-  m_Material: {fileID: 13400000, guid: 268e1a083a405e640a0a5cbed70702e5, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -5869,6 +5969,46 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &6765919464641235586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RigLayers:
+  - m_Rig: {fileID: 0}
+    m_Active: 1
+  m_Effectors: []
+--- !u!114 &756289277428963088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366e935fa36e45aeabc4b1f04c0cc24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &639062901070065131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366e935fa36e45aeabc4b1f04c0cc24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2296100508060758552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5890,9 +6030,6 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: VelocityZ
-  - Type: 4
-    SynchronizeType: 2
-    Name: isCrouching
   - Type: 9
     SynchronizeType: 0
     Name: Death
@@ -5908,6 +6045,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: MidVault
+  - Type: 3
+    SynchronizeType: 0
+    Name: JumpState
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

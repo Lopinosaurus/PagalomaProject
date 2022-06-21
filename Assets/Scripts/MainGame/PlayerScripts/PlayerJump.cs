@@ -18,7 +18,7 @@ namespace MainGame.PlayerScripts
 
         [SerializeField] private Rigidbody groundCheck;
 
-        private JumpState currentJumpState = JumpState.Still;
+        private JumpState currentJumpState { get; set; } = JumpState.Still;
 
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
         [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
@@ -34,17 +34,17 @@ namespace MainGame.PlayerScripts
 
         // Jump booleans
         private bool WantsJump;
+        private const float jumpStrength = 4;
 
         private bool shouldJumpFreezeControls =>
             JumpState.MidVault == currentJumpState ||
             JumpState.HighVault == currentJumpState;
 
         private bool shouldJumpFreezeGravity =>
-            JumpState.SimpleJump == currentJumpState ||
             JumpState.MidVault == currentJumpState ||
             JumpState.HighVault == currentJumpState;
 
-        public void SetJumpState(JumpState desired)
+        public bool SetJumpState(JumpState desired)
         {
             if (_photonView.IsMine)
             {
@@ -54,8 +54,14 @@ namespace MainGame.PlayerScripts
 
                     DisableCharacterController(desired);
                     _playerLook.LockViewJump(shouldJumpFreezeControls);
+                    
+                    _playerAnimation.SetAnimationJumpState((int)currentJumpState);
+
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void DisableCharacterController(JumpState desired)
@@ -76,12 +82,14 @@ namespace MainGame.PlayerScripts
 
         private void UpdateJump()
         {
+            bool stateChanged = false;
+            
             // Detects if the player can jump if wished
             if (JumpState.Still == currentJumpState)
                 if (WantsJump)
                 {
                     JumpState availableJump = GetAvailableJump();
-                    SetJumpState(availableJump);
+                    stateChanged = SetJumpState(availableJump);
                     
                     switch (availableJump)
                     {
@@ -101,16 +109,22 @@ namespace MainGame.PlayerScripts
                     }
                 }
 
-            ManageJump();
+            ManageJump(stateChanged);
         }
 
-        private void ManageJump()
+        private void ManageJump(bool stateChanged)
         {
             switch (currentJumpState)
             {
+                case JumpState.SimpleJump when stateChanged:
+                {
+                    upwardVelocity.y = jumpStrength;
+                    break;
+                }
+                
                 case JumpState.SimpleJump:
                 {
-                    if (CollisionFlags.Above == _characterController.collisionFlags)
+                    if (CollisionFlags.CollidedAbove == _characterController.collisionFlags)
                         SetJumpState(JumpState.Still);
                     break;
                 }

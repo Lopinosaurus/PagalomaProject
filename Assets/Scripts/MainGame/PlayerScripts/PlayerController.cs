@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
         try
         {
             // Alive check
-            if (_role != null && !_role.isAlive)
+            if (_role && !_role.isAlive)
                 // Debug.Log("SPAWNCHECK (2/5): is dead");
                 return false;
 
