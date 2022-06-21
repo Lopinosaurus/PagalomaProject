@@ -15,30 +15,30 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0, g: 0.028358469, b: 0.14150941, a: 1}
+  m_FogColor: {r: 0.43712175, g: 0.43834177, b: 0.4433962, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0
+  m_FogDensity: 0.015
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
-  m_HaloStrength: 0.5
-  m_FlareStrength: 1
+  m_HaloStrength: 0.477
+  m_FlareStrength: 0.774
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 5
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 94995236}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.08638422, g: 0.10794623, b: 0.14891315, a: 0.5}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: aba89e79d871fb9489f4b8653913dfb4, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 29da848889af94442874b9c0571fb2d7, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -854,7 +854,7 @@ Light:
     m_CustomResolution: -1
     m_Strength: 0.8
     m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_NormalBias: 0
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1
@@ -6202,7 +6202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1736810666775123093, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     - target: {fileID: 5136677994835260017, guid: c00d5a6a2e71e3f4ab0a2fb43e0988f4, type: 3}
       propertyPath: treesFolder
@@ -20079,7 +20079,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.5
-      value: 1
+      value: 0.79999924
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -20269,38 +20269,38 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.020000458
-      inSlope: -0.13297082
-      outSlope: -0.13297082
-      tangentMode: 0
+      inSlope: -0.016668195
+      outSlope: -0.016668195
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.26627377
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.29999998
-      value: -0.00033327937
-      inSlope: 0.007728927
-      outSlope: 0.007728927
-      tangentMode: 0
+      value: 0.015
+      inSlope: -0.008047995
+      outSlope: -0.008047995
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.06118776
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.7
-      value: 0.00013897382
-      inSlope: -0.0032322507
-      outSlope: -0.0032322507
-      tangentMode: 0
+      value: 0.0152288815
+      inSlope: 0.008219656
+      outSlope: 0.008219656
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.10470679
-      outWeight: 0.14331996
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0.019989014
-      inSlope: 0.16577081
-      outSlope: 0.16577081
-      tangentMode: 0
+      inSlope: 0.015867107
+      outSlope: 0.015867107
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.40187296
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

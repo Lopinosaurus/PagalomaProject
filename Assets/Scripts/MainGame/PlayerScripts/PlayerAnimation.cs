@@ -1,5 +1,4 @@
 using Photon.Pun;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts
@@ -46,7 +45,6 @@ namespace MainGame.PlayerScripts
             Mathf.Cos(Mathf.Atan2(velocityZ, velocityX)) * velocityX).magnitude;
         
         // Animations
-        [Space, SerializeField] private AnimatorState simpleJumpAnimation;
         
         private void Awake()
         {
