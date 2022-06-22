@@ -33,7 +33,7 @@ namespace MainGame.PlayerScripts.Roles
             if (PhotonView.IsMine)
                 if (ActionText)
                 {
-                    if (isTransformed && targets.Count > 0 && powerTimer.IsNotZero && powerCooldown.IsZero)
+                    if (isTransformed && targets.Count > 0 && PowerTimer.IsNotZero && PowerCooldown.IsZero)
                         ActionText.text = "Press E to Kill";
                     else if (VoteMenu.Instance.IsNight && isTransformed == false)
                         ActionText.text = "Press E to Transform";
@@ -104,7 +104,7 @@ namespace MainGame.PlayerScripts.Roles
             particles.transform.parent = transform;
 
             // Deactivate controls
-            if (PhotonView.IsMine) playerInput.SwitchCurrentActionMap("UI");
+            if (PhotonView.IsMine) PlayerInput.SwitchCurrentActionMap("UI");
 
             // Transformation
             isTransformed = goingToWerewolf;
@@ -113,11 +113,11 @@ namespace MainGame.PlayerScripts.Roles
             // Starts countdown
             if (goingToWerewolf)
             {
-                powerTimer.Set(werewolfPowerDuration);
-                powerTimer.Pause();
-                powerTimer.Resume(TotalTransformationTransitionDuration);
+                PowerTimer.Set(werewolfPowerDuration);
+                PowerTimer.Pause();
+                PowerTimer.Resume(TotalTransformationTransitionDuration);
             }
-            else powerTimer.Reset();
+            else PowerTimer.Reset();
 
             if (goingToWerewolf && PhotonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 
@@ -138,7 +138,7 @@ namespace MainGame.PlayerScripts.Roles
             yield return new WaitForSeconds(LateTransformationTransitionDuration);
 
             // Reactivate controls
-            if (PhotonView.IsMine) playerInput.SwitchCurrentActionMap("Player");
+            if (PhotonView.IsMine) PlayerInput.SwitchCurrentActionMap("Player");
         }
 
         private IEnumerator DeTransformationCoroutine()
@@ -146,7 +146,7 @@ namespace MainGame.PlayerScripts.Roles
             var waitForFixedUpdate = new WaitForFixedUpdate();
 
             // Will bring the werewolf back to human when the power timer runs out
-            while (powerTimer.IsNotZero) yield return waitForFixedUpdate;
+            while (PowerTimer.IsNotZero) yield return waitForFixedUpdate;
 
             UpdateTransformation(false);
         }
@@ -185,10 +185,10 @@ namespace MainGame.PlayerScripts.Roles
             PlayerAnimation.EnableWerewolfAttackAnimation();
 
             // Waits a few seconds before re-enabling attack
-            powerCooldown.Set(afterAttackCooldown);
+            PowerCooldown.Set(afterAttackCooldown);
             // it also pauses the timer for the power
-            powerTimer.Pause();
-            powerTimer.Resume(afterAttackCooldown);
+            PowerTimer.Pause();
+            PowerTimer.Resume(afterAttackCooldown);
             // it also slows the Werewolf
             PlayerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
 

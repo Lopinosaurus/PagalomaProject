@@ -13,7 +13,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (PhotonView.IsMine)
             {
-                if (powerTimer.IsNotZero && isAlive) ActionText.text = "Press E to Activate Invisibility";
+                if (PowerTimer.IsNotZero && isAlive) ActionText.text = "Press E to Activate Invisibility";
                 else ActionText.text = "";
             }
         }
@@ -29,9 +29,9 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (!VoteMenu.Instance.IsNight) return;
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
-            if (powerCooldown.IsZero && powerTimer.IsNotZero)
+            if (PowerCooldown.IsZero && PowerTimer.IsNotZero)
             {
-                powerTimer.Reset();
+                PowerTimer.Reset();
                 PhotonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();

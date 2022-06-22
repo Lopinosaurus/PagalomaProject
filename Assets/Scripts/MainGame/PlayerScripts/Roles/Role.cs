@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.Remoting.Contexts;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -26,10 +25,10 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasVoted; // Has submitted vote this day
 
         // Power cooldown (timer you have to wait before you can activate your power)
-        public Countdown.Countdown powerCooldown;
+        protected Countdown.Countdown PowerCooldown;
         // Power timer (timer during which you can make use of your power)
-        public Countdown.Countdown powerTimer;
-        protected bool ArePowerAndCooldownValid => powerCooldown.IsZero && powerTimer.IsNotZero;
+        protected Countdown.Countdown PowerTimer;
+        protected bool ArePowerAndCooldownValid => PowerCooldown.IsZero && PowerTimer.IsNotZero;
 
         
         protected TMP_Text ActionText;
@@ -40,8 +39,8 @@ namespace MainGame.PlayerScripts.Roles
         private PostProcessVolume _postProcessVolume;
 
         // Controls
-        [SerializeField] private GameObject cameraHolder;
-        public PlayerInput playerInput;
+        private GameObject _cameraHolder;
+        protected PlayerInput PlayerInput;
         protected PlayerMovement PlayerMovement;
         private PlayerController _playerController;
         protected PlayerAnimation PlayerAnimation;
@@ -63,12 +62,14 @@ namespace MainGame.PlayerScripts.Roles
             isActive = false;
             hasVoted = false;
             
-            playerInput = GetComponent<PlayerInput>();
+            PlayerInput = GetComponent<PlayerInput>();
             _playerController = GetComponent<PlayerController>();
             PlayerAnimation = GetComponent<PlayerAnimation>();
             PlayerMovement = GetComponent<PlayerMovement>();
+            
             _characterController = GetComponent<CharacterController>();
-            cameraHolder.GetComponentInChildren<Camera>();
+            _cameraHolder = _playerController.cameraHolder;
+            
             PhotonView = GetComponent<PhotonView>();
             
             if (RoomManager.Instance != null)
@@ -87,8 +88,8 @@ namespace MainGame.PlayerScripts.Roles
 
             // Countdown instances
             Countdown.Countdown[] countdownInstances = GetComponents<Countdown.Countdown>();
-            powerCooldown = countdownInstances[0];
-            powerTimer = countdownInstances[1];
+            PowerCooldown = countdownInstances[0];
+            PowerTimer = countdownInstances[1];
         }
         
         public void Activate()
@@ -97,9 +98,9 @@ namespace MainGame.PlayerScripts.Roles
             
             if (PhotonView.IsMine)
             {
-                playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
-                playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
-                playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
+                PlayerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+                PlayerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
+                PlayerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
             }
         }
 
@@ -144,15 +145,15 @@ namespace MainGame.PlayerScripts.Roles
         public virtual void UpdateActionText() => Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
 
         [ContextMenuItem("commands", nameof(Die))]
-        private ContextMenu da;
+        private ContextMenu _da;
         public void Die()
         {
             // Show death label & disable inputs
             if (PhotonView.IsMine)
             {
                 deathText.enabled = true;
-                playerInput.actions["Die"].Disable();
-                playerInput.actions["Kill"].Disable();
+                PlayerInput.actions["Die"].Disable();
+                PlayerInput.actions["Kill"].Disable();
             }
 
             PlayerAnimation.EnableDeathAppearance();
@@ -169,12 +170,12 @@ namespace MainGame.PlayerScripts.Roles
             VoteMenu.Instance.UpdateVoteItems();
 
             // Initial camera position
-            if (cameraHolder)
+            if (_cameraHolder)
             {
                 // Detach cameraHolder from body
-                cameraHolder.transform.parent = null;
+                _cameraHolder.transform.parent = null;
                 
-                Vector3 startingPos = cameraHolder.transform.position;
+                Vector3 startingPos = _cameraHolder.transform.position;
                 Vector3 endingPos = new Vector3
                 {
                     x = startingPos.x,
@@ -187,7 +188,7 @@ namespace MainGame.PlayerScripts.Roles
                     endingPos.y = hitInfo.point.y;
 
                 // Final camera rotation
-                Quaternion endingRot = cameraHolder.transform.localRotation;
+                Quaternion endingRot = _cameraHolder.transform.localRotation;
                 endingRot.eulerAngles = new Vector3
                 {
                     x = 90,
@@ -201,16 +202,16 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
         {
             float timer = 10;
-            while (cameraHolder.transform.position != endingPos && timer > 0)
+            while (_cameraHolder.transform.position != endingPos && timer > 0)
             {
-                Vector3 position = cameraHolder.transform.position;
-                Quaternion rotation = cameraHolder.transform.localRotation;
+                Vector3 position = _cameraHolder.transform.position;
+                Quaternion rotation = _cameraHolder.transform.localRotation;
 
                 position = Vector3.Slerp(position, endingPos, Time.deltaTime);
                 rotation = Quaternion.Slerp(rotation, endingRot, Time.deltaTime);
 
-                cameraHolder.transform.position = position;
-                cameraHolder.transform.localRotation = rotation;
+                _cameraHolder.transform.position = position;
+                _cameraHolder.transform.localRotation = rotation;
 
                 timer -= Time.deltaTime;
 
@@ -226,16 +227,16 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (isNight)
             {
-                powerTimer.SetInfinite();
-                powerCooldown.Reset();
+                PowerTimer.SetInfinite();
+                PowerCooldown.Reset();
             }
             else
             {
-                powerTimer.Reset();
+                PowerTimer.Reset();
             }
 
-            powerCooldown.Resume();
-            powerTimer.Resume();
+            PowerCooldown.Resume();
+            PowerTimer.Resume();
         }
     }
 }

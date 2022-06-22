@@ -23,13 +23,13 @@ public class PlayerController : MonoBehaviour
     // Sub scripts
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
-    [SerializeField] private PlayerAnimation playerAnimation;
+    private PlayerAnimation _playerAnimation;
 
     // Miscellaneous
     [Space] [Header("Scripts")] [SerializeField]
     private PlayerInput playerInput;
 
-    [SerializeField] internal GameObject cameraHolder;
+    [SerializeField] public GameObject cameraHolder;
 
     // First person management
     [Space] [Header("Camera Components")] [SerializeField]
@@ -84,9 +84,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Movement components
-        GetComponentInChildren<CharacterController>();
-
         // Network component
         _photonView = GetComponent<PhotonView>();
 
@@ -98,6 +95,7 @@ public class PlayerController : MonoBehaviour
 
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
+        _playerAnimation = GetComponent<PlayerAnimation>();
         _playerLook = GetComponent<PlayerLook>();
     }
 
@@ -286,7 +284,7 @@ public class PlayerController : MonoBehaviour
             _playerMovement.Move(Time.deltaTime);
 
             // Updates the appearance based on the MovementType
-            playerAnimation.UpdateAnimationsBasic();
+            _playerAnimation.UpdateAnimationsBasic();
 
             _playerMovement.UpdateHitbox();
 

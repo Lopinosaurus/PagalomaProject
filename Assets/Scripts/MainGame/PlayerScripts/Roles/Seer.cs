@@ -40,7 +40,7 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (PhotonView.IsMine)
             {
-                if (targets.Count > 0 && powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
+                if (targets.Count > 0 && PowerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
                 else ActionText.text = "";
             }
         }
@@ -75,7 +75,7 @@ namespace MainGame.PlayerScripts.Roles
             
             RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
             
-            powerTimer.SetInfinite();
+            PowerTimer.SetInfinite();
         }
     }
 }

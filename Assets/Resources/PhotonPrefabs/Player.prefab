@@ -378,9 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0f8fee50978ae42af3a08e7968edc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _werewolf: {fileID: 6221952432295534360}
-  _seer: {fileID: 1848938828090813196}
-  _priest: {fileID: 1185351168579791139}
+  werewolf: {fileID: 0}
+  seer: {fileID: 0}
+  priest: {fileID: 0}
 --- !u!1 &726912388708528436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3254,7 +3254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cd599bd4c2c034590263560dad19fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMovement: {fileID: 660215560512379707}
+  playerMovement: {fileID: 0}
   characterMask:
     serializedVersion: 2
     m_Bits: 128
@@ -5393,7 +5393,7 @@ MonoBehaviour:
     m_Bits: 128
   jumpStrength: 6
   cameraHolder: {fileID: 1141215766398316333}
-  _characterController: {fileID: 0}
+  characterController: {fileID: 0}
   currentSpeed: 0
   isBushSlowingPlayer: 0
   isWerewolfTransformedMult: 0
@@ -5417,8 +5417,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
-  _rotationY: 0
-  BodyToRotate: {fileID: 7748072702339364861}
+  rotationY: 0
+  bodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
   addMovementFOV: 2
 --- !u!114 &6099398095721299116
@@ -5433,18 +5433,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAnimation: {fileID: 7430318575100400553}
   playerInput: {fileID: 5554154994360629918}
   cameraHolder: {fileID: 1141215766398316333}
-  _camPlayer: {fileID: 4956978653042181620}
-  VillagerRender: {fileID: 4950680158300606666}
-  WerewolfRender: {fileID: 8499297442018757553}
-  _role: {fileID: 0}
-  AiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+  camPlayer: {fileID: 4956978653042181620}
+  villagerRender: {fileID: 4950680158300606666}
+  werewolfRender: {fileID: 8499297442018757553}
+  role: {fileID: 0}
+  aiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   playerAudioSource: {fileID: 9182737059992604612}
-  _lampLight: {fileID: 6658514047362406684}
+  lampLight: {fileID: 6658514047362406684}
   firstPerson: 1
 --- !u!114 &7578259937013170486
 MonoBehaviour:
@@ -5732,7 +5731,7 @@ MonoBehaviour:
   nearDoor: 0
   nearSign: 0
   door: {fileID: 0}
-  PV: {fileID: 7578259937013170486}
+  pv: {fileID: 7578259937013170486}
 --- !u!114 &6822367263179889421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5753,13 +5752,9 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
 --- !u!114 &1848938828090813196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5780,14 +5775,10 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
-  _targets: []
+  targets: []
 --- !u!114 &6221952432295534360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5808,17 +5799,13 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
-  VillagerRenderer: {fileID: 4950680158300606666}
-  WereWolfRenderer: {fileID: 8499297442018757553}
-  Particles: {fileID: 4280448778261451547, guid: 05d4513cea190b84f8a46b69e521b16c, type: 3}
-  _targets: []
+  villagerRenderer: {fileID: 0}
+  wereWolfRenderer: {fileID: 0}
+  particles: {fileID: 0}
+  targets: []
   isTransformed: 0
   werewolfPowerDuration: 60
   afterAttackCooldown: 5
@@ -5842,13 +5829,9 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
 --- !u!114 &9137616713227690798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5869,14 +5852,10 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
-  PlayerRender: {fileID: 6153505616566498493}
+  playerRender: {fileID: 0}
 --- !u!114 &1185351168579791139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5897,14 +5876,10 @@ MonoBehaviour:
   isAlive: 1
   hasShield: 0
   hasVoted: 0
-  powerCooldown: {fileID: 0}
-  powerTimer: {fileID: 0}
   deathText: {fileID: 0}
   vote: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
-  _cameraHolder: {fileID: 1141215766398316333}
-  _playerInput: {fileID: 5554154994360629918}
-  _targets: []
+  targets: []
   lastPlayerShielded: {fileID: 0}
 --- !u!114 &590110878684623782
 MonoBehaviour:
@@ -5918,7 +5893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f9a2b9b85596c44b6cc355d95ce0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackCollider: {fileID: 660008149618959238}
+  attackCollider: {fileID: 0}
 --- !u!114 &7430318575100400553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5931,9 +5906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd4c48089c38f54aa8aa6bae7b8b965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
-  _werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
-  CurrentAnimator: {fileID: 8582652644670617519}
+  villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
+  werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
+  currentAnimator: {fileID: 8582652644670617519}
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 3

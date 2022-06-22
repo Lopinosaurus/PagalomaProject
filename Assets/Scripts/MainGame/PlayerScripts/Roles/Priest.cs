@@ -71,7 +71,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Makes it so that the power is only usable once (per night)
-            powerTimer.SetInfinite();
+            PowerTimer.SetInfinite();
 
             target.hasShield = true;
             lastPlayerShielded = target;
