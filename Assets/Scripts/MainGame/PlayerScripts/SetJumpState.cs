@@ -6,20 +6,20 @@ namespace MainGame.PlayerScripts
     public class SetJumpState : StateMachineBehaviour
     {
         [SerializeField] private PlayerMovement.JumpState desiredSetState = PlayerMovement.JumpState.Still;
-        public PlayerMovement PlayerMovement;
+        public PlayerMovement playerMovement;
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (null != PlayerMovement)
+            if (null != playerMovement)
             {
-                PlayerMovement.SetJumpState(desiredSetState);
+                playerMovement.SetJumpState(desiredSetState);
             }
             else
             {
                 try
                 {
-                    PlayerMovement = RoomManager.Instance.localPlayer.gameObject.GetComponent<PlayerMovement>();
+                    playerMovement = RoomManager.Instance.localPlayer.gameObject.GetComponent<PlayerMovement>();
                 }
                 catch
                 {

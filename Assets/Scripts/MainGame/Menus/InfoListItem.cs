@@ -7,6 +7,6 @@ namespace MainGame.Menus
     {
         [SerializeField] private TMP_Text text;
 
-        public void SetUp(string _text) => text.text = _text;
+        public void SetUp(string text) => this.text.text = text;
     }
 }

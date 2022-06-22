@@ -7,7 +7,7 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Priest : Villager
     {
-        public List<Role> _targets = new List<Role>();
+        public List<Role> targets = new List<Role>();
         public Role lastPlayerShielded;
 
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
@@ -18,12 +18,12 @@ namespace MainGame.PlayerScripts.Roles
                 {
                     if (add)
                     {
-                        _targets.Add(tempTarget);
+                        targets.Add(tempTarget);
                         Debug.Log("[+] Priest target added: " + tempTarget.name);
                     }
-                    else if (_targets.Contains(tempTarget))
+                    else if (targets.Contains(tempTarget))
                     {
-                        _targets.Remove(tempTarget);
+                        targets.Remove(tempTarget);
                         Debug.Log("[-] Priest target removed: " + tempTarget.name);
                     }
                 }
@@ -34,10 +34,10 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UpdateActionText()
         {
-            if (!_photonView.IsMine) return;
+            if (!PhotonView.IsMine) return;
             
-            if (_targets.Count > 0 && arePowerAndCooldownValid) actionText.text = "Press E to Give Shield";
-            else actionText.text = "";
+            if (targets.Count > 0 && ArePowerAndCooldownValid) ActionText.text = "Press E to Give Shield";
+            else ActionText.text = "";
         }
 
         public override void UseAbility()
@@ -49,13 +49,13 @@ namespace MainGame.PlayerScripts.Roles
 
         private void GiveShield()
         {
-            if (_targets.Count <= 0)
+            if (targets.Count <= 0)
             {
                 Debug.Log("[-] Can't Give Shield: No target");
                 return;
             }
 
-            Role target = _targets[_targets.Count - 1];
+            Role target = targets[targets.Count - 1];
             
             if (target.isAlive == false)
             {
@@ -78,22 +78,22 @@ namespace MainGame.PlayerScripts.Roles
 
             UpdateActionText();
             RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username} !");
-            _photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
+            PhotonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
         }
 
         [PunRPC]
-        public void RPC_GiveShield(string _userId)
+        public void RPC_GiveShield(string userId)
         {
-            Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == _userId);
+            Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == userId);
 
             if (target != null)
             {
                 if (target.isAlive) target.hasShield = true;
-                else Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, Target is dead");
+                else Debug.Log($"[-] RPC_GiveShield({userId}): Can't give a shield, Target is dead");
             }
             else
             {
-                Debug.Log($"[-] RPC_GiveShield({_userId}): Can't give a shield, target = null");
+                Debug.Log($"[-] RPC_GiveShield({userId}): Can't give a shield, target = null");
             }
         }
     }

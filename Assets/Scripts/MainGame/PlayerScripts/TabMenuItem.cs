@@ -10,10 +10,10 @@ public class TabMenuItem : MonoBehaviour
     private Role _player;
     private readonly Color _werefolfColor = new Color(0.72f, 0.01f, 0f);
     
-    public void SetUp(Role _player)
+    public void SetUp(Role player)
     {
-        playerName.text = _player.username;
-        if (RoomManager.Instance.localPlayer is Werewolf && _player is Werewolf) 
+        playerName.text = player.username;
+        if (RoomManager.Instance.localPlayer is Werewolf && player is Werewolf) 
             playerName.color = _werefolfColor;
     }
 

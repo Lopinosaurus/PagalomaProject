@@ -32,7 +32,7 @@ public class AiController : MonoBehaviour
     // Sound "State of Shock"
     [SerializeField] private AudioClip stateOfShock;
     [SerializeField] private AudioSource ambiantAudioSource;
-    private AudioSource movementAudioSource;
+    private AudioSource _movementAudioSource;
     
 
     private enum AiState
@@ -60,26 +60,26 @@ public class AiController : MonoBehaviour
     // Gameplay stats
     [Space] [Header("Gameplay statistics")] [SerializeField]
     private AiState currentState = AiState.Relocate;
-    private float timeBeingCaught;
-    private const float maxTimeBeingCaught = 2.5f;
+    private float _timeBeingCaught;
+    private const float MaxTimeBeingCaught = 2.5f;
 
-    private float remainingTime = 4;
-    private int remainingHealth = 1;
+    private float _remainingTime = 4;
+    private int _remainingHealth = 1;
 
     private bool _isAlive = true;
-    private const float shakeDuration = 30;
-    private const float slowSpeedDuration = 30;
-    private int moveCount;
+    private const float ShakeDuration = 30;
+    private const float SlowSpeedDuration = 30;
+    private int _moveCount;
     private const int MaxMoveCount = 15;
 
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
-    private float CycleTime => 4 - moveCount / MaxMoveCount;
+    private float CycleTime => 4 - _moveCount / MaxMoveCount;
 
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
-    private const float minDangerDistFromPlayer = 15;
-    private const float minCriticalDistFromPlayer = 7;
+    private const float MinDangerDistFromPlayer = 15;
+    private const float MinCriticalDistFromPlayer = 7;
 
     // Spawn settings
     [Space] [Header("Spawn distances")] private float _minSpawnRange = 50;
@@ -89,11 +89,11 @@ public class AiController : MonoBehaviour
     [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)]
     private float _normalSpeed = 200;
 
-    private const float _hidingSpeed = 50;
+    private const float HidingSpeed = 50;
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
     public Collider[] hitColliders;
-    private bool reachedLast;
+    private bool _reachedLast;
     private const float Acceleration = 500;
     private const float AccelerationFast = 500;
 
@@ -120,7 +120,7 @@ public class AiController : MonoBehaviour
         SetTime(3);
         
         // Sound
-        movementAudioSource = GetComponent<AudioSource>();
+        _movementAudioSource = GetComponent<AudioSource>();
 
         _characterMaskValue = GetLayerMaskValue(characterMask);
 
@@ -142,7 +142,7 @@ public class AiController : MonoBehaviour
     private void ApplyMalusPostProcessAndSound()
     {
         Destroy(ambiantAudioSource);
-        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessingAndSound(_postProcessVolume, shakeDuration, stateOfShock);
+        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessingAndSound(_postProcessVolume, ShakeDuration, stateOfShock);
     }
 
     private IEnumerator NullToObstacle()
@@ -182,7 +182,7 @@ public class AiController : MonoBehaviour
         // Destroys if it's day
         try
         {
-            if (RoomManager.Instance && !VoteMenu.Instance.isNight)
+            if (RoomManager.Instance && !VoteMenu.Instance.IsNight)
             {
                 Destroy(gameObject);
                 return;
@@ -200,20 +200,20 @@ public class AiController : MonoBehaviour
             case AiState.Hidden when _isAlive:
                 EnableMovementSpeed(Speed.Hiding);
 
-                remainingTime -= Time.fixedDeltaTime;
+                _remainingTime -= Time.fixedDeltaTime;
                 
                 // Decides when to attack
-                if (moveCount == MaxMoveCount - 1 && !reachedLast)
+                if (_moveCount == MaxMoveCount - 1 && !_reachedLast)
                 {
-                    remainingTime = Random.Range(5f, 10f);
-                    reachedLast = true;
+                    _remainingTime = Random.Range(5f, 10f);
+                    _reachedLast = true;
                 }
 
-                if (moveCount >= MaxMoveCount)
+                if (_moveCount >= MaxMoveCount)
                 {
-                    reachedLast = false;
-                    moveCount = 0;
-                    timeBeingCaught = 0;
+                    _reachedLast = false;
+                    _moveCount = 0;
+                    _timeBeingCaught = 0;
                     _agent.SetDestination(_targetPlayer.transform.position);
                     SetCurrentState(AiState.Attack);
                 }
@@ -221,12 +221,12 @@ public class AiController : MonoBehaviour
                 // Teleports if too close or too far
                 else
                 {
-                    bool tooClose = distFromTarget < minCriticalDistFromPlayer;
+                    bool tooClose = distFromTarget < MinCriticalDistFromPlayer;
                     bool tooFar = distFromTarget > _maxSpawnRange + 10;
-                    isDanger = distFromTarget < minDangerDistFromPlayer;
+                    isDanger = distFromTarget < MinDangerDistFromPlayer;
 
                     // When the time has run out normally, moves
-                    if (remainingTime < 0 || tooFar || tooClose)
+                    if (_remainingTime < 0 || tooFar || tooClose)
                     {
                         SetTime(CycleTime);
                         
@@ -235,9 +235,9 @@ public class AiController : MonoBehaviour
                         
                         if (previousCollider != currentHidingObstacle && !tooFar)
                         {
-                            moveCount++;
+                            _moveCount++;
                             // Play sound
-                            movementAudioSource.Play();
+                            _movementAudioSource.Play();
                         }
                     }
                     else
@@ -266,12 +266,12 @@ public class AiController : MonoBehaviour
                 EnableMovementSpeed(Speed.Frozen);
                 SetCurrentState(AiState.Hidden);
 
-                remainingHealth--;
+                _remainingHealth--;
                 SetTime(CycleTime * 2);
 
                 PlayAiDamaged();
 
-                if (remainingHealth <= 0)
+                if (_remainingHealth <= 0)
                 {
                     Destroy(gameObject, 0.5f);
                     _isAlive = false;
@@ -279,7 +279,7 @@ public class AiController : MonoBehaviour
                 else
                 {
                     SetCurrentState(AiState.Relocate);
-                    remainingTime = 3;
+                    _remainingTime = 3;
                     _agent.SetDestination(FindHidingSpot(false, true));
                 }
 
@@ -293,22 +293,22 @@ public class AiController : MonoBehaviour
                 {
                     PlayAiDamaged();
 
-                    _playerMovement.StartModifySpeed(slowSpeedDuration, PlayerMovement.AiStunMult, 0, 0.8f);
-                    _playerLook.StartShake(shakeDuration, 5);
+                    _playerMovement.StartModifySpeed(SlowSpeedDuration, PlayerMovement.AiStunMult, 0, 0.8f);
+                    _playerLook.StartShake(ShakeDuration, 5);
                     ApplyMalusPostProcessAndSound();
 
                     // Dead
                     Destroy(gameObject);
                     _isAlive = false;
                 }
-                else if (_isInCameraView && timeBeingCaught < maxTimeBeingCaught)
+                else if (_isInCameraView && _timeBeingCaught < MaxTimeBeingCaught)
                 {
-                    timeBeingCaught += Time.fixedDeltaTime;
+                    _timeBeingCaught += Time.fixedDeltaTime;
 
                     LookAway();
                 }
                 
-                if (timeBeingCaught >= maxTimeBeingCaught) SetCurrentState(AiState.Caught);
+                if (_timeBeingCaught >= MaxTimeBeingCaught) SetCurrentState(AiState.Caught);
 
                 break;
             case AiState.Relocate:
@@ -327,7 +327,7 @@ public class AiController : MonoBehaviour
     private void PostProcessWithDistance(float distFromTarget)
     {
         float dangerDistFromPlayer =
-            1 - (distFromTarget - minCriticalDistFromPlayer) / (minDangerDistFromPlayer - minCriticalDistFromPlayer);
+            1 - (distFromTarget - MinCriticalDistFromPlayer) / (MinDangerDistFromPlayer - MinCriticalDistFromPlayer);
 
         dangerDistFromPlayer = Mathf.Clamp01(dangerDistFromPlayer);
 
@@ -339,7 +339,7 @@ public class AiController : MonoBehaviour
         // Shakes intensely
         if (_isInCameraView)
         {
-            if (distFromTarget < minDangerDistFromPlayer)
+            if (distFromTarget < MinDangerDistFromPlayer)
             {
                 _playerLook.StartShake(0.1f, dangerDistFromPlayer);
             }
@@ -354,12 +354,12 @@ public class AiController : MonoBehaviour
         float angle = Vector3.SignedAngle(dirAiPlayer, forwardPlayer, Vector3.up);
 
         float deltaAngle = angle * Time.deltaTime * 0.5f;
-        deltaAngle *= Math.Sign(_playerLook._rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
+        deltaAngle *= Math.Sign(_playerLook.rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
 
         _targetPlayer.transform.Rotate(Vector3.up, -deltaAngle);
     }
 
-    private void SetTime(float cycleTime) => remainingTime = cycleTime;
+    private void SetTime(float cycleTime) => _remainingTime = cycleTime;
 
     private void PlayAiDamaged()
     {
@@ -428,7 +428,7 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = Acceleration;
                 break;
             case Speed.Hiding:
-                _agent.speed = _hidingSpeed;
+                _agent.speed = HidingSpeed;
                 _agent.acceleration = AccelerationFast;
                 break;
             case Speed.Relocating:
@@ -461,7 +461,7 @@ public class AiController : MonoBehaviour
                 c == previousCollider ||
                 c == currentHidingObstacle ||
                 c == _capsuleCollider ||
-                sqrMagnitude < minDangerDistFromPlayer * minDangerDistFromPlayer)
+                sqrMagnitude < MinDangerDistFromPlayer * MinDangerDistFromPlayer)
             {
                 continue;
             }

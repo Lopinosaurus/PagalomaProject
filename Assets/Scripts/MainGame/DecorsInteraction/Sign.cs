@@ -4,16 +4,16 @@ namespace MainGame.DecorsInteraction
 {
     public class Sign : MonoBehaviour
     {
-        private PlayerInteraction playerInteraction;
+        private PlayerInteraction _playerInteraction;
         private void OnTriggerEnter(Collider other)
         {
-            playerInteraction = other.GetComponent<PlayerInteraction>();
-            if (playerInteraction != null) playerInteraction.NearSign(true);
+            _playerInteraction = other.GetComponent<PlayerInteraction>();
+            if (_playerInteraction != null) _playerInteraction.NearSign(true);
         }
         private void OnTriggerExit(Collider other)
         {
-            playerInteraction = other.GetComponent<PlayerInteraction>();
-            if (playerInteraction != null) playerInteraction.NearSign(false);
+            _playerInteraction = other.GetComponent<PlayerInteraction>();
+            if (_playerInteraction != null) _playerInteraction.NearSign(false);
         }
     }
 }

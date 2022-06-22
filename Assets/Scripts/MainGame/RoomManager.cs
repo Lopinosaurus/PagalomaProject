@@ -15,8 +15,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
     public Map map;
-    private ExitGames.Client.Photon.Hashtable customGameProperties = new ExitGames.Client.Photon.Hashtable();
-    public Dictionary<string, Color> colorsDict = new Dictionary<string, Color>()
+    private ExitGames.Client.Photon.Hashtable _customGameProperties = new ExitGames.Client.Photon.Hashtable();
+    public Dictionary<string, Color> ColorsDict = new Dictionary<string, Color>()
     {
         { "Red", Color.red },
         { "Blue", Color.blue },
@@ -61,7 +61,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         //DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
-        IGMenuManager.Instance.loadingScreen.SetActive(true);
+        IgMenuManager.Instance.loadingScreen.SetActive(true);
         players = new List<Role>();
         votes = new List<Role>();
         infoText.text = "";
@@ -106,8 +106,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         System.Random rng = new System.Random();
         int seed = rng.Next(0, 100000); // Generate random int between 0 and 100000
-        customGameProperties["MapSeed"] = seed; // Add the seed to the Photon Hashtable
-        PhotonNetwork.CurrentRoom.SetCustomProperties(customGameProperties); // Send the custom property to the server so that it is available for everyone in the room
+        _customGameProperties["MapSeed"] = seed; // Add the seed to the Photon Hashtable
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_customGameProperties); // Send the custom property to the server so that it is available for everyone in the room
     }
 
     // Callback when Custom Properties change
@@ -187,17 +187,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (localPlayer is Seer)
         {
-            ((Seer)localPlayer)._targets = new List<Role>();
+            ((Seer)localPlayer).targets = new List<Role>();
         }
         if (localPlayer is Werewolf)
         {
-            ((Werewolf)localPlayer)._targets = new List<Role>();
-            if (!VoteMenu.Instance.isNight) ((Werewolf)localPlayer).UpdateTransformation(false);
+            ((Werewolf)localPlayer).targets = new List<Role>();
+            if (!VoteMenu.Instance.IsNight) ((Werewolf)localPlayer).UpdateTransformation(false);
         }
         localPlayer.UpdateActionText();
     }
 
-    public int CheckIfEOG() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead
+    public int CheckIfEog() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead
     {
         int res = 0;
         bool isThereWerewolf = false;
@@ -218,9 +218,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         return res;
     }
 
-    public void DisplayEndScreen(int isEOG)
+    public void DisplayEndScreen(int isEog)
     {
-        bool victory = isEOG != 3 && ((isEOG == 1) == localPlayer is Werewolf);
-        IGMenuManager.Instance.OpenEndMenu(victory, isEOG);
+        bool victory = isEog != 3 && ((isEog == 1) == localPlayer is Werewolf);
+        IgMenuManager.Instance.OpenEndMenu(victory, isEog);
     }
 }

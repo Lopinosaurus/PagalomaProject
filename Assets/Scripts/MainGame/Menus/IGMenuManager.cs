@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class IGMenuManager : MonoBehaviour
+public class IgMenuManager : MonoBehaviour
 {
-    public static IGMenuManager Instance;
-    public static bool isPaused = false;
+    public static IgMenuManager Instance;
+    public static bool IsPaused = false;
     
     // Menu screens
     public GameObject pauseMenu;
@@ -41,7 +41,7 @@ public class IGMenuManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
+            if (IsPaused)
             {
                 ResumeGame();
             }
@@ -59,7 +59,7 @@ public class IGMenuManager : MonoBehaviour
         else if (pauseMenu.activeSelf) pauseMenu.SetActive(false);
         else voteMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        isPaused = false;
+        IsPaused = false;
         if (playerInput != null) playerInput.SwitchCurrentActionMap("Player");
     }
 
@@ -68,7 +68,7 @@ public class IGMenuManager : MonoBehaviour
         pauseMenu.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        isPaused = true;
+        IsPaused = true;
         if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
     }
 

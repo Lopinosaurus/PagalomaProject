@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     // Sub scripts
     private PlayerMovement _playerMovement;
     private PlayerLook _playerLook;
-    [SerializeField] private PlayerAnimation _playerAnimation;
+    [SerializeField] private PlayerAnimation playerAnimation;
 
     // Miscellaneous
     [Space] [Header("Scripts")] [SerializeField]
@@ -33,29 +33,29 @@ public class PlayerController : MonoBehaviour
 
     // First person management
     [Space] [Header("Camera Components")] [SerializeField]
-    private Camera _camPlayer;
+    private Camera camPlayer;
 
     private PostProcessLayer[] _postProcLayers;
     private AudioListener _audioListener;
 
     [Header("Model Renders")] [SerializeField]
-    public GameObject VillagerRender;
+    public GameObject villagerRender;
 
-    [SerializeField] public GameObject WerewolfRender;
-    public readonly float backShift = 0.3f;
+    [SerializeField] public GameObject werewolfRender;
+    public readonly float BackShift = 0.3f;
 
     // Ai settings
-    [Space] [Header("Ai Settings")] public Role _role;
+    [Space] [Header("Ai Settings")] public Role role;
 
-    private GameObject AiInstance;
-    private Transform villageTransform;
-    [SerializeField] private GameObject AiPrefab;
-    private List<Transform> playerPositions;
+    private GameObject _aiInstance;
+    private Transform _villageTransform;
+    [SerializeField] private GameObject aiPrefab;
+    private List<Transform> _playerPositions;
 
-    private readonly float minVillageDist = 120f;
-    private readonly float minPlayerDist = 60f;
-    private bool IaAlreadySpawned => null != AiInstance;
-    private bool hasAlreadySpawnedTonight;
+    private readonly float _minVillageDist = 120f;
+    private readonly float _minPlayerDist = 60f;
+    private bool IaAlreadySpawned => null != _aiInstance;
+    private bool _hasAlreadySpawnedTonight;
     [SerializeField] private bool enableAi = true;
 
     // Sound for Ai
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource playerAudioSource;
 
     [Space] [Header("Light")] [SerializeField]
-    private Light _lampLight;
+    private Light lampLight;
 
     [SerializeField] private bool firstPerson;
     // [SerializeField] [Range(0f, 1f)] private float slider;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         _postProcLayers = cameraHolder.GetComponentsInChildren<PostProcessLayer>();
         _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
 
-        if (null == _camPlayer) throw new Exception("There is no camera attached to the Camera Holder !");
+        if (null == camPlayer) throw new Exception("There is no camera attached to the Camera Holder !");
 
         // Sub scripts
         _playerMovement = GetComponent<PlayerMovement>();
@@ -106,10 +106,10 @@ public class PlayerController : MonoBehaviour
         if (_photonView.IsMine)
         {
             // Moves the player render backwards so that it doesn't clip with the camera
-            MoveRender(backShift, VillagerRender);
+            MoveRender(BackShift, villagerRender);
 
             // Turns the cam for the player render on
-            _camPlayer.gameObject.SetActive(true);
+            camPlayer.gameObject.SetActive(true);
 
             // Starts the Ai
             if (enableAi) StartCoroutine(AiCreator());
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         {
             foreach (PostProcessLayer layer in _postProcLayers) Destroy(layer);
             Destroy(GetComponentInChildren<PostProcessVolume>());
-            Destroy(_camPlayer);
+            Destroy(camPlayer);
             Destroy(_audioListener);
             playerInput.enabled = false;
             enableAi = false;
@@ -135,9 +135,9 @@ public class PlayerController : MonoBehaviour
     {
         bool roomManager = RoomManager.Instance;
         
-        while (!_role && roomManager)
+        while (!role && roomManager)
         {
-            _role = RoomManager.Instance.localPlayer;
+            role = RoomManager.Instance.localPlayer;
             yield return null;
         }
     }
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator LightManager()
     {
-        _lampLight.intensity = 0;
+        lampLight.intensity = 0;
 
         // Non-werewolves don't see lights
         RoomManager roomManager = RoomManager.Instance;
@@ -166,21 +166,21 @@ public class PlayerController : MonoBehaviour
             while (true)
             {
                 // It's day, turn off light
-                _lampLight.intensity = 0;
+                lampLight.intensity = 0;
 
-                yield return new WaitUntil(() => VoteMenu.Instance.isNight);
+                yield return new WaitUntil(() => VoteMenu.Instance.IsNight);
 
                 // It's night, turn on light
                 // ReSharper disable once Unity.InefficientPropertyAccess
-                _lampLight.intensity = 1;
+                lampLight.intensity = 1;
 
-                yield return new WaitUntil(() => !VoteMenu.Instance.isNight);
+                yield return new WaitUntil(() => !VoteMenu.Instance.IsNight);
             }
     }
 
     private IEnumerator AiCreator()
     {
-        yield return new WaitUntil(() => _role != null);
+        yield return new WaitUntil(() => role != null);
 
         if (RoomManager.Instance != null)
         {
@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
             // Gets the village
             GameObject village = GameObject.FindWithTag("village");
-            if (village != null) villageTransform = village.transform;
+            if (village != null) _villageTransform = village.transform;
         }
 
         while (true)
@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
             if (CanAiSpawn())
             {
                 // Can spawn the Ai
-                AiInstance = Instantiate(AiPrefab,
+                _aiInstance = Instantiate(aiPrefab,
                     transform.position + transform.TransformDirection(Vector3.back * 10 + Vector3.up * 2),
                     Quaternion.identity);
 
@@ -205,10 +205,10 @@ public class PlayerController : MonoBehaviour
                 playerAudioSource.clip = aiSound;
                 playerAudioSource.Play();
 
-                AiController a = AiInstance.GetComponent<AiController>();
-                a.targetRole = _role;
+                AiController a = _aiInstance.GetComponent<AiController>();
+                a.targetRole = role;
 
-                hasAlreadySpawnedTonight = true;
+                _hasAlreadySpawnedTonight = true;
 
                 Debug.Log("Ai created");
             }
@@ -222,14 +222,14 @@ public class PlayerController : MonoBehaviour
         // Already spawned today check
         try
         {
-            if (!VoteMenu.Instance.isNight) hasAlreadySpawnedTonight = false;
+            if (!VoteMenu.Instance.IsNight) _hasAlreadySpawnedTonight = false;
         }
         catch
         {
-            hasAlreadySpawnedTonight = false;
+            _hasAlreadySpawnedTonight = false;
         }
 
-        if (hasAlreadySpawnedTonight)
+        if (_hasAlreadySpawnedTonight)
             // Debug.Log("SPAWNCHECK (0/5): Already spawn tonight");
             return false;
 
@@ -241,25 +241,25 @@ public class PlayerController : MonoBehaviour
         try
         {
             // Alive check
-            if (_role && !_role.isAlive)
+            if (role && !role.isAlive)
                 // Debug.Log("SPAWNCHECK (2/5): is dead");
                 return false;
 
             // Day check
-            if (!VoteMenu.Instance.isNight)
+            if (!VoteMenu.Instance.IsNight)
                 // Debug.Log("SPAWNCHECK (3/5): it's not night", VoteMenu.Instance.gameObject);
                 return false;
 
             // Village check
-            bool villageTooClose = (villageTransform.position - transform.position).sqrMagnitude <
-                                   minVillageDist * minVillageDist;
+            bool villageTooClose = (_villageTransform.position - transform.position).sqrMagnitude <
+                                   _minVillageDist * _minVillageDist;
             if (villageTooClose)
                 // Debug.Log("SPAWNCHECK (4/5): village is too close");
                 return false;
 
             // Player check
             bool everyPlayerFarEnough = RoomManager.Instance.players.All(role =>
-                !((role.transform.position - transform.position).sqrMagnitude > minPlayerDist * minPlayerDist));
+                !((role.transform.position - transform.position).sqrMagnitude > _minPlayerDist * _minPlayerDist));
 
             if (!everyPlayerFarEnough)
                 // Debug.Log("SPAWNCHECK (5/5): a player is too close");
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
             _playerMovement.Move(Time.deltaTime);
 
             // Updates the appearance based on the MovementType
-            _playerAnimation.UpdateAnimationsBasic();
+            playerAnimation.UpdateAnimationsBasic();
 
             _playerMovement.UpdateHitbox();
 
@@ -297,7 +297,7 @@ public class PlayerController : MonoBehaviour
             _playerLook.FOVChanger();
 
             // Focus DOF
-            _playerLook.DOFChanger();
+            _playerLook.DofChanger();
         }
         else
         {

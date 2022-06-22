@@ -29,10 +29,10 @@ namespace MainGame.PlayerScripts.Roles
         public Countdown.Countdown powerCooldown;
         // Power timer (timer during which you can make use of your power)
         public Countdown.Countdown powerTimer;
-        protected bool arePowerAndCooldownValid => powerCooldown.isZero && powerTimer.isNotZero;
+        protected bool ArePowerAndCooldownValid => powerCooldown.IsZero && powerTimer.IsNotZero;
 
         
-        protected TMP_Text actionText;
+        protected TMP_Text ActionText;
         public TMP_Text deathText;
         public Role vote;
 
@@ -40,19 +40,19 @@ namespace MainGame.PlayerScripts.Roles
         private PostProcessVolume _postProcessVolume;
 
         // Controls
-        [SerializeField] public GameObject _cameraHolder;
-        public PlayerInput _playerInput;
-        protected PlayerMovement _playerMovement;
+        [SerializeField] private GameObject cameraHolder;
+        public PlayerInput playerInput;
+        protected PlayerMovement PlayerMovement;
         private PlayerController _playerController;
-        protected PlayerAnimation _playerAnimation;
+        protected PlayerAnimation PlayerAnimation;
         private CharacterController _characterController;
 
         // Die variables
-        private const float maxDeathCamDistance = 5;
+        private const float MaxDeathCamDistance = 5;
         private RotationConstraint _rotationConstraint;
 
         // Network component
-        protected PhotonView _photonView; // Use protected to be able to access it in subclasses
+        protected PhotonView PhotonView; // Use protected to be able to access it in subclasses
 
         #endregion
 
@@ -63,21 +63,21 @@ namespace MainGame.PlayerScripts.Roles
             isActive = false;
             hasVoted = false;
             
-            _playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInput>();
             _playerController = GetComponent<PlayerController>();
-            _playerAnimation = GetComponent<PlayerAnimation>();
-            _playerMovement = GetComponent<PlayerMovement>();
+            PlayerAnimation = GetComponent<PlayerAnimation>();
+            PlayerMovement = GetComponent<PlayerMovement>();
             _characterController = GetComponent<CharacterController>();
-            _cameraHolder.GetComponentInChildren<Camera>();
-            _photonView = GetComponent<PhotonView>();
+            cameraHolder.GetComponentInChildren<Camera>();
+            PhotonView = GetComponent<PhotonView>();
             
             if (RoomManager.Instance != null)
             {
-                actionText = RoomManager.Instance.actionText;
+                ActionText = RoomManager.Instance.actionText;
                 deathText = RoomManager.Instance.deathText;
             }
 
-            if (actionText != null) actionText.text = "";
+            if (ActionText != null) ActionText.text = "";
             if (deathText != null) deathText.enabled = false;
 
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
@@ -95,11 +95,11 @@ namespace MainGame.PlayerScripts.Roles
         {
             isActive = true;
             
-            if (_photonView.IsMine)
+            if (PhotonView.IsMine)
             {
-                _playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
-                _playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
-                _playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
+                playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+                playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
+                playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
             }
         }
 
@@ -107,22 +107,22 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (kill) UseAbility();
 
-            if (VoteMenu.Instance && !VoteMenu.Instance.isNight && hasShield) hasShield = false;
+            if (VoteMenu.Instance && !VoteMenu.Instance.IsNight && hasShield) hasShield = false;
         }
 
         #endregion
 
         #region Gameplay methods
 
-        public void SetPlayerColor(Color _color)
+        public void SetPlayerColor(Color color)
         {
-            color = _color;
+            this.color = color;
             Transform find = gameObject.transform.Find("VillagerRender");
             bool wasActive = find.gameObject.activeSelf;
 
             find.gameObject.SetActive(true);
 
-            find.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = _color;
+            find.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = color;
 
             find.gameObject.SetActive(wasActive);
         }
@@ -134,8 +134,8 @@ namespace MainGame.PlayerScripts.Roles
         
         protected bool CanUseAbilityGeneric()
         {
-            if (!VoteMenu.Instance.isNight) return false;
-            if (!arePowerAndCooldownValid) return false;
+            if (!VoteMenu.Instance.IsNight) return false;
+            if (!ArePowerAndCooldownValid) return false;
             if (!isAlive) return false;
 
             return true;
@@ -148,14 +148,14 @@ namespace MainGame.PlayerScripts.Roles
         public void Die()
         {
             // Show death label & disable inputs
-            if (_photonView.IsMine)
+            if (PhotonView.IsMine)
             {
                 deathText.enabled = true;
-                _playerInput.actions["Die"].Disable();
-                _playerInput.actions["Kill"].Disable();
+                playerInput.actions["Die"].Disable();
+                playerInput.actions["Kill"].Disable();
             }
 
-            _playerAnimation.EnableDeathAppearance();
+            PlayerAnimation.EnableDeathAppearance();
 
             // Prevents the head for rotating in the ground when dying
             _rotationConstraint.enabled = false;
@@ -169,25 +169,25 @@ namespace MainGame.PlayerScripts.Roles
             VoteMenu.Instance.UpdateVoteItems();
 
             // Initial camera position
-            if (_cameraHolder)
+            if (cameraHolder)
             {
                 // Detach cameraHolder from body
-                _cameraHolder.transform.parent = null;
+                cameraHolder.transform.parent = null;
                 
-                Vector3 startingPos = _cameraHolder.transform.position;
+                Vector3 startingPos = cameraHolder.transform.position;
                 Vector3 endingPos = new Vector3
                 {
                     x = startingPos.x,
-                    y = startingPos.y + maxDeathCamDistance,
+                    y = startingPos.y + MaxDeathCamDistance,
                     z = startingPos.z
                 };
 
                 // Final camera position
-                if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, maxDeathCamDistance))
+                if (Physics.Raycast(startingPos, Vector3.up, out RaycastHit hitInfo, MaxDeathCamDistance))
                     endingPos.y = hitInfo.point.y;
 
                 // Final camera rotation
-                Quaternion endingRot = _cameraHolder.transform.localRotation;
+                Quaternion endingRot = cameraHolder.transform.localRotation;
                 endingRot.eulerAngles = new Vector3
                 {
                     x = 90,
@@ -201,23 +201,23 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
         {
             float timer = 10;
-            while (_cameraHolder.transform.position != endingPos && timer > 0)
+            while (cameraHolder.transform.position != endingPos && timer > 0)
             {
-                Vector3 position = _cameraHolder.transform.position;
-                Quaternion rotation = _cameraHolder.transform.localRotation;
+                Vector3 position = cameraHolder.transform.position;
+                Quaternion rotation = cameraHolder.transform.localRotation;
 
                 position = Vector3.Slerp(position, endingPos, Time.deltaTime);
                 rotation = Quaternion.Slerp(rotation, endingRot, Time.deltaTime);
 
-                _cameraHolder.transform.position = position;
-                _cameraHolder.transform.localRotation = rotation;
+                cameraHolder.transform.position = position;
+                cameraHolder.transform.localRotation = rotation;
 
                 timer -= Time.deltaTime;
 
                 yield return null;
             }
 
-            if (_photonView.IsMine) GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
+            if (PhotonView.IsMine) GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
         }
 
         #endregion

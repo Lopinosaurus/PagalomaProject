@@ -5,8 +5,8 @@ namespace MainGame.PlayerScripts
 {
     public class JumpCollisionDetect : MonoBehaviour
     {
-        private int collisions;
-        public bool IsColliding => collisions > 0;
+        private int _collisions;
+        public bool IsColliding => _collisions > 0;
 
         private void Start()
         {
@@ -15,12 +15,12 @@ namespace MainGame.PlayerScripts
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!collision.gameObject.CompareTag("Player")) collisions++;
+            if (!collision.gameObject.CompareTag("Player")) _collisions++;
         }
 
         private void OnCollisionExit(Collision other)
         {
-            if (!other.gameObject.CompareTag("Player")) collisions -= collisions == 0 ? 0 : 1;
+            if (!other.gameObject.CompareTag("Player")) _collisions -= _collisions == 0 ? 0 : 1;
         }
     }
 }

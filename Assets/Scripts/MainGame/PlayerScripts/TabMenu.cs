@@ -9,14 +9,14 @@ public class TabMenu : MonoBehaviour
 {
     public static TabMenu Instance;
     [SerializeField] private GameObject tabMenuPanel;
-    [SerializeField] private PhotonView PV;
+    [SerializeField] private PhotonView pv;
     [SerializeField] private TabMenuItem tabMenuItem;
     public Transform tabList;
     
     public void Awake()
     {
         Instance = this;
-        PV = GetComponent<PhotonView>();
+        pv = GetComponent<PhotonView>();
     }
 
     public void Add(Role player)

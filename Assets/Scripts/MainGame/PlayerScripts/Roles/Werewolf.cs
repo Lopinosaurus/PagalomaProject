@@ -10,34 +10,34 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        [SerializeField] private GameObject VillagerRenderer;
-        [SerializeField] private GameObject WereWolfRenderer;
-        [SerializeField] private GameObject Particles;
+        [SerializeField] private GameObject villagerRenderer;
+        [SerializeField] private GameObject wereWolfRenderer;
+        [SerializeField] private GameObject particles;
 
-        public readonly string friendlyRoleName = "Werewolf";
+        public readonly string FriendlyRoleName = "Werewolf";
         
-        public List<Role> _targets = new List<Role>();
+        public List<Role> targets = new List<Role>();
         public bool isTransformed;
 
         public float werewolfPowerDuration = 60;
         public float afterAttackCooldown = 5;
         
-        private const float earlyTransformationTransitionDuration = 1;
-        private const float lateTransformationTransitionDuration = 4;
+        private const float EarlyTransformationTransitionDuration = 1;
+        private const float LateTransformationTransitionDuration = 4;
 
-        private float totalTransformationTransitionDuration =>
-            earlyTransformationTransitionDuration + lateTransformationTransitionDuration;
+        private float TotalTransformationTransitionDuration =>
+            EarlyTransformationTransitionDuration + LateTransformationTransitionDuration;
 
         public override void UpdateActionText()
         {
-            if (_photonView.IsMine)
-                if (actionText)
+            if (PhotonView.IsMine)
+                if (ActionText)
                 {
-                    if (isTransformed && _targets.Count > 0 && powerTimer.isNotZero && powerCooldown.isZero)
-                        actionText.text = "Press E to Kill";
-                    else if (VoteMenu.Instance.isNight && isTransformed == false)
-                        actionText.text = "Press E to Transform";
-                    else actionText.text = "";
+                    if (isTransformed && targets.Count > 0 && powerTimer.IsNotZero && powerCooldown.IsZero)
+                        ActionText.text = "Press E to Kill";
+                    else if (VoteMenu.Instance.IsNight && isTransformed == false)
+                        ActionText.text = "Press E to Transform";
+                    else ActionText.text = "";
                 }
         }
 
@@ -61,12 +61,12 @@ namespace MainGame.PlayerScripts.Roles
                 {
                     if (add)
                     {
-                        _targets.Add(tempTarget);
+                        targets.Add(tempTarget);
                         Debug.Log("[+] Werewolf target added: " + tempTarget.name);
                     }
-                    else if (_targets.Contains(tempTarget))
+                    else if (targets.Contains(tempTarget))
                     {
-                        _targets.Remove(tempTarget);
+                        targets.Remove(tempTarget);
                         Debug.Log("[-] Werewolf target removed: " + tempTarget.name);
                     }
                 }
@@ -89,9 +89,9 @@ namespace MainGame.PlayerScripts.Roles
             // Won't transform into given state if already in this given state
             if (goingToWerewolf == isTransformed) return;
 
-            if (!arePowerAndCooldownValid) return;
+            if (!ArePowerAndCooldownValid) return;
 
-            if (_photonView.IsMine) _photonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
+            if (PhotonView.IsMine) PhotonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
 
             StartCoroutine(WerewolfTransform(goingToWerewolf));
         }
@@ -99,46 +99,46 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator WerewolfTransform(bool goingToWerewolf)
         {
             // Particles to dissimulate werewolf transition
-            GameObject particles = Instantiate(Particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            GameObject particles = Instantiate(this.particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
             particles.transform.parent = transform;
 
             // Deactivate controls
-            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("UI");
+            if (PhotonView.IsMine) playerInput.SwitchCurrentActionMap("UI");
 
             // Transformation
             isTransformed = goingToWerewolf;
-            _playerMovement.isWerewolfTransformedMult = goingToWerewolf;
+            PlayerMovement.isWerewolfTransformedMult = goingToWerewolf;
 
             // Starts countdown
             if (goingToWerewolf)
             {
                 powerTimer.Set(werewolfPowerDuration);
                 powerTimer.Pause();
-                powerTimer.Resume(totalTransformationTransitionDuration);
+                powerTimer.Resume(TotalTransformationTransitionDuration);
             }
             else powerTimer.Reset();
 
-            if (goingToWerewolf && _photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
+            if (goingToWerewolf && PhotonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 
             // Updates the messages on screen
             UpdateActionText();
 
             // Wait
-            yield return new WaitForSeconds(earlyTransformationTransitionDuration);
+            yield return new WaitForSeconds(EarlyTransformationTransitionDuration);
 
             // TODO improve visual transition
-            VillagerRenderer.SetActive(!goingToWerewolf);
-            WereWolfRenderer.SetActive(goingToWerewolf);
+            villagerRenderer.SetActive(!goingToWerewolf);
+            wereWolfRenderer.SetActive(goingToWerewolf);
 
             // Changes the animator
-            _playerAnimation.EnableWerewolfAnimations(goingToWerewolf);
+            PlayerAnimation.EnableWerewolfAnimations(goingToWerewolf);
 
             // Wait for 4 seconds
-            yield return new WaitForSeconds(lateTransformationTransitionDuration);
+            yield return new WaitForSeconds(LateTransformationTransitionDuration);
 
             // Reactivate controls
-            if (_photonView.IsMine) _playerInput.SwitchCurrentActionMap("Player");
+            if (PhotonView.IsMine) playerInput.SwitchCurrentActionMap("Player");
         }
 
         private IEnumerator DeTransformationCoroutine()
@@ -146,7 +146,7 @@ namespace MainGame.PlayerScripts.Roles
             var waitForFixedUpdate = new WaitForFixedUpdate();
 
             // Will bring the werewolf back to human when the power timer runs out
-            while (powerTimer.isNotZero) yield return waitForFixedUpdate;
+            while (powerTimer.IsNotZero) yield return waitForFixedUpdate;
 
             UpdateTransformation(false);
         }
@@ -154,13 +154,13 @@ namespace MainGame.PlayerScripts.Roles
         private void KillTarget()
         {
         // Cannot attack if no target
-            if (_targets.Count == 0)
+            if (targets.Count == 0)
             {
                 Debug.Log("[-] Can't kill: No target to kill");
                 return;
             }
 
-            Role target = _targets[_targets.Count - 1];
+            Role target = targets[targets.Count - 1];
 
             // Cannot attack if target is dead
             if (target.isAlive == false)
@@ -179,10 +179,10 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
 
             target.Die();
-            _targets.Remove(target);
-            _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+            targets.Remove(target);
+            PhotonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-            _playerAnimation.EnableWerewolfAttackAnimation();
+            PlayerAnimation.EnableWerewolfAttackAnimation();
 
             // Waits a few seconds before re-enabling attack
             powerCooldown.Set(afterAttackCooldown);
@@ -190,7 +190,7 @@ namespace MainGame.PlayerScripts.Roles
             powerTimer.Pause();
             powerTimer.Resume(afterAttackCooldown);
             // it also slows the Werewolf
-            _playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
+            PlayerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
 
             UpdateActionText();
 
@@ -204,27 +204,27 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log("E pressed and you are a Werewolf, you gonna kill someone");
 
             target.Die();
-            _targets.Remove(target);
-            _photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+            targets.Remove(target);
+            PhotonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-            _playerAnimation.EnableWerewolfAttackAnimation();
+            PlayerAnimation.EnableWerewolfAttackAnimation();
         }
 
 
         [PunRPC]
-        public void RPC_KillTarget(string _userId)
+        public void RPC_KillTarget(string userId)
         {
             // Tries to get the matching player, and can be null if not found
-            Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == _userId);
+            Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == userId);
 
             if (target != null)
             {
                 if (target.isAlive) target.Die();
-                else Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, Target is already dead");
+                else Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, Target is already dead");
             }
             else
             {
-                Debug.Log($"[-] RPC_KillTarget({_userId}): Can't kill, target = null");
+                Debug.Log($"[-] RPC_KillTarget({userId}): Can't kill, target = null");
             }
         }
 

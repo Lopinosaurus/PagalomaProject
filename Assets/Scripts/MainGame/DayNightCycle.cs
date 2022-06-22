@@ -28,11 +28,11 @@ public class DayNightCycle : MonoBehaviour
     public AnimationCurve reflectionsIntensityMultiplier;
     public AnimationCurve fogIntensityMultiplier;
     
-    private PhotonView PV;
+    private PhotonView _pv;
 
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Start()
@@ -55,10 +55,10 @@ public class DayNightCycle : MonoBehaviour
                 isDay = true;
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    PV.RPC(nameof(RPC_NewDay), RpcTarget.All, time);
+                    _pv.RPC(nameof(RPC_NewDay), RpcTarget.All, time);
                 
-                    int isEOG = RoomManager.Instance.CheckIfEOG();
-                    if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
+                    int isEog = RoomManager.Instance.CheckIfEog();
+                    if (isEog != 0) _pv.RPC(nameof(RPC_EOG), RpcTarget.All, isEog);
                 }
             }
         } else if (isDay) // New night
@@ -68,10 +68,10 @@ public class DayNightCycle : MonoBehaviour
             {
                 if (VoteMenu.Instance.isFirstDay == false) RoomManager.Instance.ResolveVote();
                 
-                int isEOG = RoomManager.Instance.CheckIfEOG();
-                if (isEOG != 0) PV.RPC(nameof(RPC_EOG), RpcTarget.All, isEOG);
+                int isEog = RoomManager.Instance.CheckIfEog();
+                if (isEog != 0) _pv.RPC(nameof(RPC_EOG), RpcTarget.All, isEog);
                 
-                PV.RPC(nameof(RPC_NewNight), RpcTarget.All, time);
+                _pv.RPC(nameof(RPC_NewNight), RpcTarget.All, time);
             }
         }
         
@@ -133,21 +133,21 @@ public class DayNightCycle : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_NewDay(float _time)
+    private void RPC_NewDay(float time)
     {
-        time = _time;
+        this.time = time;
         isDay = true;
         NewDay();
     }
     
     [PunRPC]
-    void RPC_NewNight(float _time)
+    void RPC_NewNight(float time)
     {
-        time = _time;
+        this.time = time;
         isDay = false;
         NewNight();
     }
 
     [PunRPC]
-    void RPC_EOG(int isEOG) => RoomManager.Instance.DisplayEndScreen(isEOG);
+    void RPC_EOG(int isEog) => RoomManager.Instance.DisplayEndScreen(isEog);
 }

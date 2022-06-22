@@ -6,16 +6,16 @@ using Photon.Pun;
 public class RoomListItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_Text text;
-    public RoomInfo info;
+    public RoomInfo Info;
     
-    public void SetUp(RoomInfo _info)
+    public void SetUp(RoomInfo info)
     {
-        info = _info;
-        text.text = _info.Name;
+        Info = info;
+        text.text = info.Name;
     }
 
     public void OnClick()
     {
-        Launcher.Instance.JoinRoom(info);
+        Launcher.Instance.JoinRoom(Info);
     }
 }

@@ -17,7 +17,7 @@ namespace MainGame.PlayerScripts
         private PlayerController _playerController;
 
         // Movement components
-        [HideInInspector] public CharacterController _characterController;
+        [HideInInspector] public CharacterController characterController;
 
         private bool WantsCrouchHold { get; set; }
         private bool WantsSprint { get; set; }
@@ -35,13 +35,13 @@ namespace MainGame.PlayerScripts
         // Multipliers
         public bool isBushSlowingPlayer;
         public bool isWerewolfTransformedMult;
-        private float currentMultCoroutine = 1;
+        private float _currentMultCoroutine = 1;
 
         private const float BushSlowSpeed = 2;
         
         private const float WerewolfMult = 1.15f;
         public const float AiStunMult = .5f;
-        private const float baseSpeedMult = 1;
+        private const float BaseSpeedMult = 1;
 
         [HideInInspector] public int nbBushes;
 
@@ -58,9 +58,9 @@ namespace MainGame.PlayerScripts
         // Ground check
         public bool grounded;
         public bool isSphereGrounded;
-        private float raySize = 0.1f;
-        private readonly float slopeCompensationForce = 100f;
-        private bool isCCGrounded { get; set; }
+        private float _raySize = 0.1f;
+        private readonly float _slopeCompensationForce = 100f;
+        private bool IsCcGrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space] [Header("Player height settings")] [SerializeField]
@@ -98,16 +98,16 @@ namespace MainGame.PlayerScripts
             _playerController = GetComponent<PlayerController>();
             _photonView = GetComponent<PhotonView>();
 
-            _characterController = GetComponentInChildren<CharacterController>();
+            characterController = GetComponentInChildren<CharacterController>();
             _characterLayerValue = (int) Mathf.Log(characterLayer.value, 2);
 
-            raySize = _characterController.radius * 1.1f;
+            _raySize = characterController.radius * 1.1f;
 
             // Hitboxes
-            float hitboxHeight = _characterController.height;
+            float hitboxHeight = characterController.height;
             _standingHitboxHeight = hitboxHeight;
             _crouchedHitboxHeight = hitboxHeight * 0.7f;
-            _characterController.skinWidth = 0.01f;
+            characterController.skinWidth = 0.01f;
 
             // Cam heights
             Vector3 camPos = cameraHolder.transform.localPosition;
@@ -116,7 +116,7 @@ namespace MainGame.PlayerScripts
             _crouchedCameraHeight = 1;
 
             // Profs
-            _standingShiftVillager = _playerController.backShift;
+            _standingShiftVillager = _playerController.BackShift;
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
 
@@ -136,7 +136,7 @@ namespace MainGame.PlayerScripts
             _playerInput.actions["Sprint"].canceled += ctx => WantsSprint = ctx.ReadValueAsButton();
             // for the Jump button
             _playerInput.actions["Jump"].performed += ctx => WantsJump = ctx.ReadValueAsButton();
-            _playerInput.actions["Jump"].canceled += ctx => AlreadyWantsJump = WantsJump = ctx.ReadValueAsButton();
+            _playerInput.actions["Jump"].canceled += ctx => _alreadyWantsJump = WantsJump = ctx.ReadValueAsButton();
         }
 
         private void OnPerformedMove(InputAction.CallbackContext ctx)
@@ -178,7 +178,7 @@ namespace MainGame.PlayerScripts
             Vector3 currentMotion = Vector3.zero;
 
             // Applies direction
-            if (!shouldJumpFreezeControls)
+            if (!ShouldJumpFreezeControls)
                 currentMotion = transform.TransformDirection(
                     new Vector3(
                         localMoveAmountNormalized.x,
@@ -191,21 +191,21 @@ namespace MainGame.PlayerScripts
             // Time.deltaTime rounding
             currentMotion *= chosenDeltaTime;
 
-            if (_characterController.enabled) _characterController.Move(currentMotion);
+            if (characterController.enabled) characterController.Move(currentMotion);
         }
 
         public void UpdateGrounded()
         {
-            isCCGrounded = _characterController.isGrounded;
+            IsCcGrounded = characterController.isGrounded;
 
-            SetGroundedState(isCCGrounded || isSphereGrounded);
+            SetGroundedState(IsCcGrounded || isSphereGrounded);
         }
 
         private void UpdateMovementState()
         {
             if (WantsCrouchHold &&
-                !_playerAnimation.isWerewolfEnabled &&
-                !shouldJumpFreezeControls)
+                !_playerAnimation.IsWerewolfEnabled &&
+                !ShouldJumpFreezeControls)
                 currentMovementType = MovementTypes.Crouch;
             else if (Vector2.zero == _inputMoveRaw2D)
                 currentMovementType = MovementTypes.Stand;
@@ -219,7 +219,7 @@ namespace MainGame.PlayerScripts
         {
             upwardVelocity.y += GravityForce * Time.deltaTime;
 
-            if (shouldJumpFreezeGravity)
+            if (ShouldJumpFreezeGravity)
             {
                 upwardVelocity.y = 0;
             }
@@ -227,12 +227,12 @@ namespace MainGame.PlayerScripts
             {
                 if (OnSlope())
                 {
-                    float downwardForce = -slopeCompensationForce;
+                    float downwardForce = -_slopeCompensationForce;
                     downwardForce = Mathf.Clamp(downwardForce, -500, -0.01f);
 
                     upwardVelocity.y = downwardForce;
                 }
-                else if (isCCGrounded)
+                else if (IsCcGrounded)
                 {
                     upwardVelocity.y = -0.2f;
                 }
@@ -242,7 +242,7 @@ namespace MainGame.PlayerScripts
         private bool OnSlope()
         {
             var onSlope = false;
-            float maxDistance = _characterController.height + _characterController.radius + raySize;
+            float maxDistance = characterController.height + characterController.radius + _raySize;
 
             Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
 
@@ -273,7 +273,7 @@ namespace MainGame.PlayerScripts
         {
             // Multipliers
             if (isWerewolfTransformedMult) currentSpeed *= WerewolfMult;
-            currentSpeed *= currentMultCoroutine;
+            currentSpeed *= _currentMultCoroutine;
 
             // Clamp speeds
             if (isBushSlowingPlayer) currentSpeed = Mathf.Clamp(currentSpeed, 0, BushSlowSpeed);
@@ -281,7 +281,7 @@ namespace MainGame.PlayerScripts
 
         public void UpdateHitbox()
         {
-            bool isWerewolf = _playerAnimation.isWerewolfEnabled;
+            bool isWerewolf = _playerAnimation.IsWerewolfEnabled;
 
             // Chooses the new character controller height
             float desiredHitboxHeight;
@@ -313,11 +313,11 @@ namespace MainGame.PlayerScripts
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;
 
-            // CharacterController heights & center
-            _characterController.height = Mathf.Lerp(_characterController.height, desiredHitboxHeight, smoothTime);
-            Vector3 characterControllerCenter = _characterController.center;
-            characterControllerCenter.y = _characterController.height * 0.5f;
-            _characterController.center = characterControllerCenter;
+            characterController.height = Mathf.Lerp(characterController.height, desiredHitboxHeight, smoothTime);
+            // _characterController.height -= _characterController.skinWidth;
+            Vector3 characterControllerCenter = characterController.center;
+            characterControllerCenter.y = characterController.height * 0.5f;
+            characterController.center = characterControllerCenter;
 
             // Camera height modifier
             Vector3 localPosition = cameraHolder.transform.localPosition;
@@ -326,7 +326,7 @@ namespace MainGame.PlayerScripts
 
             // Camera render depth modifier
             _playerController.MoveRender(-desiredRenderShift,
-                isWerewolf ? _playerController.WerewolfRender : _playerController.VillagerRender,
+                isWerewolf ? _playerController.werewolfRender : _playerController.villagerRender,
                 smoothTime);
         }
 
@@ -342,7 +342,7 @@ namespace MainGame.PlayerScripts
         private IEnumerator ModifySpeed(float duration, float targetValue, float startTime, float endTime)
         {
             float timer = 0;
-            float refMult = baseSpeedMult;
+            float refMult = BaseSpeedMult;
 
             // First value
             while (timer <= duration * startTime)
@@ -351,10 +351,10 @@ namespace MainGame.PlayerScripts
                 float progress = divider == 0 ? 1 : timer / divider;
 
                 timer += Time.deltaTime;
-                refMult = Mathf.Lerp(baseSpeedMult, targetValue, progress);
+                refMult = Mathf.Lerp(BaseSpeedMult, targetValue, progress);
 
                 // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
+                _currentMultCoroutine = BaseSpeedMult * refMult;
                 yield return null;
             }
 
@@ -367,7 +367,7 @@ namespace MainGame.PlayerScripts
             }
 
             // Second value
-            float finalMult = baseSpeedMult;
+            float finalMult = BaseSpeedMult;
             while (timer < duration)
             {
                 float progress = (timer - duration * endTime) / (duration * (1 - endTime));
@@ -376,11 +376,11 @@ namespace MainGame.PlayerScripts
                 refMult = Mathf.Lerp(refMult, finalMult, progress);
 
                 // Apply it
-                currentMultCoroutine = baseSpeedMult * refMult;
+                _currentMultCoroutine = BaseSpeedMult * refMult;
                 yield return null;
             }
 
-            currentMultCoroutine = baseSpeedMult;
+            _currentMultCoroutine = BaseSpeedMult;
         }
         
         #endregion
@@ -399,9 +399,9 @@ namespace MainGame.PlayerScripts
             localMoveAmountNormalized = amount;
         }
 
-        private void SetGroundedState(bool _grounded)
+        private void SetGroundedState(bool grounded)
         {
-            grounded = _grounded;
+            this.grounded = grounded;
         }
 
         #endregion

@@ -13,13 +13,13 @@ namespace MainGame.PlayerScripts
         [SerializeField] private LayerMask spectatorLayer;
         private PhotonView _photonView;
         private PlayerInput _playerInput;
-        private Transform chosenPlayer;
-        private Camera defaultCam;
-        private int index;
+        private Transform _chosenPlayer;
+        private Camera _defaultCam;
+        private int _index;
 
         // Camera references
-        private GameObject spectatorCamClone;
-        private GameObject spectatorCamHolder;
+        private GameObject _spectatorCamClone;
+        private GameObject _spectatorCamHolder;
 
         private void Awake()
         {
@@ -34,7 +34,7 @@ namespace MainGame.PlayerScripts
             if (_photonView.IsMine)
             {
                 // Default cam
-                defaultCam = GetComponent<Role>()._cameraHolder.GetComponentInChildren<Camera>();
+                _defaultCam = GetComponentInChildren<Camera>();
 
                 // Enable everything
                 Setup();
@@ -48,10 +48,10 @@ namespace MainGame.PlayerScripts
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
                     {
-                        index++;
-                        index %= list.Count;
+                        _index++;
+                        _index %= list.Count;
 
-                        chosenPlayer = list[index].transform;
+                        _chosenPlayer = list[_index].transform;
                     }
                 };
 
@@ -64,15 +64,15 @@ namespace MainGame.PlayerScripts
 
                     if (list.Count > 0 && ctx.ReadValueAsButton())
                     {
-                        index--;
-                        index += list.Count;
-                        index %= list.Count;
+                        _index--;
+                        _index += list.Count;
+                        _index %= list.Count;
 
-                        chosenPlayer = list[index].transform;
+                        _chosenPlayer = list[_index].transform;
                     }
                 };
 
-                spectatorCamClone.transform.rotation = Quaternion.identity;
+                _spectatorCamClone.transform.rotation = Quaternion.identity;
             }
             {
                 Destroy(this);
@@ -83,21 +83,21 @@ namespace MainGame.PlayerScripts
         {
             if (!isSpectatorModeEnabled)
             {
-                defaultCam.enabled = true;
-                spectatorCamClone.SetActive(false);
-                spectatorCamHolder.transform.position = transform.position + Vector3.up;
+                _defaultCam.enabled = true;
+                _spectatorCamClone.SetActive(false);
+                _spectatorCamHolder.transform.position = transform.position + Vector3.up;
                 return;
             }
 
-            defaultCam.enabled = false;
+            _defaultCam.enabled = false;
             _playerInput.enabled = true;
-            spectatorCamClone.SetActive(true);
+            _spectatorCamClone.SetActive(true);
             GetComponent<Role>().deathText.enabled = false;
 
-            if (chosenPlayer != null)
+            if (_chosenPlayer != null)
             {
-                Vector3 offset = Vector3.up * 1 + chosenPlayer.TransformDirection(Vector3.back * 2);
-                Vector3 chosenPlayerPosition = chosenPlayer.position + Vector3.up;
+                Vector3 offset = Vector3.up * 1 + _chosenPlayer.TransformDirection(Vector3.back * 2);
+                Vector3 chosenPlayerPosition = _chosenPlayer.position + Vector3.up;
                 Vector3 dest = chosenPlayerPosition + offset;
 
                 Vector3 dir = dest - chosenPlayerPosition;
@@ -108,30 +108,30 @@ namespace MainGame.PlayerScripts
                         7))
                 {
                     dest = hit.point - dir.normalized * 0.5f;
-                    spectatorCamHolder.transform.position = dest;
+                    _spectatorCamHolder.transform.position = dest;
                 }
 
-                spectatorCamHolder.transform.position =
-                    Vector3.Lerp(spectatorCamHolder.transform.position, dest, Time.deltaTime * 2);
+                _spectatorCamHolder.transform.position =
+                    Vector3.Lerp(_spectatorCamHolder.transform.position, dest, Time.deltaTime * 2);
 
-                spectatorCamHolder.transform.LookAt(chosenPlayerPosition);
-                Vector3 rotationEulerAngles = spectatorCamHolder.transform.rotation.eulerAngles;
+                _spectatorCamHolder.transform.LookAt(chosenPlayerPosition);
+                Vector3 rotationEulerAngles = _spectatorCamHolder.transform.rotation.eulerAngles;
                 rotationEulerAngles.x = 10;
-                spectatorCamHolder.transform.rotation = Quaternion.Euler(rotationEulerAngles);
+                _spectatorCamHolder.transform.rotation = Quaternion.Euler(rotationEulerAngles);
             }
         }
 
         private void Setup()
         {
             // Spectator cam
-            spectatorCamHolder = new GameObject("spectatorCamHolder");
-            spectatorCamClone = Instantiate(defaultCam.gameObject, spectatorCamHolder.transform, false);
-            spectatorCamClone.layer = (int) Mathf.Log(spectatorLayer, 2);
+            _spectatorCamHolder = new GameObject("spectatorCamHolder");
+            _spectatorCamClone = Instantiate(_defaultCam.gameObject, _spectatorCamHolder.transform, false);
+            _spectatorCamClone.layer = (int) Mathf.Log(spectatorLayer, 2);
 
-            spectatorCamClone.SetActive(false);
+            _spectatorCamClone.SetActive(false);
 
-            spectatorCamClone.GetComponent<Camera>();
-            Destroy(spectatorCamClone.GetComponent<AudioListener>());
+            _spectatorCamClone.GetComponent<Camera>();
+            Destroy(_spectatorCamClone.GetComponent<AudioListener>());
         }
     }
 }

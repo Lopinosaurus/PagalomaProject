@@ -18,7 +18,7 @@ namespace MainGame.PlayerScripts
 
         [SerializeField] private Rigidbody groundCheck;
 
-        private JumpState currentJumpState { get; set; } = JumpState.Still;
+        private JumpState CurrentJumpState { get; set; } = JumpState.Still;
 
         [SerializeField] private JumpCollisionDetect[] obstaclesPresent;
         [SerializeField] private JumpCollisionDetect[] obstaclesAbsent;
@@ -30,32 +30,32 @@ namespace MainGame.PlayerScripts
         // Script components
         private PlayerAnimation _playerAnimation;
         private PlayerLook _playerLook;
-        private bool AlreadyWantsJump;
+        private bool _alreadyWantsJump;
 
         // Jump booleans
         private bool WantsJump;
         [SerializeField, Range(5, 8)] private float jumpStrength = 4;
 
-        private bool shouldJumpFreezeControls =>
-            JumpState.MidVault == currentJumpState ||
-            JumpState.HighVault == currentJumpState;
+        private bool ShouldJumpFreezeControls =>
+            JumpState.MidVault == CurrentJumpState ||
+            JumpState.HighVault == CurrentJumpState;
 
-        private bool shouldJumpFreezeGravity =>
-            JumpState.MidVault == currentJumpState ||
-            JumpState.HighVault == currentJumpState;
+        private bool ShouldJumpFreezeGravity =>
+            JumpState.MidVault == CurrentJumpState ||
+            JumpState.HighVault == CurrentJumpState;
 
         public bool SetJumpState(JumpState desired)
         {
             if (_photonView.IsMine)
             {
-                if (desired != currentJumpState)
+                if (desired != CurrentJumpState)
                 {
-                    currentJumpState = desired;
+                    CurrentJumpState = desired;
 
                     DisableCharacterController(desired);
-                    _playerLook.LockViewJump(shouldJumpFreezeControls);
+                    _playerLook.LockViewJump(ShouldJumpFreezeControls);
                     
-                    _playerAnimation.SetAnimationJumpState((int)currentJumpState);
+                    _playerAnimation.SetAnimationJumpState((int)CurrentJumpState);
 
                     return true;
                 }
@@ -69,13 +69,13 @@ namespace MainGame.PlayerScripts
             switch (desired)
             {
                 case JumpState.Still:
-                    _characterController.enabled = true;
+                    characterController.enabled = true;
                     break;
                 case JumpState.MidVault:
-                    _characterController.enabled = false;
+                    characterController.enabled = false;
                     break;
                 case JumpState.HighVault:
-                    _characterController.enabled = false;
+                    characterController.enabled = false;
                     break;
             }
         }
@@ -85,7 +85,7 @@ namespace MainGame.PlayerScripts
             bool stateChanged = false;
             
             // Detects if the player can jump if wished
-            if (JumpState.Still == currentJumpState)
+            if (JumpState.Still == CurrentJumpState)
                 if (WantsJump)
                 {
                     JumpState availableJump = GetAvailableJump();
@@ -114,7 +114,7 @@ namespace MainGame.PlayerScripts
 
         private void ManageJump(bool stateChanged)
         {
-            switch (currentJumpState)
+            switch (CurrentJumpState)
             {
                 case JumpState.SimpleJump when stateChanged:
                 {
@@ -124,7 +124,7 @@ namespace MainGame.PlayerScripts
                 
                 case JumpState.SimpleJump:
                 {
-                    if (CollisionFlags.CollidedAbove == _characterController.collisionFlags)
+                    if (CollisionFlags.CollidedAbove == characterController.collisionFlags)
                         SetJumpState(JumpState.Still);
                     break;
                 }

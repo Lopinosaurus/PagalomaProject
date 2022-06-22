@@ -5,37 +5,37 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class PlayerGenerator : MonoBehaviour, IPunInstantiateMagicCallback
     {
-        [SerializeField] private GameObject _attackCollider;
-        private Lycan Lycan;
-        private Priest Priest;
-        private Role[] roles;
-        private Seer Seer;
-        private Spy Spy;
-        private Villager Villager;
-        private Werewolf Werewolf;
+        [SerializeField] private GameObject attackCollider;
+        private Lycan _lycan;
+        private Priest _priest;
+        private Role[] _roles;
+        private Seer _seer;
+        private Spy _spy;
+        private Villager _villager;
+        private Werewolf _werewolf;
 
         private void Awake()
         {
-            Villager = GetComponent<Villager>();
-            Seer = GetComponent<Seer>();
-            Werewolf = GetComponent<Werewolf>();
-            Lycan = GetComponent<Lycan>();
-            Spy = GetComponent<Spy>();
-            Priest = GetComponent<Priest>();
-            roles = new[] {(Role) Villager, Seer, Werewolf, Lycan, Spy, Priest};
+            _villager = GetComponent<Villager>();
+            _seer = GetComponent<Seer>();
+            _werewolf = GetComponent<Werewolf>();
+            _lycan = GetComponent<Lycan>();
+            _spy = GetComponent<Spy>();
+            _priest = GetComponent<Priest>();
+            _roles = new[] {(Role) _villager, _seer, _werewolf, _lycan, _spy, _priest};
             GetComponent<PhotonView>();
         }
 
         private void Start()
         {
-            _attackCollider.SetActive(true);
+            attackCollider.SetActive(true);
         }
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
             object[] instantiationData = info.photonView.InstantiationData;
             var roleName = (string) instantiationData[0];
-            Color color = RoomManager.Instance.colorsDict[(string) instantiationData[1]];
+            Color color = RoomManager.Instance.ColorsDict[(string) instantiationData[1]];
             var username = (string) instantiationData[2];
             var userId = (string) instantiationData[3];
 
@@ -44,32 +44,32 @@ namespace MainGame.PlayerScripts.Roles
             switch (roleName)
             {
                 case "Villager":
-                    playerRole = Villager;
-                    Destroy(_attackCollider);
+                    playerRole = _villager;
+                    Destroy(attackCollider);
                     break;
                 case "Lycan":
-                    playerRole = Lycan;
-                    Destroy(_attackCollider);
+                    playerRole = _lycan;
+                    Destroy(attackCollider);
                     break;
                 case "Spy":
-                    playerRole = Spy;
-                    Destroy(_attackCollider);
+                    playerRole = _spy;
+                    Destroy(attackCollider);
                     break;
                 case "Seer":
-                    playerRole = Seer;
+                    playerRole = _seer;
                     break;
                 case "Werewolf":
-                    playerRole = Werewolf;
+                    playerRole = _werewolf;
                     break;
                 case "Priest":
-                    playerRole = Priest;
+                    playerRole = _priest;
                     break;
             }
 
             if ((bool) playerRole) // checks if null with that
             {
                 // Disable other roles
-                foreach (Role role in roles)
+                foreach (Role role in _roles)
                     if (playerRole != role)
                         role.enabled = false;
 
@@ -85,7 +85,7 @@ namespace MainGame.PlayerScripts.Roles
                 if (info.Sender.IsLocal)
                 {
                     RoomManager.Instance.localPlayer = playerRole;
-                    RoomManager.Instance.localPlayer.GetComponent<PlayerController>()._role = playerRole;
+                    RoomManager.Instance.localPlayer.GetComponent<PlayerController>().role = playerRole;
                     Debug.Log($"New role set in PlayerController : {playerRole}");
                 }
 
@@ -98,7 +98,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Deactivate _attackCollider for non-local players
-            if (!info.Sender.IsLocal && _attackCollider) Destroy(_attackCollider);
+            if (!info.Sender.IsLocal && attackCollider) Destroy(attackCollider);
         }
     }
 }

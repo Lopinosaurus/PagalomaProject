@@ -10,7 +10,7 @@ public class RebindSystem : MonoBehaviour
     [SerializeField] private Text sprintText;
     [SerializeField] private Text killText;
     [SerializeField] private Text clickText;
-    private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
     private void Start()
     {
@@ -50,7 +50,7 @@ public class RebindSystem : MonoBehaviour
     {
         jumpText.text = "Enter a key...";
 
-        rebindingOperation = asset.actionMaps[0].FindAction("Jump").PerformInteractiveRebinding()
+        _rebindingOperation = asset.actionMaps[0].FindAction("Jump").PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
@@ -63,7 +63,7 @@ public class RebindSystem : MonoBehaviour
                     asset.actionMaps[0].FindAction("Jump").bindings[bindIndex].effectivePath,
                     InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                rebindingOperation.Dispose();
+                _rebindingOperation.Dispose();
             })
             .Start();
     }
@@ -72,7 +72,7 @@ public class RebindSystem : MonoBehaviour
     {
         sprintText.text = "Enter a key...";
 
-        rebindingOperation = asset.actionMaps[0].FindAction("Sprint").PerformInteractiveRebinding()
+        _rebindingOperation = asset.actionMaps[0].FindAction("Sprint").PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
@@ -85,7 +85,7 @@ public class RebindSystem : MonoBehaviour
                     asset.actionMaps[0].FindAction("Sprint").bindings[bindIndex].effectivePath,
                     InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                rebindingOperation.Dispose();
+                _rebindingOperation.Dispose();
             })
             .Start();
     }
@@ -94,7 +94,7 @@ public class RebindSystem : MonoBehaviour
     {
         crouchText.text = "Enter a key...";
 
-        rebindingOperation = asset.actionMaps[0].FindAction("Crouch").PerformInteractiveRebinding()
+        _rebindingOperation = asset.actionMaps[0].FindAction("Crouch").PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
@@ -107,7 +107,7 @@ public class RebindSystem : MonoBehaviour
                     asset.actionMaps[0].FindAction("Crouch").bindings[bindIndex].effectivePath,
                     InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                rebindingOperation.Dispose();
+                _rebindingOperation.Dispose();
             })
             .Start();
     }
@@ -116,7 +116,7 @@ public class RebindSystem : MonoBehaviour
     {
         killText.text = "Enter a key...";
 
-        rebindingOperation = asset.actionMaps[0].FindAction("Kill").PerformInteractiveRebinding()
+        _rebindingOperation = asset.actionMaps[0].FindAction("Kill").PerformInteractiveRebinding()
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
@@ -129,7 +129,7 @@ public class RebindSystem : MonoBehaviour
                     asset.actionMaps[0].FindAction("Kill").bindings[bindIndex].effectivePath,
                     InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                rebindingOperation.Dispose();
+                _rebindingOperation.Dispose();
             })
             .Start();
     }
@@ -138,7 +138,7 @@ public class RebindSystem : MonoBehaviour
     {
         clickText.text = "Enter a key...";
 
-        rebindingOperation = asset.actionMaps[0].FindAction("Click").PerformInteractiveRebinding()
+        _rebindingOperation = asset.actionMaps[0].FindAction("Click").PerformInteractiveRebinding()
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
             .OnComplete(operation =>
@@ -150,7 +150,7 @@ public class RebindSystem : MonoBehaviour
                     asset.actionMaps[0].FindAction("Click").bindings[bindIndex].effectivePath,
                     InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                rebindingOperation.Dispose();
+                _rebindingOperation.Dispose();
             })
             .Start();
     }

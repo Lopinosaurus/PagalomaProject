@@ -8,18 +8,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public string roleName;
     public string color;
     public int spawnIndex;
-    private PhotonView PV;
+    private PhotonView _pv;
 
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
+        _pv = GetComponent<PhotonView>();
     }
 
     private void Start()
     {
-        if (PV.IsMine)
+        if (_pv.IsMine)
             // Get local player role
-            PV.RPC(nameof(RPC_GetRole), RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
+            _pv.RPC(nameof(RPC_GetRole), RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
     }
 
     private void CreateController()
@@ -35,8 +35,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 {roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
             GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint,
                 Quaternion.identity, 0, instantiationData);
-            IGMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
-            IGMenuManager.Instance.loadingScreen.SetActive(false);
+            IgMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
+            IgMenuManager.Instance.loadingScreen.SetActive(false);
         }
         else
         {
@@ -46,9 +46,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void DisplayRole() // Display role name when set
     {
-        if (PV.IsMine)
+        if (_pv.IsMine)
         {
-            RoomManager.Instance.DisplayRole(roleName, RoomManager.Instance.colorsDict[color]);
+            RoomManager.Instance.DisplayRole(roleName, RoomManager.Instance.ColorsDict[color]);
             CreateController(); // Call CreateController only when roleName have been received
         }
     }
@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         color = RoomManager.Instance.GetNextColor();
         spawnIndex = RoomManager.Instance.nextPlayerRoleIndex;
         RoomManager.Instance.nextPlayerRoleIndex++;
-        PV.RPC(nameof(RPC_ReceiveRole), RpcTarget.OthersBuffered, roleName, color,
+        _pv.RPC(nameof(RPC_ReceiveRole), RpcTarget.OthersBuffered, roleName, color,
             spawnIndex); // Broadcast the new role and color
         DisplayRole();
     }

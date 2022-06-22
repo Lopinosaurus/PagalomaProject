@@ -7,7 +7,7 @@ public class RebindInputs : MonoBehaviour
     // Rebinding Player Fields
     [SerializeField] private InputActionReference refJump;
     [SerializeField] private PlayerController playerController;
-    private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
     // TextMeshPro
     [SerializeField] private TMPro.TextMeshPro bindingKeyDisplay;
@@ -24,7 +24,7 @@ public class RebindInputs : MonoBehaviour
         // Swap BindMap to "In UI" mode
         //playerController.PlayerInput.SwitchCurrentActionMap("UI");
 
-        rebindingOperation = refJump.action.PerformInteractiveRebinding()
+        _rebindingOperation = refJump.action.PerformInteractiveRebinding()
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(0.1f)
             .OnComplete(action => RebindComplete())
@@ -35,7 +35,7 @@ public class RebindInputs : MonoBehaviour
     private void RebindComplete()
     {
         // Deleting operation from memory
-        rebindingOperation.Dispose();
+        _rebindingOperation.Dispose();
 
         startRebind.SetActive(true);
         waitingForInput.SetActive(false);

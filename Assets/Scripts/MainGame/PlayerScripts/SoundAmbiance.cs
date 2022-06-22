@@ -11,7 +11,7 @@ public class SoundAmbiance : MonoBehaviour
 
     private void Update()
     {
-        if (!VoteMenu.Instance.isNight)
+        if (!VoteMenu.Instance.IsNight)
         {
             if (!isDayPlaying)
             {
@@ -22,7 +22,7 @@ public class SoundAmbiance : MonoBehaviour
                 isDayPlaying = true;
             }
         }
-        else if (VoteMenu.Instance.isNight)
+        else if (VoteMenu.Instance.IsNight)
         {
             if (isDayPlaying)
             {

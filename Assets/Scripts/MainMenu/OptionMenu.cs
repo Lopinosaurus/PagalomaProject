@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class OptionMenu : MonoBehaviour
 {
-    private Resolution[] screenRes;
-    public AudioMixer MainAudioMixer;
-    public AudioMixer MusicMixer;
+    private Resolution[] _screenRes;
+    public AudioMixer mainAudioMixer;
+    public AudioMixer musicMixer;
     public Dropdown resDropdown;
 
     public void Start()
     {
-        screenRes = Screen.resolutions;
+        _screenRes = Screen.resolutions;
 
         if (resDropdown != null)
         {
@@ -22,13 +22,13 @@ public class OptionMenu : MonoBehaviour
 
             int currentResIndex = 0;
 
-            for (int i = 0; i < screenRes.Length; i++)
+            for (int i = 0; i < _screenRes.Length; i++)
             {
-                string option = screenRes[i].width + "x" + screenRes[i].height;
+                string option = _screenRes[i].width + "x" + _screenRes[i].height;
                 options.Add(option);
 
-                if (screenRes[i].width == Screen.currentResolution.width &&
-                    screenRes[i].height == Screen.currentResolution.height)
+                if (_screenRes[i].width == Screen.currentResolution.width &&
+                    _screenRes[i].height == Screen.currentResolution.height)
                 {
                     currentResIndex = i;
                 }
@@ -42,19 +42,19 @@ public class OptionMenu : MonoBehaviour
 
     public void SetScreenRes(int resIndex)
     {
-        Resolution ScreenRes = screenRes[resIndex];
+        Resolution screenRes = _screenRes[resIndex];
 
-        Screen.SetResolution(ScreenRes.width, ScreenRes.height, Screen.fullScreen);
+        Screen.SetResolution(screenRes.width, screenRes.height, Screen.fullScreen);
     }
 
     public void SetVolume(float volume)
     {
-        MainAudioMixer.SetFloat("MainVolume", volume);
+        mainAudioMixer.SetFloat("MainVolume", volume);
     }
 
     public void SetMusicVolume(float volume)
     {
-        MusicMixer.SetFloat("MusicVolume", volume);
+        musicMixer.SetFloat("MusicVolume", volume);
     }
     public void SetQuality(int qualityIndex)
     {

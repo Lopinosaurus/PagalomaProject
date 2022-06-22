@@ -11,8 +11,8 @@ namespace MainGame.PlayerScripts
     {
         public void Look() // Modifies camera and player rotation
         {
-            _rotationY = _mouseDeltaX * mouseSensX * canTurnSidesMult;
-            _rotationX -= _mouseDeltaY * mouseSensY * canTurnSidesMult;
+            rotationY = _mouseDeltaX * _mouseSensX * CanTurnSidesMult;
+            _rotationX -= _mouseDeltaY * _mouseSensY * CanTurnSidesMult;
 
             _rotationX = Mathf.Clamp(_rotationX, -90f, 90f);
 
@@ -26,7 +26,7 @@ namespace MainGame.PlayerScripts
             camHolder.localRotation = Quaternion.Euler(localRotationEuler);
 
             // _characterController.transform.rotation = Quaternion.Euler(rotationEuler);
-            _characterController.transform.Rotate(Vector3.up, _rotationY);
+            _characterController.transform.Rotate(Vector3.up, rotationY);
         }
 
         public void StartShake(float duration, float shakeStrength)
@@ -68,7 +68,7 @@ namespace MainGame.PlayerScripts
                 yield return null;
             }
 
-            Vector3 finalRotEulerAngles = new Vector3(camHolder.localRotation.eulerAngles.x, 0, 0);
+            Vector3 finalRotEulerAngles = new(camHolder.localRotation.eulerAngles.x, 0, 0);
             Quaternion finalRot = Quaternion.Euler(finalRotEulerAngles);
             // Restore normal angle
             timer = 10;
@@ -102,58 +102,58 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            isMoving = Mathf.Abs(_playerAnimation.velocityX) > 0.1f ||
-                       Mathf.Abs(_playerAnimation.velocityZ) > 0.1f;
+            _isMoving = Mathf.Abs(_playerAnimation.VelocityX) > 0.1f ||
+                       Mathf.Abs(_playerAnimation.VelocityZ) > 0.1f;
 
-            if (isMoving)
+            if (_isMoving)
             {
-                rotationRef = transform.rotation.eulerAngles.y;
+                _rotationRef = transform.rotation.eulerAngles.y;
                 RotateBodyY(0);
             }
             else
             {
                 // This delta is the difference between the last rotation while moving and the current rotation
                 float rotation = transform.rotation.eulerAngles.y;
-                deltaRotation = Mathf.DeltaAngle(rotation, rotationRef);
+                _deltaRotation = Mathf.DeltaAngle(rotation, _rotationRef);
 
                 // If the body rotates beyond that limit, we re-adapt
-                if (Mathf.Abs(deltaRotation) > rotationThreshold)
+                if (Mathf.Abs(_deltaRotation) > rotationThreshold)
                 {
                     float min = rotation - rotationThreshold;
                     float max = rotation + rotationThreshold;
 
-                    if (rotationRef > max && deltaRotation < 0) rotationRef -= 360;
-                    if (rotationRef < min && deltaRotation > 0) rotationRef += 360;
+                    if (_rotationRef > max && _deltaRotation < 0) _rotationRef -= 360;
+                    if (_rotationRef < min && _deltaRotation > 0) _rotationRef += 360;
 
 
-                    rotationRef = Mathf.Clamp(rotationRef, min, max);
+                    _rotationRef = Mathf.Clamp(_rotationRef, min, max);
                 }
                 else
                 {
-                    RotateBodyY(deltaRotation, true);
+                    RotateBodyY(_deltaRotation, true);
                 }
             }
         }
 
         private void RotateBodyY(float rotY, bool isInstant = false)
         {
-            Vector3 localRotHips = BodyToRotate.localRotation.eulerAngles;
-            float resetRotStrength = isInstant ? 1 : bodyResetRotStrength * Time.deltaTime;
+            Vector3 localRotHips = bodyToRotate.localRotation.eulerAngles;
+            float resetRotStrength = isInstant ? 1 : BodyResetRotStrength * Time.deltaTime;
             localRotHips.y = Mathf.LerpAngle(localRotHips.y, rotY, resetRotStrength);
 
-            BodyToRotate.transform.localRotation = Quaternion.Euler(localRotHips);
+            bodyToRotate.transform.localRotation = Quaternion.Euler(localRotHips);
         }
 
         public void LockViewJump(bool locked)
         {
-            canTurnSides = !locked;
+            _canTurnSides = !locked;
         }
 
         public void LocalPostProcessingAndSound(PostProcessVolume postProcessVolume, float duration,
             AudioClip audioClip)
         {
             // Attach gameObject to player
-            GameObject localVolume = new GameObject($"localVolume ({duration})");
+            GameObject localVolume = new($"localVolume ({duration})");
             localVolume.transform.SetParent(transform);
 
             // Attach spawner
@@ -178,10 +178,10 @@ namespace MainGame.PlayerScripts
 
         public void FOVChanger()
         {
-            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, baseFOV + addMovementFOV * _playerAnimation.velocity, 1);
+            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, _baseFOV + addMovementFOV * _playerAnimation.Velocity, 1);
         }
 
-        public void DOFChanger()
+        public void DofChanger()
         {
             float focusDistanceValue = _depthOfField.focusDistance.value;
             float newFocusDistanceValue = focusDistanceValue;
@@ -190,9 +190,7 @@ namespace MainGame.PlayerScripts
 
             if (Physics.SphereCast(camTransform.position, 0.01f, camTransform.forward, out RaycastHit hit,
                     float.PositiveInfinity, 7, QueryTriggerInteraction.Ignore))
-            {
                 newFocusDistanceValue = hit.distance;
-            }
 
             _depthOfField.focusDistance.value = newFocusDistanceValue;
 
@@ -212,49 +210,49 @@ namespace MainGame.PlayerScripts
         private CharacterController _characterController;
 
         // Sensitivity
-        [Space] [Header("Mouse settings")] private readonly float mouseSensX = 10f;
+        [Space] [Header("Mouse settings")] private readonly float _mouseSensX = 10f;
 
-        private readonly float mouseSensY = 10f;
+        private readonly float _mouseSensY = 10f;
 
         // Mouse input values
         private float _mouseDeltaX;
         private float _mouseDeltaY;
-        public float turnDeltaY => _mouseDeltaX * mouseSensX * canTurnSidesMult;
-        private float canTurnSidesMult => !canTurnSides ? 0.1f : 1;
+        public float TurnDeltaY => _mouseDeltaX * _mouseSensX * CanTurnSidesMult;
+        private float CanTurnSidesMult => !_canTurnSides ? 0.1f : 1;
 
         // Current player values
         private float _rotationX;
-        public float _rotationY;
+        public float rotationY;
         private const float SmoothTimeX = 0.01f;
 
         // Shake settings
         [Space] [Header("Shake settings")]
 
         // Jump settings
-        private bool canTurnSides = true;
+        private bool _canTurnSides = true;
 
         // Head settings
-        [SerializeField] private Transform BodyToRotate;
-        private float deltaRotation;
-        private float rotationRef;
-        private const float bodyResetRotStrength = 12;
+        [SerializeField] private Transform bodyToRotate;
+        private float _deltaRotation;
+        private float _rotationRef;
+        private const float BodyResetRotStrength = 12;
         [SerializeField] [Range(0, 90)] private float rotationThreshold = 60f;
-        private bool isMoving;
+        private bool _isMoving;
 
         // Head Bob settings
-        private const float amplitude = 0.1f;
-        private float PiDividedByMaxDistance;
-        private const float piHalf = Mathf.PI * 0.5f;
+        private const float Amplitude = 0.1f;
+        private float _piDividedByMaxDistance;
+        private const float PIHalf = Mathf.PI * 0.5f;
 
         // FOV
-        private float baseFOV;
+        private float _baseFOV;
         [SerializeField] private float addMovementFOV = 2;
         
         public void HeadBob()
         {
             Vector3 pos = camHolder.position;
 
-            pos.y -= Mathf.Cos(_footstepEffect.PlayerDistanceCounter * PiDividedByMaxDistance + piHalf) * amplitude;
+            pos.y -= Mathf.Cos(_footstepEffect.PlayerDistanceCounter * _piDividedByMaxDistance + PIHalf) * Amplitude;
             Transform camTransform = _cam.transform;
             camTransform.position = pos;
             Vector3 localPosition = camTransform.localPosition;
@@ -279,10 +277,10 @@ namespace MainGame.PlayerScripts
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
 
             // HeadBob
-            PiDividedByMaxDistance = Mathf.PI / _footstepEffect.MaxDistance;
+            _piDividedByMaxDistance = Mathf.PI / _footstepEffect.MaxDistance;
 
             // FOV
-            baseFOV = _cam.fieldOfView;
+            _baseFOV = _cam.fieldOfView;
 
             if (_photonView.IsMine)
             {

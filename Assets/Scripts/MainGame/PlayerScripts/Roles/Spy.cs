@@ -6,15 +6,15 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Spy : Villager
     {
-        [SerializeField] private SkinnedMeshRenderer PlayerRender;
-        private readonly float invisibilityDuration = 25;
+        [SerializeField] private SkinnedMeshRenderer playerRender;
+        private readonly float _invisibilityDuration = 25;
 
         public override void UpdateActionText()
         {
-            if (_photonView.IsMine)
+            if (PhotonView.IsMine)
             {
-                if (powerTimer.isNotZero && isAlive) actionText.text = "Press E to Activate Invisibility";
-                else actionText.text = "";
+                if (powerTimer.IsNotZero && isAlive) ActionText.text = "Press E to Activate Invisibility";
+                else ActionText.text = "";
             }
         }
 
@@ -27,12 +27,12 @@ namespace MainGame.PlayerScripts.Roles
 
         private void BecomeInvisible()
         {
-            if (!VoteMenu.Instance.isNight) return;
+            if (!VoteMenu.Instance.IsNight) return;
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
-            if (powerCooldown.isZero && powerTimer.isNotZero)
+            if (powerCooldown.IsZero && powerTimer.IsNotZero)
             {
                 powerTimer.Reset();
-                _photonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
+                PhotonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
             }
@@ -45,9 +45,9 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator UpdateInvisibility()
         {
             // TODO Improve visuals
-            PlayerRender.enabled = false;
-            yield return new WaitForSeconds(invisibilityDuration);
-            PlayerRender.enabled = true;
+            playerRender.enabled = false;
+            yield return new WaitForSeconds(_invisibilityDuration);
+            playerRender.enabled = true;
         }
 
         [PunRPC]

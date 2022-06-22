@@ -20,8 +20,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private GameObject playerListItemPrefab;
     [SerializeField] private GameObject startGameButton;
-    private List<RoomInfo> activeRooms = new List<RoomInfo>();
-    private int numberOfPlayers;
+    private List<RoomInfo> _activeRooms = new List<RoomInfo>();
+    private int _numberOfPlayers;
 
     private void Awake()
     {
@@ -106,8 +106,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
 
-        numberOfPlayers = players.Count();
-        numberOfPlayersText.text = numberOfPlayers + "/16";
+        _numberOfPlayers = players.Count();
+        numberOfPlayersText.text = _numberOfPlayers + "/16";
         startGameButton.SetActive(PhotonNetwork.IsMasterClient); // startGameButton only active for host
     }
 
@@ -139,8 +139,8 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
         // Update activeRooms list
         foreach (RoomInfo room in roomList)
         {
-            if (room.RemovedFromList || !room.IsOpen) activeRooms.Remove(room);
-            else if (!activeRooms.Contains(room)) activeRooms.Add(room);
+            if (room.RemovedFromList || !room.IsOpen) _activeRooms.Remove(room);
+            else if (!_activeRooms.Contains(room)) _activeRooms.Add(room);
         }
         
         // Clear the room list
@@ -150,7 +150,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
         }
 
         // Update roomListContent
-        foreach (RoomInfo room in activeRooms)
+        foreach (RoomInfo room in _activeRooms)
         {
              // Instantiate a roomListItemPrefab with the correct name
              Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(room);
@@ -160,14 +160,14 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
-        numberOfPlayers++;
-        numberOfPlayersText.text = numberOfPlayers + "/16";
+        _numberOfPlayers++;
+        numberOfPlayersText.text = _numberOfPlayers + "/16";
     }
 
     public override void OnPlayerLeftRoom(Player oldPlayer)
     {
-        numberOfPlayers--;
-        numberOfPlayersText.text = numberOfPlayers + "/16";  
+        _numberOfPlayers--;
+        numberOfPlayersText.text = _numberOfPlayers + "/16";  
     }
     
     // GAME

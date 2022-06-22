@@ -7,17 +7,17 @@ namespace MainGame.PlayerScripts.Roles.Countdown
     public class Countdown : MonoBehaviour
     {
         
-        private float countdownValue;
+        private float _countdownValue;
         private float CountdownValue
         {
-            get => countdownValue;
-            set => countdownValue = value < 0 ? 0 : value;
+            get => _countdownValue;
+            set => _countdownValue = value < 0 ? 0 : value;
         }
 
-        public bool isZero => countdownValue == 0;
-        public bool isNotZero => countdownValue > 0;
+        public bool IsZero => _countdownValue == 0;
+        public bool IsNotZero => _countdownValue > 0;
         
-        private float countdownMultiplier = 1;
+        private float _countdownMultiplier = 1;
 
         private void Awake() => StartCoroutine(CountDownManager());
 
@@ -27,7 +27,7 @@ namespace MainGame.PlayerScripts.Roles.Countdown
             
             while (true)
             {
-                if (CountdownValue > 0) CountdownValue -= countdownMultiplier * Time.fixedDeltaTime;
+                if (CountdownValue > 0) CountdownValue -= _countdownMultiplier * Time.fixedDeltaTime;
                 yield return waitForFixedUpdate;
             }
         }
@@ -47,9 +47,9 @@ namespace MainGame.PlayerScripts.Roles.Countdown
             Resume();
         }
         
-        public void Set(float value) => countdownValue = value < 0 ? 0 : value;
+        public void Set(float value) => _countdownValue = value < 0 ? 0 : value;
         public void Reset() => Set(0);
         public void SetInfinite() => Set(float.MaxValue);
-        private void SetMultiplier(float newMultiplier) => countdownMultiplier = newMultiplier < 0 ? 0 : newMultiplier;
+        private void SetMultiplier(float newMultiplier) => _countdownMultiplier = newMultiplier < 0 ? 0 : newMultiplier;
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class LocalVolumeSetter : MonoBehaviour
 {
-    public PostProcessProfile PostProcessProfile;
-    public PostProcessVolume PostProcessVolume;
-    public Camera PlayerCamera;
+    public PostProcessProfile postProcessProfile;
+    public PostProcessVolume postProcessVolume;
+    public Camera playerCamera;
     
     
     // Start is called before the first frame update

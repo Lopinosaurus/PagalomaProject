@@ -5,9 +5,9 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Seer : Villager
     {
-        public List<Role> _targets = new List<Role>();
+        public List<Role> targets = new List<Role>();
         
-        public readonly string friendlyRoleName = "Seer";
+        public readonly string FriendlyRoleName = "Seer";
 
         public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
@@ -22,12 +22,12 @@ namespace MainGame.PlayerScripts.Roles
                 {
                     if (add)
                     {
-                        _targets.Add(tempTarget);
+                        targets.Add(tempTarget);
                         Debug.Log("[+] Seer target added: " + tempTarget.name);
                     }
-                    else if (_targets.Contains(tempTarget))
+                    else if (targets.Contains(tempTarget))
                     {
-                        _targets.Remove(tempTarget);
+                        targets.Remove(tempTarget);
                         Debug.Log("[-] Seer target removed: " + tempTarget.name);
                     }
                 }
@@ -38,10 +38,10 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UpdateActionText()
         {
-            if (_photonView.IsMine)
+            if (PhotonView.IsMine)
             {
-                if (_targets.Count > 0 && powerTimer.isNotZero) actionText.text = "Press E to Reveal Role";
-                else actionText.text = "";
+                if (targets.Count > 0 && powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
+                else ActionText.text = "";
             }
         }
 
@@ -54,13 +54,13 @@ namespace MainGame.PlayerScripts.Roles
 
         private void RevealRole()
         {
-            if (0 == _targets.Count)
+            if (0 == targets.Count)
             {
                 Debug.Log("[-] Can't reveal role: No target");
                 return;
             }
 
-            Role target = _targets[_targets.Count - 1];
+            Role target = targets[targets.Count - 1];
             
             if (target.isAlive == false)
             {
@@ -71,7 +71,7 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log($"[+] The Role of the target is: {target.roleName}");
             
             string displayedRole = target.roleName;
-            if (target is Lycan lycan) displayedRole = lycan.friendlyRoleName;
+            if (target is Lycan lycan) displayedRole = lycan.FriendlyRoleName;
             
             RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
             

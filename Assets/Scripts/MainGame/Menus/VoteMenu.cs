@@ -12,10 +12,10 @@ namespace MainGame
         public Transform voteList;
         [SerializeField] private VoteListItem voteListItem;
         [SerializeField] private Button voteButton;
-        [SerializeField] private PhotonView PV;
+        [SerializeField] private PhotonView pv;
         public bool isDay;
         public bool isFirstDay;
-        public bool isNight => !isDay && !isFirstDay;
+        public bool IsNight => !isDay && !isFirstDay;
 
         public void Awake()
         {
@@ -51,7 +51,7 @@ namespace MainGame
             RoomManager.Instance.votes.Add(votedPlayer);
             // if (votedPlayer != null) PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer.userId);
             // else PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, "");
-            PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others,
+            pv.RPC(nameof(RPC_SubmitVote), RpcTarget.Others,
                 votedPlayer != null
                     ? votedPlayer.userId
                     : "");
@@ -59,7 +59,7 @@ namespace MainGame
 
         public void KillVotedPlayer(string userId) // Only MasterClient has access to this method
         {
-            PV.RPC(nameof(RPC_KillVotedPlayer), RpcTarget.All, userId);
+            pv.RPC(nameof(RPC_KillVotedPlayer), RpcTarget.All, userId);
         }
         private static void KillVotedPlayer(Role player)
         {
