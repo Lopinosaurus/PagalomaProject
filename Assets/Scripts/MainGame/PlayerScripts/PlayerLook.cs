@@ -68,7 +68,7 @@ namespace MainGame.PlayerScripts
                 yield return null;
             }
 
-            Vector3 finalRotEulerAngles = new(camHolder.localRotation.eulerAngles.x, 0, 0);
+            Vector3 finalRotEulerAngles = new Vector3(camHolder.localRotation.eulerAngles.x, 0, 0);
             Quaternion finalRot = Quaternion.Euler(finalRotEulerAngles);
             // Restore normal angle
             timer = 10;
@@ -153,7 +153,7 @@ namespace MainGame.PlayerScripts
             AudioClip audioClip)
         {
             // Attach gameObject to player
-            GameObject localVolume = new($"localVolume ({duration})");
+            GameObject localVolume = new GameObject($"localVolume ({duration})");
             localVolume.transform.SetParent(transform);
 
             // Attach spawner
