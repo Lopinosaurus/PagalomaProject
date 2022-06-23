@@ -13,7 +13,7 @@ namespace MainGame
         public float MaxDistance => maxDistance;
         private float _playerDistanceCounter;
         private PlayerAnimation _playerAnimation;
-        private PlayerMovement _playerMovement;
+        private CharacterController _characterController;
         public float PlayerDistanceCounter => _playerDistanceCounter;
 
         void Start()
@@ -21,7 +21,7 @@ namespace MainGame
             plyAudioSource.playOnAwake = false;
             plyAudioSource.volume = GetComponent<PhotonView>().IsMine ? 0.05f : 0.11f;
             _playerAnimation = GetComponent<PlayerAnimation>();
-            _playerMovement = GetComponent<PlayerMovement>();
+            _characterController = GetComponent<CharacterController>();
         }
     
         void FixedUpdate()
@@ -33,7 +33,7 @@ namespace MainGame
                 _playerDistanceCounter %= maxDistance;
                 plyAudioSource.clip = dryFootstep;
              
-                if (_playerMovement.grounded)
+                if (_characterController.isGrounded)
                 {
                     plyAudioSource.Play();
                 }

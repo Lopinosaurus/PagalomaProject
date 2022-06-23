@@ -133,7 +133,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public virtual void UpdateActionText() => Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
 
-        public void Die()
+        public virtual void Die()
         {
             // Show death label & disable inputs
             if (PhotonView.IsMine)

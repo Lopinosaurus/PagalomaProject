@@ -12,22 +12,23 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
-            if (other.CompareTag("Player"))
+            if (other is not CharacterController || !other.CompareTag("Player")) return;
+
+            // Adds or removes role
+            if (other.TryGetComponent(out Role targetRole))
             {
-                if (other.TryGetComponent(out Role tempTarget) && !(tempTarget is Priest))
+                if (add)
                 {
-                    if (add)
-                    {
-                        targets.Add(tempTarget);
-                        Debug.Log("[+] Priest target added: " + tempTarget.name);
-                    }
-                    else if (targets.Contains(tempTarget))
-                    {
-                        targets.Remove(tempTarget);
-                        Debug.Log("[-] Priest target removed: " + tempTarget.name);
-                    }
+                    targets.Add(targetRole);
+                    Debug.Log("[+] Priest target added: " + targetRole.name);
+                }
+                else
+                {
+                    targets.Remove(targetRole);
+                    Debug.Log("[-] Priest target removed: " + targetRole.name);
                 }
             }
+
 
             UpdateActionText();
         }

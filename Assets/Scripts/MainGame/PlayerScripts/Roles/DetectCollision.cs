@@ -25,7 +25,7 @@ public class DetectCollision : MonoBehaviour
         if (VoteMenu.Instance && other)
             if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
             {
-                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, true);
+                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, false);
             }
     }
 }

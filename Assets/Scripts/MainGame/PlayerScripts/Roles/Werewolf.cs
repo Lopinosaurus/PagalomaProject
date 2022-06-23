@@ -54,27 +54,20 @@ namespace MainGame.PlayerScripts.Roles
         /// <param name="add">When true, adds the collider to the targets list, otherwise will try to remove it.</param>
         public override void UpdateTarget(Collider other, bool add)
         {
-            if (isTransformed == false) return;
-            
-            if (other.CompareTag("Player"))
-            {
-                Role tempTarget = null;
-                foreach (Role role in other.GetComponents<Role>())
-                    if (role.enabled)
-                        tempTarget = role;
+            if (isTransformed == false || other is not CharacterController || !other.CompareTag("Player")) return;
 
-                if (tempTarget != null && !(tempTarget is Werewolf))
+            // Adds or removes role
+            if (other.TryGetComponent(out Role targetRole) && !(targetRole is Werewolf))
+            {
+                if (add)
                 {
-                    if (add)
-                    {
-                        targets.Add(tempTarget);
-                        Debug.Log("[+] Werewolf target added: " + tempTarget.name);
-                    }
-                    else if (targets.Contains(tempTarget))
-                    {
-                        targets.Remove(tempTarget);
-                        Debug.Log("[-] Werewolf target removed: " + tempTarget.name);
-                    }
+                    targets.Add(targetRole);
+                    Debug.Log("[+] Werewolf target added: " + targetRole.name);
+                }
+                else
+                {
+                    targets.Remove(targetRole);
+                    Debug.Log("[-] Werewolf target removed: " + targetRole.name);
                 }
             }
 
@@ -91,6 +84,9 @@ namespace MainGame.PlayerScripts.Roles
 
         public void UpdateTransformation(bool goingToWerewolf)
         {
+            // Avoids useless transformations is already in the desired state
+            if (goingToWerewolf == isTransformed) return;
+            
             if (PhotonView.IsMine) PhotonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
 
             StartCoroutine(WerewolfTransform(goingToWerewolf));
@@ -119,7 +115,7 @@ namespace MainGame.PlayerScripts.Roles
                 PowerTimer.Pause();
                 PowerTimer.Resume(TotalTransformationTransitionDuration);
             }
-            else PowerTimer.SetInfinite();
+            else PowerTimer.Reset();
 
             if (goingToWerewolf && PhotonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 

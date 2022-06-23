@@ -63,6 +63,8 @@ MonoBehaviour:
   - RPC_SimpleJumpAnimation
   - RPC_WerewolfAttackAnimation
   - RPC_Detransformation
+  - BecomeInvisible
+  - RPC_ModifyInvisibility
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

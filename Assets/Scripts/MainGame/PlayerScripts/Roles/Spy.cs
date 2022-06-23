@@ -8,6 +8,7 @@ namespace MainGame.PlayerScripts.Roles
     public class Spy : Villager
     {
         private readonly float _invisibilityDuration = 25;
+        public bool isInvisible { get; private set; }
 
         public override void UpdateActionText()
         {
@@ -22,17 +23,17 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (!CanUseAbilityGeneric()) return;
             
-            BecomeInvisible();
+            TriggerInvisible();
         }
 
-        private void BecomeInvisible()
+        private void TriggerInvisible()
         {
             if (!VoteMenu.Instance.IsNight) return;
+            
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
             if (PowerCooldown.IsZero && PowerTimer.IsNotZero)
             {
                 PowerTimer.Reset();
-                PhotonView.RPC(nameof(RPC_BecomeInvisible), RpcTarget.Others);
                 StartCoroutine(UpdateInvisibility());
                 UpdateActionText();
             }
@@ -44,16 +45,33 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator UpdateInvisibility()
         {
-            // TODO Improve visuals
-            VillagerSkinnedMeshRenderer.enabled = false;
+            ModifyInvisibility(true);
+            PhotonView.RPC(nameof(RPC_ModifyInvisibility), RpcTarget.Others, true);
+            
             yield return new WaitForSeconds(_invisibilityDuration);
-            VillagerSkinnedMeshRenderer.enabled = true;
+            
+            if (isInvisible) ModifyInvisibility(false);
+            PhotonView.RPC(nameof(RPC_ModifyInvisibility), RpcTarget.Others, false);
+        }
+
+        // TODO Improve visuals
+        private void ModifyInvisibility(bool isBecomingInvisible)
+        {
+            isInvisible = isBecomingInvisible;
+            VillagerSkinnedMeshRenderer.enabled = !isBecomingInvisible;
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            ModifyInvisibility(false);
+            PhotonView.RPC(nameof(RPC_ModifyInvisibility), RpcTarget.Others, false);
         }
 
         [PunRPC]
-        public void RPC_BecomeInvisible()
+        private void RPC_ModifyInvisibility(bool isBecomingInvisible)
         {
-            if (RoomManager.Instance.localPlayer is Werewolf) StartCoroutine(UpdateInvisibility());
+            if (RoomManager.Instance.localPlayer is Werewolf) ModifyInvisibility(isBecomingInvisible);
         }
     }
 }
