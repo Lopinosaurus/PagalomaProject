@@ -378,9 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0f8fee50978ae42af3a08e7968edc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  werewolf: {fileID: 0}
-  seer: {fileID: 0}
-  priest: {fileID: 0}
 --- !u!1 &726912388708528436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3254,7 +3251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cd599bd4c2c034590263560dad19fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
   characterMask:
     serializedVersion: 2
     m_Bits: 128
@@ -5304,28 +5300,22 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5413455336871077530}
-  - component: {fileID: 3552154069239022563}
+  - component: {fileID: 6099398095721299116}
   - component: {fileID: 660215560512379707}
   - component: {fileID: 2867563762611503884}
-  - component: {fileID: 6099398095721299116}
+  - component: {fileID: 838235907301293933}
   - component: {fileID: 7578259937013170486}
+  - component: {fileID: 3233493481327671935}
   - component: {fileID: 8679982518694955207}
   - component: {fileID: 9182737059992604612}
   - component: {fileID: 5554154994360629918}
-  - component: {fileID: 838235907301293933}
   - component: {fileID: -7244464857301056814}
-  - component: {fileID: 6822367263179889421}
-  - component: {fileID: 1848938828090813196}
-  - component: {fileID: 6221952432295534360}
-  - component: {fileID: 2369406844203047068}
-  - component: {fileID: 9137616713227690798}
-  - component: {fileID: 1185351168579791139}
   - component: {fileID: 590110878684623782}
   - component: {fileID: 7430318575100400553}
   - component: {fileID: 8582652644670617519}
-  - component: {fileID: 3233493481327671935}
   - component: {fileID: 756289277428963088}
   - component: {fileID: 639062901070065131}
+  - component: {fileID: 3552154069239022563}
   - component: {fileID: 2296100508060758552}
   m_Layer: 7
   m_Name: Player
@@ -5353,7 +5343,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3552154069239022563
+--- !u!114 &6099398095721299116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5362,13 +5352,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7608168957379526285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09b4fe5f67748c398be2729ed2a936a, type: 3}
+  m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSpectatorModeEnabled: 0
-  spectatorLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  playerInput: {fileID: 5554154994360629918}
+  cameraHolder: {fileID: 1141215766398316333}
+  camPlayer: {fileID: 4956978653042181620}
+  villagerRender: {fileID: 4950680158300606666}
+  werewolfRender: {fileID: 8499297442018757553}
+  role: {fileID: 0}
+  aiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
+  enableAi: 1
+  aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
+  playerAudioSource: {fileID: 9182737059992604612}
+  lampLight: {fileID: 6658514047362406684}
+  firstPerson: 1
 --- !u!114 &660215560512379707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5421,30 +5419,24 @@ MonoBehaviour:
   bodyToRotate: {fileID: 7748072702339364861}
   rotationThreshold: 90
   addMovementFOV: 2
---- !u!114 &6099398095721299116
-MonoBehaviour:
+--- !u!143 &838235907301293933
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInput: {fileID: 5554154994360629918}
-  cameraHolder: {fileID: 1141215766398316333}
-  camPlayer: {fileID: 4956978653042181620}
-  villagerRender: {fileID: 4950680158300606666}
-  werewolfRender: {fileID: 8499297442018757553}
-  role: {fileID: 0}
-  aiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
-  enableAi: 1
-  aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
-  playerAudioSource: {fileID: 9182737059992604612}
-  lampLight: {fileID: 6658514047362406684}
-  firstPerson: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.4
+  m_SlopeLimit: 60
+  m_StepOffset: 0.4
+  m_SkinWidth: 0.04
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7578259937013170486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5469,6 +5461,22 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &3233493481327671935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &8679982518694955207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5698,24 +5706,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4956978653042181620}
---- !u!143 &838235907301293933
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.4
-  m_SlopeLimit: 60
-  m_StepOffset: 0.4
-  m_SkinWidth: 0.04
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-7244464857301056814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5732,155 +5722,6 @@ MonoBehaviour:
   nearSign: 0
   door: {fileID: 0}
   pv: {fileID: 7578259937013170486}
---- !u!114 &6822367263179889421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0584ef3612f4fc74aa8e8075c28a3619, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Villager
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &1848938828090813196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33dbd54bc04dab40b406e4e36bf8dfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Seer
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  targets: []
---- !u!114 &6221952432295534360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 248291a9c779a464a8a955d705542c85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Werewolf
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  villagerRenderer: {fileID: 0}
-  wereWolfRenderer: {fileID: 0}
-  particles: {fileID: 0}
-  targets: []
-  isTransformed: 0
-  werewolfPowerDuration: 60
-  afterAttackCooldown: 5
---- !u!114 &2369406844203047068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c8dd2a0b0c497d813c4b46d32eebdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Lycan
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &9137616713227690798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1476b4e0f94d7e8b0f5e233fb8f0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Spy
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  playerRender: {fileID: 0}
---- !u!114 &1185351168579791139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39f605e9ea0f48b19288f6f747c4ba47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  roleName: Priest
-  username: 
-  userId: 
-  kill: 0
-  isAlive: 1
-  hasShield: 0
-  hasVoted: 0
-  deathText: {fileID: 0}
-  vote: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
-  targets: []
-  lastPlayerShielded: {fileID: 0}
 --- !u!114 &590110878684623782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5893,7 +5734,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f9a2b9b85596c44b6cc355d95ce0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCollider: {fileID: 0}
+  villagerRender: {fileID: 4950680158300606666}
+  werewolfRender: {fileID: 8499297442018757553}
+  attackCollider: {fileID: 660008149618959238}
+  werewolfTransitionParticles: {fileID: 4280448778261451547, guid: 05d4513cea190b84f8a46b69e521b16c, type: 3}
 --- !u!114 &7430318575100400553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5918,7 +5762,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d2aecb59bfb32384992824dadda924bc, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
   m_Controller: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -5928,22 +5772,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3233493481327671935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &756289277428963088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5968,6 +5796,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366e935fa36e45aeabc4b1f04c0cc24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3552154069239022563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7608168957379526285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09b4fe5f67748c398be2729ed2a936a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSpectatorModeEnabled: 0
+  spectatorLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &2296100508060758552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5995,9 +5839,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Attack
-  - Type: 3
-    SynchronizeType: 2
-    Name: WerewolfEnabled
   - Type: 9
     SynchronizeType: 0
     Name: SimpleJump
@@ -6005,10 +5846,10 @@ MonoBehaviour:
     SynchronizeType: 0
     Name: MidVault
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: JumpState
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 1

@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class IgMenuManager : MonoBehaviour
+public class MainGameMenuManager : MonoBehaviour
 {
-    public static IgMenuManager Instance;
-    public static bool IsPaused = false;
+    public static MainGameMenuManager Instance;
+    private static bool _isPaused;
     
     // Menu screens
     public GameObject pauseMenu;
@@ -22,16 +22,12 @@ public class IgMenuManager : MonoBehaviour
     
     public PlayerInput playerInput;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() => Instance = this;
 
     private void Start()
     {
         voteMenu.SetActive(false);
         optionMenu.SetActive(false);
-        voteMenu.SetActive(false);
         endScreen.SetActive(false);
         // playerClock.SetActive(false);
         // TODO assign something to this value !!
@@ -41,15 +37,8 @@ public class IgMenuManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsPaused)
-            {
-                ResumeGame();
-            }
-
-            else
-            {
-                PauseGame();
-            }
+            if (_isPaused) ResumeGame();
+            else PauseGame();
         }
     }
 
@@ -59,17 +48,17 @@ public class IgMenuManager : MonoBehaviour
         else if (pauseMenu.activeSelf) pauseMenu.SetActive(false);
         else voteMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        IsPaused = false;
-        if (playerInput != null) playerInput.SwitchCurrentActionMap("Player");
+        _isPaused = false;
+        if (playerInput) playerInput.SwitchCurrentActionMap("Player");
     }
 
-    void PauseGame()
+    private void PauseGame()
     {
         pauseMenu.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        IsPaused = true;
-        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
+        _isPaused = true;
+        if (playerInput) playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void OpenVoteMenu()
@@ -77,7 +66,7 @@ public class IgMenuManager : MonoBehaviour
         voteMenu.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
+        if (playerInput) playerInput.SwitchCurrentActionMap("UI");
     }
 
     public void OpenEndMenu(bool victory, int whoWon)
@@ -86,14 +75,17 @@ public class IgMenuManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         playerInput.enabled = true;
-        if (playerInput != null) playerInput.SwitchCurrentActionMap("UI");
+        if (playerInput) playerInput.SwitchCurrentActionMap("UI");
         
         victoryText.enabled = victory;
         defeatText.enabled = !victory;
 
-        if (whoWon == 1) whoWonText.text = "The Werewolves WON";
-        else if (whoWon == 2) whoWonText.text = "The Villagers WON";
-        else whoWonText.text = "Nobody WON";
+        whoWonText.text = whoWon switch
+        {
+            1 => "The Werewolves WON",
+            2 => "The Villagers WON",
+            _ => "Nobody WON"
+        };
     }
 
     public void Quit()
@@ -106,9 +98,9 @@ public class IgMenuManager : MonoBehaviour
 
     public void OpenTabMenu()
     {
-        
     }
+    
+    //Note Toggle Sneak : faire un bool toggle actif ou pas, et a chaque appel verif ce bool. Si oui playeraction.togglesneak, sinon playeraction.sneakclassic
 }
 
 
-//Note Toggle Sneak : faire un bool toggle actif ou pas, et a chaque appel verif ce bool. Si oui playeraction.togglesneak, sinon playeraction.sneakclassic

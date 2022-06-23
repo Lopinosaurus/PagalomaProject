@@ -74,6 +74,7 @@ namespace MainGame.PlayerScripts
 
                 _spectatorCamClone.transform.rotation = Quaternion.identity;
             }
+            else
             {
                 Destroy(this);
             }
@@ -94,7 +95,7 @@ namespace MainGame.PlayerScripts
             _spectatorCamClone.SetActive(true);
             GetComponent<Role>().deathText.enabled = false;
 
-            if (_chosenPlayer != null)
+            if (_chosenPlayer)
             {
                 Vector3 offset = Vector3.up * 1 + _chosenPlayer.TransformDirection(Vector3.back * 2);
                 Vector3 chosenPlayerPosition = _chosenPlayer.position + Vector3.up;
@@ -130,7 +131,6 @@ namespace MainGame.PlayerScripts
 
             _spectatorCamClone.SetActive(false);
 
-            _spectatorCamClone.GetComponent<Camera>();
             Destroy(_spectatorCamClone.GetComponent<AudioListener>());
         }
     }

@@ -59,15 +59,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Destroy(gameObject); // There can only be one
             return;
         }
-        //DontDestroyOnLoad(gameObject); // I am the only one
         Instance = this;
-        IgMenuManager.Instance.loadingScreen.SetActive(true);
+
+        MainGameMenuManager.Instance.loadingScreen.SetActive(true);
+        
         players = new List<Role>();
         votes = new List<Role>();
         infoText.text = "";
 
         int numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
-        roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
+        roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"}; 
         colors = new []{ "Red", "Blue", "Yellow", "Lime", "Pink", "Cyan", "Orange", "White", "Black", "Purple", "Green", "Grey", "Brown", "Teal", "Maroon", "Peach" };
         colors = colors.Take(numberOfPlayers).ToArray();
         roles = roles.Take(numberOfPlayers).ToArray();
@@ -221,6 +222,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void DisplayEndScreen(int isEog)
     {
         bool victory = isEog != 3 && ((isEog == 1) == localPlayer is Werewolf);
-        IgMenuManager.Instance.OpenEndMenu(victory, isEog);
+        MainGameMenuManager.Instance.OpenEndMenu(victory, isEog);
     }
 }

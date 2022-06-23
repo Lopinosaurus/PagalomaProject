@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!1101 &-3254736049032329705
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -825,7 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!114 &-2847475260735300609
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!206 &-2659290817326223208
 BlendTree:
   m_ObjectHideFlags: 1
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!1102 &-1273592440566911974
 AnimatorState:
   serializedVersion: 6
@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!1101 &-403527737969446659
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1145,12 +1145,6 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: VelocityZ
     m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: WerewolfEnabled
-    m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1222,9 +1216,9 @@ AnimatorController:
       m_State: {fileID: -8845481754438310452}
       m_Motion: {fileID: -4251890085361325582}
     m_Behaviours: []
-    m_BlendingMode: 1
+    m_BlendingMode: 0
     m_SyncedLayerIndex: -1
-    m_DefaultWeight: 0
+    m_DefaultWeight: 1
     m_IKPass: 1
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
@@ -1376,7 +1370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredSetState: 0
-  PlayerMovement: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!206 &1684681518371433185
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1508,7 +1502,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 43a49175d790a884f9a0d88f5b9a8f4d, type: 2}
+  m_Motion: {fileID: 7400000, guid: cb4388f3e9b85864aabfc8e9e5007a2a, type: 2}
   m_Tag: 
   m_SpeedParameter: VelocityX
   m_MirrorParameter: 

@@ -10,7 +10,7 @@ namespace MainGame.PlayerScripts.Roles
         public List<Role> targets = new List<Role>();
         public Role lastPlayerShielded;
 
-        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        public override void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other.CompareTag("Player"))
             {

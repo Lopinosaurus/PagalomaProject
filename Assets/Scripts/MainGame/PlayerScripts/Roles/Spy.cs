@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
@@ -6,7 +7,6 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Spy : Villager
     {
-        [SerializeField] private SkinnedMeshRenderer playerRender;
         private readonly float _invisibilityDuration = 25;
 
         public override void UpdateActionText()
@@ -45,9 +45,9 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator UpdateInvisibility()
         {
             // TODO Improve visuals
-            playerRender.enabled = false;
+            VillagerSkinnedMeshRenderer.enabled = false;
             yield return new WaitForSeconds(_invisibilityDuration);
-            playerRender.enabled = true;
+            VillagerSkinnedMeshRenderer.enabled = true;
         }
 
         [PunRPC]

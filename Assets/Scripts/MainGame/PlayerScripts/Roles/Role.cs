@@ -8,11 +8,9 @@ using UnityEngine.Rendering.PostProcessing;
 
 namespace MainGame.PlayerScripts.Roles
 {
-    public class Role : MonoBehaviour
+    public abstract class Role : MonoBehaviour
     {
         #region Attributes
-
-        public bool isActive;
 
         // Gameplay attributes
         public string roleName;
@@ -30,6 +28,8 @@ namespace MainGame.PlayerScripts.Roles
         protected Countdown.Countdown PowerTimer;
         protected bool ArePowerAndCooldownValid => PowerCooldown.IsZero && PowerTimer.IsNotZero;
 
+        // Internal components
+        protected SkinnedMeshRenderer VillagerSkinnedMeshRenderer;
         
         protected TMP_Text ActionText;
         public TMP_Text deathText;
@@ -59,7 +59,16 @@ namespace MainGame.PlayerScripts.Roles
 
         private void Awake()
         {
-            isActive = false;
+            PhotonView = GetComponent<PhotonView>();
+            PlayerInput = GetComponent<PlayerInput>();
+            
+            if (PhotonView.IsMine)
+            {
+                PlayerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+                PlayerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
+                PlayerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
+            }
+            
             hasVoted = false;
             
             PlayerInput = GetComponent<PlayerInput>();
@@ -67,10 +76,9 @@ namespace MainGame.PlayerScripts.Roles
             PlayerAnimation = GetComponent<PlayerAnimation>();
             PlayerMovement = GetComponent<PlayerMovement>();
             
-            _characterController = GetComponent<CharacterController>();
             _cameraHolder = _playerController.cameraHolder;
-            
-            PhotonView = GetComponent<PhotonView>();
+            _characterController = GetComponent<CharacterController>();
+            VillagerSkinnedMeshRenderer = gameObject.transform.Find("VillagerRender").GetComponentInChildren<SkinnedMeshRenderer>();
             
             if (RoomManager.Instance != null)
             {
@@ -78,8 +86,8 @@ namespace MainGame.PlayerScripts.Roles
                 deathText = RoomManager.Instance.deathText;
             }
 
-            if (ActionText != null) ActionText.text = "";
-            if (deathText != null) deathText.enabled = false;
+            if (ActionText) ActionText.text = "";
+            if (deathText) deathText.enabled = false;
 
             _rotationConstraint = GetComponentInChildren<RotationConstraint>();
             _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
@@ -90,18 +98,6 @@ namespace MainGame.PlayerScripts.Roles
             Countdown.Countdown[] countdownInstances = GetComponents<Countdown.Countdown>();
             PowerCooldown = countdownInstances[0];
             PowerTimer = countdownInstances[1];
-        }
-        
-        public void Activate()
-        {
-            isActive = true;
-            
-            if (PhotonView.IsMine)
-            {
-                PlayerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
-                PlayerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
-                PlayerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
-            }
         }
 
         private void LateUpdate()
@@ -118,14 +114,7 @@ namespace MainGame.PlayerScripts.Roles
         public void SetPlayerColor(Color color)
         {
             this.color = color;
-            Transform find = gameObject.transform.Find("VillagerRender");
-            bool wasActive = find.gameObject.activeSelf;
-
-            find.gameObject.SetActive(true);
-
-            find.GetChild(0).GetComponent<SkinnedMeshRenderer>().materials[1].color = color;
-
-            find.gameObject.SetActive(wasActive);
+            VillagerSkinnedMeshRenderer.materials[1].color = color;
         }
 
         public virtual void UseAbility()
@@ -144,8 +133,6 @@ namespace MainGame.PlayerScripts.Roles
 
         public virtual void UpdateActionText() => Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
 
-        [ContextMenuItem("commands", nameof(Die))]
-        private ContextMenu _da;
         public void Die()
         {
             // Show death label & disable inputs
@@ -238,5 +225,7 @@ namespace MainGame.PlayerScripts.Roles
             PowerCooldown.Resume();
             PowerTimer.Resume();
         }
+
+        public virtual void UpdateTarget(Collider other, bool b) {}
     }
 }

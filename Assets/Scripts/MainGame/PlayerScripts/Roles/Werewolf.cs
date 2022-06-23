@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
+using UnityEditor;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -10,9 +11,7 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        [SerializeField] private GameObject villagerRenderer;
-        [SerializeField] private GameObject wereWolfRenderer;
-        [SerializeField] private GameObject particles;
+        private GameObject _villagerRender, _werewolfRender, _particles;
 
         public readonly string FriendlyRoleName = "Werewolf";
         
@@ -28,6 +27,13 @@ namespace MainGame.PlayerScripts.Roles
         private float TotalTransformationTransitionDuration =>
             EarlyTransformationTransitionDuration + LateTransformationTransitionDuration;
 
+        public void SetupFields(GameObject villagerRender, GameObject werewolfRender, GameObject particles)
+        {
+            _villagerRender = villagerRender;
+            _werewolfRender = werewolfRender;
+            _particles = particles;
+        }
+        
         public override void UpdateActionText()
         {
             if (PhotonView.IsMine)
@@ -46,7 +52,7 @@ namespace MainGame.PlayerScripts.Roles
         /// </summary>
         /// <param name="other">The collider that will be updated.</param>
         /// <param name="add">When true, adds the collider to the targets list, otherwise will try to remove it.</param>
-        public void UpdateTarget(Collider other, bool add)
+        public override void UpdateTarget(Collider other, bool add)
         {
             if (isTransformed == false) return;
             
@@ -83,14 +89,8 @@ namespace MainGame.PlayerScripts.Roles
             else UpdateTransformation(true);
         }
 
-        [ContextMenu(nameof(UpdateTransformation))]
         public void UpdateTransformation(bool goingToWerewolf)
         {
-            // Won't transform into given state if already in this given state
-            if (goingToWerewolf == isTransformed) return;
-
-            if (!ArePowerAndCooldownValid) return;
-
             if (PhotonView.IsMine) PhotonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
 
             StartCoroutine(WerewolfTransform(goingToWerewolf));
@@ -98,8 +98,10 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator WerewolfTransform(bool goingToWerewolf)
         {
+            Debug.LogWarning($"{goingToWerewolf}");
+            
             // Particles to dissimulate werewolf transition
-            GameObject particles = Instantiate(this.particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            GameObject particles = Instantiate(this._particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
             particles.transform.parent = transform;
 
@@ -117,7 +119,7 @@ namespace MainGame.PlayerScripts.Roles
                 PowerTimer.Pause();
                 PowerTimer.Resume(TotalTransformationTransitionDuration);
             }
-            else PowerTimer.Reset();
+            else PowerTimer.SetInfinite();
 
             if (goingToWerewolf && PhotonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 
@@ -128,8 +130,8 @@ namespace MainGame.PlayerScripts.Roles
             yield return new WaitForSeconds(EarlyTransformationTransitionDuration);
 
             // TODO improve visual transition
-            villagerRenderer.SetActive(!goingToWerewolf);
-            wereWolfRenderer.SetActive(goingToWerewolf);
+            _villagerRender.SetActive(!goingToWerewolf);
+            _werewolfRender.SetActive(goingToWerewolf);
 
             // Changes the animator
             PlayerAnimation.EnableWerewolfAnimations(goingToWerewolf);
@@ -146,7 +148,11 @@ namespace MainGame.PlayerScripts.Roles
             var waitForFixedUpdate = new WaitForFixedUpdate();
 
             // Will bring the werewolf back to human when the power timer runs out
-            while (PowerTimer.IsNotZero) yield return waitForFixedUpdate;
+            while (PowerTimer.IsNotZero)
+            {
+                Debug.Log($"Checking for Detransformation {PowerTimer.CountdownValue}");
+                yield return waitForFixedUpdate;
+            }
 
             UpdateTransformation(false);
         }
@@ -228,9 +234,9 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-        [PunRPC]
+        [PunRPC, ContextMenu("Transformation")]
         public void RPC_Transformation() => StartCoroutine(WerewolfTransform(true));
-        [PunRPC]
+        [PunRPC, ContextMenu("Detransformation")]
         public void RPC_Detransformation() => StartCoroutine(WerewolfTransform(false));
     }
 }

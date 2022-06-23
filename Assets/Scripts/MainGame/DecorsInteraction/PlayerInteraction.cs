@@ -34,7 +34,7 @@ public class PlayerInteraction : MonoBehaviour
         if (nearSign)
         {
             Debug.Log("[+] Should open voting screen");
-            IgMenuManager.Instance.OpenVoteMenu();
+            MainGameMenuManager.Instance.OpenVoteMenu();
         }
     }
 

@@ -34,7 +34,7 @@ namespace MainGame
         
         public void UpdateVoteItems()
         {
-            if (RoomManager.Instance.localPlayer.vote != null && !RoomManager.Instance.localPlayer.vote.isAlive)
+            if (RoomManager.Instance.localPlayer.vote && !RoomManager.Instance.localPlayer.vote.isAlive)
                 RoomManager.Instance.localPlayer.vote = null;
             voteButton.interactable = isDay && !RoomManager.Instance.localPlayer.hasVoted;
             foreach (Transform trans in voteList)
@@ -51,10 +51,7 @@ namespace MainGame
             RoomManager.Instance.votes.Add(votedPlayer);
             // if (votedPlayer != null) PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer.userId);
             // else PV.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, "");
-            pv.RPC(nameof(RPC_SubmitVote), RpcTarget.Others,
-                votedPlayer != null
-                    ? votedPlayer.userId
-                    : "");
+            pv.RPC(nameof(RPC_SubmitVote), RpcTarget.Others, votedPlayer != null ? votedPlayer.userId : "");
         }
 
         public void KillVotedPlayer(string userId) // Only MasterClient has access to this method

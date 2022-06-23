@@ -168,7 +168,7 @@ namespace MainGame.PlayerScripts
             postProcessVolume.transform.SetParent(localVolume.transform);
 
             // Execute sound if available
-            if (audioClip != null)
+            if (audioClip)
             {
                 AudioSource audioSource = localVolume.AddComponent<AudioSource>();
                 audioSource.clip = audioClip;

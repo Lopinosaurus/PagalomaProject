@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using MainGame;
 using MainGame.PlayerScripts;
@@ -45,12 +44,11 @@ public class PlayerController : MonoBehaviour
     public readonly float BackShift = 0.3f;
 
     // Ai settings
-    [Space] [Header("Ai Settings")] public Role role;
+    [Space, Header("Ai Settings")] public Role role;
 
     private GameObject _aiInstance;
     private Transform _villageTransform;
     [SerializeField] private GameObject aiPrefab;
-    private List<Transform> _playerPositions;
 
     private readonly float _minVillageDist = 120f;
     private readonly float _minPlayerDist = 60f;
@@ -135,7 +133,12 @@ public class PlayerController : MonoBehaviour
         
         while (!role && roomManager)
         {
-            role = RoomManager.Instance.localPlayer;
+            foreach (Role player in RoomManager.Instance.players.Where(player => player.GetComponent<PhotonView>().IsMine))
+            {
+                role = player;
+                break;
+            }
+
             yield return null;
         }
     }
@@ -178,16 +181,16 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AiCreator()
     {
-        yield return new WaitUntil(() => role != null);
+        yield return new WaitUntil(() => role);
 
-        if (RoomManager.Instance != null)
+        if (RoomManager.Instance)
         {
             // Werewolves are not affected
             if (RoomManager.Instance.localPlayer is Werewolf) yield break;
 
             // Gets the village
             GameObject village = GameObject.FindWithTag("village");
-            if (village != null) _villageTransform = village.transform;
+            if (village) _villageTransform = village.transform;
         }
 
         while (true)

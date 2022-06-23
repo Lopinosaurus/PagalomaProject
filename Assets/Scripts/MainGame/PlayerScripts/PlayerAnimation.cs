@@ -44,16 +44,13 @@ namespace MainGame.PlayerScripts
         public float Velocity => new Vector2(Mathf.Sin(Mathf.Atan2(VelocityZ, VelocityX)) * VelocityZ,
             Mathf.Cos(Mathf.Atan2(VelocityZ, VelocityX)) * VelocityX).magnitude;
         
-        // Animations
-        
         private void Awake()
         {
             _playerMovement = GetComponent<PlayerMovement>();
             _photonView = GetComponent<PhotonView>();
 
             currentAnimator = GetComponent<Animator>();
-            foreach (SetJumpState rj in currentAnimator.GetBehaviours<SetJumpState>())
-                rj.playerMovement = _playerMovement;
+            foreach (SetJumpState rj in currentAnimator.GetBehaviours<SetJumpState>()) rj.playerMovement = _playerMovement;
 
             _werewolfLayerIndex = currentAnimator.GetLayerIndex("WerewolfLayer");
 
@@ -148,6 +145,7 @@ namespace MainGame.PlayerScripts
             currentAnimator.SetTrigger(SimpleJumpHash);
         }
 
+        [ContextMenu(nameof(EnableWerewolfAnimations), true)]
         public void EnableWerewolfAnimations(bool toWerewolf)
         {
             if (toWerewolf)

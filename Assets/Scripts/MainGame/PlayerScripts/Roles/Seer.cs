@@ -9,7 +9,7 @@ namespace MainGame.PlayerScripts.Roles
         
         public readonly string FriendlyRoleName = "Seer";
 
-        public void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
+        public override void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other.CompareTag("Player"))
             {

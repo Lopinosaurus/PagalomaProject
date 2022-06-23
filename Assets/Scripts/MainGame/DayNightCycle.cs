@@ -46,7 +46,7 @@ public class DayNightCycle : MonoBehaviour
     {
         // increment time
         time += timeRate * Time.deltaTime;
-        time = Mathf.Clamp01(time);
+        time = time >= 1 ? 0 : time;
 
         if (time > 0.25 && time < 0.75) // New day
         {

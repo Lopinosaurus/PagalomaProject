@@ -20,6 +20,7 @@ public class Launcher : MonoBehaviourPunCallbacks // MonoBehaviourPunCallbacks g
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private GameObject playerListItemPrefab;
     [SerializeField] private GameObject startGameButton;
+    
     private List<RoomInfo> _activeRooms = new List<RoomInfo>();
     private int _numberOfPlayers;
 

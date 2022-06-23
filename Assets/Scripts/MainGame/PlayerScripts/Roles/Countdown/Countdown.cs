@@ -5,16 +5,16 @@ namespace MainGame.PlayerScripts.Roles.Countdown
 {
     public class Countdown : MonoBehaviour
     {
-        
-        private float _countdownValue;
-        private float CountdownValue
+        [Range(0, 60), SerializeField] private float _countdownValue;
+
+        internal float CountdownValue
         {
             get => _countdownValue;
             set => _countdownValue = value < 0 ? 0 : value;
         }
 
         public bool IsZero => _countdownValue == 0;
-        public bool IsNotZero => _countdownValue > 0;
+        public bool IsNotZero => !IsZero;
         
         private float _countdownMultiplier = 1;
 

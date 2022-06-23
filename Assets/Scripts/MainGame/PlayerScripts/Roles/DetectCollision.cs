@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class DetectCollision : MonoBehaviour
 {
-    [SerializeField] private Werewolf werewolf;
-    [SerializeField] private Seer seer;
-    [SerializeField] private Priest priest;
+    private PlayerController _playerController;
+
+    private void Awake()
+    {
+        _playerController = GetComponentInParent<PlayerController>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (VoteMenu.Instance != null)
+        if (VoteMenu.Instance && other)
             if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
             {
-                if (werewolf.isActive && werewolf.isAlive) werewolf.UpdateTarget(other, true);
-                if (seer.isActive && seer.isAlive) seer.UpdateTarget(other, true);
-                if (priest.isActive && priest.isAlive) priest.UpdateTarget(other, true);
+                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, true);
             }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (VoteMenu.Instance != null)
+        if (VoteMenu.Instance && other)
             if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
             {
-                if (werewolf.isActive && werewolf.isAlive) werewolf.UpdateTarget(other, false);
-                if (seer.isActive && seer.isAlive) seer.UpdateTarget(other, false);
-                if (priest.isActive && priest.isAlive) priest.UpdateTarget(other, false);
+                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, true);
             }
     }
 }
