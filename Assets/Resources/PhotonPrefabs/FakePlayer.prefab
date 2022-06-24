@@ -2266,7 +2266,6 @@ GameObject:
   - component: {fileID: 5413455336871077530}
   - component: {fileID: 7485208533255329612}
   - component: {fileID: 2708921361476488014}
-  - component: {fileID: 838235907301293933}
   - component: {fileID: 9182737059992604612}
   - component: {fileID: 8582652644670617519}
   - component: {fileID: 5996620775693853352}
@@ -2309,6 +2308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7182509bc7f8859408aa481ceaece4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!195 &2708921361476488014
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2318,37 +2318,19 @@ NavMeshAgent:
   m_GameObject: {fileID: 7608168957379526285}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1.8
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!143 &838235907301293933
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7608168957379526285}
-  m_Material: {fileID: 13400000, guid: 268e1a083a405e640a0a5cbed70702e5, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.4
-  m_SlopeLimit: 60
-  m_StepOffset: 0.4
-  m_SkinWidth: 0.04
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!82 &9182737059992604612
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2454,7 +2436,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d2aecb59bfb32384992824dadda924bc, type: 3}
+  m_Avatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
   m_Controller: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0

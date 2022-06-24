@@ -9,7 +9,6 @@ public class FakePlayerController : MonoBehaviour
 {
     // Components
     private NavMeshAgent _agent;
-    private CharacterController _characterController;
     private PhotonView _photonView;
     
     // Ai behaviour
@@ -18,7 +17,6 @@ public class FakePlayerController : MonoBehaviour
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _characterController = GetComponent<CharacterController>();
         _photonView = GetComponent<PhotonView>();
     }
 
