@@ -8,7 +8,9 @@ public class Map : MonoBehaviour
     public GameObject villageFolder;
     public GameObject stonesFolder;
     public GameObject bushesFolder;
+
     public GameObject village;
+
     // public int seed ;
     public List<GameObject> deadTrees;
     public List<GameObject> hugeTrees;
@@ -26,34 +28,29 @@ public class Map : MonoBehaviour
         AddStones();
         AddBushes();
         AddTrees();
+        
+        // Builds the navMesh after putting obstacles
+        GetComponentInParent<NavMeshBaker>().BuildNavMeshAtRuntime();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public void AddVillage()
+    private void AddVillage()
     {
         Vector2 v = Random.insideUnitCircle * 60;
         float x = v.x;
         float z = v.y;
         float y = 16.5f;
-        RaycastHit hit;
         int layerMask = 1 << 3; // define the only layer that the raycast can touch
         layerMask = ~layerMask; // inverse the bits to ignore specifically the 3; 
-        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out hit, 500, layerMask))
+        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out RaycastHit hit, 500, layerMask))
         {
-            if (hit.transform.tag == "mapFloor")
+            if (hit.transform.CompareTag("mapFloor"))
             {
-                Vector3 direction = hit.normal;
                 Instantiate(village, new Vector3(x, y, z), RandomRotation(), villageFolder.transform);
             }
-
         }
-}
+    }
 
-    public void AddBushes()
+    private void AddBushes()
     {
         int add = 20; // a possible tree each 50 m2
         List<float[]> possibleBushes = RandomListXY(add); //List of position of all trees (maybe not possible)
@@ -62,16 +59,16 @@ public class Map : MonoBehaviour
             float y = 0f;
             Vector3 direction = new Vector3(0, 0, 0);
             if (PositionValid(possibleBush, ref y, ref direction))
-            { 
+            {
                 GameObject bush = Instantiate(
-                    RandomBush(), new Vector3(possibleBush[0], y-0.2f,possibleBush[1]), 
+                    RandomBush(), new Vector3(possibleBush[0], y - 0.2f, possibleBush[1]),
                     StoneRotation(direction), bushesFolder.transform);
                 bush.tag = "bush";
             }
         }
     }
-    
-    public void AddStones()
+
+    private void AddStones()
     {
         int add = 50; // a possible tree each 50 m2
         List<float[]> possibleStones = RandomListXY(add); //List of position of all trees (maybe not possible)
@@ -80,16 +77,16 @@ public class Map : MonoBehaviour
             float y = 0f;
             Vector3 direction = new Vector3(0, 0, 0);
             if (PositionValid(possibleStone, ref y, ref direction))
-            { 
+            {
                 GameObject stone = Instantiate(
-                    RandomStone(), new Vector3(possibleStone[0], y+0.1f,possibleStone[1]), 
+                    RandomStone(), new Vector3(possibleStone[0], y + 0.1f, possibleStone[1]),
                     StoneRotation(direction), stonesFolder.transform);
                 stone.tag = "stone";
             }
         }
     }
-    
-    public void AddTrees()
+
+    private void AddTrees()
     {
         int add = 4; // a possible tree each 4 m2
         List<float[]> possibleTrees = RandomListXY(add); //List of position of all trees (maybe not possible)
@@ -98,39 +95,39 @@ public class Map : MonoBehaviour
             float y = 0f;
             Vector3 dir = new Vector3(0, 0, 0); // useless for the trees cause they only go straight up
             if (PositionValid(possibleTree, ref y, ref dir))
-            { 
+            {
                 GameObject tree = Instantiate(
-                    RandomTree(), new Vector3(possibleTree[0], y,possibleTree[1]), 
+                    RandomTree(), new Vector3(possibleTree[0], y, possibleTree[1]),
                     RandomRotation(), treesFolder.transform);
                 tree.tag = "tree";
             }
         }
     }
 
-    public static List<float[]> RandomListXY(int add)
+    private static List<float[]> RandomListXY(int add)
     {
         List<float[]> list = new List<float[]>();
-        float randAdd = (float)add / 3f;
-        for (int x = -490; x <= 490; x+=add)
+        float randAdd = add / 3f;
+        for (int x = -490; x <= 490; x += add)
         {
-            for (int z = -490; z <= 490; z+=add)
+            for (int z = -490; z <= 490; z += add)
             {
                 float randomX = Random.Range(-randAdd, randAdd);
                 float randomZ = Random.Range(-randAdd, randAdd);
-                list.Add(new float[] {x+randomX, z+randomZ});
+                list.Add(new float[] {x + randomX, z + randomZ});
             }
         }
+
         return list;
     }
-    
-    public static bool PositionValid(float[] possibleObject,ref float y, ref Vector3 direction)
+
+    private static bool PositionValid(float[] possibleObject, ref float y, ref Vector3 direction)
     {
-        RaycastHit hit;
         float x = possibleObject[0];
         float z = possibleObject[1];
-        if (Physics.Raycast(new Vector3(x, 100, z),Vector3.down,out hit,120))
+        if (Physics.Raycast(new Vector3(x, 100, z), Vector3.down, out RaycastHit hit, 120))
         {
-            if (hit.transform.tag == "mapFloor")
+            if (hit.transform.CompareTag("mapFloor"))
             {
                 y = hit.point.y;
                 direction = hit.normal;
@@ -143,36 +140,38 @@ public class Map : MonoBehaviour
 
         return false;
     }
-    
-    public static Quaternion RandomRotation()
+
+    private static Quaternion RandomRotation()
     {
-        return Quaternion.Euler(new Vector3(0,Random.Range(-360, 360), 0));
+        return Quaternion.Euler(new Vector3(0, Random.Range(-360, 360), 0));
     }
 
-    public Quaternion StoneRotation(Vector3 dir)
+    private Quaternion StoneRotation(Vector3 dir)
     {
         float x = Random.Range(-10f, 10f);
         float z = Random.Range(-10f, 10f);
-        return Quaternion.LookRotation(new Vector3(x,0,z),dir);
+        return Quaternion.LookRotation(new Vector3(x, 0, z), dir);
     }
-    
-    public GameObject RandomBush()
+
+    private GameObject RandomBush()
     {
         return bushes[Random.Range(0, bushes.Count)];
     }
-    public GameObject RandomStone()
+
+    private GameObject RandomStone()
     {
         return stones[Random.Range(0, stones.Count)];
     }
-    
-    public GameObject RandomTree()
+
+    private GameObject RandomTree()
     {
         float x = Random.value;
         if (x < 0.5f)
         {
-            return simpleTrees[Random.Range(0,simpleTrees.Count)];
+            return simpleTrees[Random.Range(0, simpleTrees.Count)];
         }
-        if(x < 0.90)
+
+        if (x < 0.90)
         {
             return longTrees[Random.Range(0, longTrees.Count)];
         }
@@ -191,5 +190,4 @@ public class Map : MonoBehaviour
     {
         return GameObject.FindWithTag("village");
     }
-    
 }
