@@ -181,7 +181,7 @@ namespace MainGame.PlayerScripts
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, _baseFOV + addMovementFOV * _playerAnimation.Velocity, 1);
         }
 
-        public void DofChanger()
+        public void DOFChanger()
         {
             float focusDistanceValue = _depthOfField.focusDistance.value;
             float newFocusDistanceValue = focusDistanceValue;

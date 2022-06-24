@@ -298,9 +298,13 @@ public class PlayerController : MonoBehaviour
             _playerLook.FOVChanger();
 
             // Focus DOF
-            _playerLook.DofChanger();
+            _playerLook.DOFChanger();
         }
-        else
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (!_photonView.IsMine)
         {
             _playerLook.HeadRotate();
         }

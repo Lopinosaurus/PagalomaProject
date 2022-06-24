@@ -1,41 +1,68 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FakePlayerController : MonoBehaviour
+namespace MainGame.PlayerScripts
 {
-    // Components
-    private NavMeshAgent _agent;
-    private PhotonView _photonView;
+    public class FakePlayerController : MonoBehaviour
+    {
+        // Components
+        private NavMeshAgent _agent;
+        private FakePlayerAnimation _fakePlayerAnimation;
     
-    // Ai behaviour
-    [SerializeField] private Transform target;
+        // Ai behaviour
+        [SerializeField] private Transform target;
+        [SerializeField] private List<Transform> positions;
+        [SerializeField, Range(0, 100)] private float offset = 15;
 
-    private void Awake()
-    {
-        _agent = GetComponent<NavMeshAgent>();
-        _photonView = GetComponent<PhotonView>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (target)
+        private void Awake()
         {
-            _agent.SetDestination(target.position);
-        }
-        else
-        {
+            _agent = GetComponent<NavMeshAgent>();
             try
             {
-                target = RoomManager.Instance.localPlayer.transform;
+                AddDestination(RoomManager.Instance.localPlayer.transform);
             }
             catch
             {
-                // ignore
+                Debug.LogError("no roomManager !",  this);
             }
+        }
+
+        private void FixedUpdate()
+        {
+            // Gets new path
+            if (!_agent.hasPath)
+            {
+                if (GetNextDestination(out Transform nextDestination))
+                {
+                    target = nextDestination;
+                }
+            }
+            
+            // Sets destination
+            if (target)
+            {
+                Vector3 destination = target.position;
+
+                if (offset > 0)
+                {
+                    Vector3 dir = (transform.position - target.position).normalized  * offset;
+                    destination += dir;
+                }
+                
+                _agent.SetDestination(destination);
+            }
+        }
+
+        private void AddDestination(Transform position) => positions.Add(position);
+        private void RemoveDestination(Transform position) => positions.Remove(position);
+
+        private bool GetNextDestination(out Transform nextDestination)
+        {
+            nextDestination = positions.LastOrDefault();
+            return nextDestination;
         }
     }
 }

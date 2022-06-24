@@ -2,6 +2,7 @@ using System.IO;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = Unity.Mathematics.Random;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
@@ -37,6 +38,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 Quaternion.identity, 0, instantiationData);
             MainGameMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
             MainGameMenuManager.Instance.loadingScreen.SetActive(false);
+            
+            // Fake players
+            Vector3 fakePlayerSpawnPoint = spawnPoint;
+            if (Physics.Raycast(spawnPoint, Vector3.down, out RaycastHit hit, 100, 7))
+            {
+                fakePlayerSpawnPoint = hit.point;
+            }
+
+            var fakePlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FakePlayer"),
+                fakePlayerSpawnPoint, Quaternion.identity);
         }
         else
         {

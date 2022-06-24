@@ -58,8 +58,6 @@ namespace MainGame.PlayerScripts
         {
             Vector3 agentVelocity = _agent.velocity;
             
-            Debug.Log($"{agentVelocity}");
-            
             Vector3 velocity3D = transform.InverseTransformDirection(agentVelocity);
             _velocity2Draw = new Vector2
             {

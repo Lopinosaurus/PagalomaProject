@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2336012724479922966}
   - component: {fileID: 540889517247507197}
   - component: {fileID: 5649690378408334522}
-  - component: {fileID: 1568663598257202202}
+  - component: {fileID: -7558128334240299772}
   m_Layer: 0
   m_Name: Tree_3
   m_TagString: tree
@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,6 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -97,14 +99,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1343914005354986604, guid: cc53ce7be5269c241a52d233a199a1bf, type: 3}
---- !u!192 &1568663598257202202
-OcclusionArea:
+--- !u!208 &-7558128334240299772
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6467123935578906221}
-  serializedVersion: 2
-  m_Size: {x: 7.5, y: 11.306512, z: 5.2647886}
-  m_Center: {x: 0, y: 5.3686385, z: -0.09837198}
-  m_IsViewVolume: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 5.532, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.004, y: 5.3620005, z: -0.069000006}
+  m_TimeToStationary: 0.5
