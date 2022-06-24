@@ -2310,6 +2310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   positions: []
+  offset: 0
 --- !u!195 &2708921361476488014
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2437,7 +2438,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7608168957379526285}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: dd0499a698704f24a8b57719ec631a64, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
   m_Controller: {fileID: 9100000, guid: 9454848160793e845951b9850bd42aa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
