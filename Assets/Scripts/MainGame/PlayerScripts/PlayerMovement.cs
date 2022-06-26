@@ -60,7 +60,7 @@ namespace MainGame.PlayerScripts
         public bool isSphereGrounded;
         private float _raySize = 0.1f;
         private readonly float _slopeCompensationForce = 100f;
-        private bool IsCcGrounded { get; set; }
+        public bool IsCcGrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space] [Header("Player height settings")] [SerializeField]
@@ -115,7 +115,7 @@ namespace MainGame.PlayerScripts
             _standingCameraHeightWerewolf = 1.6f;
             _crouchedCameraHeight = 1;
 
-            // Profs
+            // Depths
             _standingShiftVillager = _playerController.BackShift;
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
@@ -312,6 +312,7 @@ namespace MainGame.PlayerScripts
             // Character controller modifier
             float smoothTime = Time.deltaTime * crouchSmoothTime;
 
+            // Character center
             characterController.height = Mathf.Lerp(characterController.height, desiredHitboxHeight, smoothTime);
             // _characterController.height -= _characterController.skinWidth;
             Vector3 characterControllerCenter = characterController.center;

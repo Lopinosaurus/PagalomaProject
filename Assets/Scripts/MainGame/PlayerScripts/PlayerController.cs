@@ -302,7 +302,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnAnimatorIK(int layerIndex)
+    private void OnAnimatorIK(int _)
     {
         if (!_photonView.IsMine)
         {
