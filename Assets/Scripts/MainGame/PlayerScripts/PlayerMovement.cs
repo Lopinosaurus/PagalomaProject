@@ -246,7 +246,6 @@ namespace MainGame.PlayerScripts
 
             Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
 
-            Debug.DrawRay(transform.position, slopeDistanceDetection, Color.red, 0.05f, false);
             if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance,
                     _characterLayerValue))
                 if (hit.normal != Vector3.up)

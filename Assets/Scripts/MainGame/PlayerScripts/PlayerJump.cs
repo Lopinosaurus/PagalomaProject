@@ -34,7 +34,7 @@ namespace MainGame.PlayerScripts
 
         // Jump booleans
         private bool WantsJump;
-        [SerializeField, Range(5, 8)] private float jumpStrength = 4;
+        [SerializeField, Range(6, 10)] private float jumpStrength = 4;
 
         private bool ShouldJumpFreezeControls =>
             JumpState.MidVault == CurrentJumpState ||

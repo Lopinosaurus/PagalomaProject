@@ -3779,7 +3779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4950680158300606666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5897,6 +5897,13 @@ MonoBehaviour:
   villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
   werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
   currentAnimator: {fileID: 8582652644670617519}
+  enableFootIK: 1
+  LeftFoot: {fileID: 2433648784738989204}
+  RightFoot: {fileID: 8759786794678674210}
+  RayToFloorDistance: 1
+  RayOffset: 0
+  footHeightOffset: 0
+  rotationOffset: 0
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 4
