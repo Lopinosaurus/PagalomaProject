@@ -52,15 +52,19 @@ namespace MainGame.PlayerScripts
         private Vector2 _inputMoveRaw2D;
 
         // Gravity
-        [Space] [Header("Gravity settings")] private const float GravityForce = -9.81f;
+        [Space] [Header("Gravity settings")]
+        private const float GravityForce = -9.81f;
+        private const float DefaultGroundedGravityForce = -0.2f;
+        private const float _slopeCompensationForce = 100;
+        private const float SlopeForceLerpFactor = 10;
+        private float _slopeRaySize = 0.1f;
         public Vector3 upwardVelocity = Vector3.zero;
 
         // Ground check
         public bool grounded;
         public bool isSphereGrounded;
-        private float _raySize = 0.1f;
-        private readonly float _slopeCompensationForce = 100f;
-        public bool IsCcGrounded { get; set; }
+
+        private bool IsCcGrounded { get; set; }
 
         // Crouch & Hitboxes 
         [Space] [Header("Player height settings")] [SerializeField]
@@ -101,7 +105,7 @@ namespace MainGame.PlayerScripts
             characterController = GetComponentInChildren<CharacterController>();
             _characterLayerValue = (int) Mathf.Log(characterLayer.value, 2);
 
-            _raySize = characterController.radius * 1.1f;
+            _slopeRaySize = characterController.radius * 1.1f;
 
             // Hitboxes
             float hitboxHeight = characterController.height;
@@ -228,13 +232,13 @@ namespace MainGame.PlayerScripts
                 if (OnSlope())
                 {
                     float downwardForce = -_slopeCompensationForce;
-                    downwardForce = Mathf.Clamp(downwardForce, -500, -0.01f);
+                    downwardForce = Mathf.Clamp(downwardForce, -500, DefaultGroundedGravityForce);
 
-                    upwardVelocity.y = downwardForce;
+                    upwardVelocity.y = Mathf.Lerp(upwardVelocity.y, downwardForce, Time.deltaTime * SlopeForceLerpFactor);
                 }
                 else if (IsCcGrounded)
                 {
-                    upwardVelocity.y = -0.2f;
+                    upwardVelocity.y = DefaultGroundedGravityForce;
                 }
             }
         }
@@ -242,7 +246,7 @@ namespace MainGame.PlayerScripts
         private bool OnSlope()
         {
             var onSlope = false;
-            float maxDistance = characterController.height + characterController.radius + _raySize;
+            float maxDistance = characterController.height + characterController.radius + _slopeRaySize;
 
             Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
 

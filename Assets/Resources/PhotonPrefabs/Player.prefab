@@ -3837,7 +3837,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4950680158300606666}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.2}
+  m_LocalPosition: {x: 0, y: 0, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6006,15 +6006,14 @@ MonoBehaviour:
   enableFootPositionIK: 1
   enableFootRotationIK: 1
   debug: 1
-  leftFoot: {fileID: 2433648784738989204}
-  rightFoot: {fileID: 8759786794678674210}
   rayLength: 2
   rayHeightStartOffset: 0.5
-  footHeight: 0.11
-  lerpFactor: 1
+  footHeight: 0.1
+  lerpFoot: 25
+  motionExtrapolationFactor: 0
   ikConstraint: {fileID: 4030079588205059004}
   rightHand: {fileID: 2601338993843025888}
-  handLerp: 0
+  handLerp: 12.8
   targetedObject: {fileID: 0}
   minDistanceFromHandTarget: 0.8
 --- !u!95 &8582652644670617519
