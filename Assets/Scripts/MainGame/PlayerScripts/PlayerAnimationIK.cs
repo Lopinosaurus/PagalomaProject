@@ -1,87 +1,116 @@
 ﻿using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 namespace MainGame.PlayerScripts
 {
     public partial class PlayerAnimation
     {
         // Foot IK
-        [Space, Header("IK Setup")]
-        public bool enableFootPositionIK;
-        public bool enableFootRotationIK;
-        public bool debug;
-        [SerializeField] private Transform LeftFoot, RightFoot;
-        public float lowestPointSoFar;
-        [SerializeField, Range(0, 2)] private float RayToFloorDistance;
-        [SerializeField, Range(0, 2)] private float RayStartOffset;
-        [SerializeField, Range(-1f, 1f)] private float footHeightOffset;
-        [SerializeField, Range(0, 1)] private float lerpFactor;
-        private readonly int _characterLayerValue = 7;
-        [SerializeField] private Vector3 IKHint;
+        [Space, Header("IK Setup")] public bool enableFootPositionIK;
+        public bool enableFootRotationIK, debug;
+        [SerializeField] private Transform leftFoot, rightFoot;
+        [SerializeField, Range(0, 2)] private float rayLength, rayHeightStartOffset;
+        [SerializeField, Range(-1f, 1f)] private float footHeight;
+        [SerializeField, Range(0, 1)] private float lerpFoot;
+        private Vector3 _leftFootPosIK, _rightFootPosIK;
+        private const int CharacterLayerValue = 7;
+
+        [Space, Header("Right Hand")] [SerializeField]
+        private TwoBoneIKConstraint ikConstraint;
+
+        [SerializeField] private Transform rightHand;
+        [SerializeField, Range(0, 30)] private float handLerp;
+        [SerializeField] private Transform targetedObject;
+        private float _ikRightHandPosWeight;
+        [SerializeField, Range(0, 1)]  private float minDistanceFromHandTarget = 0.8f;
 
         private void OnAnimatorIK(int layerIndex)
         {
-            currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
-            currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-            
-            currentAnimator.SetIKHintPosition(AvatarIKHint.LeftKnee, IKHint);
-            currentAnimator.SetIKHintPosition(AvatarIKHint.RightKnee, IKHint);
-            
-            // Get new foot placements
-            Vector3 leftFootPos = currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot);
-            Vector3 rightFootPos = currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot);
-            Vector3 fixedLeftFootPos = leftFootPos;
-            Vector3 fixedRightFootPos = rightFootPos;
-            
-            Quaternion leftFootRot = currentAnimator.GetIKRotation(AvatarIKGoal.LeftFoot);
-            Quaternion rightFootRot = currentAnimator.GetIKRotation(AvatarIKGoal.RightFoot);
-            Quaternion fixedLeftFootRot = leftFootRot;
-            Quaternion fixedRightFootRot = rightFootRot;
-            
-            Ray leftFootRay = new Ray(leftFootPos + RayStartOffset * Vector3.up, Vector3.down * 10);
-            Ray rightFootRay = new Ray(rightFootPos+RayStartOffset * Vector3.up, Vector3.down * 10);
+            HandleFeetIKManagement();
+            ikConstraint.weight = 0;
+            HandleHandsIKManagement();
+        }
 
-            // Left foot
-            if (Physics.Raycast(leftFootRay, out RaycastHit hit, RayToFloorDistance, _characterLayerValue))
-            {
-                if (debug) Debug.DrawRay(leftFootRay.origin, leftFootRay.direction, Color.red);
-                
-                leftFootRot = Quaternion.LookRotation(LeftFoot.forward, hit.normal);                
-                
-                Vector3 correctedLeftFootPos = hit.point + Vector3.up * footHeightOffset;
-                if (leftFootRot.y < correctedLeftFootPos.y) leftFootPos = correctedLeftFootPos;
-            }
+        private void FixedUpdate()
+        {
+            _leftFootPosIK = currentAnimator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+            _rightFootPosIK = currentAnimator.GetBoneTransform(HumanBodyBones.RightFoot).position;
             
-            // Right foot
-            if (Physics.Raycast(rightFootRay, out RaycastHit hit2, RayToFloorDistance, _characterLayerValue))
-            {
-                if (debug) Debug.DrawRay(rightFootRay.origin, rightFootRay.direction, Color.red);
-                
-                rightFootRot = Quaternion.LookRotation(RightFoot.forward, hit2.normal);                
+            // Set new foot placements
+            GetNewFootPosition(ref _leftFootPosIK);
+            GetNewFootPosition(ref _rightFootPosIK);
             
-                Vector3 correctedRightFootPos = hit2.point + Vector3.up * footHeightOffset;
-                if (rightFootPos.y < correctedRightFootPos.y) rightFootPos = correctedRightFootPos;
-            }
+            Debug.Log($"{_leftFootPosIK} {_rightFootPosIK}");
             
+            //////////////////////////
+            
+            Vector3 chestPosition = currentAnimator.GetBoneTransform(HumanBodyBones.Chest).position;
+            Vector3 targetedObjectPosition = targetedObject.position;
+
+            bool isDistanceCloseEnough = IsDistanceCloseEnough(chestPosition, targetedObjectPosition, minDistanceFromHandTarget);
+
+            Debug.DrawLine(chestPosition, targetedObjectPosition, isDistanceCloseEnough ? Color.green : Color.red);
+            
+            _ikRightHandPosWeight = Mathf.Lerp(_ikRightHandPosWeight, isDistanceCloseEnough ? 1 : 0, Time.fixedDeltaTime * handLerp);
+        }
+
+        private void HandleHandsIKManagement()
+        {
+            // ikConstraint.data.target.position = position;
+            // ikConstraint.weight = Mathf.Lerp(ikConstraint.weight, desiredWeight, Time.deltaTime * targetLerp);
+
+            Vector3 targetedObjectPosition = targetedObject.position;
+
+            currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, targetedObjectPosition);
+            // currentAnimator.SetIKRotation(AvatarIKGoal.RightHand, targetedObjectRotation);
+            
+            currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
+            currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
+        }
+
+        private static bool IsDistanceCloseEnough(Vector3 position1, Vector3 position2, float distance)
+        {
+            return (position1 - position2).sqrMagnitude <= distance * distance;
+        }
+
+        private void HandleFeetIKManagement()
+        {
+            // Ik setup
+            currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, enableFootPositionIK ? 1 : 0);
+            currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, enableFootPositionIK ? 1 : 0);
+
             if (enableFootPositionIK)
             {
-                var lerpLeft = Vector3.Lerp(fixedLeftFootPos, leftFootPos, lerpFactor);
-                var lerpRight = Vector3.Lerp(fixedRightFootPos, rightFootPos, lerpFactor);
-                currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, lerpLeft);
-                currentAnimator.SetIKPosition(AvatarIKGoal.RightFoot, lerpRight);
+                // Vector3 leftLerped = Vector3.Lerp(currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot),
+                //     leftFootPosIK, Time.deltaTime * lerpFoot);
+                // Vector3 rightLerped = Vector3.Lerp(currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot),
+                //     rightFootPosIK, Time.deltaTime * lerpFoot);
+                // currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, leftLerped);
+                // currentAnimator.SetIKPosition(AvatarIKGoal.RightFoot, rightLerped);
+                
+                currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, _leftFootPosIK);
+                currentAnimator.SetIKPosition(AvatarIKGoal.RightFoot, _rightFootPosIK);
             }
-            
+
             if (enableFootRotationIK)
             {
-                var lerpLeft = Quaternion.Lerp(fixedLeftFootRot, leftFootRot, lerpFactor);
-                var lerpRight = Quaternion.Lerp(fixedRightFootRot, rightFootRot, lerpFactor);
-                currentAnimator.SetIKRotation(AvatarIKGoal.LeftFoot, lerpLeft);
-                currentAnimator.SetIKRotation(AvatarIKGoal.RightFoot, lerpRight);
+                // currentAnimator.SetIKRotation(AvatarIKGoal.LeftFoot, lerpLeft);
+                // currentAnimator.SetIKRotation(AvatarIKGoal.RightFoot, lerpRight);
+            }
+        }
+
+        private void GetNewFootPosition(ref Vector3 footPosIK)
+        {
+            Vector3 origin = footPosIK + Vector3.up * rayHeightStartOffset;
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayLength, CharacterLayerValue))
+            {
+                // Correction
+                if (footPosIK.y - footHeight < hit.point.y) footPosIK.y = hit.point.y + footHeight;
             }
             
             if (debug)
             {
-                Debug.DrawRay(hit.point, hit.normal, Color.green);
-                Debug.DrawRay(hit2.point, hit2.normal, Color.green);
+                Debug.DrawRay(footPosIK, hit.normal, Color.green);
             }
         }
     }

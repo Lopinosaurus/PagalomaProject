@@ -15,7 +15,6 @@ namespace MainGame.PlayerScripts
         // Ai behaviour
         [SerializeField] private Transform target;
         [SerializeField] private List<Transform> positions;
-        [SerializeField, Range(0, 100)] private float offset = 15;
 
         private void Awake()
         {
@@ -33,7 +32,7 @@ namespace MainGame.PlayerScripts
         private void FixedUpdate()
         {
             // Gets new path
-            if (!_agent.hasPath)
+            if (false)
             {
                 if (GetNextDestination(out Transform nextDestination))
                 {
@@ -45,14 +44,10 @@ namespace MainGame.PlayerScripts
             if (target)
             {
                 Vector3 destination = target.position;
-
-                if (offset > 0)
-                {
-                    Vector3 dir = (transform.position - target.position).normalized  * offset;
-                    destination += dir;
-                }
                 
                 _agent.SetDestination(destination);
+                
+                Debug.Log($"i have a path: {_agent.hasPath}");
             }
         }
 

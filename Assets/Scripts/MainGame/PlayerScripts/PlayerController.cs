@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     public GameObject villagerRender;
 
     [SerializeField] public GameObject werewolfRender;
-    public readonly float BackShift = 0.3f;
+    public const float BackShift = 0.3f;
 
     // Ai settings
     [Space, Header("Ai Settings")] public Role role;

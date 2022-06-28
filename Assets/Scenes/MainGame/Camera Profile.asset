@@ -1,42 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6992860270260211158
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
-  m_Name: AutoExposure
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  filtering:
-    overrideState: 1
-    value: {x: 1, y: 45.99998}
-  minLuminance:
-    overrideState: 1
-    value: -1
-  maxLuminance:
-    overrideState: 1
-    value: 0.5
-  keyValue:
-    overrideState: 1
-    value: 0.8
-  eyeAdaptation:
-    overrideState: 1
-    value: 0
-  speedUp:
-    overrideState: 1
-    value: 2
-  speedDown:
-    overrideState: 1
-    value: 1
 --- !u!114 &-5589018662750739394
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -82,6 +45,43 @@ MonoBehaviour:
     value: {fileID: 2800000, guid: d1f7503bbc6f0f94087ecc247816cecc, type: 3}
     defaultState: 1
   dirtIntensity:
+    overrideState: 0
+    value: 1
+--- !u!114 &-4139445840231728741
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
+  m_Name: AutoExposure
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  filtering:
+    overrideState: 1
+    value: {x: 33.276443, y: 91.341705}
+  minLuminance:
+    overrideState: 1
+    value: -1
+  maxLuminance:
+    overrideState: 1
+    value: 0
+  keyValue:
+    overrideState: 1
+    value: 0.9
+  eyeAdaptation:
+    overrideState: 0
+    value: 0
+  speedUp:
+    overrideState: 0
+    value: 2
+  speedDown:
     overrideState: 0
     value: 1
 --- !u!114 &-1760897958911532071
@@ -173,7 +173,7 @@ MonoBehaviour:
   - {fileID: -5589018662750739394}
   - {fileID: 7487782807392688084}
   - {fileID: 3403306440382189986}
-  - {fileID: -6992860270260211158}
+  - {fileID: -4139445840231728741}
   - {fileID: 2555036199009427512}
   - {fileID: -1760897958911532071}
   - {fileID: -1527352000341942297}
@@ -1007,13 +1007,13 @@ MonoBehaviour:
       - 0.5154301
       - 0.5149538
       - 0.51449317
-      - 0.51405036
-      - 0.51362735
+      - 0.5140503
+      - 0.5136273
       - 0.51322615
-      - 0.512849
+      - 0.5128489
       - 0.51249766
       - 0.5121744
-      - 0.5118813
+      - 0.51188123
       - 0.5116202
       - 0.5113933
       - 0.51120263
@@ -1022,24 +1022,24 @@ MonoBehaviour:
       - 0.5108684
       - 0.51084304
       - 0.51086414
-      - 0.5109338
+      - 0.51093376
       - 0.511054
       - 0.5112268
       - 0.5114543
       - 0.5117384
       - 0.5120814
-      - 0.51248515
+      - 0.5124851
       - 0.51295173
       - 0.5134832
       - 0.51408166
       - 0.51474917
       - 0.5154877
-      - 0.5162993
+      - 0.51629925
       - 0.51718605
       - 0.51815003
       - 0.51919323
       - 0.5203178
-      - 0.5215257
+      - 0.5215256
       - 0.5227169
       - 0.5237789
       - 0.5247167
@@ -1086,8 +1086,8 @@ MonoBehaviour:
       - 0.5185246
       - 0.5188055
       - 0.51917934
-      - 0.51965123
-      - 0.52022624
+      - 0.5196513
+      - 0.5202263
       - 0.5209094
       - 0.5217032
       - 0.5224896
@@ -1599,7 +1599,7 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 30
+    value: 120
   sampleCount:
-    overrideState: 1
+    overrideState: 0
     value: 10

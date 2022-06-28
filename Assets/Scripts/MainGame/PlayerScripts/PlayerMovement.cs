@@ -116,7 +116,7 @@ namespace MainGame.PlayerScripts
             _crouchedCameraHeight = 1;
 
             // Depths
-            _standingShiftVillager = _playerController.BackShift;
+            _standingShiftVillager = PlayerController.BackShift;
             _crouchedShiftVillager = 0.5f;
             _shiftWerewolf = 1.5f;
 
