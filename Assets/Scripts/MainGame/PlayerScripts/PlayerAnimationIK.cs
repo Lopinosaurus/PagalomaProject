@@ -88,8 +88,8 @@ namespace MainGame.PlayerScripts
             // Ik setup
             currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, enableFootPositionIK ? 1 : 0);
             currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, enableFootPositionIK ? 1 : 0);
-            currentAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, enableFootRotationIK ? 1 : 0);
-            currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, enableFootRotationIK ? 1 : 0);
+            currentAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, enableFootRotationIK ? 0.5f : 0);
+            currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, enableFootRotationIK ? 0.5f : 0);
 
             if (enableFootPositionIK)
             {
@@ -101,8 +101,6 @@ namespace MainGame.PlayerScripts
                 AdjustFootPositionAndRotation(ref _leftFootPosIK, out _leftFootRotIK);
                 AdjustFootPositionAndRotation(ref _rightFootPosIK, out _rightFootRotIK);
 
-                // AdjustBodyPosition();
-                
                 _leftFootPos.x = _leftFootPosIK.x; _leftFootPos.z = _leftFootPosIK.z;
                 _rightFootPos.x = _rightFootPosIK.x; _rightFootPos.z = _rightFootPosIK.z;
                 
@@ -137,8 +135,10 @@ namespace MainGame.PlayerScripts
         private void AdjustFootPositionAndRotation(ref Vector3 footPosIK, out Quaternion footRotIK)
         {
             // Position
-            Vector3 motionExtrapolation = transform.TransformDirection(new Vector3(VelocityX, 0, VelocityZ));
-            Vector3 origin = footPosIK + Vector3.up * rayHeightStartOffset + motionExtrapolation * motionExtrapolationFactor;
+            Vector3 motionLocal = new Vector3(VelocityX, 0, VelocityZ);
+            Vector3 motionWorld = transform.TransformDirection(motionLocal);
+            
+            Vector3 origin = footPosIK + Vector3.up * rayHeightStartOffset + motionWorld * motionExtrapolationFactor;
             // if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayLength, CharacterLayerValue))
             if (Physics.SphereCast(origin, 0.1f, Vector3.down, out RaycastHit hit, rayLength, CharacterLayerValue))
             {

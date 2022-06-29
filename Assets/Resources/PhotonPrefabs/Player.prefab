@@ -1745,7 +1745,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!20 &4956978653042181620
 Camera:
@@ -1772,7 +1772,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 88
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5665,9 +5665,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camHolder: {fileID: 6598090228381821785}
-  rotationY: 0
+  smoothTimeCam: 0.9
+  screenShakeLerp: 0
+  headAngleRotThreshold: 90
   bodyToRotate: {fileID: 7748072702339364861}
-  rotationThreshold: 90
+  amplitude: 0.1
+  headBobLerp: 2
   addMovementFOV: 2
 --- !u!143 &838235907301293933
 CharacterController:
@@ -6014,8 +6017,14 @@ MonoBehaviour:
   ikConstraint: {fileID: 4030079588205059004}
   rightHand: {fileID: 2601338993843025888}
   handLerp: 12.8
+  handRotationOffsetX: 0
+  handRotationOffsetY: 0
+  handRotationOffsetZ: 0
+  handPositionOffsetX: 0
+  handPositionOffsetY: 0
+  handPositionOffsetZ: 0
   targetedObject: {fileID: 0}
-  minDistanceFromHandTarget: 0.8
+  DistanceRequiredToTriggerHand: 0.8
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 4

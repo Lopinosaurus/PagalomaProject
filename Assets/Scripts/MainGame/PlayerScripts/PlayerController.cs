@@ -298,7 +298,7 @@ public class PlayerController : MonoBehaviour
             _playerLook.FOVChanger();
 
             // Focus DOF
-            _playerLook.DOFChanger();
+            _playerLook.DofChanger();
         }
     }
 

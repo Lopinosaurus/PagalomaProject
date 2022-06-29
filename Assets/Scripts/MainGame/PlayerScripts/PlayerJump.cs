@@ -33,7 +33,7 @@ namespace MainGame.PlayerScripts
         private bool _alreadyWantsJump;
 
         // Jump booleans
-        private bool WantsJump;
+        private bool _wantsJump;
         [SerializeField, Range(6, 50)] private float jumpStrength = 4;
 
         private bool ShouldJumpFreezeControls =>
@@ -52,9 +52,9 @@ namespace MainGame.PlayerScripts
                 {
                     CurrentJumpState = desired;
 
-                    DisableCharacterController(desired);
+                    this.DisableCharacterController(desired);
+                    _playerLook.ClampView(CurrentJumpState);
                     _playerLook.LockViewJump(ShouldJumpFreezeControls);
-                    
                     _playerAnimation.SetAnimationJumpState((int)CurrentJumpState);
 
                     return true;
@@ -86,7 +86,7 @@ namespace MainGame.PlayerScripts
             
             // Detects if the player can jump if wished
             if (JumpState.Still == CurrentJumpState)
-                if (WantsJump)
+                if (_wantsJump)
                 {
                     JumpState availableJump = GetAvailableJump();
                     stateChanged = SetJumpState(availableJump);

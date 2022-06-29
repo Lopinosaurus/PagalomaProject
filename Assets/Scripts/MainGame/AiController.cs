@@ -354,7 +354,7 @@ public class AiController : MonoBehaviour
         float angle = Vector3.SignedAngle(dirAiPlayer, forwardPlayer, Vector3.up);
 
         float deltaAngle = angle * Time.deltaTime * 0.5f;
-        deltaAngle *= Math.Sign(_playerLook.rotationY) == Math.Sign(deltaAngle) ? 0 : 1;
+        deltaAngle *= Math.Sign(_playerLook.transform.localRotation.eulerAngles.y) == Math.Sign(deltaAngle) ? 0 : 1;
 
         _targetPlayer.transform.Rotate(Vector3.up, -deltaAngle);
     }

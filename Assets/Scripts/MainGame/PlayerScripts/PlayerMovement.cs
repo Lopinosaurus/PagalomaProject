@@ -46,7 +46,7 @@ namespace MainGame.PlayerScripts
         [HideInInspector] public int nbBushes;
 
         [Space] [Header("Movement settings")] [HideInInspector] [SerializeField]
-        public MovementTypes currentMovementType = MovementTypes.Stand;
+        public MovementState currentMovementState;
 
         public Vector2 localMoveAmountNormalized;
         private Vector2 _inputMoveRaw2D;
@@ -55,7 +55,7 @@ namespace MainGame.PlayerScripts
         [Space] [Header("Gravity settings")]
         private const float GravityForce = -9.81f;
         private const float DefaultGroundedGravityForce = -0.2f;
-        private const float _slopeCompensationForce = 100;
+        private const float SlopeCompensationForce = 100f / 360f;
         private const float SlopeForceLerpFactor = 10;
         private float _slopeRaySize = 0.1f;
         public Vector3 upwardVelocity = Vector3.zero;
@@ -81,9 +81,9 @@ namespace MainGame.PlayerScripts
         private float _crouchedShiftVillager;
         private float _shiftWerewolf;
 
-        public enum MovementTypes
+        public enum MovementState
         {
-            Stand,
+            Idle,
             Crouch,
             Walk,
             Sprint
@@ -139,8 +139,8 @@ namespace MainGame.PlayerScripts
             _playerInput.actions["Sprint"].performed += ctx => WantsSprint = ctx.ReadValueAsButton();
             _playerInput.actions["Sprint"].canceled += ctx => WantsSprint = ctx.ReadValueAsButton();
             // for the Jump button
-            _playerInput.actions["Jump"].performed += ctx => WantsJump = ctx.ReadValueAsButton();
-            _playerInput.actions["Jump"].canceled += ctx => _alreadyWantsJump = WantsJump = ctx.ReadValueAsButton();
+            _playerInput.actions["Jump"].performed += ctx => _wantsJump = ctx.ReadValueAsButton();
+            _playerInput.actions["Jump"].canceled += ctx => _alreadyWantsJump = _wantsJump = ctx.ReadValueAsButton();
         }
 
         private void OnPerformedMove(InputAction.CallbackContext ctx)
@@ -207,18 +207,24 @@ namespace MainGame.PlayerScripts
 
         private void UpdateMovementState()
         {
-            if (WantsCrouchHold &&
-                !_playerAnimation.IsWerewolfEnabled &&
-                !ShouldJumpFreezeControls)
-                currentMovementType = MovementTypes.Crouch;
-            else if (Vector2.zero == _inputMoveRaw2D)
-                currentMovementType = MovementTypes.Stand;
-            else if (WantsSprint)
-                currentMovementType = MovementTypes.Sprint;
-            else
-                currentMovementType = MovementTypes.Walk;
+            MovementState newMovementState;
+            
+            if (CanCrouch()) newMovementState = MovementState.Crouch;
+            else if (Vector2.zero == _inputMoveRaw2D) newMovementState = MovementState.Idle;
+            else if (WantsSprint) newMovementState = MovementState.Sprint;
+            else                newMovementState = MovementState.Walk;
+
+            // ReSharper disable once RedundantCheckBeforeAssignment : it's a bug from resharper
+            if (newMovementState != currentMovementState)
+            {
+                currentMovementState = newMovementState;
+                _playerLook.ClampView(newMovementState);
+            }
         }
 
+        private bool CanCrouch() =>
+            WantsCrouchHold && (!_playerAnimation.IsWerewolfEnabled && !ShouldJumpFreezeControls);
+        
         private void UpdateGravity()
         {
             upwardVelocity.y += GravityForce * Time.deltaTime;
@@ -229,9 +235,9 @@ namespace MainGame.PlayerScripts
             }
             else if (upwardVelocity.y <= 0)
             {
-                if (OnSlope())
+                if (OnSlope(out Vector3 hitNormal))
                 {
-                    float downwardForce = -_slopeCompensationForce;
+                    float downwardForce = -SlopeCompensationForce * Vector3.Angle(Vector3.up, hitNormal);
                     downwardForce = Mathf.Clamp(downwardForce, -500, DefaultGroundedGravityForce);
 
                     upwardVelocity.y = Mathf.Lerp(upwardVelocity.y, downwardForce, Time.deltaTime * SlopeForceLerpFactor);
@@ -243,16 +249,18 @@ namespace MainGame.PlayerScripts
             }
         }
 
-        private bool OnSlope()
+        private bool OnSlope(out Vector3 hitNormal)
         {
             var onSlope = false;
+            hitNormal = Vector3.up;
+            
             float maxDistance = characterController.height + characterController.radius + _slopeRaySize;
 
             Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
 
             if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance,
                     _characterLayerValue))
-                if (hit.normal != Vector3.up)
+                if ((hitNormal = hit.normal) != Vector3.up)
                     onSlope = true;
 
             return onSlope;
@@ -260,12 +268,12 @@ namespace MainGame.PlayerScripts
 
         private void UpdateSpeed()
         {
-            currentSpeed = currentMovementType switch
+            currentSpeed = currentMovementState switch
             {
-                MovementTypes.Stand => 0f,
-                MovementTypes.Crouch => CrouchSpeed,
-                MovementTypes.Walk => WalkSpeed,
-                MovementTypes.Sprint => SprintSpeed,
+                MovementState.Idle => 0f,
+                MovementState.Crouch => CrouchSpeed,
+                MovementState.Walk => WalkSpeed,
+                MovementState.Sprint => SprintSpeed,
                 _ => throw new System.ArgumentOutOfRangeException()
             };
 
@@ -291,7 +299,7 @@ namespace MainGame.PlayerScripts
             float desiredCameraHeight;
             float desiredRenderShift;
 
-            if (currentMovementType == MovementTypes.Crouch)
+            if (currentMovementState == MovementState.Crouch)
             {
                 desiredHitboxHeight = _crouchedHitboxHeight;
                 desiredCameraHeight = _crouchedCameraHeight;

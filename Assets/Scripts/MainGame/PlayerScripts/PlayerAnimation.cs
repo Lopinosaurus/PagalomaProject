@@ -80,7 +80,7 @@ namespace MainGame.PlayerScripts
 
             // Toggles "Crouch" animation
             currentAnimator.SetBool(_isCrouchingHash,
-                _playerMovement.currentMovementType == PlayerMovement.MovementTypes.Crouch);
+                _playerMovement.currentMovementState == PlayerMovement.MovementState.Crouch);
 
             // Sets the velocity in X to the CharacterController X velocity
             currentAnimator.SetFloat(_velocityXHash, _velocity2D.x);
@@ -125,8 +125,6 @@ namespace MainGame.PlayerScripts
         {
             // Toggles "MidVault" animation
             currentAnimator.SetTrigger(MidVaultHash);
-
-            Debug.Log("jum^ped");
 
             // Synchronises triggers
             _photonView.RPC(nameof(RPC_MidVaultAnimation), RpcTarget.Others);
