@@ -1,4 +1,5 @@
 using System.Collections;
+using MainGame.Helpers;
 using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
@@ -233,8 +234,8 @@ namespace MainGame.PlayerScripts
             localVolume.transform.SetParent(transform);
 
             // Attach spawner
-            PostProcessVolumeSpawner spawner = localVolume.AddComponent<PostProcessVolumeSpawner>();
-            spawner.timer = duration;
+            PlayerVFX spawner = localVolume.AddComponent<PlayerVFX>();
+            spawner.initialTimer = duration;
             spawner.enabled = true;
 
             // Attach postprocess
