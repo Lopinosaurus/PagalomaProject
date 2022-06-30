@@ -63,13 +63,14 @@ namespace MainGame.PlayerScripts
             Vector3 targetedObjectPos = targetedObject.position;
 
             // Adjust the hand rotation
-            Transform _transform = transform;
-            Quaternion rightHandRotationIk = Quaternion.LookRotation(_transform.forward, 0.5f * (-_transform.up + _transform.right));
+            Vector3 rightHandForward = rightHand.forward;
+            Vector3 rightHandPosition = rightHand.position;
+            Quaternion rightHandRotationIk = Quaternion.LookRotation(rightHandForward, (rightHandPosition - targetedObjectPos));
             rightHandRotationIk *= Quaternion.Euler(handRotationOffsetX, handRotationOffsetY, handRotationOffsetZ);
             
-            // Adjust the hand rotation
-            Vector3 forward = rightHand.forward, up = rightHand.up, right = rightHand.right;
-            Vector3 rightHandPositionIk = rightHand.position + forward * handPositionOffsetX + up * handPositionOffsetY + right * handPositionOffsetZ;
+            // Adjust the hand position
+            Vector3 rightHandUp = rightHand.up, rightHandRight = rightHand.right;
+            Vector3 rightHandPositionIk = rightHandPosition + rightHandForward * handPositionOffsetX + rightHandUp * handPositionOffsetY + rightHandRight * handPositionOffsetZ;
 
             currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPositionIk);
             currentAnimator.SetIKRotation(AvatarIKGoal.RightHand, rightHandRotationIk);
