@@ -25,7 +25,7 @@ namespace MainGame.PlayerScripts
             }
             catch
             {
-                Debug.LogError("no roomManager !",  this);
+                Debug.LogWarning("no roomManager !",  this);
             }
         }
 
@@ -46,8 +46,6 @@ namespace MainGame.PlayerScripts
                 Vector3 destination = target.position;
                 
                 _agent.SetDestination(destination);
-                
-                Debug.Log($"i have a path: {_agent.hasPath}");
             }
         }
 

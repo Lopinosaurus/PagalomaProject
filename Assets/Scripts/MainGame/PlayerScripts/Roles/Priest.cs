@@ -35,7 +35,7 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UpdateActionText()
         {
-            if (!PhotonView.IsMine) return;
+            if (!PlayerController.photonView.IsMine) return;
             
             if (targets.Count > 0 && ArePowerAndCooldownValid) ActionText.text = "Press E to Give Shield";
             else ActionText.text = "";
@@ -56,7 +56,7 @@ namespace MainGame.PlayerScripts.Roles
                 return;
             }
 
-            Role target = targets[targets.Count - 1];
+            Role target = targets[^1];
             
             if (target.isAlive == false)
             {
@@ -72,14 +72,14 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Makes it so that the power is only usable once (per night)
-            PowerTimer.SetInfinite();
+            PlayerController.powerTimer.SetInfinite();
 
             target.hasShield = true;
             lastPlayerShielded = target;
 
             UpdateActionText();
             RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username} !");
-            PhotonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
+            PlayerController.photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
         }
 
         [PunRPC]

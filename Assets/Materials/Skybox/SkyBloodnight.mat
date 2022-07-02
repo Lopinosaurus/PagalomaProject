@@ -8,15 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SkyBloodnight
-  m_Shader: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords:
-  - _SUNDISK_HIGH_QUALITY
+  m_Shader: {fileID: 108, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _EMISSION
   - _MAPPING_LATITUDE_LONGITUDE_LAYOUT
   - _NORMALMAP
   - _PARALLAXMAP
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  - _SUNDISK_HIGH_QUALITY
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: fc51d50dd1abb1144a8d0452545b785e, type: 3}
         m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -68,12 +68,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AtmosphereThickness: 0.88
+    - _AtmosphereThickness: 0.55
     - _BumpScale: 0.3
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 10.42
     - _DstBlend: 0
-    - _Exposure: 1.14
+    - _Exposure: 0.5
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -98,6 +98,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.75627446, g: 0.8547203, b: 0.9716981, a: 1}
     - _GroundColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SkyTint: {r: 0.23887502, g: 0.49611336, b: 0.8301887, a: 1}
-    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _SkyTint: {r: 0.5924706, g: 0.7664726, b: 0.990566, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0.5}
   m_BuildTextureStacks: []

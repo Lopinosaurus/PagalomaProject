@@ -30,10 +30,7 @@ public class DayNightCycle : MonoBehaviour
     
     private PhotonView _pv;
 
-    private void Awake()
-    {
-        _pv = GetComponent<PhotonView>();
-    }
+    private void Awake() => _pv = GetComponent<PhotonView>();
 
     private void Start()
     {

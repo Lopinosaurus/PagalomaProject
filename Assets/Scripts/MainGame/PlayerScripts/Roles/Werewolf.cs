@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
-using UnityEditor;
 using UnityEngine;
 
 namespace MainGame.PlayerScripts.Roles
@@ -11,7 +10,7 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        private GameObject _villagerRender, _werewolfRender, _particles;
+        private GameObject _werewolfParticles;
 
         public readonly string FriendlyRoleName = "Werewolf";
         
@@ -26,20 +25,13 @@ namespace MainGame.PlayerScripts.Roles
 
         private float TotalTransformationTransitionDuration =>
             EarlyTransformationTransitionDuration + LateTransformationTransitionDuration;
-
-        public void SetupFields(GameObject villagerRender, GameObject werewolfRender, GameObject particles)
-        {
-            _villagerRender = villagerRender;
-            _werewolfRender = werewolfRender;
-            _particles = particles;
-        }
         
         public override void UpdateActionText()
         {
-            if (PhotonView.IsMine)
+            if (PlayerController.photonView.IsMine)
                 if (ActionText)
                 {
-                    if (isTransformed && targets.Count > 0 && PowerTimer.IsNotZero && PowerCooldown.IsZero)
+                    if (isTransformed && targets.Count > 0 && PlayerController.powerTimer.IsNotZero && PlayerController.powerCooldown.IsZero)
                         ActionText.text = "Press E to Kill";
                     else if (VoteMenu.Instance.IsNight && isTransformed == false)
                         ActionText.text = "Press E to Transform";
@@ -87,7 +79,7 @@ namespace MainGame.PlayerScripts.Roles
             // Avoids useless transformations is already in the desired state
             if (goingToWerewolf == isTransformed) return;
             
-            if (PhotonView.IsMine) PhotonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
+            if (PlayerController.photonView.IsMine) PlayerController.photonView.RPC(goingToWerewolf ? nameof(RPC_Transformation) : nameof(RPC_Detransformation), RpcTarget.Others);
 
             StartCoroutine(WerewolfTransform(goingToWerewolf));
         }
@@ -97,27 +89,27 @@ namespace MainGame.PlayerScripts.Roles
             Debug.LogWarning($"{goingToWerewolf}");
             
             // Particles to dissimulate werewolf transition
-            GameObject particles = Instantiate(this._particles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            GameObject particles = Instantiate(_werewolfParticles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
             particles.transform.parent = transform;
 
             // Deactivate controls
-            if (PhotonView.IsMine) PlayerInput.SwitchCurrentActionMap("UI");
+            if (PlayerController.photonView.IsMine) PlayerController.playerInput.SwitchCurrentActionMap("UI");
 
             // Transformation
             isTransformed = goingToWerewolf;
-            PlayerMovement.isWerewolfTransformedMult = goingToWerewolf;
+            PlayerController.playerMovement.isWerewolfTransformedMult = goingToWerewolf;
 
             // Starts countdown
             if (goingToWerewolf)
             {
-                PowerTimer.Set(werewolfPowerDuration);
-                PowerTimer.Pause();
-                PowerTimer.Resume(TotalTransformationTransitionDuration);
+                PlayerController.powerTimer.Set(werewolfPowerDuration);
+                PlayerController.powerTimer.Pause();
+                PlayerController.powerTimer.Resume(TotalTransformationTransitionDuration);
             }
-            else PowerTimer.Reset();
+            else PlayerController.powerTimer.Reset();
 
-            if (goingToWerewolf && PhotonView.IsMine) StartCoroutine(DeTransformationCoroutine());
+            if (goingToWerewolf && PlayerController.photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 
             // Updates the messages on screen
             UpdateActionText();
@@ -126,17 +118,17 @@ namespace MainGame.PlayerScripts.Roles
             yield return new WaitForSeconds(EarlyTransformationTransitionDuration);
 
             // TODO improve visual transition
-            _villagerRender.SetActive(!goingToWerewolf);
-            _werewolfRender.SetActive(goingToWerewolf);
+            PlayerController.villagerRender.SetActive(!goingToWerewolf);
+            PlayerController.werewolfRender.SetActive(goingToWerewolf);
 
             // Changes the animator
-            PlayerAnimation.EnableWerewolfAnimations(goingToWerewolf);
+            PlayerController.playerAnimation.EnableWerewolfAnimations(goingToWerewolf);
 
             // Wait for 4 seconds
             yield return new WaitForSeconds(LateTransformationTransitionDuration);
 
             // Reactivate controls
-            if (PhotonView.IsMine) PlayerInput.SwitchCurrentActionMap("Player");
+            if (PlayerController.photonView.IsMine) PlayerController.playerInput.SwitchCurrentActionMap("Player");
         }
 
         private IEnumerator DeTransformationCoroutine()
@@ -144,9 +136,9 @@ namespace MainGame.PlayerScripts.Roles
             var waitForFixedUpdate = new WaitForFixedUpdate();
 
             // Will bring the werewolf back to human when the power timer runs out
-            while (PowerTimer.IsNotZero)
+            while (PlayerController.powerTimer.IsNotZero)
             {
-                Debug.Log($"Checking for Detransformation {PowerTimer.CountdownValue}");
+                Debug.Log($"Checking for Detransformation {PlayerController.powerTimer.CountdownValue}");
                 yield return waitForFixedUpdate;
             }
 
@@ -182,17 +174,17 @@ namespace MainGame.PlayerScripts.Roles
 
             target.Die();
             targets.Remove(target);
-            PhotonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+            PlayerController.photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-            PlayerAnimation.EnableWerewolfAttackAnimation();
+            PlayerController.playerAnimation.EnableWerewolfAttackAnimation();
 
             // Waits a few seconds before re-enabling attack
-            PowerCooldown.Set(afterAttackCooldown);
+            PlayerController.powerCooldown.Set(afterAttackCooldown);
             // it also pauses the timer for the power
-            PowerTimer.Pause();
-            PowerTimer.Resume(afterAttackCooldown);
+            PlayerController.powerTimer.Pause();
+            PlayerController.powerTimer.Resume(afterAttackCooldown);
             // it also slows the Werewolf
-            PlayerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
+            PlayerController.playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
 
             UpdateActionText();
 
@@ -207,9 +199,9 @@ namespace MainGame.PlayerScripts.Roles
 
             target.Die();
             targets.Remove(target);
-            PhotonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
+            PlayerController.photonView.RPC(nameof(RPC_KillTarget), RpcTarget.Others, target.userId);
 
-            PlayerAnimation.EnableWerewolfAttackAnimation();
+            PlayerController.playerAnimation.EnableWerewolfAttackAnimation();
         }
 
 

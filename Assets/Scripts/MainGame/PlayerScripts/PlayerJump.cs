@@ -14,8 +14,6 @@ namespace MainGame.PlayerScripts
             HighVault
         }
 
-        private PhotonView _photonView;
-
         [SerializeField] private Rigidbody groundCheck;
 
         private JumpState CurrentJumpState { get; set; } = JumpState.Still;
@@ -26,11 +24,6 @@ namespace MainGame.PlayerScripts
         [SerializeField] private LayerMask characterLayer;
 
         private int _characterLayerValue;
-
-        // Script components
-        private PlayerAnimation _playerAnimation;
-        private PlayerLook _playerLook;
-        private bool _alreadyWantsJump;
 
         // Jump booleans
         private bool _wantsJump;
@@ -46,16 +39,16 @@ namespace MainGame.PlayerScripts
 
         public bool SetJumpState(JumpState desired)
         {
-            if (_photonView.IsMine)
+            if (PC.photonView.IsMine)
             {
                 if (desired != CurrentJumpState)
                 {
                     CurrentJumpState = desired;
 
-                    this.DisableCharacterController(desired);
-                    _playerLook.ClampView(CurrentJumpState);
-                    _playerLook.LockViewJump(ShouldJumpFreezeControls);
-                    _playerAnimation.SetAnimationJumpState((int)CurrentJumpState);
+                    DisableCharacterController(desired);
+                    PC.playerLook.ClampView(CurrentJumpState);
+                    PC.playerLook.LockViewJump(ShouldJumpFreezeControls);
+                    PC.playerAnimation.SetAnimationJumpState((int)CurrentJumpState);
 
                     return true;
                 }
@@ -69,13 +62,13 @@ namespace MainGame.PlayerScripts
             switch (desired)
             {
                 case JumpState.Still:
-                    characterController.enabled = true;
+                    PC.characterController.enabled = true;
                     break;
                 case JumpState.MidVault:
-                    characterController.enabled = false;
+                    PC.characterController.enabled = false;
                     break;
                 case JumpState.HighVault:
-                    characterController.enabled = false;
+                    PC.characterController.enabled = false;
                     break;
             }
         }
@@ -97,11 +90,11 @@ namespace MainGame.PlayerScripts
                             break;
 
                         case JumpState.SimpleJump:
-                            _playerAnimation.StartSimpleJumpAnimation();
+                            PC.playerAnimation.StartSimpleJumpAnimation();
                             break;
 
                         case JumpState.MidVault:
-                            _playerAnimation.StartMidVaultAnimation();
+                            PC.playerAnimation.StartMidVaultAnimation();
                             break;
 
                         case JumpState.HighVault:
@@ -124,7 +117,7 @@ namespace MainGame.PlayerScripts
                 
                 case JumpState.SimpleJump:
                 {
-                    if (CollisionFlags.CollidedAbove == characterController.collisionFlags)
+                    if (CollisionFlags.CollidedAbove == PC.characterController.collisionFlags)
                         SetJumpState(JumpState.Still);
                     break;
                 }

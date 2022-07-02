@@ -34,9 +34,9 @@ namespace MainGame.PlayerScripts.Roles
 
         public override void UpdateActionText()
         {
-            if (PhotonView.IsMine)
+            if (PlayerController.photonView.IsMine)
             {
-                if (targets.Count > 0 && PowerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
+                if (targets.Count > 0 && PlayerController.powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
                 else ActionText.text = "";
             }
         }
@@ -71,7 +71,7 @@ namespace MainGame.PlayerScripts.Roles
             
             RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
             
-            PowerTimer.SetInfinite();
+            PlayerController.powerTimer.SetInfinite();
         }
     }
 }

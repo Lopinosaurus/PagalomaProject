@@ -2310,7 +2310,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   positions: []
-  offset: 0
 --- !u!195 &2708921361476488014
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -4,8 +4,10 @@ using System.Linq;
 using MainGame;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
+using MainGame.PlayerScripts.Roles.Countdown;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -16,55 +18,42 @@ public class PlayerController : MonoBehaviour
 {
     #region Attributes
 
-    // Network component
-    private PhotonView _photonView;
-
-    // Sub scripts
-    private PlayerMovement _playerMovement;
-    private PlayerLook _playerLook;
-    private PlayerAnimation _playerAnimation;
-
-    // Miscellaneous
-    [Space] [Header("Scripts")] [SerializeField]
-    private PlayerInput playerInput;
-
-    [SerializeField] public GameObject cameraHolder;
-
-    // First person management
-    [Space] [Header("Camera Components")] [SerializeField]
-    private Camera camPlayer;
-
-    private PostProcessLayer[] _postProcLayers;
-    private AudioListener _audioListener;
-
-    [Header("Model Renders")] [SerializeField]
-    public GameObject villagerRender;
-
-    [SerializeField] public GameObject werewolfRender;
-    public const float BackShift = 0.3f;
-
-    // Ai settings
-    [Space, Header("Ai Settings")] public Role role;
-
+    // Layer corresponding to the player
+    public const int CharacterLayerValue = 7;
+    
+    // All components
+        public PlayerController playerController;
+        public PlayerMovement playerMovement;
+        public PlayerLook playerLook;
+        public PlayerAnimation playerAnimation;
+        public SpectatorMode spectatorMode;
+        public FootstepEffect footstepEffect;
+        public PhotonView photonView;
+        public PhotonAnimatorView photonAnimatorView;
+        public CharacterController characterController;
+        public Role role;
+        public PlayerInput playerInput;
+        public AudioListener audioListener;
+        public Camera camPlayer;
+        public PostProcessVolume postProcessVolume;
+        public SkinnedMeshRenderer villagerSkinnedMeshRenderer;
+        public GameObject camHolder, villagerRender, werewolfRender;
+        public AudioSource playerAudioSource;
+        public Light playerLight;
+        public RotationConstraint headRotationConstraint;
+        public Countdown powerCooldown, powerTimer;
+    
+    // Serialized fields
+    [SerializeField] private AudioClip aiSound;
+    [SerializeField] private GameObject aiPrefab;
     private GameObject _aiInstance;
     private Transform _villageTransform;
-    [SerializeField] private GameObject aiPrefab;
-
-    private readonly float _minVillageDist = 120f;
-    private readonly float _minPlayerDist = 60f;
+    
     private bool IaAlreadySpawned => null != _aiInstance;
     private bool _hasAlreadySpawnedTonight;
-    [SerializeField] private bool enableAi = true;
-
-    // Sound for Ai
-    [SerializeField] private AudioClip aiSound;
-    [SerializeField] private AudioSource playerAudioSource;
-
-    [Space] [Header("Light")] [SerializeField]
-    private Light lampLight;
-
-    [SerializeField] private bool firstPerson;
-    // [SerializeField] [Range(0f, 1f)] private float slider;
+    [SerializeField] private bool enableAi = true, firstPerson;
+    public const float BackShift = -0.3f;
+    private const float MinVillageDist = 120, MinPlayerDist = 60;
 
     #endregion
 
@@ -82,24 +71,31 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        // Network component
-        _photonView = GetComponent<PhotonView>();
-
-        // Camera component
-        _postProcLayers = cameraHolder.GetComponentsInChildren<PostProcessLayer>();
-        _audioListener = cameraHolder.GetComponentInChildren<AudioListener>();
+        // Get All Components
+        playerController = this;
+        playerMovement = GetComponent<PlayerMovement>();
+        playerLook = GetComponent<PlayerLook>();
+        playerAnimation = GetComponent<PlayerAnimation>();
+        spectatorMode = GetComponent<SpectatorMode>();
+        footstepEffect = GetComponent<FootstepEffect>();
+        photonView = GetComponent<PhotonView>();
+        photonAnimatorView = GetComponent<PhotonAnimatorView>();
+        role = GetComponent<Role>();
+        playerInput = GetComponent<PlayerInput>();
+        audioListener = GetComponentInChildren<AudioListener>();
+        playerAudioSource = GetComponent<AudioSource>();
+        camPlayer = GetComponentInChildren<Camera>();
+        postProcessVolume = GetComponentInChildren<PostProcessVolume>();
+        villagerSkinnedMeshRenderer = villagerRender.GetComponentInChildren<SkinnedMeshRenderer>();
+        powerCooldown = GetComponents<Countdown>()[0];
+        powerTimer = GetComponents<Countdown>()[1];
 
         if (null == camPlayer) throw new Exception("There is no camera attached to the Camera Holder !");
-
-        // Sub scripts
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
-        _playerLook = GetComponent<PlayerLook>();
     }
 
-    internal void Start()
+    private void Start()
     {
-        if (_photonView.IsMine)
+        if (photonView.IsMine)
         {
             // Moves the player render backwards so that it doesn't clip with the camera
             MoveRender(BackShift, villagerRender);
@@ -112,35 +108,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            foreach (PostProcessLayer layer in _postProcLayers) Destroy(layer);
-            Destroy(GetComponentInChildren<PostProcessVolume>());
+            Destroy(postProcessVolume);
             Destroy(camPlayer);
-            Destroy(_audioListener);
+            Destroy(audioListener);
             playerInput.enabled = false;
             enableAi = false;
         }
 
-        // Starts to grab players
-        StartCoroutine(GetRole());
-
         // Starts the light management
         StartCoroutine(LightManager());
-    }
-
-    private IEnumerator GetRole()
-    {
-        bool roomManager = RoomManager.Instance;
-        
-        while (!role && roomManager)
-        {
-            foreach (Role player in RoomManager.Instance.players.Where(player => player.GetComponent<PhotonView>().IsMine))
-            {
-                role = player;
-                break;
-            }
-
-            yield return null;
-        }
     }
 
     public void MoveRender(float shift, GameObject render, float smoothTime = 1)
@@ -156,24 +132,24 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator LightManager()
     {
-        lampLight.intensity = 0;
+        playerLight.intensity = 0;
 
         // Non-werewolves don't see lights
         RoomManager roomManager = RoomManager.Instance;
 
-        if (roomManager == null) yield break;
+        if (!roomManager) yield break;
 
-        if (roomManager.localPlayer is Werewolf && _photonView.IsMine)
+        if (roomManager.localPlayer is Werewolf && photonView.IsMine)
             while (true)
             {
                 // It's day, turn off light
-                lampLight.intensity = 0;
+                playerLight.intensity = 0;
 
                 yield return new WaitUntil(() => VoteMenu.Instance.IsNight);
 
                 // It's night, turn on light
                 // ReSharper disable once Unity.InefficientPropertyAccess
-                lampLight.intensity = 1;
+                playerLight.intensity = 1;
 
                 yield return new WaitUntil(() => !VoteMenu.Instance.IsNight);
             }
@@ -253,14 +229,14 @@ public class PlayerController : MonoBehaviour
 
             // Village check
             bool villageTooClose = (_villageTransform.position - transform.position).sqrMagnitude <
-                                   _minVillageDist * _minVillageDist;
+                                   MinVillageDist * MinVillageDist;
             if (villageTooClose)
                 // Debug.Log("SPAWNCHECK (4/5): village is too close");
                 return false;
 
             // Player check
             bool everyPlayerFarEnough = RoomManager.Instance.players.All(role =>
-                !((role.transform.position - transform.position).sqrMagnitude > _minPlayerDist * _minPlayerDist));
+                !((role.transform.position - transform.position).sqrMagnitude > MinPlayerDist * MinPlayerDist));
 
             if (!everyPlayerFarEnough)
                 // Debug.Log("SPAWNCHECK (5/5): a player is too close");
@@ -277,38 +253,40 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Updates the grounded boolean state
-        _playerMovement.UpdateGrounded();
+        playerMovement.UpdateGrounded();
 
-        if (_photonView.IsMine)
+        if (photonView.IsMine)
         {
-            _playerLook.Look();
+            playerLook.Look();
 
             // Moves the player
-            _playerMovement.Move(Time.deltaTime);
+            playerMovement.Move(Time.deltaTime);
 
             // Updates the appearance based on the MovementType
-            _playerAnimation.UpdateAnimationsBasic();
+            playerAnimation.UpdateAnimationsBasic();
 
-            _playerMovement.UpdateHitbox();
+            playerMovement.UpdateHitbox();
 
             // HeadBob
-            _playerLook.HeadBob();
+            playerLook.HeadBob();
 
             // FOV Change according to movement
-            _playerLook.FOVChanger();
+            playerLook.FOVChanger();
 
             // Focus DOF
-            _playerLook.DofChanger();
+            playerLook.DofChanger();
         }
     }
 
     private void OnAnimatorIK(int _)
     {
-        if (!_photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            _playerLook.HeadRotate();
+            playerLook.HeadRotate();
         }
     }
 
     #endregion
+
+    public void SetPcRole(Role playerRole) => role = playerRole;
 }

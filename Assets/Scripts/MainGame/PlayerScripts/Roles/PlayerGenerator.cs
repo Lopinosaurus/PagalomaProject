@@ -5,7 +5,7 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class PlayerGenerator : MonoBehaviour, IPunInstantiateMagicCallback
     {
-        [SerializeField] private GameObject villagerRender, werewolfRender, attackCollider, werewolfTransitionParticles;
+        [SerializeField] private SphereCollider attackCollider;
 
         public void OnPhotonInstantiate(PhotonMessageInfo info)
         {
@@ -36,7 +36,6 @@ namespace MainGame.PlayerScripts.Roles
                     break;
                 case "Werewolf":
                     playerRole = gameObject.AddComponent<Werewolf>();
-                    ((Werewolf) playerRole).SetupFields(villagerRender, werewolfRender, werewolfTransitionParticles);
                     break;
                 case "Priest":
                     playerRole = gameObject.AddComponent<Priest>();
@@ -54,7 +53,7 @@ namespace MainGame.PlayerScripts.Roles
             if (info.Sender.IsLocal)
             {
                 RoomManager.Instance.localPlayer = playerRole;
-                RoomManager.Instance.localPlayer.GetComponent<PlayerController>().role = playerRole;
+                RoomManager.Instance.localPlayer.GetComponent<PlayerController>().SetPcRole(playerRole);
                 Debug.Log($"New role set in PlayerController : {playerRole}");
             }
 

@@ -1,9 +1,6 @@
 using System.Collections;
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace MainGame.PlayerScripts.Roles
@@ -22,15 +19,8 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasShield; // Shield given by the Priest
         public bool hasVoted; // Has submitted vote this day
 
-        // Power cooldown (timer you have to wait before you can activate your power)
-        protected Countdown.Countdown PowerCooldown;
-        // Power timer (timer during which you can make use of your power)
-        protected Countdown.Countdown PowerTimer;
-        protected bool ArePowerAndCooldownValid => PowerCooldown.IsZero && PowerTimer.IsNotZero;
+        protected bool ArePowerAndCooldownValid => PlayerController.powerCooldown.IsZero && PlayerController.powerTimer.IsNotZero;
 
-        // Internal components
-        protected SkinnedMeshRenderer VillagerSkinnedMeshRenderer;
-        
         protected TMP_Text ActionText;
         public TMP_Text deathText;
         public Role vote;
@@ -38,20 +28,10 @@ namespace MainGame.PlayerScripts.Roles
         public Color color;
         private PostProcessVolume _postProcessVolume;
 
-        // Controls
-        private GameObject _cameraHolder;
-        protected PlayerInput PlayerInput;
-        protected PlayerMovement PlayerMovement;
-        private PlayerController _playerController;
-        protected PlayerAnimation PlayerAnimation;
-        private CharacterController _characterController;
-
+        protected PlayerController PlayerController;
+        
         // Die variables
         private const float MaxDeathCamDistance = 5;
-        private RotationConstraint _rotationConstraint;
-
-        // Network component
-        protected PhotonView PhotonView; // Use protected to be able to access it in subclasses
 
         #endregion
 
@@ -59,26 +39,16 @@ namespace MainGame.PlayerScripts.Roles
 
         private void Awake()
         {
-            PhotonView = GetComponent<PhotonView>();
-            PlayerInput = GetComponent<PlayerInput>();
+            PlayerController = GetComponent<PlayerController>();
             
-            if (PhotonView.IsMine)
+            if (PlayerController.photonView.IsMine)
             {
-                PlayerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
-                PlayerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
-                PlayerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
+                PlayerController.playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+                PlayerController.playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
+                PlayerController.playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
             }
             
             hasVoted = false;
-            
-            PlayerInput = GetComponent<PlayerInput>();
-            _playerController = GetComponent<PlayerController>();
-            PlayerAnimation = GetComponent<PlayerAnimation>();
-            PlayerMovement = GetComponent<PlayerMovement>();
-            
-            _cameraHolder = _playerController.cameraHolder;
-            _characterController = GetComponent<CharacterController>();
-            VillagerSkinnedMeshRenderer = gameObject.transform.Find("VillagerRender").GetComponentInChildren<SkinnedMeshRenderer>();
             
             if (RoomManager.Instance != null)
             {
@@ -89,15 +59,7 @@ namespace MainGame.PlayerScripts.Roles
             if (ActionText) ActionText.text = "";
             if (deathText) deathText.enabled = false;
 
-            _rotationConstraint = GetComponentInChildren<RotationConstraint>();
-            _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
-
-            _postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
-
-            // Countdown instances
-            Countdown.Countdown[] countdownInstances = GetComponents<Countdown.Countdown>();
-            PowerCooldown = countdownInstances[0];
-            PowerTimer = countdownInstances[1];
+            PlayerController.postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
         }
 
         private void LateUpdate()
@@ -111,10 +73,10 @@ namespace MainGame.PlayerScripts.Roles
 
         #region Gameplay methods
 
-        public void SetPlayerColor(Color color)
+        public void SetPlayerColor(Color _color)
         {
-            this.color = color;
-            VillagerSkinnedMeshRenderer.materials[1].color = color;
+            color = _color;
+            PlayerController.villagerSkinnedMeshRenderer.materials[1].color = _color;
         }
 
         public virtual void UseAbility()
@@ -136,33 +98,33 @@ namespace MainGame.PlayerScripts.Roles
         public virtual void Die()
         {
             // Show death label & disable inputs
-            if (PhotonView.IsMine)
+            if (PlayerController.photonView.IsMine)
             {
                 deathText.enabled = true;
-                PlayerInput.actions["Die"].Disable();
-                PlayerInput.actions["Kill"].Disable();
+                PlayerController.playerInput.actions["Die"].Disable();
+                PlayerController.playerInput.actions["Kill"].Disable();
             }
 
-            PlayerAnimation.EnableDeathAppearance();
+            PlayerController.playerAnimation.EnableDeathAppearance();
 
             // Prevents the head for rotating in the ground when dying
-            _rotationConstraint.enabled = false;
+            PlayerController.headRotationConstraint.enabled = false;
 
             // Disable components & gameplay variables
-            _characterController.enabled = false;
-            _playerController.enabled = false;
+            PlayerController.characterController.enabled = false;
+            PlayerController.enabled = false;
             isAlive = false;
 
             RoomManager.Instance.ClearTargets();
             VoteMenu.Instance.UpdateVoteItems();
 
             // Initial camera position
-            if (_cameraHolder)
+            if (PlayerController.camHolder)
             {
                 // Detach cameraHolder from body
-                _cameraHolder.transform.parent = null;
+                PlayerController.camHolder.transform.parent = null;
                 
-                Vector3 startingPos = _cameraHolder.transform.position;
+                Vector3 startingPos = PlayerController.camHolder.transform.position;
                 Vector3 endingPos = new Vector3
                 {
                     x = startingPos.x,
@@ -175,7 +137,7 @@ namespace MainGame.PlayerScripts.Roles
                     endingPos.y = hitInfo.point.y;
 
                 // Final camera rotation
-                Quaternion endingRot = _cameraHolder.transform.localRotation;
+                Quaternion endingRot = PlayerController.camHolder.transform.localRotation;
                 endingRot.eulerAngles = new Vector3
                 {
                     x = 90,
@@ -189,23 +151,23 @@ namespace MainGame.PlayerScripts.Roles
         private IEnumerator MoveCamHolder(Vector3 endingPos, Quaternion endingRot)
         {
             float timer = 10;
-            while (_cameraHolder.transform.position != endingPos && timer > 0)
+            while (PlayerController.camHolder.transform.position != endingPos && timer > 0)
             {
-                Vector3 position = _cameraHolder.transform.position;
-                Quaternion rotation = _cameraHolder.transform.localRotation;
+                Vector3 position = PlayerController.camHolder.transform.position;
+                Quaternion rotation = PlayerController.camHolder.transform.localRotation;
 
                 position = Vector3.Slerp(position, endingPos, Time.deltaTime);
                 rotation = Quaternion.Slerp(rotation, endingRot, Time.deltaTime);
 
-                _cameraHolder.transform.position = position;
-                _cameraHolder.transform.localRotation = rotation;
+                PlayerController.camHolder.transform.position = position;
+                PlayerController.camHolder.transform.localRotation = rotation;
 
                 timer -= Time.deltaTime;
 
                 yield return null;
             }
 
-            if (PhotonView.IsMine) GetComponent<SpectatorMode>().isSpectatorModeEnabled = true;
+            if (PlayerController.photonView.IsMine) PlayerController.spectatorMode.isSpectatorModeEnabled = true;
         }
 
         #endregion
@@ -214,16 +176,16 @@ namespace MainGame.PlayerScripts.Roles
         {
             if (isNight)
             {
-                PowerTimer.SetInfinite();
-                PowerCooldown.Reset();
+                PlayerController.powerTimer.SetInfinite();
+                PlayerController.powerCooldown.Reset();
             }
             else
             {
-                PowerTimer.Reset();
+                PlayerController.powerTimer.Reset();
             }
 
-            PowerCooldown.Resume();
-            PowerTimer.Resume();
+            PlayerController.powerCooldown.Resume();
+            PlayerController.powerTimer.Resume();
         }
 
         public virtual void UpdateTarget(Collider other, bool b) {}

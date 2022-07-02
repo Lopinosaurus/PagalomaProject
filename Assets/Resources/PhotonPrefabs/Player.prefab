@@ -1720,6 +1720,7 @@ GameObject:
   - component: {fileID: 1890645478197119020}
   - component: {fileID: 8851684059657590116}
   - component: {fileID: 6811204017319493261}
+  - component: {fileID: 2006077458509814818}
   m_Layer: 8
   m_Name: Camera
   m_TagString: Player
@@ -1871,10 +1872,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: 64d7e9c847a05ba45a2dd56f2ba4e5aa, type: 2}
-  isGlobal: 1
+  isGlobal: 0
   blendDistance: 0
   weight: 1
   priority: 0
+--- !u!135 &2006077458509814818
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465669397903921438}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.00001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2499492481477124583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5264,9 +5278,9 @@ MonoBehaviour:
   boneShape: 1
   drawBones: 1
   drawTripods: 0
-  boneSize: 1.77
+  boneSize: 0.97
   tripodSize: 3.03
-  boneColor: {r: 0.76618016, g: 0.76618016, b: 0.9622642, a: 0.5}
+  boneColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 0.16862746}
   m_Transforms:
   - {fileID: 4718853506422041255}
   - {fileID: 6152782281066179515}
@@ -5605,17 +5619,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d969dfd6cdca68545a1a5a87049ccb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 6099398095721299116}
+  playerMovement: {fileID: 660215560512379707}
+  playerLook: {fileID: 2867563762611503884}
+  playerAnimation: {fileID: 7430318575100400553}
+  spectatorMode: {fileID: 3552154069239022563}
+  footstepEffect: {fileID: 8679982518694955207}
+  photonView: {fileID: 9118603271664355303}
+  photonAnimatorView: {fileID: 2296100508060758552}
+  characterController: {fileID: 838235907301293933}
+  role: {fileID: 0}
   playerInput: {fileID: 5554154994360629918}
-  cameraHolder: {fileID: 1141215766398316333}
+  audioListener: {fileID: 1890645478197119020}
   camPlayer: {fileID: 4956978653042181620}
+  postProcessVolume: {fileID: 6811204017319493261}
+  villagerSkinnedMeshRenderer: {fileID: 6153505616566498493}
+  camHolder: {fileID: 1141215766398316333}
   villagerRender: {fileID: 4950680158300606666}
   werewolfRender: {fileID: 8499297442018757553}
-  role: {fileID: 0}
+  playerAudioSource: {fileID: 9182737059992604612}
+  playerLight: {fileID: 6658514047362406684}
+  headRotationConstraint: {fileID: 6204468787036209716}
+  powerCooldown: {fileID: 0}
+  powerTimer: {fileID: 0}
+  aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   aiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1
-  aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
-  playerAudioSource: {fileID: 9182737059992604612}
-  lampLight: {fileID: 6658514047362406684}
   firstPerson: 1
 --- !u!114 &660215560512379707
 MonoBehaviour:
@@ -5640,13 +5669,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   jumpStrength: 6
-  cameraHolder: {fileID: 1141215766398316333}
-  characterController: {fileID: 0}
   currentSpeed: 0
   isBushSlowingPlayer: 0
   isWerewolfTransformedMult: 0
   nbBushes: 0
-  currentMovementType: 0
+  currentMovementState: 0
   localMoveAmountNormalized: {x: 0, y: 0}
   upwardVelocity: {x: 0, y: 0, z: 0}
   grounded: 0
@@ -5973,8 +6000,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearDoor: 0
   nearSign: 0
-  door: {fileID: 0}
-  pv: {fileID: 7578259937013170486}
 --- !u!114 &590110878684623782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5987,10 +6012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f9a2b9b85596c44b6cc355d95ce0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerRender: {fileID: 4950680158300606666}
-  werewolfRender: {fileID: 8499297442018757553}
-  attackCollider: {fileID: 660008149618959238}
-  werewolfTransitionParticles: {fileID: 4280448778261451547, guid: 05d4513cea190b84f8a46b69e521b16c, type: 3}
+  attackCollider: {fileID: 7425415523802879609}
 --- !u!114 &7430318575100400553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6005,7 +6027,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   villagerAvatar: {fileID: 9000000, guid: 18eb18bedd5f0c045aa507c89e5aaa7f, type: 3}
   werewolfAvatar: {fileID: 9000000, guid: ba30bbfb83bad5a48b067d28584f7926, type: 3}
-  currentAnimator: {fileID: 8582652644670617519}
   enableFootPositionIK: 1
   enableFootRotationIK: 1
   debug: 1
@@ -6024,7 +6045,7 @@ MonoBehaviour:
   handPositionOffsetY: 0
   handPositionOffsetZ: 0
   targetedObject: {fileID: 0}
-  DistanceRequiredToTriggerHand: 0.8
+  distanceRequiredToTriggerHand: 0.8
 --- !u!95 &8582652644670617519
 Animator:
   serializedVersion: 4

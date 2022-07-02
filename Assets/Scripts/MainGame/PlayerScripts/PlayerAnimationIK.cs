@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 namespace MainGame.PlayerScripts
@@ -23,16 +24,16 @@ namespace MainGame.PlayerScripts
         [SerializeField] private Transform rightHand;
         [SerializeField, Range(0, 30)] private float handLerp;
         
-        [Space, SerializeField, Range(0, 180)] private float handRotationOffsetX;
-        [SerializeField, Range(0, 180)] private float handRotationOffsetY;
-        [SerializeField, Range(0, 180)] private float handRotationOffsetZ;
+        [Space, SerializeField, Range(-180, 180)] private float handRotationOffsetX;
+        [SerializeField, Range(-180, 180)] private float handRotationOffsetY;
+        [SerializeField, Range(-180, 180)] private float handRotationOffsetZ;
         
         [Space, SerializeField, Range(-1, 1)] private float handPositionOffsetX;
         [SerializeField, Range(-1, 1)] private float handPositionOffsetY;
         [SerializeField, Range(-1, 1)] private float handPositionOffsetZ;
         
         [Space, SerializeField] private Transform targetedObject;
-        [SerializeField, Range(0, 1)]  private float DistanceRequiredToTriggerHand = 0.8f;
+        [SerializeField, Range(0, 10)]  private float distanceRequiredToTriggerHand = 0.8f;
         private float _ikRightHandPosWeight;
 
 
@@ -45,10 +46,17 @@ namespace MainGame.PlayerScripts
 
         private void FixedUpdate()
         {
-            Vector3 chestPosition = currentAnimator.GetBoneTransform(HumanBodyBones.Chest).position;
+            HandleHandToggleIK();
+        }
+
+        private void HandleHandToggleIK()
+        {
+            if (!targetedObject) return;
+            
+            Vector3 chestPosition = _currentAnimator.GetBoneTransform(HumanBodyBones.Chest).position;
             Vector3 targetedObjectPosition = targetedObject.position;
 
-            bool isDistanceCloseEnough = IsDistanceCloseEnough(chestPosition, targetedObjectPosition, DistanceRequiredToTriggerHand);
+            bool isDistanceCloseEnough = IsDistanceCloseEnough(chestPosition, targetedObjectPosition, distanceRequiredToTriggerHand);
             Debug.DrawLine(chestPosition, targetedObjectPosition, isDistanceCloseEnough ? Color.green : Color.red);
             
             _ikRightHandPosWeight = Mathf.Lerp(_ikRightHandPosWeight, isDistanceCloseEnough ? 1 : 0, Time.fixedDeltaTime * handLerp);
@@ -56,27 +64,39 @@ namespace MainGame.PlayerScripts
 
         private void HandleHandsIKManagement()
         {
-            // ikConstraint.data.target.position = position;
-            // ikConstraint.weight = Mathf.Lerp(ikConstraint.weight, desiredWeight, Time.deltaTime * targetLerp);
-
+            if (!targetedObject) return;
+            
             // Get the data
-            Vector3 targetedObjectPos = targetedObject.position;
+            Vector3 rightHandPosition = _currentAnimator.GetIKPosition(AvatarIKGoal.RightHand);
+            Vector3 targetClosestPoint;
+            try
+            {
+                targetClosestPoint = targetedObject.GetComponent<SphereCollider>().ClosestPoint(rightHandPosition);
+            }
+            catch
+            {
+                targetClosestPoint = targetedObject.position;
+            }
+            
 
             // Adjust the hand rotation
-            Vector3 rightHandForward = rightHand.forward;
-            Vector3 rightHandPosition = rightHand.position;
-            Quaternion rightHandRotationIk = Quaternion.LookRotation(rightHandForward, (rightHandPosition - targetedObjectPos));
+            Vector3 rightHandForward = rightHand.forward, rightHandUp = rightHand.up, rightHandRight = rightHand.right;
+            Quaternion rightHandRotationIk = Quaternion.LookRotation(rightHandForward, (rightHandPosition - targetClosestPoint));
             rightHandRotationIk *= Quaternion.Euler(handRotationOffsetX, handRotationOffsetY, handRotationOffsetZ);
             
             // Adjust the hand position
-            Vector3 rightHandUp = rightHand.up, rightHandRight = rightHand.right;
-            Vector3 rightHandPositionIk = rightHandPosition + rightHandForward * handPositionOffsetX + rightHandUp * handPositionOffsetY + rightHandRight * handPositionOffsetZ;
-
-            currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPositionIk);
-            currentAnimator.SetIKRotation(AvatarIKGoal.RightHand, rightHandRotationIk);
+            Vector3 rightHandPositionIk = targetClosestPoint + rightHandForward * handPositionOffsetX + rightHandUp * handPositionOffsetY + rightHandRight * handPositionOffsetZ;
+            Vector3 bodyRenderWorldShift = transform.position - PC.villagerRender.transform.position;
+            rightHandPositionIk += bodyRenderWorldShift;
             
-            currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
-            currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
+            _currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPositionIk);
+            // _currentAnimator.SetIKHintPosition(AvatarIKHint.RightElbow, 0.5f * (rightHandPositionIk 
+            //     + _currentAnimator.GetBoneTransform(HumanBodyBones.RightShoulder).position));
+            _currentAnimator.SetIKRotation(AvatarIKGoal.RightHand, rightHandRotationIk);
+            
+            _currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
+            _currentAnimator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, _ikRightHandPosWeight);
+            _currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
         }
 
         private static bool IsDistanceCloseEnough(Vector3 position1, Vector3 position2, float distance)
@@ -87,16 +107,16 @@ namespace MainGame.PlayerScripts
         private void HandleFeetIKManagement()
         {
             // Ik setup
-            currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, enableFootPositionIK ? 1 : 0);
-            currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, enableFootPositionIK ? 1 : 0);
-            currentAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, enableFootRotationIK ? 0.5f : 0);
-            currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, enableFootRotationIK ? 0.5f : 0);
+            _currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, enableFootPositionIK ? 1 : 0);
+            _currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, enableFootPositionIK ? 1 : 0);
+            _currentAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, enableFootRotationIK ? 0.5f : 0);
+            _currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightFoot, enableFootRotationIK ? 0.5f : 0);
 
             if (enableFootPositionIK)
             {
                 // Stores current foot positions
-                _leftFootPosIK = currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot);
-                _rightFootPosIK = currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot);
+                _leftFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot);
+                _rightFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot);
                 
                 // Set new foot placements
                 AdjustFootPositionAndRotation(ref _leftFootPosIK, out _leftFootRotIK);
@@ -122,14 +142,14 @@ namespace MainGame.PlayerScripts
                 }
                 
                 // Set current foot IK positions
-                currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, _leftFootPosIK);
-                currentAnimator.SetIKPosition(AvatarIKGoal.RightFoot, _rightFootPosIK);
+                _currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, _leftFootPosIK);
+                _currentAnimator.SetIKPosition(AvatarIKGoal.RightFoot, _rightFootPosIK);
             }
 
             if (enableFootRotationIK)
             {
-                currentAnimator.SetIKRotation(AvatarIKGoal.LeftFoot, _leftFootRotIK);
-                currentAnimator.SetIKRotation(AvatarIKGoal.RightFoot, _rightFootRotIK);
+                _currentAnimator.SetIKRotation(AvatarIKGoal.LeftFoot, _leftFootRotIK);
+                _currentAnimator.SetIKRotation(AvatarIKGoal.RightFoot, _rightFootRotIK);
             }
         }
 

@@ -58,7 +58,7 @@ public class AiController : MonoBehaviour
     private int _characterMaskValue;
 
     // Gameplay stats
-    [Space] [Header("Gameplay statistics")] [SerializeField]
+    [Space, Header("Gameplay statistics")] [SerializeField]
     private AiState currentState = AiState.Relocate;
     private float _timeBeingCaught;
     private const float MaxTimeBeingCaught = 2.5f;
@@ -75,19 +75,17 @@ public class AiController : MonoBehaviour
     private float DistFromTarget => Vector3.Distance(transform.position, _targetPlayer.transform.position);
 
     private float CycleTime => 4 - _moveCount / MaxMoveCount;
-
     private const float AttackMaxDistancePlayer = 1.5f;
     private const float RemainingMinDistance = 1;
     private const float MinDangerDistFromPlayer = 15;
     private const float MinCriticalDistFromPlayer = 7;
 
     // Spawn settings
-    [Space] [Header("Spawn distances")] private float _minSpawnRange = 50;
-    private float _maxSpawnRange = 60;
+    [Space] [Header("Spawn distances")] private const float MinSpawnRange = 50, MaxSpawnRange = 60;
 
     // NavMeshAgent settings
     [Space] [Header("Nav Mesh Settings")] [Range(0.01f, 100f)]
-    private float _normalSpeed = 200;
+    private const float NormalSpeed = 200;
 
     private const float HidingSpeed = 50;
     private PlayerMovement _playerMovement;
@@ -114,7 +112,7 @@ public class AiController : MonoBehaviour
         _postProcessVolume = GetComponentInChildren<PostProcessVolume>();
 
         // CurrentHidingObstacle
-        transform.position = PositionBehindPlayer(_minSpawnRange, _maxSpawnRange);
+        transform.position = PositionBehindPlayer(MinSpawnRange, MaxSpawnRange);
         StartCoroutine(NullToObstacle());
         
         SetTime(3);
@@ -127,7 +125,7 @@ public class AiController : MonoBehaviour
         // NavMesh settings
         try
         {
-            _agent.speed = _normalSpeed;
+            _agent.speed = NormalSpeed;
             _agent.acceleration = Acceleration;
             _agent.angularSpeed = 9999;
             _agent.stoppingDistance = 0;
@@ -222,7 +220,7 @@ public class AiController : MonoBehaviour
                 else
                 {
                     bool tooClose = distFromTarget < MinCriticalDistFromPlayer;
-                    bool tooFar = distFromTarget > _maxSpawnRange + 10;
+                    bool tooFar = distFromTarget > MaxSpawnRange + 10;
                     isDanger = distFromTarget < MinDangerDistFromPlayer;
 
                     // When the time has run out normally, moves
@@ -375,38 +373,31 @@ public class AiController : MonoBehaviour
         // Refreshes the camera planes
         _targetPlanes = GeometryUtility.CalculateFrustumPlanes(_targetCam);
 
-        if (GeometryUtility.TestPlanesAABB(_targetPlanes, _capsuleCollider.bounds))
-        {
-            _isInCameraView = true;
+        /*Vector3 camPosition = _targetCam.transform.position;
 
-            /*Vector3 camPosition = _targetCam.transform.position;
+float colliderHeight = _capsuleCollider.height;
+Vector3 colliderPosition = _capsuleCollider.transform.position;
+Vector3 colliderCenter = colliderPosition + Vector3.up * colliderHeight / 2;
 
-            float colliderHeight = _capsuleCollider.height;
-            Vector3 colliderPosition = _capsuleCollider.transform.position;
-            Vector3 colliderCenter = colliderPosition + Vector3.up * colliderHeight / 2;
+// All possible destinations - the more the more accurate
+Vector3[] destinations =
+{
+    colliderCenter,
+    colliderPosition,
+    colliderPosition + Vector3.up * colliderHeight
+};
 
-            // All possible destinations - the more the more accurate
-            Vector3[] destinations =
-            {
-                colliderCenter,
-                colliderPosition,
-                colliderPosition + Vector3.up * colliderHeight
-            };
+foreach (Vector3 destination in destinations)
+{
+    // Ray from camera to the chosen destination
+    if (Physics.Raycast(camPosition, destination - camPosition, out RaycastHit hit,
+            PositiveInfinity))
+    {
+        if (hit.collider == _capsuleCollider) return true;
+    }
+}*/
 
-            foreach (Vector3 destination in destinations)
-            {
-                // Ray from camera to the chosen destination
-                if (Physics.Raycast(camPosition, destination - camPosition, out RaycastHit hit,
-                        PositiveInfinity))
-                {
-                    if (hit.collider == _capsuleCollider) return true;
-                }
-            }*/
-        }
-        else
-        {
-            _isInCameraView = false;
-        }
+        _isInCameraView = GeometryUtility.TestPlanesAABB(_targetPlanes, _capsuleCollider.bounds);
 
         return false;
     }
@@ -424,7 +415,7 @@ public class AiController : MonoBehaviour
                 _agent.acceleration = 10;
                 break;
             case Speed.Moving:
-                _agent.speed = _normalSpeed * Mathf.Clamp01(_agent.remainingDistance * 0.05f);
+                _agent.speed = NormalSpeed * Mathf.Clamp01(_agent.remainingDistance * 0.05f);
                 _agent.acceleration = Acceleration;
                 break;
             case Speed.Hiding:
@@ -442,7 +433,7 @@ public class AiController : MonoBehaviour
     {
         Vector3 targetPosition = _targetPlayer.transform.position;
 
-        var radius = _maxSpawnRange;
+        var radius = MaxSpawnRange;
 
         // Potential colliders to go to
         Vector3 center = (targetPosition + transform.position) * 0.5f;

@@ -97,7 +97,7 @@ namespace MainGame.PlayerScripts
             Vector3 camPosRef = _camTransform.localPosition;
             Vector3 camPosNew = camPosRef;
 
-            camPosNew.y = amplitude * (Mathf.Clamp01(Mathf.PerlinNoise(Time.time, 0)) + 1);
+            camPosNew.y = amplitude * Mathf.Clamp01(Mathf.PerlinNoise(Time.time, 0) - .5f);
             camPosNew.x = amplitude * (Mathf.Clamp01(Mathf.PerlinNoise(0, Time.time)) - .5f);
             
             _camTransform.localPosition = Vector3.Slerp(camPosRef, camPosNew, Time.deltaTime * headBobLerp);
@@ -228,28 +228,25 @@ namespace MainGame.PlayerScripts
         public void LocalPostProcessingAndSound(PostProcessVolume postProcessVolume, float duration,
             AudioClip audioClip)
         {
-            // Attach gameObject to player
-            GameObject localVolume = new GameObject($"localVolume ({duration})");
-            localVolume.transform.SetParent(transform);
-
-            // Attach spawner
-            PostProcessVolumeSpawner spawner = localVolume.AddComponent<PostProcessVolumeSpawner>();
-            spawner.timer = duration;
-            spawner.enabled = true;
-
             // Attach postprocess
+            PostProcessVolume processVolume = _cam.gameObject.AddComponent<PostProcessVolume>();
             postProcessVolume.weight = 1;
             postProcessVolume.priority = 1;
-            postProcessVolume.isGlobal = true;
-            postProcessVolume.transform.SetParent(localVolume.transform);
+            postProcessVolume.isGlobal = false;
 
-            // Execute sound if available
+            // Attach and execute sound if available
             if (audioClip)
             {
-                AudioSource audioSource = localVolume.AddComponent<AudioSource>();
+                AudioSource audioSource = _cam.gameObject.AddComponent<AudioSource>();
                 audioSource.clip = audioClip;
                 audioSource.Play();
+                
+                // Destroy with timer
+                Destroy(audioSource, duration);
             }
+            
+            // Destroy with timer
+            Destroy(processVolume, duration);
         }
 
         public void FOVChanger()

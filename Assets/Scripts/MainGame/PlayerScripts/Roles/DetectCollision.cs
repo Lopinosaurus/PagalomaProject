@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DetectCollision : MonoBehaviour
 {
-    private PlayerController _playerController;
+    private PlayerController _pc;
 
     private void Awake()
     {
-        _playerController = GetComponentInParent<PlayerController>();
+        _pc = GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -16,7 +16,7 @@ public class DetectCollision : MonoBehaviour
         if (VoteMenu.Instance && other)
             if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
             {
-                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, true);
+                if (_pc.role.isAlive) _pc.role.UpdateTarget(other, true);
             }
     }
 
@@ -25,7 +25,7 @@ public class DetectCollision : MonoBehaviour
         if (VoteMenu.Instance && other)
             if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
             {
-                if (_playerController.role.isAlive) _playerController.role.UpdateTarget(other, false);
+                if (_pc.role.isAlive) _pc.role.UpdateTarget(other, false);
             }
     }
 }

@@ -3,13 +3,13 @@ fetchPreview = true
 defaultFlags = 0
 keepOpen = false
 queryFolder = "Assets"
-onBoardingDoNotAskAgain = false
+onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.DD5CDD96" = "audio list"
+	"last_search.DD5CDD96" = "canva"
 	"OpenInspectorPreview.DD5CDD96" = "0"
-	"currentGroup.DD5CDD96" = "all"
+	"currentGroup.DD5CDD96" = "scene"
 }
 providers = {
 	adb = {
@@ -56,6 +56,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"ca"
 	"?"
 ]
 searchItemFavorites = [
