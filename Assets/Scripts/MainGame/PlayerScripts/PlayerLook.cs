@@ -1,4 +1,5 @@
 using System.Collections;
+using MainGame.Helpers;
 using Photon.Pun;
 using Unity.Mathematics;
 using UnityEngine;
@@ -228,6 +229,15 @@ namespace MainGame.PlayerScripts
         public void LocalPostProcessingAndSound(PostProcessVolume postProcessVolume, float duration,
             AudioClip audioClip)
         {
+            // Attach gameObject to player
+            GameObject localVolume = new GameObject($"localVolume ({duration})");
+            localVolume.transform.SetParent(transform);
+
+            // Attach spawner
+            PlayerVFX spawner = localVolume.AddComponent<PlayerVFX>();
+            spawner.initialTimer = duration;
+            spawner.enabled = true;
+
             // Attach postprocess
             PostProcessVolume processVolume = _cam.gameObject.AddComponent<PostProcessVolume>();
             postProcessVolume.weight = 1;
