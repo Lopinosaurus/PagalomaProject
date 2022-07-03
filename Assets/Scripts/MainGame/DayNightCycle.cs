@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using MainGame;
+using MainGame.Helpers;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
 public class DayNightCycle : MonoBehaviour
 {
+    public static DayNightCycle Instance;
+    
     [Range(0.0f, 1.0f)]
     public float time;
     public float fullDayLength; // Day length in seconds
@@ -23,14 +26,23 @@ public class DayNightCycle : MonoBehaviour
     public Gradient moonColor;
     public AnimationCurve moonIntensity;
 
-    [Header("Other Lighting")]
-    public AnimationCurve lightingIntensityMultiplier;
-    public AnimationCurve reflectionsIntensityMultiplier;
+    [Header("Fog")]
     public AnimationCurve fogIntensityMultiplier;
     
     private PhotonView _pv;
 
-    private void Awake() => _pv = GetComponent<PhotonView>();
+    private void Awake()
+    {
+        if (Instance)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+        
+        _pv = GetComponent<PhotonView>();
+    }
 
     private void Start()
     {
@@ -41,6 +53,8 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
+        // TODO Change day night cycle to make lights static ?
+        
         // increment time
         time += timeRate * Time.deltaTime;
         time = time >= 1 ? 0 : time;
@@ -106,7 +120,7 @@ public class DayNightCycle : MonoBehaviour
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
     }
 
-    private void NewDay()
+    public static void NewDay()
     {
         RoomManager.Instance.UpdateInfoText("It's a new day, go to the sign to vote!");
         VoteMenu.Instance.isDay = true;
@@ -117,15 +131,17 @@ public class DayNightCycle : MonoBehaviour
         VoteMenu.Instance.UpdateVoteItems();
     }
 
-    private void NewNight()
+    public static void NewNight()
     {
         RoomManager.Instance.UpdateInfoText("It's the night, the powers are activated!");
         RoomManager.Instance.votes = new List<Role>();
-        VoteMenu.Instance.isDay = false;
-        VoteMenu.Instance.isFirstDay = false;
+        RoomManager.Instance.localPlayer.vote = null;
+
         RoomManager.Instance.localPlayer.SetCountdowns(true);
         RoomManager.Instance.localPlayer.UpdateActionText();
-        RoomManager.Instance.localPlayer.vote = null;
+        
+        VoteMenu.Instance.isDay = false;
+        VoteMenu.Instance.isFirstDay = false;
         VoteMenu.Instance.UpdateVoteItems();
     }
 
@@ -138,7 +154,7 @@ public class DayNightCycle : MonoBehaviour
     }
     
     [PunRPC]
-    void RPC_NewNight(float time)
+    private void RPC_NewNight(float time)
     {
         this.time = time;
         isDay = false;
@@ -146,5 +162,5 @@ public class DayNightCycle : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_EOG(int isEog) => RoomManager.Instance.DisplayEndScreen(isEog);
+    private void RPC_EOG(int isEog) => RoomManager.Instance.DisplayEndScreen(isEog);
 }

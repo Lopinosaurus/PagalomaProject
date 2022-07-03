@@ -1,3 +1,4 @@
+using MainGame;
 using Photon.Pun;
 using UnityEngine;
 

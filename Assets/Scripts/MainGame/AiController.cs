@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MainGame;
+using MainGame.Helpers;
 using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using UnityEngine;
@@ -67,8 +68,7 @@ public class AiController : MonoBehaviour
     private int _remainingHealth = 1;
 
     private bool _isAlive = true;
-    private const float ShakeDuration = 30;
-    private const float SlowSpeedDuration = 30;
+    private const float ShakeDuration = 30, SlowSpeedDuration = 30;
     private int _moveCount;
     private const int MaxMoveCount = 15;
 
@@ -140,7 +140,8 @@ public class AiController : MonoBehaviour
     private void ApplyMalusPostProcessAndSound()
     {
         Destroy(ambiantAudioSource);
-        _targetPlayer.GetComponent<PlayerLook>().LocalPostProcessingAndSound(_postProcessVolume, ShakeDuration, stateOfShock);
+        FXManager.Instance.CreateAudioFX(stateOfShock, default, default, false);
+        FXManager.Instance.CreateVisualFX(_postProcessVolume, ShakeDuration);
     }
 
     private IEnumerator NullToObstacle()

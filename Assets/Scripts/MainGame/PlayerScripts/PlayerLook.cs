@@ -229,13 +229,14 @@ namespace MainGame.PlayerScripts
         public void LocalPostProcessingAndSound(PostProcessVolume postProcessVolume, float duration,
             AudioClip audioClip)
         {
+            /*//TODO Change
+            
             // Attach gameObject to player
             GameObject localVolume = new GameObject($"localVolume ({duration})");
             localVolume.transform.SetParent(transform);
 
             // Attach spawner
-            PlayerVFX spawner = localVolume.AddComponent<PlayerVFX>();
-            spawner.initialTimer = duration;
+            FXManager.Instance.CreateAudioFX();
             spawner.enabled = true;
 
             // Attach postprocess
@@ -256,7 +257,7 @@ namespace MainGame.PlayerScripts
             }
             
             // Destroy with timer
-            Destroy(processVolume, duration);
+            Destroy(processVolume, duration);*/
         }
 
         public void FOVChanger()

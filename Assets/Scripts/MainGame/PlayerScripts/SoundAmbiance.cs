@@ -9,7 +9,7 @@ public class SoundAmbiance : MonoBehaviour
     [SerializeField] private bool isDayPlaying;
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!VoteMenu.Instance.IsNight)
         {

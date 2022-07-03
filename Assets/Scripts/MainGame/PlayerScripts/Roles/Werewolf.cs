@@ -187,8 +187,7 @@ namespace MainGame.PlayerScripts.Roles
             PlayerController.playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
 
             UpdateActionText();
-
-            UpdateActionText();
+            
             if (target.hasShield)
             {
                 RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");

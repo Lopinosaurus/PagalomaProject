@@ -1,4 +1,5 @@
 using System.IO;
+using MainGame;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (_pv.IsMine)
+        if (_pv.IsMine) 
             // Get local player role
             _pv.RPC(nameof(RPC_GetRole), RpcTarget.MasterClient); // Send PRC_GetRole to this object on the Master Client
     }
@@ -32,22 +33,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             GameObject spawn = spawnList.GetChild(spawnIndex).gameObject;
             Vector3 spawnPoint = spawn.transform.position;
 
-            object[] instantiationData =
-                {roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
-            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint,
-                Quaternion.identity, 0, instantiationData);
+            object[] instantiationData = {roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instantiationData);
             MainGameMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
+            
+            // TODO Improve loading screen
             MainGameMenuManager.Instance.loadingScreen.SetActive(false);
             
             // Fake players
             Vector3 fakePlayerSpawnPoint = spawnPoint;
-            if (Physics.Raycast(spawnPoint, Vector3.down, out RaycastHit hit, 100, 7))
-            {
-                fakePlayerSpawnPoint = hit.point;
-            }
+            if (Physics.Raycast(spawnPoint, Vector3.down, out RaycastHit hit, 100, 7)) fakePlayerSpawnPoint = hit.point;
 
-            var fakePlayer = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "FakePlayer"),
-                fakePlayerSpawnPoint, Quaternion.identity);
+            RoomManager.Instance.fakePlayer = PhotonNetwork.Instantiate(
+                Path.Combine("PhotonPrefabs", "FakePlayer"),
+                fakePlayerSpawnPoint,
+                Quaternion.identity,
+                0,
+                new object[]{});
         }
         else
         {

@@ -1,13 +1,30 @@
 using System.Collections;
+using MainGame.Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using static MainGame.Helpers.QuestManager.Quest;
 
 namespace MainGame.PlayerScripts.Roles
 {
     public abstract class Role : MonoBehaviour
     {
         #region Attributes
+
+        // Quests
+        private QuestManager.Quest currentQuest;
+        
+        public QuestManager.Quest CurrentQuest
+        {
+            get => currentQuest;
+            set
+            {
+                LastQuest = currentQuest;
+                currentQuest = value; 
+            }
+        }
+
+        public QuestManager.Quest LastQuest { get; private set; }
 
         // Gameplay attributes
         public string roleName;
@@ -20,6 +37,8 @@ namespace MainGame.PlayerScripts.Roles
         public bool hasVoted; // Has submitted vote this day
 
         protected bool ArePowerAndCooldownValid => PlayerController.powerCooldown.IsZero && PlayerController.powerTimer.IsNotZero;
+
+
 
         protected TMP_Text ActionText;
         public TMP_Text deathText;
