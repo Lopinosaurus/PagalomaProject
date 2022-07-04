@@ -36,11 +36,10 @@ namespace MainGame
         {
             if (RoomManager.Instance.localPlayer.vote && !RoomManager.Instance.localPlayer.vote.isAlive)
                 RoomManager.Instance.localPlayer.vote = null;
+            
             voteButton.interactable = isDay && !RoomManager.Instance.localPlayer.hasVoted;
-            foreach (Transform trans in voteList)
-            {
-                trans.GetComponent<VoteListItem>().UpdateItem();
-            }
+            
+            foreach (Transform trans in voteList) trans.GetComponent<VoteListItem>().UpdateItem(); // a foreach for transform ??
         }
 
         public void SubmitVote()

@@ -1721,6 +1721,7 @@ GameObject:
   - component: {fileID: 8851684059657590116}
   - component: {fileID: 6811204017319493261}
   - component: {fileID: 2006077458509814818}
+  - component: {fileID: 8057535424576871257}
   m_Layer: 8
   m_Name: Camera
   m_TagString: Player
@@ -1889,6 +1890,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.00001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8057535424576871257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465669397903921438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd974bb031854416a735293aedd4f00a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  ppvs:
+  - {fileID: 0}
 --- !u!1 &2499492481477124583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5642,6 +5658,7 @@ MonoBehaviour:
   headRotationConstraint: {fileID: 6204468787036209716}
   powerCooldown: {fileID: 0}
   powerTimer: {fileID: 0}
+  dissimulateParticles: {fileID: 3253152443311077354, guid: b7156b6e94e42eb429772f0bfe285a6a, type: 3}
   aiSound: {fileID: 8300000, guid: 64dd32db74d044a48bfd0d06bcd9139c, type: 3}
   aiPrefab: {fileID: 2118579898149976474, guid: 6777f933b4f87574083477c0b3bd3452, type: 3}
   enableAi: 1

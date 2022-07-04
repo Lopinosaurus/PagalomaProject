@@ -33,7 +33,7 @@ namespace MainGame.PlayerScripts.Roles
             UpdateActionText();
         }
 
-        public override void UpdateActionText()
+        public override void UpdateActionText(ATMessage message)
         {
             if (!PlayerController.photonView.IsMine) return;
             

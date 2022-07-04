@@ -33,7 +33,7 @@ public class MainGameMenuManager : MonoBehaviour
         // TODO assign something to this value !!
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {

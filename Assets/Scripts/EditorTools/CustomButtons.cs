@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace EditorTools
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(PlayerLook))]
     [CanEditMultipleObjects] // only if you handle it properly
     public class YourClassNameEditor : Editor
@@ -17,4 +18,5 @@ namespace EditorTools
             DrawDefaultInspector();
         }
     }
+#endif
 }

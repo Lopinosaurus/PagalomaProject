@@ -3,7 +3,6 @@ using MainGame;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Random = Unity.Mathematics.Random;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {

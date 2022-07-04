@@ -10,9 +10,8 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        private GameObject _werewolfParticles;
-
         public readonly string FriendlyRoleName = "Werewolf";
+        
         
         public List<Role> targets = new List<Role>();
         public bool isTransformed;
@@ -26,17 +25,15 @@ namespace MainGame.PlayerScripts.Roles
         private float TotalTransformationTransitionDuration =>
             EarlyTransformationTransitionDuration + LateTransformationTransitionDuration;
         
-        public override void UpdateActionText()
+        public override void UpdateActionText(ATMessage message)
         {
-            if (PlayerController.photonView.IsMine)
-                if (ActionText)
-                {
-                    if (isTransformed && targets.Count > 0 && PlayerController.powerTimer.IsNotZero && PlayerController.powerCooldown.IsZero)
-                        ActionText.text = "Press E to Kill";
-                    else if (VoteMenu.Instance.IsNight && isTransformed == false)
-                        ActionText.text = "Press E to Transform";
-                    else ActionText.text = "";
-                }
+            if (!PlayerController.photonView.IsMine) return;
+
+            if (isTransformed && targets.Count > 0 && ArePowerAndCooldownValid)
+                ActionText.text = "Press E to Kill";
+            else if (VoteMenu.Instance.IsNight && isTransformed == false)
+                ActionText.text = "Press E to Transform";
+            else ActionText.text = "";
         }
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace MainGame.PlayerScripts.Roles
             if (isTransformed == false || other is not CharacterController || !other.CompareTag("Player")) return;
 
             // Adds or removes role
-            if (other.TryGetComponent(out Role targetRole) && !(targetRole is Werewolf))
+            if (other.TryGetComponent(out Role targetRole) && targetRole is not Werewolf)
             {
                 if (add)
                 {
@@ -89,7 +86,7 @@ namespace MainGame.PlayerScripts.Roles
             Debug.LogWarning($"{goingToWerewolf}");
             
             // Particles to dissimulate werewolf transition
-            GameObject particles = Instantiate(_werewolfParticles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            GameObject particles = Instantiate(PlayerController.dissimulateParticles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
             particles.transform.parent = transform;
 

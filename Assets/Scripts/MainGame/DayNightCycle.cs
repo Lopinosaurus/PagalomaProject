@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using MainGame;
-using MainGame.Helpers;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
@@ -28,6 +27,7 @@ public class DayNightCycle : MonoBehaviour
 
     [Header("Fog")]
     public AnimationCurve fogIntensityMultiplier;
+    public AnimationCurve fogColor;
     
     private PhotonView _pv;
 
@@ -94,30 +94,17 @@ public class DayNightCycle : MonoBehaviour
         sun.intensity = sunIntensity.Evaluate(time);
         moon.intensity = moonIntensity.Evaluate(time);
         
-        // change colors
+        // change light colors
         sun.color = sunColor.Evaluate(time);
         moon.color = moonColor.Evaluate(time);
         
-        // DON'T MODIFY ACTIVE STATES IN AN UPDATE LOOP !!!
-        
-        // // enable / disable the sun
-        // if (sun.intensity == 0 && sun.gameObject.activeInHierarchy)
-        //     sun.gameObject.SetActive(false);
-        // else if (sun.intensity > 0 && !sun.gameObject.activeInHierarchy)
-        //     sun.gameObject.SetActive(true);
-        //
-        // // enable / disable the moon
-        // if (moon.intensity == 0 && moon.gameObject.activeInHierarchy)
-        //     moon.gameObject.SetActive(false);
-        // else if (moon.intensity > 0 && !moon.gameObject.activeInHierarchy)
-        //     moon.gameObject.SetActive(true);
-        
-        // lighting and reflections intensity
-        // RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
-        // RenderSettings.reflectionIntensity = reflectionsIntensityMultiplier.Evaluate(time);
-
-        // fog intensity
+        // change fog 
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
+        Color color = RenderSettings.fogColor;
+        color.r = fogColor.Evaluate(time);
+        color.g = fogColor.Evaluate(time);
+        color.b = fogColor.Evaluate(time);
+        RenderSettings.fogColor = color;
     }
 
     public static void NewDay()

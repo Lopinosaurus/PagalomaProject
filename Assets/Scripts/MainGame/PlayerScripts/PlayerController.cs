@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         public Light playerLight;
         public RotationConstraint headRotationConstraint;
         public Countdown powerCooldown, powerTimer;
+        public GameObject dissimulateParticles;
     
     // Serialized fields
     [SerializeField] private AudioClip aiSound;

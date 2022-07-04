@@ -7,7 +7,7 @@ public class NavMeshBaker : MonoBehaviour
     private NavMeshSurface _surface;
     public NavMeshObstacle[] Obstacles;
     
-    public bool enabled, buildOnAwake = true;
+    public bool ready, buildOnAwake = true;
 
     private void Awake()
     {
@@ -18,6 +18,6 @@ public class NavMeshBaker : MonoBehaviour
 
     public void BuildNavMeshAtRuntime()
     {
-        if(enabled) _surface.BuildNavMesh();
+        if (ready) _surface.BuildNavMesh();
     }
 }

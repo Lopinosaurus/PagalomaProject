@@ -32,13 +32,11 @@ namespace MainGame.PlayerScripts.Roles
             UpdateActionText();
         }
 
-        public override void UpdateActionText()
+        public override void UpdateActionText(ATMessage message)
         {
-            if (PlayerController.photonView.IsMine)
-            {
-                if (targets.Count > 0 && PlayerController.powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
-                else ActionText.text = "";
-            }
+            if (!PlayerController.photonView.IsMine) return;
+            if (targets.Count > 0 && PlayerController.powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
+            else ActionText.text = "";
         }
 
         public override void UseAbility()

@@ -10,6 +10,8 @@ namespace MainGame.Helpers
     public class QuestManager : MonoBehaviour
     {
         public static QuestManager Instance;
+
+        private PhotonView _photonView;
         
         public enum Quest
         {
@@ -28,6 +30,7 @@ namespace MainGame.Helpers
             }
 
             Instance = this;
+            _photonView = GetComponent<PhotonView>();
         }
 
         
@@ -41,7 +44,8 @@ namespace MainGame.Helpers
                     if (!player.isAlive) continue;
                     if (player is Werewolf) continue;
 
-                    player.CurrentQuest = GetNewQuest(player.LastQuest);
+                    Quest newQuest = GetNewQuest(player.LastQuest);
+                    _photonView.RPC(nameof(RPC_AssignQuest), RpcTarget.AllBuffered, player.userId, newQuest);
                 }
             }
         }

@@ -12,6 +12,8 @@ public class RebindSystem : MonoBehaviour
     [SerializeField] private Text clickText;
     private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
+    public static string mainActionInputName = "E";
+    
     private void Start()
     {
         // Setting text foreach control
@@ -54,7 +56,7 @@ public class RebindSystem : MonoBehaviour
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
+            .OnComplete(_ =>
             {
                 int bindIndex = asset.actionMaps[0].FindAction("Jump")
                     .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Jump").controls[0]);
@@ -76,7 +78,7 @@ public class RebindSystem : MonoBehaviour
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
+            .OnComplete(_ =>
             {
                 int bindIndex = asset.actionMaps[0].FindAction("Sprint")
                     .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Sprint").controls[0]);
@@ -98,7 +100,7 @@ public class RebindSystem : MonoBehaviour
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
+            .OnComplete(_ =>
             {
                 int bindIndex = asset.actionMaps[0].FindAction("Crouch")
                     .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Crouch").controls[0]);
@@ -120,7 +122,7 @@ public class RebindSystem : MonoBehaviour
             .WithControlsExcluding("Mouse")
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
+            .OnComplete(_ =>
             {
                 int bindIndex = asset.actionMaps[0].FindAction("Kill")
                     .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Kill").controls[0]);
@@ -132,6 +134,8 @@ public class RebindSystem : MonoBehaviour
                 _rebindingOperation.Dispose();
             })
             .Start();
+
+        mainActionInputName = asset.FindAction("Kill").activeControl.name;
     }
 
     public void RebindClick()
@@ -141,7 +145,7 @@ public class RebindSystem : MonoBehaviour
         _rebindingOperation = asset.actionMaps[0].FindAction("Click").PerformInteractiveRebinding()
             .WithControlsExcluding("Escape")
             .OnMatchWaitForAnother(.1f)
-            .OnComplete(operation =>
+            .OnComplete(_ =>
             {
                 int bindIndex = asset.actionMaps[0].FindAction("Click")
                     .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Click").controls[0]);

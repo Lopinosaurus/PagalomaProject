@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using MainGame.Helpers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.Rendering.PostProcessing;
 using static MainGame.Helpers.QuestManager.Quest;
 
@@ -10,6 +12,16 @@ namespace MainGame.PlayerScripts.Roles
     public abstract class Role : MonoBehaviour
     {
         #region Attributes
+
+        // For UI Action text
+        public enum ATMessage
+        {
+            PowerReadyToUse,
+            PowerReadyToEnable,
+            PowerOnCooldown,
+            Clear
+        };
+        protected Dictionary<ATMessage, string> ATMessageDict;
 
         // Quests
         private QuestManager.Quest currentQuest;
@@ -112,7 +124,11 @@ namespace MainGame.PlayerScripts.Roles
             return true;
         }
 
-        public virtual void UpdateActionText() => Debug.Log($"In {nameof(UpdateActionText)} but you have no action text");
+        public virtual void UpdateActionText(ATMessage message = ATMessage.Clear)
+        {
+            if (!PlayerController.photonView.IsMine) return;
+            ActionText.text = ATMessageDict[message];
+        }
 
         public virtual void Die()
         {

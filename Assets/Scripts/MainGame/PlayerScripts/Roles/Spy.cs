@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,10 +8,12 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Spy : Villager
     {
-        private readonly float _invisibilityDuration = 25;
-        public bool isInvisible { get; private set; }
+        private const float _invisibilityDuration = 25;
+        private bool isInvisible { get; set; }
 
-        public override void UpdateActionText()
+        protected new Dictionary<ATMessage, string> ATMessageDict = new Dictionary<ATMessage, string>();
+
+        public override void UpdateActionText(ATMessage message = ATMessage.Clear)
         {
             if (PlayerController.photonView.IsMine)
             {

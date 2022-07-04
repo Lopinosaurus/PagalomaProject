@@ -1,5 +1,4 @@
 using MainGame;
-using MainGame.PlayerScripts.Roles;
 using UnityEngine;
 
 public class DetectCollision : MonoBehaviour

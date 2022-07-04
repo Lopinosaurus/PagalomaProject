@@ -17,7 +17,7 @@ namespace MainGame
         public static RoomManager Instance;
         
         public Map map;
-        private ExitGames.Client.Photon.Hashtable _customGameProperties = new ExitGames.Client.Photon.Hashtable();
+        private readonly ExitGames.Client.Photon.Hashtable _customGameProperties = new ExitGames.Client.Photon.Hashtable();
         public readonly Dictionary<string, Color> ColorsDict = new Dictionary<string, Color>()
         {
             { "Red", Color.red },
@@ -64,16 +64,15 @@ namespace MainGame
             }
             Instance = this;
 
-            MainGameMenuManager.Instance.loadingScreen.SetActive(true);
+            MainGameMenuManager.Instance.loadingScreen.SetActive(true); // TODO Improve
         
             players = new List<Role>();
             votes = new List<Role>();
             infoText.text = "";
 
             int numberOfPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
-            roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"}; 
-            colors = new []{ "Red", "Blue", "Yellow", "Lime", "Pink", "Cyan", "Orange", "White", "Black", "Purple", "Green", "Grey", "Brown", "Teal", "Maroon", "Peach" };
-            colors = colors.Take(numberOfPlayers).ToArray();
+            roles = new []{"Werewolf", "Spy", "Seer", "Lycan", "Villager", "Priest", "Werewolf", "Villager", "Villager", "Werewolf", "Villager", "Villager", "Villager", "Villager", "Werewolf", "Villager"};
+            colors = ColorsDict.Select(k => k.Key).Take(numberOfPlayers).ToArray();
             roles = roles.Take(numberOfPlayers).ToArray();
             foreach (string c in colors) Debug.Log(c);
             foreach (string c in roles) Debug.Log(c);
@@ -137,13 +136,15 @@ namespace MainGame
         {
             roleText.text = "You are "+roleName;
             roleText.outlineColor = color;
+            
+            // TODO add tips and tricks
         }
     
-        public void UpdateInfoText(string message = "")
+        public void UpdateInfoText(string message)
         {
             // TODO optimize
             InfoListItem item = Instantiate(infoListItem, infoList);
-            item.GetComponent<InfoListItem>().SetUp(message);
+            item.SetUp(message);
             Destroy(item.gameObject, 5);
         }
 
