@@ -1,4 +1,3 @@
-using System;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,7 +12,7 @@ namespace MainGame.PlayerScripts
         // Components
         private PhotonView _photonView;
         private NavMeshAgent _agent;
-        
+
         // Trigger States hashes
         private static readonly int MidVaultHash = Animator.StringToHash("MidVault");
         private static readonly int SimpleJumpHash = Animator.StringToHash("SimpleJump");
@@ -35,8 +34,8 @@ namespace MainGame.PlayerScripts
         private Vector2 _velocity2Draw;
 
         // Animation values
-        public float VelocityX => currentAnimator.GetFloat(_velocityXHash);
-        public float VelocityZ => currentAnimator.GetFloat(_velocityZHash);
+        private float VelocityX => currentAnimator.GetFloat(_velocityXHash);
+        private float VelocityZ => currentAnimator.GetFloat(_velocityZHash);
 
         public float Velocity => new Vector2(Mathf.Sin(Mathf.Atan2(VelocityZ, VelocityX)) * VelocityZ,
             Mathf.Cos(Mathf.Atan2(VelocityZ, VelocityX)) * VelocityX).magnitude;
@@ -45,14 +44,14 @@ namespace MainGame.PlayerScripts
         {
             _photonView = GetComponent<PhotonView>();
             _agent = GetComponent<NavMeshAgent>();
+            currentAnimator = GetComponent<Animator>();
+            
+            currentAnimator.SetLayerWeight(currentAnimator.GetLayerIndex("WerewolfLayer"), 1);
             
             if (!GetComponent<PhotonView>().IsMine) currentAnimator.applyRootMotion = false;
         }
 
-        public void Update()
-        {
-            UpdateAnimationsBasic();
-        }
+        public void Update() => UpdateAnimationsBasic();
 
         private void UpdateAnimationsBasic()
         {
@@ -65,7 +64,7 @@ namespace MainGame.PlayerScripts
                 y = velocity3D.z
             };
 
-            _velocity2D = Vector2.Lerp(_velocity2D, _velocity2Draw, 10f * Time.deltaTime);
+            _velocity2D = Vector2.Lerp(_velocity2D, _velocity2Draw, 10 * Time.deltaTime);
 
             CorrectDiagonalMovement(true);
 

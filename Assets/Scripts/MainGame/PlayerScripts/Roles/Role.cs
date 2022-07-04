@@ -24,7 +24,7 @@ namespace MainGame.PlayerScripts.Roles
             }
         }
 
-        public QuestManager.Quest LastQuest { get; private set; }
+        public QuestManager.Quest LastQuest { get; private set; } = None;
 
         // Gameplay attributes
         public string roleName;
