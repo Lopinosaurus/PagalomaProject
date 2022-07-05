@@ -46,9 +46,10 @@ namespace MainGame.PlayerScripts
             _agent = GetComponent<NavMeshAgent>();
             currentAnimator = GetComponent<Animator>();
             
-            currentAnimator.SetLayerWeight(currentAnimator.GetLayerIndex("WerewolfLayer"), 1);
+            // Stays human if in game
+            if (!RoomManager.Instance) currentAnimator.SetLayerWeight(currentAnimator.GetLayerIndex("WerewolfLayer"), 1);
             
-            if (!GetComponent<PhotonView>().IsMine) currentAnimator.applyRootMotion = false;
+            if (!_photonView.IsMine) currentAnimator.applyRootMotion = false;
         }
 
         public void Update() => UpdateAnimationsBasic();

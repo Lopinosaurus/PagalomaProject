@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -8,37 +7,44 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Spy : Villager
     {
-        private const float _invisibilityDuration = 25;
-        private bool isInvisible { get; set; }
+        private const float InvisibilityDuration = 25;
+        private bool IsInvisible { get; set; }
 
-        protected new Dictionary<ATMessage, string> ATMessageDict = new Dictionary<ATMessage, string>();
-
-        public override void UpdateActionText(ATMessage message = ATMessage.Clear)
+        protected override AtMessage GetAtMessage()
         {
-            if (PlayerController.photonView.IsMine)
+            if (ArePowerAndCooldownValid)
             {
-                if (PlayerController.powerTimer.IsNotZero && isAlive) ActionText.text = "Press E to Activate Invisibility";
-                else ActionText.text = "";
+                if (IsInvisible) return AtMessage.Clear;
+                return AtMessage.PowerReadyToUse;
             }
+            return AtMessage.PowerOnCooldown;
+        }
+
+        private new void Awake()
+        {
+            base.Awake();
+            
+            AtMessageDict = new()
+            {
+                {AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Become invisible"},
+                {AtMessage.PowerOnCooldown, "Can't become invisible until next night"},
+                {AtMessage.Clear, ""}
+            };
         }
 
         public override void UseAbility()
         {
-            if (!CanUseAbilityGeneric()) return;
-            
+            if (!isAlive) return;
             TriggerInvisible();
         }
 
         private void TriggerInvisible()
         {
-            if (!VoteMenu.Instance.IsNight) return;
-            
             Debug.Log("E pressed and you are a Spy, you gonna be invisible");
-            if (PlayerController.powerCooldown.IsZero && PlayerController.powerTimer.IsNotZero)
+            if (ArePowerAndCooldownValid)
             {
-                PlayerController.powerTimer.Reset();
+                PlayerController.powerTimer.Set(InvisibilityDuration);
                 StartCoroutine(UpdateInvisibility());
-                UpdateActionText();
             }
             else
             {
@@ -50,17 +56,19 @@ namespace MainGame.PlayerScripts.Roles
         {
             ModifyInvisibility(true);
             PlayerController.photonView.RPC(nameof(RPC_ModifyInvisibility), RpcTarget.Others, true);
+            UpdateActionText(GetAtMessage());
             
-            yield return new WaitForSeconds(_invisibilityDuration);
+            yield return new WaitUntil((() => PlayerController.powerTimer.IsZero));
             
-            if (isInvisible) ModifyInvisibility(false);
+            ModifyInvisibility(false);
             PlayerController.photonView.RPC(nameof(RPC_ModifyInvisibility), RpcTarget.Others, false);
+            UpdateActionText(GetAtMessage());
         }
 
         // TODO Improve visuals
         private void ModifyInvisibility(bool isBecomingInvisible)
         {
-            isInvisible = isBecomingInvisible;
+            IsInvisible = isBecomingInvisible;
             PlayerController.villagerSkinnedMeshRenderer.enabled = !isBecomingInvisible;
         }
 

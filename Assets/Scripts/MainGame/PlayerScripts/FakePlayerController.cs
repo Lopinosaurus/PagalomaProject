@@ -1,5 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MainGame.PlayerScripts.Roles;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,19 +18,46 @@ namespace MainGame.PlayerScripts
         // Ai behaviour
         [SerializeField] private Transform target;
         [SerializeField] private List<Transform> positions;
+        private FakePlayerController _fakePlayerController;
+        private SkinnedMeshRenderer _fakePlayerRenderer;
+        private PhotonView _photonView;
 
         private void Awake()
         {
+            _photonView = GetComponent<PhotonView>();
+            _fakePlayerRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            _fakePlayerController = GetComponent<FakePlayerController>();
             _agent = GetComponent<NavMeshAgent>();
-            try
+
+            SetColor(Color.white);
+
+            // Set destinations
+            Map.FindVillage();
+            
+            if (!_photonView.IsMine)
             {
-                AddDestination(RoomManager.Instance.localPlayer.transform);
-            }
-            catch
-            {
-                Debug.LogWarning("no roomManager !",  this);
+                Destroy(_fakePlayerController);
+                Destroy(_fakePlayerAnimation);
             }
         }
+
+        private IEnumerator GetLocalPlayer()
+        {
+            WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+
+            while (RoomManager.Instance && !target)
+            {
+                try
+                {
+                    target = RoomManager.Instance.localPlayer.transform;
+                }
+                catch{ // ignore
+                };
+                yield return waitForFixedUpdate;
+            }
+        }
+
+        private void SetColor(Color color) => _fakePlayerRenderer.materials[1].color = color;
 
         private void FixedUpdate()
         {
@@ -44,7 +75,7 @@ namespace MainGame.PlayerScripts
             {
                 Vector3 destination = target.position;
                 
-                _agent.SetDestination(destination);
+                if (_agent.destination != destination) _agent.SetDestination(destination);
             }
         }
 

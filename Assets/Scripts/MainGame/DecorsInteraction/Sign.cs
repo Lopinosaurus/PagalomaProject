@@ -8,12 +8,12 @@ namespace MainGame.DecorsInteraction
         private void OnTriggerEnter(Collider other)
         {
             _playerInteraction = other.GetComponent<PlayerInteraction>();
-            if (_playerInteraction != null) _playerInteraction.NearSign(true);
+            if (_playerInteraction) _playerInteraction.NearSign(true);
         }
         private void OnTriggerExit(Collider other)
         {
             _playerInteraction = other.GetComponent<PlayerInteraction>();
-            if (_playerInteraction != null) _playerInteraction.NearSign(false);
+            if (_playerInteraction) _playerInteraction.NearSign(false);
         }
     }
 }

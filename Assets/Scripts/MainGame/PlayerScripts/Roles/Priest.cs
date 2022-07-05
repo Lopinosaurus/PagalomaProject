@@ -7,8 +7,30 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Priest : Villager
     {
+        private new void Awake()
+        {
+            base.Awake();
+            
+            AtMessageDict = new()
+            {
+                {AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Give Shield"},
+                {AtMessage.PowerOnCooldown, "Can't give a new shield until next night"},
+                {AtMessage.Clear, ""}
+            };
+        }
+        
         public List<Role> targets = new List<Role>();
         public Role lastPlayerShielded;
+
+        protected override AtMessage GetAtMessage()
+        {
+            if (ArePowerAndCooldownValid)
+            {
+                if (targets.Count > 0) return AtMessage.PowerReadyToUse;
+                return AtMessage.Clear;
+            }
+            return AtMessage.PowerOnCooldown;
+        }
 
         public override void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
@@ -28,17 +50,8 @@ namespace MainGame.PlayerScripts.Roles
                     Debug.Log("[-] Priest target removed: " + targetRole.name);
                 }
             }
-
-
-            UpdateActionText();
-        }
-
-        public override void UpdateActionText(ATMessage message)
-        {
-            if (!PlayerController.photonView.IsMine) return;
             
-            if (targets.Count > 0 && ArePowerAndCooldownValid) ActionText.text = "Press E to Give Shield";
-            else ActionText.text = "";
+            UpdateActionText(GetAtMessage());
         }
 
         public override void UseAbility()
@@ -74,10 +87,11 @@ namespace MainGame.PlayerScripts.Roles
             // Makes it so that the power is only usable once (per night)
             PlayerController.powerTimer.SetInfinite();
 
-            target.hasShield = true;
+            target.isShielded = true;
             lastPlayerShielded = target;
 
-            UpdateActionText();
+            UpdateActionText(AtMessage.PowerOnCooldown);
+            
             RoomManager.Instance.UpdateInfoText($"You gave a shield to {target.username} !");
             PlayerController.photonView.RPC(nameof(RPC_GiveShield), RpcTarget.Others, target.userId);
         }
@@ -87,9 +101,9 @@ namespace MainGame.PlayerScripts.Roles
         {
             Role target = RoomManager.Instance.players.FirstOrDefault(player => player.userId == userId);
 
-            if (target != null)
+            if (target)
             {
-                if (target.isAlive) target.hasShield = true;
+                if (target.isAlive) target.isShielded = true;
                 else Debug.Log($"[-] RPC_GiveShield({userId}): Can't give a shield, Target is dead");
             }
             else

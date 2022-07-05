@@ -27,9 +27,8 @@ public class PlayerController : MonoBehaviour
         public PlayerLook playerLook;
         public PlayerAnimation playerAnimation;
         public SpectatorMode spectatorMode;
-        public FootstepEffect footstepEffect;
+        public PlayerInteraction playerInteraction;
         public PhotonView photonView;
-        public PhotonAnimatorView photonAnimatorView;
         public CharacterController characterController;
         public Role role;
         public PlayerInput playerInput;
@@ -37,9 +36,8 @@ public class PlayerController : MonoBehaviour
         public Camera camPlayer;
         public PostProcessVolume postProcessVolume;
         public SkinnedMeshRenderer villagerSkinnedMeshRenderer;
-        public GameObject camHolder, villagerRender, werewolfRender;
+        public GameObject camHolder, renders, villagerRender, werewolfRender;
         public AudioSource playerAudioSource;
-        public Light playerLight;
         public RotationConstraint headRotationConstraint;
         public Countdown powerCooldown, powerTimer;
         public GameObject dissimulateParticles;
@@ -78,9 +76,8 @@ public class PlayerController : MonoBehaviour
         playerLook = GetComponent<PlayerLook>();
         playerAnimation = GetComponent<PlayerAnimation>();
         spectatorMode = GetComponent<SpectatorMode>();
-        footstepEffect = GetComponent<FootstepEffect>();
+        playerInteraction = GetComponent<PlayerInteraction>();
         photonView = GetComponent<PhotonView>();
-        photonAnimatorView = GetComponent<PhotonAnimatorView>();
         role = GetComponent<Role>();
         playerInput = GetComponent<PlayerInput>();
         audioListener = GetComponentInChildren<AudioListener>();
@@ -88,8 +85,9 @@ public class PlayerController : MonoBehaviour
         camPlayer = GetComponentInChildren<Camera>();
         postProcessVolume = GetComponentInChildren<PostProcessVolume>();
         villagerSkinnedMeshRenderer = villagerRender.GetComponentInChildren<SkinnedMeshRenderer>();
-        powerCooldown = GetComponents<Countdown>()[0];
-        powerTimer = GetComponents<Countdown>()[1];
+        Countdown[] components = GetComponents<Countdown>();
+        powerCooldown = components[0];
+        powerTimer = components[1];
 
         if (null == camPlayer) throw new Exception("There is no camera attached to the Camera Holder !");
     }
@@ -99,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (photonView.IsMine)
         {
             // Moves the player render backwards so that it doesn't clip with the camera
-            MoveRender(BackShift, villagerRender);
+            MoveRender(BackShift, renders);
 
             // Turns the cam for the player render on
             camPlayer.gameObject.SetActive(true);
@@ -115,9 +113,6 @@ public class PlayerController : MonoBehaviour
             playerInput.enabled = false;
             enableAi = false;
         }
-
-        // Starts the light management
-        StartCoroutine(LightManager());
     }
 
     public void MoveRender(float shift, GameObject render, float smoothTime = 1)
@@ -129,31 +124,6 @@ public class PlayerController : MonoBehaviour
         Vector3 transformLocalPosition = render.transform.localPosition;
         transformLocalPosition.z = Mathf.Lerp(transformLocalPosition.z, shift, smoothTime);
         render.transform.localPosition = transformLocalPosition;
-    }
-
-    private IEnumerator LightManager()
-    {
-        playerLight.intensity = 0;
-
-        // Non-werewolves don't see lights
-        RoomManager roomManager = RoomManager.Instance;
-
-        if (!roomManager) yield break;
-
-        if (roomManager.localPlayer is Werewolf && photonView.IsMine)
-            while (true)
-            {
-                // It's day, turn off light
-                playerLight.intensity = 0;
-
-                yield return new WaitUntil(() => VoteMenu.Instance.IsNight);
-
-                // It's night, turn on light
-                // ReSharper disable once Unity.InefficientPropertyAccess
-                playerLight.intensity = 1;
-
-                yield return new WaitUntil(() => !VoteMenu.Instance.IsNight);
-            }
     }
 
     private IEnumerator AiCreator()

@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
+    public static GameObject Props;
+    
     public GameObject treesFolder;
     public GameObject villageFolder;
     public GameObject stonesFolder;
@@ -19,7 +22,11 @@ public class Map : MonoBehaviour
     public List<GameObject> stones;
     public List<GameObject> bushes;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        Props = GameObject.Find("Props");
+    }
+
     public void Generate(int seed)
     {
         Random.InitState(seed);
@@ -166,28 +173,14 @@ public class Map : MonoBehaviour
     private GameObject RandomTree()
     {
         float x = Random.value;
-        if (x < 0.5f)
+        return x switch
         {
-            return simpleTrees[Random.Range(0, simpleTrees.Count)];
-        }
-
-        if (x < 0.90)
-        {
-            return longTrees[Random.Range(0, longTrees.Count)];
-        }
-
-        if (x < 0.995)
-        {
-            return deadTrees[Random.Range(0, deadTrees.Count)];
-        }
-        else
-        {
-            return hugeTrees[Random.Range(0, hugeTrees.Count)];
-        }
+            < 0.5f => simpleTrees[Random.Range(0, simpleTrees.Count)],
+            < 0.9f => longTrees[Random.Range(0, longTrees.Count)],
+            < 0.95f => deadTrees[Random.Range(0, deadTrees.Count)],
+            _ => hugeTrees[Random.Range(0, hugeTrees.Count)]
+        };
     }
 
-    public static GameObject FindMap()
-    {
-        return GameObject.FindWithTag("village");
-    }
+    public static GameObject FindVillage() => GameObject.FindWithTag("village");
 }

@@ -5,10 +5,32 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Seer : Villager
     {
+        public static readonly string FriendlyRoleName = "Seer";
+
+        protected override AtMessage GetAtMessage()
+        {
+            if (ArePowerAndCooldownValid)
+            {
+                if (targets.Count > 0) return AtMessage.PowerReadyToUse;
+                return AtMessage.Clear;
+            }
+            return AtMessage.PowerOnCooldown;
+        }
+
+        private new void Awake()
+        {
+            base.Awake();
+            
+            AtMessageDict = new()
+            {
+                {AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Reveal role"},
+                {AtMessage.PowerOnCooldown, "Can't reveal any role until next night"},
+                {AtMessage.Clear, ""}
+            };
+        }
+        
         public List<Role> targets = new List<Role>();
         
-        public readonly string FriendlyRoleName = "Seer";
-
         public override void UpdateTarget(Collider other, bool add) // Add == true -> add target to targets list, otherwise remove target from targets
         {
             if (other is not CharacterController || !other.CompareTag("Player")) return;
@@ -27,16 +49,8 @@ namespace MainGame.PlayerScripts.Roles
                     Debug.Log("[-] Seer target removed: " + targetRole.name);
                 }
             }
-
-
-            UpdateActionText();
-        }
-
-        public override void UpdateActionText(ATMessage message)
-        {
-            if (!PlayerController.photonView.IsMine) return;
-            if (targets.Count > 0 && PlayerController.powerTimer.IsNotZero) ActionText.text = "Press E to Reveal Role";
-            else ActionText.text = "";
+            
+            UpdateActionText(GetAtMessage());
         }
 
         public override void UseAbility()
@@ -54,7 +68,7 @@ namespace MainGame.PlayerScripts.Roles
                 return;
             }
 
-            Role target = targets[targets.Count - 1];
+            Role target = targets[^1];
             
             if (target.isAlive == false)
             {
@@ -65,11 +79,12 @@ namespace MainGame.PlayerScripts.Roles
             Debug.Log($"[+] The Role of the target is: {target.roleName}");
             
             string displayedRole = target.roleName;
-            if (target is Lycan lycan) displayedRole = lycan.FriendlyRoleName;
+            if (target is Lycan) displayedRole = Lycan.FriendlyRoleName;
             
             RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
             
-            PlayerController.powerTimer.SetInfinite();
+            PlayerController.powerCooldown.SetInfinite();
+            UpdateActionText(AtMessage.PowerOnCooldown);
         }
     }
 }

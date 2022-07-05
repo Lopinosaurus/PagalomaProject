@@ -29,6 +29,10 @@ public class DayNightCycle : MonoBehaviour
     public AnimationCurve fogIntensityMultiplier;
     public AnimationCurve fogColor;
     
+    private Color _skyColor;
+    private Color _equatorColor;
+    private Color _groundColor;
+    
     private PhotonView _pv;
 
     private void Awake()
@@ -38,10 +42,14 @@ public class DayNightCycle : MonoBehaviour
             Destroy(this);
             return;
         }
-
         Instance = this;
         
         _pv = GetComponent<PhotonView>();
+        
+        // Environment lighting default values
+        _skyColor = RenderSettings.ambientSkyColor;
+        _equatorColor = RenderSettings.ambientEquatorColor;
+        _groundColor = RenderSettings.ambientGroundColor;
     }
 
     private void Start()
@@ -51,12 +59,12 @@ public class DayNightCycle : MonoBehaviour
         isDay = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // TODO Change day night cycle to make lights static ?
         
         // increment time
-        time += timeRate * Time.deltaTime;
+        time += timeRate * Time.fixedDeltaTime;
         time = time >= 1 ? 0 : time;
 
         if (time > 0.25 && time < 0.75) // New day
@@ -91,12 +99,18 @@ public class DayNightCycle : MonoBehaviour
         moon.transform.eulerAngles = noon * ((time - 0.75f) * 4.0f);
         
         // light intensity
-        sun.intensity = sunIntensity.Evaluate(time);
+        float sunIntensity1 = sunIntensity.Evaluate(time);
+        sun.intensity = sunIntensity1;
         moon.intensity = moonIntensity.Evaluate(time);
         
         // change light colors
         sun.color = sunColor.Evaluate(time);
         moon.color = moonColor.Evaluate(time);
+        
+        // change environment lighting (gradient)
+        RenderSettings.ambientSkyColor = Color.Lerp(Color.black, _skyColor, sunIntensity1);
+        RenderSettings.ambientEquatorColor = Color.Lerp(Color.black, _equatorColor, sunIntensity1);
+        RenderSettings.ambientGroundColor = Color.Lerp(Color.black, _groundColor, sunIntensity1);
         
         // change fog 
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
@@ -110,22 +124,24 @@ public class DayNightCycle : MonoBehaviour
     public static void NewDay()
     {
         RoomManager.Instance.UpdateInfoText("It's a new day, go to the sign to vote!");
-        VoteMenu.Instance.isDay = true;
-        VoteMenu.Instance.isFirstDay = false;
+        
+        RoomManager.Instance.ClearTargets();
         RoomManager.Instance.localPlayer.hasVoted = false;
         RoomManager.Instance.localPlayer.SetCountdowns(false);
-        RoomManager.Instance.ClearTargets();
+        RoomManager.Instance.players.ForEach(r => r.isShielded = false);
+        
+        VoteMenu.Instance.isDay = true;
+        VoteMenu.Instance.isFirstDay = false;
         VoteMenu.Instance.UpdateVoteItems();
     }
 
     public static void NewNight()
     {
         RoomManager.Instance.UpdateInfoText("It's the night, the powers are activated!");
-        RoomManager.Instance.votes = new List<Role>();
-        RoomManager.Instance.localPlayer.vote = null;
-
+        RoomManager.Instance.votes.Clear();
+        RoomManager.Instance.localPlayer.vote.Reset();
         RoomManager.Instance.localPlayer.SetCountdowns(true);
-        RoomManager.Instance.localPlayer.UpdateActionText();
+        RoomManager.Instance.localPlayer.UpdateActionText(Role.AtMessage.Clear);
         
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;

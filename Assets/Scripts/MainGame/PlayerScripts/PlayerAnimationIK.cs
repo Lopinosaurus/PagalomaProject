@@ -5,6 +5,9 @@ namespace MainGame.PlayerScripts
 {
     public partial class PlayerAnimation
     {
+        // Render shift
+        private Vector3 RenderShift => transform.position - PC.renders.transform.position;
+        
         // Foot IK
         [Space, Header("IK Setup")] public bool enableFootPositionIK;
         public bool enableFootRotationIK, debug;
@@ -85,8 +88,9 @@ namespace MainGame.PlayerScripts
             
             // Adjust the hand position
             Vector3 rightHandPositionIk = targetClosestPoint + rightHandForward * handPositionOffsetX + rightHandUp * handPositionOffsetY + rightHandRight * handPositionOffsetZ;
-            Vector3 bodyRenderWorldShift = transform.position - PC.villagerRender.transform.position;
-            rightHandPositionIk += bodyRenderWorldShift;
+            
+            // Render shift
+            rightHandPositionIk += RenderShift;
             
             _currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPositionIk);
             // _currentAnimator.SetIKHintPosition(AvatarIKHint.RightElbow, 0.5f * (rightHandPositionIk 
@@ -114,8 +118,9 @@ namespace MainGame.PlayerScripts
             if (enableFootPositionIK)
             {
                 // Stores current foot positions
-                _leftFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot);
-                _rightFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot);
+                Vector3 renderShift = RenderShift;
+                _leftFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.LeftFoot) - renderShift;
+                _rightFootPosIK = _currentAnimator.GetIKPosition(AvatarIKGoal.RightFoot) - renderShift;
                 
                 // Set new foot placements
                 AdjustFootPositionAndRotation(ref _leftFootPosIK, out _leftFootRotIK);
@@ -139,6 +144,9 @@ namespace MainGame.PlayerScripts
                         for (int k = -1; k <= 1; k++)
                             if (i * j * k == 0) Debug.DrawRay(foot, new Vector3(i, j, k) * 0.08f, Color.red);
                 }
+
+                _leftFootPosIK += renderShift;
+                _rightFootPosIK += renderShift;
                 
                 // Set current foot IK positions
                 _currentAnimator.SetIKPosition(AvatarIKGoal.LeftFoot, _leftFootPosIK);

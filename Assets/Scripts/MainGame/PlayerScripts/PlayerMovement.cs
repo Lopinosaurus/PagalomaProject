@@ -301,8 +301,7 @@ namespace MainGame.PlayerScripts
             PC.camHolder.transform.localPosition = localPosition;
 
             // Camera render depth modifier
-            PC.playerController.MoveRender(chosenHitboxesPos.RenderShift, isWerewolf ? PC.werewolfRender
-                    : PC.villagerRender, smoothTime);
+            PC.playerController.MoveRender(chosenHitboxesPos.RenderShift, PC.renders, smoothTime);
         }
 
         public void StartModifySpeed(float duration, float targetMultiplier, float startTime, float endTime)

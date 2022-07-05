@@ -10,8 +10,34 @@ namespace MainGame.PlayerScripts.Roles
     [Serializable]
     public class Werewolf : Role
     {
-        public readonly string FriendlyRoleName = "Werewolf";
-        
+        public static readonly string FriendlyRoleName = "Werewolf";
+
+        protected override AtMessage GetAtMessage()
+        {
+            if (ArePowerAndCooldownValid)
+            {
+                if (targets.Count > 0)
+                    if (isTransformed)
+                        return AtMessage.PowerReadyToUse;
+                    else
+                        return AtMessage.PowerReadyToEnable;
+                return AtMessage.Clear;
+            }
+            return AtMessage.PowerOnCooldown;
+        }
+
+        private new void Awake()
+        {
+            base.Awake();
+            
+            AtMessageDict = new()
+            {
+                {AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Kill"},
+                {AtMessage.PowerReadyToEnable, $"{RebindSystem.mainActionInputName}: Transform into a Werewolf"},
+                {AtMessage.PowerOnCooldown, "Can't become a Werewolf until next night"},
+                {AtMessage.Clear, ""}
+            };
+        }
         
         public List<Role> targets = new List<Role>();
         public bool isTransformed;
@@ -25,17 +51,6 @@ namespace MainGame.PlayerScripts.Roles
         private float TotalTransformationTransitionDuration =>
             EarlyTransformationTransitionDuration + LateTransformationTransitionDuration;
         
-        public override void UpdateActionText(ATMessage message)
-        {
-            if (!PlayerController.photonView.IsMine) return;
-
-            if (isTransformed && targets.Count > 0 && ArePowerAndCooldownValid)
-                ActionText.text = "Press E to Kill";
-            else if (VoteMenu.Instance.IsNight && isTransformed == false)
-                ActionText.text = "Press E to Transform";
-            else ActionText.text = "";
-        }
-
         /// <summary>
         ///   <para>Adds or removes the targets list.</para>
         /// </summary>
@@ -60,12 +75,19 @@ namespace MainGame.PlayerScripts.Roles
                 }
             }
 
-            UpdateActionText();
+            // Updates the messages on screen
+            UpdateActionText(GetAtMessage());
         }
 
         public override void UseAbility()
         {
-            if (!CanUseAbilityGeneric()) return;
+            if (!CanUseAbilityGeneric())
+            {
+                Debug.LogError("you can NOT use your power");
+                return;
+            }
+            
+            Debug.LogError("you can use your power");
             
             if (isTransformed) KillTarget();
             else UpdateTransformation(true);
@@ -83,8 +105,6 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator WerewolfTransform(bool goingToWerewolf)
         {
-            Debug.LogWarning($"{goingToWerewolf}");
-            
             // Particles to dissimulate werewolf transition
             GameObject particles = Instantiate(PlayerController.dissimulateParticles, transform.position + Vector3.up * 1.5f, Quaternion.identity);
             particles.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
@@ -109,7 +129,7 @@ namespace MainGame.PlayerScripts.Roles
             if (goingToWerewolf && PlayerController.photonView.IsMine) StartCoroutine(DeTransformationCoroutine());
 
             // Updates the messages on screen
-            UpdateActionText();
+            UpdateActionText(GetAtMessage());
 
             // Wait
             yield return new WaitForSeconds(EarlyTransformationTransitionDuration);
@@ -130,14 +150,8 @@ namespace MainGame.PlayerScripts.Roles
 
         private IEnumerator DeTransformationCoroutine()
         {
-            var waitForFixedUpdate = new WaitForFixedUpdate();
-
             // Will bring the werewolf back to human when the power timer runs out
-            while (PlayerController.powerTimer.IsNotZero)
-            {
-                Debug.Log($"Checking for Detransformation {PlayerController.powerTimer.CountdownValue}");
-                yield return waitForFixedUpdate;
-            }
+            yield return new WaitUntil(() => PlayerController.powerTimer.IsZero);
 
             UpdateTransformation(false);
         }
@@ -151,7 +165,7 @@ namespace MainGame.PlayerScripts.Roles
                 return;
             }
 
-            Role target = targets[targets.Count - 1];
+            Role target = targets[^1];
 
             // Cannot attack if target is dead
             if (target.isAlive == false)
@@ -161,7 +175,7 @@ namespace MainGame.PlayerScripts.Roles
             }
 
             // Cannot attack if target has shield
-            if (target.hasShield)
+            if (target.isShielded)
             {
                 RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
                 return;
@@ -183,9 +197,9 @@ namespace MainGame.PlayerScripts.Roles
             // it also slows the Werewolf
             PlayerController.playerMovement.StartModifySpeed(afterAttackCooldown, 0.5f, 0.1f, 0.7f);
 
-            UpdateActionText();
+            UpdateActionText(GetAtMessage());
             
-            if (target.hasShield)
+            if (target.isShielded)
             {
                 RoomManager.Instance.UpdateInfoText("Kill attempt failed because the player has a shield!");
                 return;

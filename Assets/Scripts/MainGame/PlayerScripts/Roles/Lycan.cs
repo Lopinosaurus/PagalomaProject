@@ -2,8 +2,12 @@ namespace MainGame.PlayerScripts.Roles
 {
     public class Lycan : Villager
     {
-        public readonly string FriendlyRoleName = "Lycan";
+        public static readonly string FriendlyRoleName = "Lycan";
 
+        private new void Awake()
+        {
+            base.Awake();
+        }
         // Do nothing
     }
 }

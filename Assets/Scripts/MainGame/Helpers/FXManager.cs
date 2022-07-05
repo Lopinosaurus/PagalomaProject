@@ -13,13 +13,16 @@ namespace MainGame.Helpers
         public PostProcessVolume[] ppvs;
         private List<AudioFX> audioFxs;
         private List<VisualFX> visualFxs;
-
-        private int highestPriority = 0;
+        private PhotonView _photonView;
         
+        private int highestPriority;
+
         private void Awake()
         {
+            _photonView = GetComponentInParent<PhotonView>();
+
             // Singleton pattern management
-            if (!GetComponent<PhotonView>().IsMine || Instance)
+            if (!_photonView || !_photonView.IsMine || Instance)
             {
                 Destroy(this);
                 return;
@@ -42,6 +45,7 @@ namespace MainGame.Helpers
             AudioFX audioFX = o.AddComponent<AudioFX>();
             audioFX.source = source;
             audioFX.audioClip = clip;
+            
             audioFxs.Add(audioFX);
         }
         
@@ -58,6 +62,7 @@ namespace MainGame.Helpers
             VisualFX visualFX = o.AddComponent<VisualFX>();
             visualFX.volume = addedVolume;
             visualFX.duration = duration;
+            
             visualFxs.Add(visualFX);
         }
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using MainGame.Helpers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.Rendering.PostProcessing;
 using static MainGame.Helpers.QuestManager.Quest;
 
@@ -14,25 +13,31 @@ namespace MainGame.PlayerScripts.Roles
         #region Attributes
 
         // For UI Action text
-        public enum ATMessage
+        public enum AtMessage
         {
             PowerReadyToUse,
             PowerReadyToEnable,
             PowerOnCooldown,
             Clear
         };
-        protected Dictionary<ATMessage, string> ATMessageDict;
+        protected Dictionary<AtMessage, string> AtMessageDict;
+        private string GetAtText(AtMessage atMessage) => AtMessageDict[atMessage];
+        protected virtual AtMessage GetAtMessage()
+        {
+            if (ArePowerAndCooldownValid) return AtMessage.PowerReadyToUse;
+            return AtMessage.PowerOnCooldown;
+        }
 
         // Quests
-        private QuestManager.Quest currentQuest;
+        private QuestManager.Quest _currentQuest;
         
         public QuestManager.Quest CurrentQuest
         {
-            get => currentQuest;
+            get => _currentQuest;
             set
             {
-                LastQuest = currentQuest;
-                currentQuest = value; 
+                LastQuest = _currentQuest;
+                _currentQuest = value; 
             }
         }
 
@@ -45,12 +50,10 @@ namespace MainGame.PlayerScripts.Roles
         
         [SerializeField] private bool kill;
         public bool isAlive = true;
-        public bool hasShield; // Shield given by the Priest
+        public bool isShielded; // Shield given by the Priest
         public bool hasVoted; // Has submitted vote this day
 
         protected bool ArePowerAndCooldownValid => PlayerController.powerCooldown.IsZero && PlayerController.powerTimer.IsNotZero;
-
-
 
         protected TMP_Text ActionText;
         public TMP_Text deathText;
@@ -59,8 +62,17 @@ namespace MainGame.PlayerScripts.Roles
         public Color color;
         private PostProcessVolume _postProcessVolume;
 
-        protected PlayerController PlayerController;
-        
+        private PlayerController _playerController;
+        protected PlayerController PlayerController
+        {
+            get
+            {
+                if (_playerController) return _playerController;
+                _playerController = GetComponent<PlayerController>();
+                return _playerController;
+            }
+        }
+
         // Die variables
         private const float MaxDeathCamDistance = 5;
 
@@ -68,46 +80,38 @@ namespace MainGame.PlayerScripts.Roles
 
         #region Unity Methods
 
-        private void Awake()
+        protected void Awake()
         {
-            PlayerController = GetComponent<PlayerController>();
-            
             if (PlayerController.photonView.IsMine)
             {
-                PlayerController.playerInput.actions["Kill"].started += ctx => kill = ctx.ReadValueAsButton();
+                PlayerController.playerInput.actions["Kill"].performed += ctx =>
+                {
+                    kill = ctx.ReadValueAsButton();
+                    UseAbility();
+                };
                 PlayerController.playerInput.actions["Kill"].canceled += ctx => kill = ctx.ReadValueAsButton();
                 PlayerController.playerInput.actions["Click"].performed += _ => PlayerInteraction.Instance.Click();
             }
             
             hasVoted = false;
-            
-            if (RoomManager.Instance != null)
-            {
-                ActionText = RoomManager.Instance.actionText;
-                deathText = RoomManager.Instance.deathText;
-            }
 
-            if (ActionText) ActionText.text = "";
-            if (deathText) deathText.enabled = false;
+            ActionText = RoomManager.Instance.actionText;
+            deathText = RoomManager.Instance.deathText;
+
+            ActionText.text = "";
+            deathText.enabled = false;
 
             PlayerController.postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
-        }
-
-        private void LateUpdate()
-        {
-            if (kill) UseAbility();
-
-            if (VoteMenu.Instance && !VoteMenu.Instance.IsNight && hasShield) hasShield = false;
         }
 
         #endregion
 
         #region Gameplay methods
 
-        public void SetPlayerColor(Color _color)
+        public void SetPlayerColor(Color color)
         {
-            color = _color;
-            PlayerController.villagerSkinnedMeshRenderer.materials[1].color = _color;
+            this.color = color;
+            PlayerController.villagerSkinnedMeshRenderer.materials[1].color = color;
         }
 
         public virtual void UseAbility()
@@ -124,10 +128,10 @@ namespace MainGame.PlayerScripts.Roles
             return true;
         }
 
-        public virtual void UpdateActionText(ATMessage message = ATMessage.Clear)
+        public virtual void UpdateActionText(AtMessage message)
         {
             if (!PlayerController.photonView.IsMine) return;
-            ActionText.text = ATMessageDict[message];
+            ActionText.text = GetAtText(message);
         }
 
         public virtual void Die()
@@ -224,5 +228,7 @@ namespace MainGame.PlayerScripts.Roles
         }
 
         public virtual void UpdateTarget(Collider other, bool b) {}
+
+        public void Reset() => vote = null;
     }
 }

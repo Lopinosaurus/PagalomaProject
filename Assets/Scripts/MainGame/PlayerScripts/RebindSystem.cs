@@ -135,7 +135,8 @@ public class RebindSystem : MonoBehaviour
             })
             .Start();
 
-        mainActionInputName = asset.FindAction("Kill").activeControl.name;
+        // TODO instead of getting the 0th index (which is the keyboard), get the current device index (controller, mouse)
+        mainActionInputName = asset.FindAction("Kill").controls[0].name;
     }
 
     public void RebindClick()

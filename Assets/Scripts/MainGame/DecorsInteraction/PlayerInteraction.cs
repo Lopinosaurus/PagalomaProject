@@ -1,35 +1,39 @@
 using MainGame;
+using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public static PlayerInteraction Instance;
-    private PhotonView _photonView;
     [SerializeField] private bool nearDoor;
     [SerializeField] private bool nearSign;
     private GameObject _door;
+    private PlayerController _playerController;
+    
     private static readonly int OpeningHash = Animator.StringToHash("opening");
-
-    public PlayerInteraction() => nearSign = false;
 
     private void Awake()
     {
-        _photonView = GetComponent<PhotonView>();
-        if (_photonView.IsMine) Instance = this;
+        _playerController = GetComponent<PlayerController>();
+        
+        if (_playerController.photonView.IsMine) Instance = this;
     }
 
     public void NearDoor(GameObject message, GameObject door, bool nearDoor)
     {
-        if (_photonView.IsMine)
-        {
-            this._door = door;
-            this.nearDoor = nearDoor;
-            message.SetActive(this.nearDoor);
-        }
+        if (!_playerController.photonView.IsMine) return;
+        _door = door;
+        this.nearDoor = nearDoor;
+        message.SetActive(this.nearDoor);
     }
     
-    public void NearSign(bool nearSign) => this.nearSign = nearSign;
+    public void NearSign(bool nearSign)
+    {
+        if (!_playerController.photonView.IsMine || !_playerController.role.isAlive) return;
+
+        this.nearSign = nearSign;
+    }
 
     public void Click()
     {
@@ -42,7 +46,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (_photonView.IsMine || !RoomManager.Instance)
+        if (_playerController.photonView.IsMine || !RoomManager.Instance)
         {
             //Debug.Log("PV is mine");
             if (nearDoor)
@@ -50,7 +54,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     RPC_OpenCloseDoor(_door.transform.name);
-                    _photonView.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, _door.transform.name);
+                    _playerController.photonView.RPC(nameof(RPC_OpenCloseDoor), RpcTarget.Others, _door.transform.name);
                 }
             }
         }

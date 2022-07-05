@@ -77,8 +77,8 @@ namespace MainGame
             foreach (string c in colors) Debug.Log(c);
             foreach (string c in roles) Debug.Log(c);
             // Shuffle colors and roles lists
-            colors = colors.OrderBy(a => Random.Range(0, int.MaxValue)).ToArray();
-            roles = roles.OrderBy(a => Random.Range(0, int.MaxValue)).ToArray();
+            colors = colors.OrderBy(_ => Random.Range(0, int.MaxValue)).ToArray();
+            roles = roles.OrderBy(_ => Random.Range(0, int.MaxValue)).ToArray();
         }
 
         public override void OnEnable()
@@ -197,7 +197,7 @@ namespace MainGame
                 }
             }
 
-            localPlayer.UpdateActionText();
+            localPlayer.UpdateActionText(Role.AtMessage.Clear);
         }
 
         public int CheckIfEog() // Return 0 if not EOG | Return 1 if Werewolf won | Return 2 if Villager won | Return 3 if everyone is dead

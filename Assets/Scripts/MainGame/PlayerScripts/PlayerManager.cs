@@ -9,11 +9,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public string roleName;
     public string color;
     public int spawnIndex;
+    private Vector3[] _spawnList;
     private PhotonView _pv;
+    private Vector3 _spawnCenter;
 
     private void Awake()
     {
         _pv = GetComponent<PhotonView>();
+        _spawnCenter = Map.FindVillage().transform.Find("spawnCenter").position;
     }
 
     private void Start()
@@ -25,15 +28,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void CreateController()
     {
-        if (roleName != null)
+        if (null != roleName)
         {
-            GameObject village = Map.FindMap();
-            Transform spawnList = village.transform.Find("spawns");
-            GameObject spawn = spawnList.GetChild(spawnIndex).gameObject;
-            Vector3 spawnPoint = spawn.transform.position;
+            // Makes the players spawn in circle
+            float trigo = Mathf.PI * 0.125f * spawnIndex + spawnIndex % 2 == 0 ? Mathf.PI : 0;
+            Vector3 spawnPoint = _spawnCenter
+                                 + Vector3.forward * Mathf.Sin(trigo) * 3
+                                 + Vector3.right * Mathf.Cos(trigo) * 3;
+            
+            // Makes the players look at the center of the spawn center
+            Quaternion spawnRot = Quaternion.LookRotation(_spawnCenter - spawnPoint);
 
             object[] instantiationData = {roleName, color, PhotonNetwork.LocalPlayer.NickName, PhotonNetwork.LocalPlayer.UserId};
-            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, Quaternion.identity, 0, instantiationData);
+            GameObject player = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint, spawnRot, 0, instantiationData);
             MainGameMenuManager.Instance.playerInput = player.GetComponent<PlayerInput>();
             
             // TODO Improve loading screen
@@ -49,6 +56,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 Quaternion.identity,
                 0,
                 new object[]{});
+
+            // Makes the fake player spawn ahead of the real player
+            Transform fakePlayerTransform = RoomManager.Instance.fakePlayer.transform;
+            fakePlayerTransform.position += fakePlayerTransform.forward * 30;
         }
         else
         {
@@ -78,8 +89,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void
-        RPC_ReceiveRole(string roleName, string color, int spawnIndex) // Apply the role that have been broadcast
+    private void RPC_ReceiveRole(string roleName, string color, int spawnIndex) // Apply the role that have been broadcast
     {
         this.roleName = roleName;
         this.color = color;
