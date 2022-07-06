@@ -10,7 +10,7 @@ namespace MainGame.PlayerScripts
         
         // Foot IK
         [Space, Header("IK Setup")] public bool enableFootPositionIK;
-        public bool enableFootRotationIK, debug;
+        public bool enableFootRotationIK, enableRightHandIK, debug;
         [SerializeField, Range(0, 2)] private float rayLength, rayHeightStartOffset;
         [SerializeField, Range(-1, 1)] private float footHeight;
         [SerializeField, Range(10, 50)] private float lerpFoot;
@@ -21,8 +21,8 @@ namespace MainGame.PlayerScripts
         private const int CharacterLayerValue = 7;
 
         // Hand IK
-        [Space, Header("Right Hand")] [SerializeField]
-        private TwoBoneIKConstraint ikConstraint;
+        [Space, Header("Right Hand")]
+        [SerializeField] private TwistChainConstraint chestIKConstraint;
         [SerializeField] private Transform rightHand;
         [SerializeField, Range(0, 30)] private float handLerp;
         
@@ -42,7 +42,6 @@ namespace MainGame.PlayerScripts
         private void OnAnimatorIK(int layerIndex)
         {
             HandleFeetIKManagement();
-            ikConstraint.weight = 0;
             HandleHandsIKManagement();
         }
 
@@ -53,7 +52,7 @@ namespace MainGame.PlayerScripts
 
         private void HandleHandToggleIK()
         {
-            if (!targetedObject) return;
+            if (!targetedObject || !enableRightHandIK) return;
             
             Vector3 chestPosition = _currentAnimator.GetBoneTransform(HumanBodyBones.Chest).position;
             Vector3 targetedObjectPosition = targetedObject.position;
@@ -62,6 +61,9 @@ namespace MainGame.PlayerScripts
             Debug.DrawLine(chestPosition, targetedObjectPosition, isDistanceCloseEnough ? Color.green : Color.red);
             
             _ikRightHandPosWeight = Mathf.Lerp(_ikRightHandPosWeight, isDistanceCloseEnough ? 1 : 0, Time.fixedDeltaTime * handLerp);
+            
+            // Set the weight of the torso constraint based on the distance between target and right hand
+            chestIKConstraint.weight = Mathf.Clamp01(1 - (targetedObjectPosition - chestPosition).magnitude);
         }
 
         private void HandleHandsIKManagement()

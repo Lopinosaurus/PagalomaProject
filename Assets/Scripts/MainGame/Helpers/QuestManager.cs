@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
@@ -16,10 +16,14 @@ namespace MainGame.Helpers
         public enum Quest
         {
             None,
+            GoVote,
+            KillVillagers,
             CollectHallows,
             FollowPlayer,
             LightLanterns
         }
+
+        private static readonly IEnumerable<Quest> VillagerRegularQuests = new[] {Quest.CollectHallows, Quest.FollowPlayer, Quest.LightLanterns};
 
         private void Awake()
         {
@@ -36,25 +40,39 @@ namespace MainGame.Helpers
         
         public void AssignQuests()
         {
-            if (PhotonNetwork.IsMasterClient)
+            if (!PhotonNetwork.IsMasterClient) return;
+            
+            // Gives a new quest to each villager
+            foreach (var player in RoomManager.Instance.players)
             {
-                foreach (var player in RoomManager.Instance.players)
-                {
-                    // Gives a new quest to each villager
-                    if (!player.isAlive) continue;
-                    if (player is Werewolf) continue;
-
-                    Quest newQuest = GetNewQuest(player.LastQuest);
-                    _photonView.RPC(nameof(RPC_AssignQuest), RpcTarget.AllBuffered, player.userId, newQuest);
-                }
+                Quest newQuest = player switch {
+                    {isAlive: false} => Quest.None,
+                    Werewolf => Quest.KillVillagers,
+                    _ => GetNewQuest(player.LastQuest)
+                };
+                
+                SetQuest(newQuest, player);
             }
         }
 
         private static Quest GetNewQuest(Quest lastQuestToIgnore)
         {
-            var possibleQuests = Enum.GetValues(typeof(Quest)).Cast<Quest>().Where(q => q != Quest.None && q != lastQuestToIgnore).ToArray();
-            return possibleQuests[Random.Range(0, possibleQuests.Length)];
+            Quest newQuest;
+
+            if (VoteMenu.Instance.IsNight)
+            {
+                var possibleQuests = VillagerRegularQuests.Where(q => q != lastQuestToIgnore).ToArray();
+                newQuest = possibleQuests[Random.Range(0, possibleQuests.Length)];
+            }
+            else
+            {
+                newQuest = Quest.GoVote;
+            }
+
+            return newQuest;
         }
+
+        private void SetQuest(Quest quest, Role player) => _photonView.RPC(nameof(RPC_AssignQuest), RpcTarget.AllBuffered, player.userId, quest);
 
         [PunRPC]
         private void RPC_AssignQuest(string userID, int quest) => RoomManager.Instance.players.Find(p => p.userId == userID).CurrentQuest = (Quest)quest;

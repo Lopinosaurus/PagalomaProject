@@ -30,18 +30,18 @@ namespace MainGame.PlayerScripts.Roles
 
         // Quests
         private QuestManager.Quest _currentQuest;
-        
+        public QuestManager.Quest LastQuest { get; private set; }
+
         public QuestManager.Quest CurrentQuest
         {
             get => _currentQuest;
             set
             {
-                LastQuest = _currentQuest;
+                if (value is not (GoVote or None)) LastQuest = _currentQuest;
                 _currentQuest = value; 
             }
         }
 
-        public QuestManager.Quest LastQuest { get; private set; } = None;
 
         // Gameplay attributes
         public string roleName;
@@ -95,11 +95,13 @@ namespace MainGame.PlayerScripts.Roles
             
             hasVoted = false;
 
-            ActionText = RoomManager.Instance.actionText;
-            deathText = RoomManager.Instance.deathText;
-
-            ActionText.text = "";
-            deathText.enabled = false;
+            if (RoomManager.Instance)
+            {
+                ActionText = RoomManager.Instance.actionText;
+                deathText = RoomManager.Instance.deathText;
+                ActionText.text = "";
+                deathText.enabled = false;
+            }
 
             PlayerController.postProcessVolume.profile.GetSetting<Vignette>().color.value = color;
         }

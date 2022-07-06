@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using MainGame;
+using MainGame.Helpers;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;
@@ -139,13 +139,15 @@ public class DayNightCycle : MonoBehaviour
     {
         RoomManager.Instance.UpdateInfoText("It's the night, the powers are activated!");
         RoomManager.Instance.votes.Clear();
-        RoomManager.Instance.localPlayer.vote.Reset();
+        RoomManager.Instance.localPlayer.vote = null;
         RoomManager.Instance.localPlayer.SetCountdowns(true);
         RoomManager.Instance.localPlayer.UpdateActionText(Role.AtMessage.Clear);
         
         VoteMenu.Instance.isDay = false;
         VoteMenu.Instance.isFirstDay = false;
         VoteMenu.Instance.UpdateVoteItems();
+        
+        QuestManager.Instance.AssignQuests();
     }
 
     [PunRPC]

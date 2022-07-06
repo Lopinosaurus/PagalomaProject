@@ -1,25 +1,33 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Sway : MonoBehaviour
+namespace MainGame.Helpers
 {
-    private float _angle;
-    [SerializeField] [Range(0, 10)] private float smoothTime;
-    private Vector3 _offset;
-    private const float PI2 = 2 * Mathf.PI;
-
-    private void Awake()
+    public class Sway : MonoBehaviour
     {
-        _offset = transform.localPosition;
-    }
+        [SerializeField] [Range(0, 10)] private float speed;
+        private float _angle;
+        private Vector3 _offset, _goal, _;
 
-    private void FixedUpdate()
-    {
-        _angle += Time.fixedDeltaTime;
-        if (_angle >= PI2) _angle -= PI2;
+        private void Awake()
+        {
+            _offset = transform.localPosition;
+        }
 
-        Vector3 _ = Vector3.zero;
-        transform.localPosition = _offset
-                                  + Vector3.SmoothDamp(Vector3.zero, Mathf.Sin(_angle) * Vector3.right, ref _,
-                                      smoothTime);
+        private void Update()
+        {
+            Vector3 transformLocalPosition = transform.localPosition;
+            if ((transformLocalPosition - _goal).sqrMagnitude > 0.01f)
+            {
+                transform.localPosition = Vector3.Slerp(transformLocalPosition, _goal, Time.deltaTime * speed);
+            }
+            else
+            {
+                _goal = _offset + Vector3.forward * (Mathf.PerlinNoise(Time.time, 0) - 0.5f)
+                                + Vector3.right * (Mathf.PerlinNoise(0, Time.time) - 0.5f)
+                                + Vector3.up * (Mathf.PerlinNoise(Time.time, Time.time) - 0.5f);
+
+            }
+        }
     }
 }
