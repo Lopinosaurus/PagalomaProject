@@ -16,7 +16,7 @@ public class Lights : MonoBehaviour
         if (dayNightCycleGameObject) _dnc = dayNightCycleGameObject.GetComponent<DayNightCycle>();
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (_dnc) _light.intensity = _dnc.moonIntensity.Evaluate(_dnc.time);
     }

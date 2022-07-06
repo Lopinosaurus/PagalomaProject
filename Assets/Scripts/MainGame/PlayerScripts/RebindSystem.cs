@@ -2,161 +2,164 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class RebindSystem : MonoBehaviour
+namespace MainGame.PlayerScripts
 {
-    [SerializeField] private InputActionAsset asset;
-    [SerializeField] private Text jumpText;
-    [SerializeField] private Text crouchText;
-    [SerializeField] private Text sprintText;
-    [SerializeField] private Text killText;
-    [SerializeField] private Text clickText;
-    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+    public class RebindSystem : MonoBehaviour
+    {
+        [SerializeField] private InputActionAsset asset;
+        [SerializeField] private Text jumpText;
+        [SerializeField] private Text crouchText;
+        [SerializeField] private Text sprintText;
+        [SerializeField] private Text killText;
+        [SerializeField] private Text clickText;
+        private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
 
-    public static string mainActionInputName = "E";
+        public static string mainActionInputName = "E";
     
-    private void Start()
-    {
-        // Setting text foreach control
-        int bindIndex = asset.actionMaps[0].FindAction("Jump")
-            .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Jump").controls[0]);
-        jumpText.text = InputControlPath.ToHumanReadableString(
-            asset.actionMaps[0].FindAction("Jump").bindings[bindIndex].effectivePath,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
+        private void Start()
+        {
+            // Setting text foreach control
+            int bindIndex = asset.actionMaps[0].FindAction("Jump")
+                .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Jump").controls[0]);
+            jumpText.text = InputControlPath.ToHumanReadableString(
+                asset.actionMaps[0].FindAction("Jump").bindings[bindIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-        bindIndex = asset.actionMaps[0].FindAction("Crouch")
-            .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Crouch").controls[0]);
-        crouchText.text = InputControlPath.ToHumanReadableString(
-            asset.actionMaps[0].FindAction("Crouch").bindings[bindIndex].effectivePath,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
+            bindIndex = asset.actionMaps[0].FindAction("Crouch")
+                .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Crouch").controls[0]);
+            crouchText.text = InputControlPath.ToHumanReadableString(
+                asset.actionMaps[0].FindAction("Crouch").bindings[bindIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-        bindIndex = asset.actionMaps[0].FindAction("Sprint")
-            .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Sprint").controls[0]);
-        sprintText.text = InputControlPath.ToHumanReadableString(
-            asset.actionMaps[0].FindAction("Sprint").bindings[bindIndex].effectivePath,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
+            bindIndex = asset.actionMaps[0].FindAction("Sprint")
+                .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Sprint").controls[0]);
+            sprintText.text = InputControlPath.ToHumanReadableString(
+                asset.actionMaps[0].FindAction("Sprint").bindings[bindIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-        bindIndex = asset.actionMaps[0].FindAction("Kill")
-            .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Kill").controls[0]);
-        killText.text = InputControlPath.ToHumanReadableString(
-            asset.actionMaps[0].FindAction("Kill").bindings[bindIndex].effectivePath,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
+            bindIndex = asset.actionMaps[0].FindAction("Kill")
+                .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Kill").controls[0]);
+            killText.text = InputControlPath.ToHumanReadableString(
+                asset.actionMaps[0].FindAction("Kill").bindings[bindIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-        bindIndex = asset.actionMaps[0].FindAction("Click")
-            .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Click").controls[0]);
-        clickText.text = InputControlPath.ToHumanReadableString(
-            asset.actionMaps[0].FindAction("Click").bindings[bindIndex].effectivePath,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
-    }
+            bindIndex = asset.actionMaps[0].FindAction("Click")
+                .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Click").controls[0]);
+            clickText.text = InputControlPath.ToHumanReadableString(
+                asset.actionMaps[0].FindAction("Click").bindings[bindIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
+        }
 
-    public void RebindJump()
-    {
-        jumpText.text = "Enter a key...";
+        public void RebindJump()
+        {
+            jumpText.text = "Enter a key...";
 
-        _rebindingOperation = asset.actionMaps[0].FindAction("Jump").PerformInteractiveRebinding()
-            .WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Escape")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(_ =>
-            {
-                int bindIndex = asset.actionMaps[0].FindAction("Jump")
-                    .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Jump").controls[0]);
+            _rebindingOperation = asset.actionMaps[0].FindAction("Jump").PerformInteractiveRebinding()
+                .WithControlsExcluding("Mouse")
+                .WithControlsExcluding("Escape")
+                .OnMatchWaitForAnother(.1f)
+                .OnComplete(_ =>
+                {
+                    int bindIndex = asset.actionMaps[0].FindAction("Jump")
+                        .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Jump").controls[0]);
 
-                jumpText.text = InputControlPath.ToHumanReadableString(
-                    asset.actionMaps[0].FindAction("Jump").bindings[bindIndex].effectivePath,
-                    InputControlPath.HumanReadableStringOptions.OmitDevice);
+                    jumpText.text = InputControlPath.ToHumanReadableString(
+                        asset.actionMaps[0].FindAction("Jump").bindings[bindIndex].effectivePath,
+                        InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                _rebindingOperation.Dispose();
-            })
-            .Start();
-    }
+                    _rebindingOperation.Dispose();
+                })
+                .Start();
+        }
 
-    public void RebindSprint()
-    {
-        sprintText.text = "Enter a key...";
+        public void RebindSprint()
+        {
+            sprintText.text = "Enter a key...";
 
-        _rebindingOperation = asset.actionMaps[0].FindAction("Sprint").PerformInteractiveRebinding()
-            .WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Escape")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(_ =>
-            {
-                int bindIndex = asset.actionMaps[0].FindAction("Sprint")
-                    .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Sprint").controls[0]);
+            _rebindingOperation = asset.actionMaps[0].FindAction("Sprint").PerformInteractiveRebinding()
+                .WithControlsExcluding("Mouse")
+                .WithControlsExcluding("Escape")
+                .OnMatchWaitForAnother(.1f)
+                .OnComplete(_ =>
+                {
+                    int bindIndex = asset.actionMaps[0].FindAction("Sprint")
+                        .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Sprint").controls[0]);
 
-                sprintText.text = InputControlPath.ToHumanReadableString(
-                    asset.actionMaps[0].FindAction("Sprint").bindings[bindIndex].effectivePath,
-                    InputControlPath.HumanReadableStringOptions.OmitDevice);
+                    sprintText.text = InputControlPath.ToHumanReadableString(
+                        asset.actionMaps[0].FindAction("Sprint").bindings[bindIndex].effectivePath,
+                        InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                _rebindingOperation.Dispose();
-            })
-            .Start();
-    }
+                    _rebindingOperation.Dispose();
+                })
+                .Start();
+        }
 
-    public void RebindCrouch()
-    {
-        crouchText.text = "Enter a key...";
+        public void RebindCrouch()
+        {
+            crouchText.text = "Enter a key...";
 
-        _rebindingOperation = asset.actionMaps[0].FindAction("Crouch").PerformInteractiveRebinding()
-            .WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Escape")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(_ =>
-            {
-                int bindIndex = asset.actionMaps[0].FindAction("Crouch")
-                    .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Crouch").controls[0]);
+            _rebindingOperation = asset.actionMaps[0].FindAction("Crouch").PerformInteractiveRebinding()
+                .WithControlsExcluding("Mouse")
+                .WithControlsExcluding("Escape")
+                .OnMatchWaitForAnother(.1f)
+                .OnComplete(_ =>
+                {
+                    int bindIndex = asset.actionMaps[0].FindAction("Crouch")
+                        .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Crouch").controls[0]);
 
-                crouchText.text = InputControlPath.ToHumanReadableString(
-                    asset.actionMaps[0].FindAction("Crouch").bindings[bindIndex].effectivePath,
-                    InputControlPath.HumanReadableStringOptions.OmitDevice);
+                    crouchText.text = InputControlPath.ToHumanReadableString(
+                        asset.actionMaps[0].FindAction("Crouch").bindings[bindIndex].effectivePath,
+                        InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                _rebindingOperation.Dispose();
-            })
-            .Start();
-    }
+                    _rebindingOperation.Dispose();
+                })
+                .Start();
+        }
 
-    public void RebindKill()
-    {
-        killText.text = "Enter a key...";
+        public void RebindKill()
+        {
+            killText.text = "Enter a key...";
 
-        _rebindingOperation = asset.actionMaps[0].FindAction("Kill").PerformInteractiveRebinding()
-            .WithControlsExcluding("Mouse")
-            .WithControlsExcluding("Escape")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(_ =>
-            {
-                int bindIndex = asset.actionMaps[0].FindAction("Kill")
-                    .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Kill").controls[0]);
+            _rebindingOperation = asset.actionMaps[0].FindAction("Kill").PerformInteractiveRebinding()
+                .WithControlsExcluding("Mouse")
+                .WithControlsExcluding("Escape")
+                .OnMatchWaitForAnother(.1f)
+                .OnComplete(_ =>
+                {
+                    int bindIndex = asset.actionMaps[0].FindAction("Kill")
+                        .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Kill").controls[0]);
 
-                killText.text = InputControlPath.ToHumanReadableString(
-                    asset.actionMaps[0].FindAction("Kill").bindings[bindIndex].effectivePath,
-                    InputControlPath.HumanReadableStringOptions.OmitDevice);
+                    killText.text = InputControlPath.ToHumanReadableString(
+                        asset.actionMaps[0].FindAction("Kill").bindings[bindIndex].effectivePath,
+                        InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                _rebindingOperation.Dispose();
-            })
-            .Start();
+                    _rebindingOperation.Dispose();
+                })
+                .Start();
 
-        // TODO instead of getting the 0th index (which is the keyboard), get the current device index (controller, mouse)
-        mainActionInputName = asset.FindAction("Kill").controls[0].name;
-    }
+            // TODO instead of getting the 0th index (which is the keyboard), get the current device index (controller, mouse)
+            mainActionInputName = asset.FindAction("Kill").controls[0].name;
+        }
 
-    public void RebindClick()
-    {
-        clickText.text = "Enter a key...";
+        public void RebindClick()
+        {
+            clickText.text = "Enter a key...";
 
-        _rebindingOperation = asset.actionMaps[0].FindAction("Click").PerformInteractiveRebinding()
-            .WithControlsExcluding("Escape")
-            .OnMatchWaitForAnother(.1f)
-            .OnComplete(_ =>
-            {
-                int bindIndex = asset.actionMaps[0].FindAction("Click")
-                    .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Click").controls[0]);
+            _rebindingOperation = asset.actionMaps[0].FindAction("Click").PerformInteractiveRebinding()
+                .WithControlsExcluding("Escape")
+                .OnMatchWaitForAnother(.1f)
+                .OnComplete(_ =>
+                {
+                    int bindIndex = asset.actionMaps[0].FindAction("Click")
+                        .GetBindingIndexForControl(asset.actionMaps[0].FindAction("Click").controls[0]);
 
-                clickText.text = InputControlPath.ToHumanReadableString(
-                    asset.actionMaps[0].FindAction("Click").bindings[bindIndex].effectivePath,
-                    InputControlPath.HumanReadableStringOptions.OmitDevice);
+                    clickText.text = InputControlPath.ToHumanReadableString(
+                        asset.actionMaps[0].FindAction("Click").bindings[bindIndex].effectivePath,
+                        InputControlPath.HumanReadableStringOptions.OmitDevice);
 
-                _rebindingOperation.Dispose();
-            })
-            .Start();
+                    _rebindingOperation.Dispose();
+                })
+                .Start();
+        }
     }
 }

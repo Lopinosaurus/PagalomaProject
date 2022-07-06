@@ -5012,7 +5012,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7007783002310553725}
-  m_LocalRotation: {x: 0.00000009362675, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0000015693424, y: 16.497986, z: 0.2752552}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6148,7 +6148,6 @@ MonoBehaviour:
   footHeight: 0.1
   lerpFoot: 25
   motionExtrapolationFactor: 0
-  rightHandIkConstraint: {fileID: 4030079588205059004}
   chestIKConstraint: {fileID: 7620850803605188375}
   rightHand: {fileID: 2601338993843025888}
   handLerp: 12.8

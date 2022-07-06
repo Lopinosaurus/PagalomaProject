@@ -1,30 +1,32 @@
-using MainGame;
 using UnityEngine;
 
-public class DetectCollision : MonoBehaviour
+namespace MainGame.PlayerScripts.Roles
 {
-    private PlayerController _pc;
-
-    private void Awake()
+    public class DetectCollision : MonoBehaviour
     {
-        _pc = GetComponentInParent<PlayerController>();
-    }
+        private PlayerController _pc;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (VoteMenu.Instance && other)
-            if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
-            {
-                if (_pc.role.isAlive) _pc.role.UpdateTarget(other, true);
-            }
-    }
+        private void Awake()
+        {
+            _pc = GetComponentInParent<PlayerController>();
+        }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (VoteMenu.Instance && other)
-            if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
-            {
-                if (_pc.role.isAlive) _pc.role.UpdateTarget(other, false);
-            }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (VoteMenu.Instance && other)
+                if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+                {
+                    if (_pc.role.isAlive) _pc.role.UpdateTarget(other, true);
+                }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (VoteMenu.Instance && other)
+                if (!VoteMenu.Instance.isDay && !VoteMenu.Instance.isFirstDay)
+                {
+                    if (_pc.role.isAlive) _pc.role.UpdateTarget(other, false);
+                }
+        }
     }
 }

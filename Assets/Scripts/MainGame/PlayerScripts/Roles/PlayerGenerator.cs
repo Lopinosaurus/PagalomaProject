@@ -20,7 +20,7 @@ namespace MainGame.PlayerScripts.Roles
             switch (roleName)
             {
                 case "Villager":
-                    playerRole = gameObject.AddComponent<Villager>();
+                    playerRole = gameObject.AddComponent<SimpleVillager>();
                     Destroy(attackCollider);
                     break;
                 case "Lycan":

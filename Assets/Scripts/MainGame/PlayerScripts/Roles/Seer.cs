@@ -7,14 +7,14 @@ namespace MainGame.PlayerScripts.Roles
     {
         public static readonly string FriendlyRoleName = "Seer";
 
-        protected override AtMessage GetAtMessage()
+        protected override Role.AtMessage GetAtMessage()
         {
             if (ArePowerAndCooldownValid)
             {
-                if (targets.Count > 0) return AtMessage.PowerReadyToUse;
-                return AtMessage.Clear;
+                if (targets.Count > 0) return Role.AtMessage.PowerReadyToUse;
+                return Role.AtMessage.Clear;
             }
-            return AtMessage.PowerOnCooldown;
+            return Role.AtMessage.PowerOnCooldown;
         }
 
         private new void Awake()
@@ -23,9 +23,9 @@ namespace MainGame.PlayerScripts.Roles
             
             AtMessageDict = new()
             {
-                {AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Reveal role"},
-                {AtMessage.PowerOnCooldown, "Can't reveal any role until next night"},
-                {AtMessage.Clear, ""}
+                {Role.AtMessage.PowerReadyToUse, $"{RebindSystem.mainActionInputName}: Reveal role"},
+                {Role.AtMessage.PowerOnCooldown, "Can't reveal any role until next night"},
+                {Role.AtMessage.Clear, ""}
             };
         }
         
@@ -84,7 +84,7 @@ namespace MainGame.PlayerScripts.Roles
             RoomManager.Instance.UpdateInfoText($"You revealed a {displayedRole}");
             
             PlayerController.powerCooldown.SetInfinite();
-            UpdateActionText(AtMessage.PowerOnCooldown);
+            UpdateActionText(Role.AtMessage.PowerOnCooldown);
         }
     }
 }

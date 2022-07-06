@@ -1,4 +1,5 @@
 using MainGame;
+using MainGame.PlayerScripts;
 using MainGame.PlayerScripts.Roles;
 using Photon.Pun;
 using UnityEngine;

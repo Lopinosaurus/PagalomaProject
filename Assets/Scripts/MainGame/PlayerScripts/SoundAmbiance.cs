@@ -1,36 +1,38 @@
-using MainGame;
 using UnityEngine;
 
-public class SoundAmbiance : MonoBehaviour
+namespace MainGame.PlayerScripts
 {
-    [SerializeField] private AudioSource ambianceSource;
-    [SerializeField] private AudioClip forestAmbiance;
-    [SerializeField] private AudioClip horrorAmbiance;
-    [SerializeField] private bool isDayPlaying;
-
-
-    private void FixedUpdate()
+    public class SoundAmbiance : MonoBehaviour
     {
-        if (!VoteMenu.Instance.IsNight)
+        [SerializeField] private AudioSource ambianceSource;
+        [SerializeField] private AudioClip forestAmbiance;
+        [SerializeField] private AudioClip horrorAmbiance;
+        [SerializeField] private bool isDayPlaying;
+
+
+        private void FixedUpdate()
         {
-            if (!isDayPlaying)
+            if (!VoteMenu.Instance.IsNight)
             {
-                ambianceSource.Stop();
-                ambianceSource.clip = forestAmbiance;
-                ambianceSource.volume = .23f;
-                ambianceSource.Play();
-                isDayPlaying = true;
+                if (!isDayPlaying)
+                {
+                    ambianceSource.Stop();
+                    ambianceSource.clip = forestAmbiance;
+                    ambianceSource.volume = .23f;
+                    ambianceSource.Play();
+                    isDayPlaying = true;
+                }
             }
-        }
-        else if (VoteMenu.Instance.IsNight)
-        {
-            if (isDayPlaying)
+            else if (VoteMenu.Instance.IsNight)
             {
-                ambianceSource.Stop();
-                ambianceSource.clip = horrorAmbiance;
-                ambianceSource.volume = .8f;
-                ambianceSource.Play();
-                isDayPlaying = false;
+                if (isDayPlaying)
+                {
+                    ambianceSource.Stop();
+                    ambianceSource.clip = horrorAmbiance;
+                    ambianceSource.volume = .8f;
+                    ambianceSource.Play();
+                    isDayPlaying = false;
+                }
             }
         }
     }
