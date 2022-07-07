@@ -18,7 +18,7 @@ namespace MainGame
         
         public Map map;
         private readonly ExitGames.Client.Photon.Hashtable _customGameProperties = new ExitGames.Client.Photon.Hashtable();
-        public readonly Dictionary<string, Color> ColorsDict = new Dictionary<string, Color>()
+        public readonly Dictionary<string, Color> ColorsDict = new Dictionary<string, Color>
         {
             { "Red", Color.red },
             { "Blue", Color.blue },
@@ -43,9 +43,7 @@ namespace MainGame
 
         public int nextPlayerRoleIndex;
         [SerializeField] private TMP_Text roleText;
-        public TMP_Text actionText;
-        public TMP_Text deathText;
-        public TMP_Text infoText;
+        public TMP_Text actionText, deathText, infoText, questHeaderText;
         public Transform infoList;
         [SerializeField] private InfoListItem infoListItem;    
     
@@ -134,8 +132,10 @@ namespace MainGame
 
         public void DisplayRole(string roleName, Color color)
         {
-            roleText.text = "You are "+roleName;
-            roleText.outlineColor = color;
+            const string vowels = "aeiouyAEIOUY";
+            string text = $"You are a{(vowels.Contains(roleName[0]) ? 'n' : "")} {roleName}";
+            roleText.text = text;
+            roleText.color = color;
             
             // TODO add tips and tricks
         }

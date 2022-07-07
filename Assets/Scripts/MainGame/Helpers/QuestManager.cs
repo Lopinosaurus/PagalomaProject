@@ -20,10 +20,12 @@ namespace MainGame.Helpers
             KillVillagers,
             CollectHallows,
             FollowPlayer,
-            LightLanterns
+            IgniteLanterns
         }
 
-        private static readonly IEnumerable<Quest> VillagerRegularQuests = new[] {Quest.CollectHallows, Quest.FollowPlayer, Quest.LightLanterns};
+        private Dictionary<Quest, string> _friendlyQuestHeader;
+
+        private static readonly IEnumerable<Quest> VillagerRegularQuests = new[] {Quest.CollectHallows, Quest.FollowPlayer, Quest.IgniteLanterns};
 
         private void Awake()
         {
@@ -35,9 +37,17 @@ namespace MainGame.Helpers
 
             Instance = this;
             _photonView = GetComponent<PhotonView>();
+
+            _friendlyQuestHeader = new Dictionary<Quest, string> {
+                {Quest.None, "prepare for the next night"},
+                {Quest.GoVote, "get back at the village and cast your vote"},
+                {Quest.KillVillagers, "kill the villagers and don't get spotted"},
+                {Quest.CollectHallows, "collect the hallows scattered around"},
+                {Quest.FollowPlayer, "follow the villager"},
+                {Quest.IgniteLanterns, "Ignite the lanterns scattered around"}};
         }
 
-        
+
         public void AssignQuests()
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -47,35 +57,46 @@ namespace MainGame.Helpers
             {
                 Quest newQuest = player switch {
                     {isAlive: false} => Quest.None,
-                    Werewolf => Quest.KillVillagers,
-                    _ => GetNewQuest(player.LastQuest)
+                    _ => GetNewQuest(player.LastQuest, player)
                 };
                 
-                SetQuest(newQuest, player);
+                SetQuest(player, newQuest);
             }
         }
 
-        private static Quest GetNewQuest(Quest lastQuestToIgnore)
+        private static Quest GetNewQuest(Quest lastQuestToIgnore, Role player)
         {
             Quest newQuest;
 
-            if (VoteMenu.Instance.IsNight)
-            {
-                var possibleQuests = VillagerRegularQuests.Where(q => q != lastQuestToIgnore).ToArray();
-                newQuest = possibleQuests[Random.Range(0, possibleQuests.Length)];
+            if (VoteMenu.Instance.IsNight) {
+                if (player is Werewolf) {
+                    newQuest = Quest.KillVillagers;
+                }
+                else {
+                    var possibleQuests = VillagerRegularQuests.Where(q => q != lastQuestToIgnore).ToArray();
+                    newQuest = possibleQuests[Random.Range(0, possibleQuests.Length)];
+                }
             }
-            else
-            {
+            else {
                 newQuest = Quest.GoVote;
             }
 
             return newQuest;
         }
 
-        private void SetQuest(Quest quest, Role player) => _photonView.RPC(nameof(RPC_AssignQuest), RpcTarget.AllBuffered, player.userId, quest);
+        private void SetQuest(Role player, Quest newQuest)
+        {
+            _photonView.RPC(nameof(RPC_AssignQuest), RpcTarget.AllBuffered, player.userId, newQuest);
+        }
+
+        private void UpdateQuestText(Quest newQuest) => RoomManager.Instance.questHeaderText.text = _friendlyQuestHeader[newQuest];
 
         [PunRPC]
-        private void RPC_AssignQuest(string userID, int quest) => RoomManager.Instance.players.Find(p => p.userId == userID).CurrentQuest = (Quest)quest;
+        private void RPC_AssignQuest(string userID, Quest quest)
+        {
+            RoomManager.Instance.players.Find(p => p.userId == userID).CurrentQuest = quest;
+            UpdateQuestText(quest);
+        }
     }
 
     

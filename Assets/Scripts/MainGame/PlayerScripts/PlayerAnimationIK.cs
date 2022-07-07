@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 namespace MainGame.PlayerScripts
@@ -10,7 +11,8 @@ namespace MainGame.PlayerScripts
         
         // Foot IK
         [Space, Header("IK Setup")] public bool enableFootPositionIK;
-        public bool enableFootRotationIK, enableRightHandIK, debug;
+        public bool enableFootRotationIK;
+        public bool debug;
         [SerializeField, Range(0, 2)] private float rayLength, rayHeightStartOffset;
         [SerializeField, Range(-1, 1)] private float footHeight;
         [SerializeField, Range(10, 50)] private float lerpFoot;
@@ -20,98 +22,19 @@ namespace MainGame.PlayerScripts
         private Quaternion _leftFootRotIK, _rightFootRotIK;
         private const int CharacterLayerValue = 7;
 
-        // Hand IK
-        [Space, Header("Right Hand")]
-        [SerializeField] private TwistChainConstraint chestIKConstraint;
-        [SerializeField] private Transform rightHand;
-        [SerializeField, Range(0, 30)] private float handLerp;
-        
-        [Space, SerializeField, Range(-180, 180)] private float handRotationOffsetX;
-        [SerializeField, Range(-180, 180)] private float handRotationOffsetY;
-        [SerializeField, Range(-180, 180)] private float handRotationOffsetZ;
-        
-        [Space, SerializeField, Range(-1, 1)] private float handPositionOffsetX;
-        [SerializeField, Range(-1, 1)] private float handPositionOffsetY;
-        [SerializeField, Range(-1, 1)] private float handPositionOffsetZ;
-        
-        [Space, SerializeField] private Transform targetedObject;
-        [SerializeField, Range(0, 10)]  private float distanceRequiredToTriggerHand = 0.8f;
-        private float _ikRightHandPosWeight;
-
-
         private void OnAnimatorIK(int layerIndex)
         {
             HandleFeetIKManagement();
-            HandleHandsIKManagement();
         }
 
-        private void FixedUpdate()
-        {
-            HandleHandToggleIK();
-        }
-
-        private void HandleHandToggleIK()
-        {
-            if (!targetedObject || !enableRightHandIK) return;
-            
-            Vector3 chestPosition = _currentAnimator.GetBoneTransform(HumanBodyBones.Chest).position;
-            Vector3 targetedObjectPosition = targetedObject.position;
-
-            bool isDistanceCloseEnough = IsDistanceCloseEnough(chestPosition, targetedObjectPosition, distanceRequiredToTriggerHand);
-            Debug.DrawLine(chestPosition, targetedObjectPosition, isDistanceCloseEnough ? Color.green : Color.red);
-            
-            _ikRightHandPosWeight = Mathf.Lerp(_ikRightHandPosWeight, isDistanceCloseEnough ? 1 : 0, Time.fixedDeltaTime * handLerp);
-            
-            // Set the weight of the torso constraint based on the distance between target and right hand
-            chestIKConstraint.weight = Mathf.Clamp01(1 - (targetedObjectPosition - chestPosition).magnitude);
-        }
-
-        private void HandleHandsIKManagement()
-        {
-            if (!targetedObject) return;
-            
-            // Get the data
-            Vector3 rightHandPosition = _currentAnimator.GetIKPosition(AvatarIKGoal.RightHand);
-            Vector3 targetClosestPoint;
-            try
-            {
-                targetClosestPoint = targetedObject.GetComponent<SphereCollider>().ClosestPoint(rightHandPosition);
-            }
-            catch
-            {
-                targetClosestPoint = targetedObject.position;
-            }
-            
-
-            // Adjust the hand rotation
-            Vector3 rightHandForward = rightHand.forward, rightHandUp = rightHand.up, rightHandRight = rightHand.right;
-            Quaternion rightHandRotationIk = Quaternion.LookRotation(rightHandForward, (rightHandPosition - targetClosestPoint));
-            rightHandRotationIk *= Quaternion.Euler(handRotationOffsetX, handRotationOffsetY, handRotationOffsetZ);
-            
-            // Adjust the hand position
-            Vector3 rightHandPositionIk = targetClosestPoint + rightHandForward * handPositionOffsetX + rightHandUp * handPositionOffsetY + rightHandRight * handPositionOffsetZ;
-            
-            // Render shift
-            rightHandPositionIk += RenderShift;
-            
-            _currentAnimator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPositionIk);
-            // _currentAnimator.SetIKHintPosition(AvatarIKHint.RightElbow, 0.5f * (rightHandPositionIk 
-            //     + _currentAnimator.GetBoneTransform(HumanBodyBones.RightShoulder).position));
-            _currentAnimator.SetIKRotation(AvatarIKGoal.RightHand, rightHandRotationIk);
-            
-            _currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
-            _currentAnimator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, _ikRightHandPosWeight);
-            _currentAnimator.SetIKRotationWeight(AvatarIKGoal.RightHand, _ikRightHandPosWeight);
-        }
-
-        private static bool IsDistanceCloseEnough(Vector3 position1, Vector3 position2, float distance)
+        public static bool IsDistanceCloseEnough(Vector3 position1, Vector3 position2, float distance)
         {
             return (position1 - position2).sqrMagnitude <= distance * distance;
         }
 
         private void HandleFeetIKManagement()
         {
-            // Ik setup
+            // Ik weight setup
             _currentAnimator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, enableFootPositionIK ? 1 : 0);
             _currentAnimator.SetIKPositionWeight(AvatarIKGoal.RightFoot, enableFootPositionIK ? 1 : 0);
             _currentAnimator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, enableFootRotationIK ? 0.5f : 0);

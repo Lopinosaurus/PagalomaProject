@@ -11,7 +11,7 @@ namespace MainGame.Helpers
 
         private void Awake()
         {
-            _offset = transform.localPosition;
+            _goal = _offset = transform.localPosition;
         }
 
         private void Update()
@@ -26,7 +26,6 @@ namespace MainGame.Helpers
                 _goal = _offset + Vector3.forward * (Mathf.PerlinNoise(Time.time, 0) - 0.5f)
                                 + Vector3.right * (Mathf.PerlinNoise(0, Time.time) - 0.5f)
                                 + Vector3.up * (Mathf.PerlinNoise(Time.time, Time.time) - 0.5f);
-
             }
         }
     }
