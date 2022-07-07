@@ -293,7 +293,7 @@ public class AiController : MonoBehaviour
                     PlayAiDamaged();
 
                     _playerMovement.StartModifySpeed(SlowSpeedDuration, PlayerMovement.AiStunMult, 0, 0.8f);
-                    _playerLook.StartShake(ShakeDuration, 5);
+                    _playerLook.StartShake(ShakeDuration, 5, 1);
                     ApplyMalusPostProcessAndSound();
 
                     // Dead
@@ -340,7 +340,7 @@ public class AiController : MonoBehaviour
         {
             if (distFromTarget < MinDangerDistFromPlayer)
             {
-                _playerLook.StartShake(0.1f, dangerDistFromPlayer);
+                _playerLook.StartShake(0.1f, dangerDistFromPlayer, 0.1f);
             }
         }
     }

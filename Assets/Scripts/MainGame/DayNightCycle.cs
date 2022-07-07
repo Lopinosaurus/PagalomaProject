@@ -61,8 +61,6 @@ public class DayNightCycle : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // TODO Change day night cycle to make lights static ?
-        
         // increment time
         time += timeRate * Time.fixedDeltaTime;
         time = time >= 1 ? 0 : time;
@@ -105,7 +103,7 @@ public class DayNightCycle : MonoBehaviour
         
         // change light colors
         sun.color = sunColor.Evaluate(time);
-        moon.color = moonColor.Evaluate(time);
+        moon.color = moonColor.Evaluate(BloodMoonManager.Instance.currentBMProgress);
         
         // change environment lighting (gradient)
         RenderSettings.ambientSkyColor = Color.Lerp(Color.black, _skyColor, sunIntensity1);
@@ -115,9 +113,10 @@ public class DayNightCycle : MonoBehaviour
         // change fog 
         RenderSettings.fogDensity = fogIntensityMultiplier.Evaluate(time);
         Color color = RenderSettings.fogColor;
-        color.r = fogColor.Evaluate(time);
-        color.g = fogColor.Evaluate(time);
-        color.b = fogColor.Evaluate(time);
+        var fogColor1 = fogColor.Evaluate(time);
+        color.r = fogColor1;
+        color.g = fogColor1;
+        color.b = fogColor1;
         RenderSettings.fogColor = color;
     }
 

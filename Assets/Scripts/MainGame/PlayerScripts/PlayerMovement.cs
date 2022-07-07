@@ -46,9 +46,9 @@ namespace MainGame.PlayerScripts
         [Space, Header("Gravity settings")]
         private const float GravityForce = -9.81f;
         private const float DefaultGroundedGravityForce = -0.2f;
-        private const float SlopeCompensationForce = 100f / 360f;
+        private const float SlopeCompensationForce = 100;
         private const float SlopeForceLerpFactor = 10;
-        private float _slopeRaySize = 0.1f;
+        private float _slopeRaySize = 1;
         public Vector3 upwardVelocity = Vector3.zero;
 
         // Ground check
@@ -220,7 +220,7 @@ namespace MainGame.PlayerScripts
             {
                 if (OnSlope(out Vector3 hitNormal))
                 {
-                    float downwardForce = -SlopeCompensationForce * Vector3.Angle(Vector3.up, hitNormal);
+                    float downwardForce = -SlopeCompensationForce * Vector3.Angle(Vector3.down, hitNormal);
                     downwardForce = Mathf.Clamp(downwardForce, -500, DefaultGroundedGravityForce);
 
                     upwardVelocity.y = Mathf.Lerp(upwardVelocity.y, downwardForce, Time.deltaTime * SlopeForceLerpFactor);
@@ -236,15 +236,9 @@ namespace MainGame.PlayerScripts
         {
             var onSlope = false;
             hitNormal = Vector3.up;
-            
-            float maxDistance = _characterController.height + _characterController.radius + _slopeRaySize;
 
-            Vector3 slopeDistanceDetection = Vector3.down * 0.5f;
-
-            if (Physics.Raycast(transform.position, slopeDistanceDetection, out RaycastHit hit, maxDistance,
-                    _characterLayerValue))
-                if ((hitNormal = hit.normal) != Vector3.up)
-                    onSlope = true;
+            if (Physics.Raycast(transform.position + Vector3.up *.1f, Vector3.down * 10, out RaycastHit hit, _slopeRaySize)
+                && hit.normal != Vector3.up) onSlope = true;
 
             return onSlope;
         }

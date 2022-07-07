@@ -13,7 +13,7 @@ namespace EditorTools
         {
             if (GUILayout.Button("Test screen shake", EditorStyles.toolbarButton))
             {
-                ((PlayerLook)target).StartShake(5, 1);
+                ((PlayerLook)target).StartShake(5, 1, 1);
             }
             DrawDefaultInspector();
         }

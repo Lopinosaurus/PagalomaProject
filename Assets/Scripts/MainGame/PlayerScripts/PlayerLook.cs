@@ -128,15 +128,15 @@ namespace MainGame.PlayerScripts
             transform.localRotation = Quaternion.Lerp(playerLocalRotation, _targetBodyPlayerRot, smoothTimeCam);
         }
 
-        public void StartShake(float duration, float shakeStrength)
+        public void StartShake(float duration, float shakeStrength, float shakeAmplitude)
         {
             _currentState = CamState.Shaking;
             
             shakeStrength = shakeStrength < 0 ? 0 : shakeStrength * 300;
-            StartCoroutine(Shake(duration, shakeStrength));
+            StartCoroutine(Shake(duration, shakeStrength, shakeAmplitude));
         }
 
-        private IEnumerator Shake(float duration, float shakeStrength)
+        private IEnumerator Shake(float duration, float shakeStrength, float shakeAmplitude)
         {
             float timer = 0;
 
@@ -144,15 +144,14 @@ namespace MainGame.PlayerScripts
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                float currentStrength = 1 - timer / duration;
+                float currentStrength = Mathf.SmoothStep(shakeStrength, 0, timer / duration);
 
-                Vector3 camPosRef = _camTransform.localPosition;
-                Vector3 camPosNew = camPosRef;
+                Vector3 camPosNew = _camTransform.localPosition;
 
-                camPosNew.y = shakeStrength * currentStrength * (Mathf.Clamp01(Mathf.PerlinNoise(timer, 0)) - 0.5f);
-                camPosNew.x = shakeStrength * currentStrength * (Mathf.Clamp01(Mathf.PerlinNoise(0, timer)) - 0.5f);
-            
-                _camTransform.localPosition = Vector3.Slerp(camPosRef, camPosNew, Time.deltaTime * screenShakeLerp);
+                camPosNew.y = shakeAmplitude * (Mathf.Clamp01(Mathf.PerlinNoise(timer * currentStrength, 0)) - 0.5f);
+                camPosNew.x = shakeAmplitude * (Mathf.Clamp01(Mathf.PerlinNoise(0, timer * currentStrength)) - 0.5f);
+
+                _camTransform.localPosition = camPosNew;
                 
                 yield return null;
             }
@@ -166,10 +165,7 @@ namespace MainGame.PlayerScripts
         private void ResetCam()
         {
             // Brings the camera back to the camHolder position
-            Vector3 pos = camHolder.position;
-            Vector3 rot = _camTransform.localRotation.eulerAngles;
-            rot.z = 0;
-            _camTransform.SetPositionAndRotation(pos, Quaternion.Euler(rot)); // Thanks PlayDead
+            _camTransform.localPosition = Vector3.zero;
         }
 
         public void HeadRotate()
@@ -177,8 +173,7 @@ namespace MainGame.PlayerScripts
             // X-axis applies at all times (component)
 
             // Y-axis applies when the player stops moving
-            _isMoving = Mathf.Abs(_playerAnimation.VelocityX) > 0.1f ||
-                       Mathf.Abs(_playerAnimation.VelocityZ) > 0.1f;
+            _isMoving = Mathf.Abs(_playerAnimation.VelocityX) > 0.1f || Mathf.Abs(_playerAnimation.VelocityZ) > 0.1f;
 
             if (_isMoving)
             {

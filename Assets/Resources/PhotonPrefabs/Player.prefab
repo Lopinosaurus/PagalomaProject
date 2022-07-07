@@ -1893,7 +1893,7 @@ MonoBehaviour:
     m_Bits: 256
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
-  antialiasingMode: 1
+  antialiasingMode: 3
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0
@@ -5713,7 +5713,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.8
-  m_Radius: 0.4
+  m_Radius: 0.3
   m_SlopeLimit: 60
   m_StepOffset: 0.4
   m_SkinWidth: 0.04
