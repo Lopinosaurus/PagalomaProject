@@ -108,7 +108,7 @@ Here are the steps to follow if you want to install Lycans :
 <!-- CONTRIBUTING -->
 ## Contributing
 
-As Lycans' code is not open-source, you will not be able to fork the project to propose a code modification (the source code repository is private). However, feel free to [open an issue](https://github.com/Pagaloma-Studio/Final-Beta-Lycans/issues) if you want to propose a feature or report a bug.
+Finally, Lycans code is open-source. Contributing is greatly appreciated, just fork the project and open a pull request with your feature !
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
